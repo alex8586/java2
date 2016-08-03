@@ -1,16 +1,47 @@
 package lv.javaguru.java2.domain;
 
-public interface User {
+public class User {
 
-    long getId();
+    private long id;
+    private String fullName;
+    private String email;
+    private String password;
 
-    void setId(long id);
+    public long getId() {
+        return id;
+    }
 
-    String getFullName();
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    void setFullName(String fullName) ;
+    public String getFullName() {
+        return fullName;
+    }
 
-    String getEmail();
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-    void setEmail(String email);
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email= email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + fullName;
+    }
 }
+
