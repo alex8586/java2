@@ -3,12 +3,8 @@ package lv.javaguru.java2.domain;
 import java.util.HashMap;
 
 public class Cart {
-    private HashMap<Product, Integer> items;
-
-    public Cart() {
-        items = new HashMap<>();
-    }
-
+    private HashMap<Product, Integer> items = new HashMap<>();
+    
     public void add(Product product) {
         add(product, 1);
     }
