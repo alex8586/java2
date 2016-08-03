@@ -1,6 +1,6 @@
 package lv.javaguru.java2.domain;
 
-public class git commit Product {
+public class Product {
 
     private long id;
     private long categoryID;
