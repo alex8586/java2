@@ -1,10 +1,11 @@
 package lv.javaguru.java2.domain;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Cart {
     private HashMap<Product, Integer> items = new HashMap<>();
-    
+
     public void add(Product product) {
         add(product, 1);
     }
@@ -43,5 +44,20 @@ public class Cart {
 
     public Integer getQuantity(Product product) {
         return items.get(product);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(String.format("%s {%n", this.getClass().getSimpleName()));
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            stringBuilder.append(String.format(
+                    "\t%s\t%d%n", entry.getKey().toString(), entry.getValue()
+            ));
+        }
+        stringBuilder.append("}");
+
+        return stringBuilder.toString();
     }
 }
