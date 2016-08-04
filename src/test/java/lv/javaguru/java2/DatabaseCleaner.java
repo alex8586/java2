@@ -1,3 +1,5 @@
+package lv.javaguru.java2;
+
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.DAOImpl;
 
