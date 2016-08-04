@@ -14,9 +14,9 @@ public class DAOImpl {
     private static final String DB_CONFIG_FILE = "database.properties";
     // wth? remove?
     private String dbBaseUrl  = "jdbc:mysql://localhost:3306/";
-    private String dbSchema = "java2miskatest";
+    private String dbSchema = "java2miska";
     private String userName  = "root";
-    private String password = "miska112358";
+    private String password = "root";
 
     public DAOImpl() {
         registerJDBCDriver();
