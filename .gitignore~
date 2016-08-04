@@ -6,4 +6,4 @@
 *.iml
 
 #by algpet
-target/*
+target/

@@ -2,15 +2,15 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `Java2_test` DEFAULT CHARACTER SET utf8 ;
-USE `Java2_test` ;
+CREATE SCHEMA IF NOT EXISTS `java2miskatest` DEFAULT CHARACTER SET utf8 ;
+USE `java2miskatest` ;
 
 -- -----------------------------------------------------
 -- Table `Java2_test`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `java2_test`.`users` ;
+DROP TABLE IF EXISTS `java2miskatest`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `java2_test`.`users` (
+CREATE TABLE IF NOT EXISTS `java2miskatest`.`user` (
   `UserID` INT(11) NOT NULL AUTO_INCREMENT,
   `FirstName` CHAR(32) NOT NULL,
   `LastName` CHAR(32) NOT NULL,
@@ -18,6 +18,16 @@ CREATE TABLE IF NOT EXISTS `java2_test`.`users` (
 )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1002;
+
+DROP TABLE IF EXISTS `java2miskatest`.`categories` ;
+CREATE TABLE IF NOT EXISTS `java2miskatest`.`categories` (
+  `id`   INT(11)  NOT NULL AUTO_INCREMENT,
+  `name` CHAR(32) NOT NULL,
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
