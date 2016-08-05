@@ -28,6 +28,28 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
+DROP TABLE IF EXISTS `java2miska`.`product`;
+CREATE TABLE IF NOT EXISTS `java2miska`.`product`
+(
+  `ProductID` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `VendorCode` VARCHAR(10),
+  `VendorName` VARCHAR(60),
+  `VendorDescription` VARCHAR(300),
+  `unit` VARCHAR(30),
+  `price` INT(11),
+  `DisplayName` VARCHAR(60),
+  `DisplayDescription` VARCHAR(400),
+  `RemainQTY` INT(11),
+  `catID_FK` INT(11),
+  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1;
+
+CREATE INDEX `category_FK` ON `java2miska`.`product` (`catID_FK`);
+
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
