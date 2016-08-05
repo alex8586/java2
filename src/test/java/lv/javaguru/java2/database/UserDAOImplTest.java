@@ -1,3 +1,6 @@
+package lv.javaguru.java2.database;
+
+import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.User;
@@ -6,6 +9,8 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
 public class UserDAOImplTest {
@@ -78,14 +83,9 @@ public class UserDAOImplTest {
         long id = user.getId();
         userDAO.deleteUser(user);
         assertEquals(0, user.getId());
-/*
-        User deletedUser = userDAO.getUserById(id);
-        assertEquals(null, deletedUser);
 
-        java.lang.AssertionError:
-        Expected :null
-        Actual   :0 null
-*/
+        User deletedUser = userDAO.getUserById(id);
+        assertNull(deletedUser);
     }
 
     @Test

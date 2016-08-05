@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl extends DAOImpl{
+public class UserDAOImpl extends DAOImpl implements UserDAO{
 
     public void createUserWithId(User user) throws DBException {
         if(user == null)return;
@@ -114,8 +114,9 @@ public class UserDAOImpl extends DAOImpl{
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            User user = new User();
+            User user = null;
             if(resultSet.next()){
+                user = new User();
                 user.setId(resultSet.getLong("user_id"));
                 user.setFullName(resultSet.getString("user_fullName"));
                 user.setEmail(resultSet.getString("user_email"));
