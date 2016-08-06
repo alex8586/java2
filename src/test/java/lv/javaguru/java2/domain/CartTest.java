@@ -75,4 +75,22 @@ public class CartTest {
     public void removingNegativeItemsFails() {
         new Cart().remove(new Product(), -1);
     }
+
+    @Test
+    public void setQuantityForProductInCart() {
+        Cart cart = new Cart();
+        Product product = new Product();
+        cart.add(product);
+        cart.setQuantity(product, 5);
+        assertEquals(5, (int) cart.getQuantity(product));
+    }
+
+    @Test
+    public void setQuantityForProductNotInCart() {
+        Cart cart = new Cart();
+        Product product = new Product();
+        cart.setQuantity(product, 5);
+        assertEquals(5, (int) cart.getQuantity(product));
+    }
+
 }
