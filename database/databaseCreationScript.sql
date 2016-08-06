@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS `java2miska` DEFAULT CHARACTER SET utf8 ;
 USE `java2miska` ;
 
 -- -----------------------------------------------------
--- Table `Java2_test`.`users`
+-- Table `java2miska`.`users`
 -- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `java2miska`.`user` ;
@@ -19,17 +19,21 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`user` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1002;
 
+-- -----------------------------------------------------
+-- Table `java2miska`.`categories`
+-- -----------------------------------------------------
 DROP TABLE IF EXISTS `java2miska`.`categories` ;
 CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
   `id`   INT(11)  NOT NULL AUTO_INCREMENT,
   `name` CHAR(32) NOT NULL,
   PRIMARY KEY (`id`)
-)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1;
+);
 
-DROP TABLE IF EXISTS `java2miska`.`product`;
-CREATE TABLE IF NOT EXISTS `java2miska`.`product`
+-- -----------------------------------------------------
+-- Table `java2miska`.`product`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `java2miskatest`.`product`;
+CREATE TABLE IF NOT EXISTS `java2miskatest`.`product`
 (
   `ProductID` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `VendorCode` VARCHAR(10),
@@ -41,14 +45,11 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`product`
   `DisplayDescription` VARCHAR(400),
   `RemainQTY` INT(11),
   `catID_FK` INT(11),
-  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 1;
-
-CREATE INDEX `category_FK` ON `java2miska`.`product` (`catID_FK`);
-
-
+  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miskatest`.`categories` (id))
+    ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+;
+CREATE INDEX `category_FK` ON `java2miskatest`.`product` (`catID_FK`);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
