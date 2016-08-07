@@ -29,9 +29,11 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
   PRIMARY KEY (`id`)
 );
 
--- -----------------------------------------------------
--- Table `java2miska`.`product`
--- -----------------------------------------------------
+# -----------------------------------------------------
+# Table `java2miska`.`product`
+# -----------------------------------------------------
+
+
 DROP TABLE IF EXISTS `java2miskatest`.`product`;
 CREATE TABLE IF NOT EXISTS `java2miskatest`.`product`
 (
@@ -50,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `java2miskatest`.`product`
   AUTO_INCREMENT = 1
 ;
 CREATE INDEX `category_FK` ON `java2miskatest`.`product` (`catID_FK`);
+CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
