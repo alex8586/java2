@@ -22,7 +22,7 @@ public class Cart {
 
     private void enforcePositiveQuantity(int quantity) {
         if (quantity < 1) {
-            throw new IllegalArgumentException("Quantity must be >= 1.");
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
     }
 
@@ -44,6 +44,11 @@ public class Cart {
 
     public Integer getQuantity(Product product) {
         return items.get(product);
+    }
+
+    public void setQuantity(Product product, int quantity) {
+        enforcePositiveQuantity(quantity);
+        items.put(product, quantity);
     }
 
     @Override
