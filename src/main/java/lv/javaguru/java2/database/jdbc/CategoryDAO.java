@@ -135,5 +135,4 @@ public class CategoryDAO extends DAOImpl {
             closeConnection(connection);
         }
     }
-
 }

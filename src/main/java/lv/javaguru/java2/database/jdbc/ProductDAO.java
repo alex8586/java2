@@ -39,7 +39,7 @@ public interface ProductDAO {
      *
      * returns List<Product> the list of Product objects selected from DB by its category ID
      */
-    List<Product> getProductByCategory(Category category) throws DBException;
+    List<Product> getProductsByCategory(Category category) throws DBException;
 
     /**
      *
@@ -60,7 +60,7 @@ public interface ProductDAO {
      *
      * @see lv.javaguru.java2.domain.builders.ProductBuilder
      */
-    void createProduct(Product newProduct) throws DBException;
+    long createProduct(Product newProduct) throws DBException;
 /**
    *  method to create new empty Product and get it as instance with id from DB
  *  @return Product

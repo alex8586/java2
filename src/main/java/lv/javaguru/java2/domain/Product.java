@@ -1,14 +1,8 @@
 package lv.javaguru.java2.domain;
 
-import java.util.List;
-
 public class Product {
 
-<<<<<<< HEAD
     private long id;
-=======
-    private long productID;
->>>>>>> master
     private long categoryID;
 
     private String vendorCode;
@@ -24,7 +18,6 @@ public class Product {
 
     private int remainQty;
 
-<<<<<<< HEAD
     public long getId() {
         return id;
     }
@@ -103,24 +96,12 @@ public class Product {
 
     public void setRemainQty(int remainQty) {
         this.remainQty = remainQty;
-=======
-    public long getProductID() {
-        return productID;
-    }
-
-    public void setProductID(long productID) {
-        this.productID = productID;
->>>>>>> master
     }
 
     @Override
     public String toString() {
         return "Product{" +
-<<<<<<< HEAD
                 "productID=" + id +
-=======
-                "productID=" + productID +
->>>>>>> master
                 ", categoryID=" + categoryID +
                 ", displayName='" + displayName + '\'' +
                 '}';
