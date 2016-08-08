@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl extends DAOImpl implements UserDAO{
+    private final String CREATE_USER_WITH_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
+    private final String CREATE_USER_RETURN_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
+    private final String UPDATE_USER = "UPDATE user SET user_fullName=?, user_email=?,user_password=? WHERE user_id=?";
+    private final String DELETE_USER = "DELETE FROM user WHERE user_id=?";
+    private final String GET_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
+    private final String GET_ALL_USERS = "SELECT * FROM user";
 
     public void createUserWithId(User user) throws DBException {
         if(user == null)return;
@@ -18,8 +24,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("INSERT INTO java2miska.user (user_fullName, user_email, user_password) values(?,?,?)",
-                            PreparedStatement.RETURN_GENERATED_KEYS);
+                    (CREATE_USER_WITH_ID, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
@@ -45,8 +50,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("INSERT INTO java2miska.user (user_fullName, user_email, user_password) values(?,?,?)",
-                            PreparedStatement.RETURN_GENERATED_KEYS);
+                    (CREATE_USER_RETURN_ID , PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
@@ -70,8 +74,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    ("UPDATE java2miska.user SET user_fullName=?, user_email=?,user_password=? WHERE user_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
@@ -90,8 +93,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    ("DELETE FROM java2miska.user WHERE user_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
             preparedStatement.setLong(1, user.getId());
             preparedStatement.executeUpdate();
             user.setId(0);
@@ -108,8 +110,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * FROM java2miska.user WHERE user_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID);
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -138,8 +139,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * FROM java2miska.user");
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USERS);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){

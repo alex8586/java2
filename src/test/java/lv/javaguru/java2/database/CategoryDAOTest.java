@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 
 public class CategoryDAOTest {
 
-    CategoryDAO categoryDAO = new CategoryDAO();
-    DatabaseCleaner cleaner = new DatabaseCleaner();
+    private CategoryDAO categoryDAO = new CategoryDAO();
+    private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     @Before
     public void before() throws DBException{
