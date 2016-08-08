@@ -1,7 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.jdbc.DAOImpl;
 import lv.javaguru.java2.domain.Category;
 
 import java.sql.Connection;
@@ -10,26 +9,30 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CategoryDAO extends DAOImpl {
+public class CategoryDAO extends DAOImpl implements DAO<Category>{
+    private final String CREATE_CATEGORY_RETURN_ID = "INSERT INTO categories(id,name) VALUES(DEFAULT,?)";
+    private final String UPDATE_CATEGORY = "UPDATE categories SET name = ? WHERE id = ?";
+    private final String DELETE_FROM_CATEGORIES = "DELETE FROM categories WHERE id = ?";
+    private final String GET_CATEGORY_BY_ID = "SELECT * FROM categories where id = ?";
+    private final String GET_ALL_CATEGORIES = "SELECT * FROM categories";
 
-    public long create(Category category) throws DBException {
+    public long createReturnId(Category category) throws DBException {
         if(category.getId() != 0)
             return category.getId();
         Connection connection = null;
+        long newId = 0;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("INSERT INTO categories(id,name) VALUES(DEFAULT,?)" ,
+                    connection.prepareStatement(CREATE_CATEGORY_RETURN_ID,
                             PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1,category.getName());
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
-            long id = 0;
+
             if (rs.next()){
-                id = rs.getLong(1);
-                category.setId(id);
+                newId = rs.getLong(1);
             }
-            return id;
         }
         catch (Throwable e) {
             System.out.println("Exception while execute CategoryDAO.create");
@@ -39,6 +42,11 @@ public class CategoryDAO extends DAOImpl {
         finally {
             closeConnection(connection);
         }
+        return newId;
+    }
+    public void createWithId(Category category) throws DBException {
+        long newId = createReturnId(category);
+        category.setId(newId);
     }
 
     public void update(Category category) throws DBException{
@@ -49,7 +57,7 @@ public class CategoryDAO extends DAOImpl {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("UPDATE categories SET name = ? WHERE id = ?");
+                    connection.prepareStatement(UPDATE_CATEGORY);
             preparedStatement.setString(1,category.getName());
             preparedStatement.setLong(2,category.getId());
             preparedStatement.executeUpdate();
@@ -71,7 +79,7 @@ public class CategoryDAO extends DAOImpl {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("DELETE FROM categories WHERE id = ?");
+                    connection.prepareStatement(DELETE_FROM_CATEGORIES);
             preparedStatement.setLong(1,category.getId());
             preparedStatement.executeUpdate();
             category.setId(0);
@@ -84,14 +92,13 @@ public class CategoryDAO extends DAOImpl {
         finally {
             closeConnection(connection);
         }
-
     }
 
     public Category getById(long id) throws DBException{
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM categories where id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_CATEGORY_BY_ID);
             preparedStatement.setLong(1,id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -117,7 +124,7 @@ public class CategoryDAO extends DAOImpl {
 
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM categories");
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CATEGORIES);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
@@ -135,5 +142,4 @@ public class CategoryDAO extends DAOImpl {
             closeConnection(connection);
         }
     }
-
 }
