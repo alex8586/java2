@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
 # -----------------------------------------------------
 
 
-DROP TABLE IF EXISTS `java2miskatest`.`product`;
-CREATE TABLE IF NOT EXISTS `java2miskatest`.`product`
+DROP TABLE IF EXISTS `java2miska`.`product`;
+CREATE TABLE IF NOT EXISTS `java2miska`.`product`
 (
   `ProductID` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `VendorCode` VARCHAR(10),
@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS `java2miskatest`.`product`
   `DisplayDescription` VARCHAR(400),
   `RemainQTY` INT(11),
   `catID_FK` INT(11),
-  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miskatest`.`categories` (id))
+  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id))
     ENGINE = InnoDB
   AUTO_INCREMENT = 1
 ;
-CREATE INDEX `category_FK` ON `java2miskatest`.`product` (`catID_FK`);
+CREATE INDEX `category_FKI` ON `java2miska`.`product` (`catID_FK`);
 CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
 
 SET SQL_MODE=@OLD_SQL_MODE;
