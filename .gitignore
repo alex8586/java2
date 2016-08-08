@@ -7,3 +7,6 @@
 
 #by algpet
 target/*
+
+#by alex
+resources/database.properties

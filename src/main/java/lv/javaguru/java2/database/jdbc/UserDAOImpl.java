@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl extends DAOImpl implements UserDAO{
+public class UserDAOImpl extends DAOImpl implements DAO<User>{
+
     private final String CREATE_USER_WITH_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
     private final String CREATE_USER_RETURN_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
     private final String UPDATE_USER = "UPDATE user SET user_fullName=?, user_email=?,user_password=? WHERE user_id=?";
@@ -17,10 +18,11 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
     private final String GET_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
     private final String GET_ALL_USERS = "SELECT * FROM user";
 
-    public void createUserWithId(User user) throws DBException {
-        if(user == null)return;
+    public long createReturnId(User user) throws DBException {
+        if(user == null)
+            return 0;
         Connection connection = null;
-
+        long newId = 0;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
@@ -40,36 +42,16 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         } finally {
             closeConnection(connection);
         }
+        return newId;
+    }
+    public void createWithId(User user) throws DBException {
+        if(user == null)
+            return;
+        long newId = createReturnId(user);
+        user.setId(newId);
     }
 
-    public long createUserReturnId(User user) throws DBException {
-        long id = 0;
-
-        Connection connection = null;
-
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_USER_RETURN_ID , PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getFullName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.executeUpdate();
-
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if(resultSet.next()){
-                id = resultSet.getLong(1);
-            }
-        } catch (Throwable e) {
-            System.out.println("Exception while execute UserDAOImpl.createUserReturnId()");
-            e.printStackTrace();
-        } finally {
-            closeConnection(connection);
-        }
-        return id;
-    }
-
-    public void updateUser(User user) throws DBException {
+    public void update(User user) throws DBException {
         if(user == null)return;
         Connection connection = null;
         try {
@@ -88,7 +70,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         }
     }
 
-    public void deleteUser(User user) throws DBException {
+    public void delete(User user) throws DBException {
         if(user == null)return;
         Connection connection = null;
         try {
@@ -105,7 +87,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         }
     }
 
-    public User getUserById(long id) throws DBException {
+    public User getById(long id) throws DBException {
         if(id == 0)return null;
         Connection connection = null;
         try {
@@ -133,7 +115,7 @@ public class UserDAOImpl extends DAOImpl implements UserDAO{
         }
     }
 
-    public List<User> getAllUsers() throws DBException {
+    public List<User> getAll() throws DBException {
         List<User> userList = new ArrayList<User>();
 
         Connection connection = null;

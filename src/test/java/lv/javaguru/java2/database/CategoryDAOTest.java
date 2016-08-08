@@ -40,6 +40,14 @@ public class CategoryDAOTest {
     }
 
     @Test
+    public void testCreateReturnId() throws DBException {
+        Category category = new Category();
+        category.setName("foo");
+        long id = categoryDAO.createReturnId(category);
+        assertTrue(id > 0 );
+    }
+
+    @Test
     public void testCanSeeUpdatesAfterUpdate() throws DBException{
         Category category = getDummyRecordFromDb();
 
@@ -96,14 +104,13 @@ public class CategoryDAOTest {
     private void insertDummyRecordToDb(String name) throws DBException{
         Category category = new Category();
         category.setName(name);
-        categoryDAO.create(category);
+        categoryDAO.createWithId(category);
     }
 
     private Category getDummyRecordFromDb() throws DBException{
         Category category = new Category();
         category.setName("name");
-        categoryDAO.create(category);
+        categoryDAO.createWithId(category);
         return category;
     }
-
 }
