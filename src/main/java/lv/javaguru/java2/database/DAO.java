@@ -3,9 +3,7 @@ import java.util.List;
 
 public interface DAO<T> {
 
-    void createWithId(T t) throws DBException;
-
-    long createReturnId(T t) throws DBException;
+    long create(T t) throws DBException;
 
     void update(T t) throws DBException;
 

@@ -27,11 +27,11 @@ public class UserDAOImplTest {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
-        userDAO.createWithId(user);
+        userDAO.create(user);
         assertNotNull(user.getId());
 
         User newUser = helperCreateOneUserWithoutId();
-        userDAO.createWithId(newUser);
+        userDAO.create(newUser);
         User first = userDAO.getById(user.getId());
         User second = userDAO.getById(newUser.getId());
         assertNotSame(first.getId(), second.getId());
@@ -42,7 +42,7 @@ public class UserDAOImplTest {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
-        long id = userDAO.createReturnId(user);
+        long id = userDAO.create(user);
         User userFromDao = userDAO.getById(id);
         assertTrue(id > 0);
 
@@ -55,7 +55,7 @@ public class UserDAOImplTest {
     public void updateUserTest() throws DBException {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
-        userDAO.createWithId(user);
+        userDAO.create(user);
         assertTrue(user.getId() > 0);
 
         User userFromDao = userDAO.getById(user.getId());
@@ -75,7 +75,7 @@ public class UserDAOImplTest {
     @Test
     public void deleteUserTest() throws DBException {
         User user = helperCreateOneUserWithoutId();
-        userDAO.createWithId(user);
+        userDAO.create(user);
         assertNotNull(user.getId());
 
         long id = user.getId();
@@ -89,7 +89,7 @@ public class UserDAOImplTest {
     @Test
     public void getUserByIdTest() throws DBException {
         User user = helperCreateOneUserWithoutId();
-        userDAO.createWithId(user);
+        userDAO.create(user);
         long id = user.getId();
 
         User userFromDao = userDAO.getById(id);
@@ -105,19 +105,19 @@ public class UserDAOImplTest {
         user.setFullName("1");
         user.setEmail("1");
         user.setPassword("1");
-        userDAO.createWithId(user);
+        userDAO.create(user);
 
         User secondUser = new User();
         secondUser.setFullName("2");
         secondUser.setEmail("2");
         secondUser.setPassword("2");
-        userDAO.createWithId(secondUser);
+        userDAO.create(secondUser);
 
         User thirdUser = new User();
         thirdUser.setFullName("3");
         thirdUser.setEmail("3");
         thirdUser.setPassword("3");
-        userDAO.createWithId(thirdUser);
+        userDAO.create(thirdUser);
 
         List<User> userList = userDAO.getAll();
         assertEquals(3, userList.size());

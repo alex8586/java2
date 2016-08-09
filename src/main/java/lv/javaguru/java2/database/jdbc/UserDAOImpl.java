@@ -18,9 +18,10 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     private final String GET_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
     private final String GET_ALL_USERS = "SELECT * FROM user";
 
-    public long createReturnId(User user) throws DBException {
-        if(user == null)
-            return 0;
+    public long create(User user) throws DBException {
+        if(user == null || user.getId() != 0)
+            throw new IllegalArgumentException("Exception while execute UserDAOImpl.create . Input id != 0 ");
+
         Connection connection = null;
         long newId = 0;
         try {
@@ -35,6 +36,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if(resultSet.next()){
                 newId = resultSet.getLong(1);
+                user.setId(newId);
             }
         } catch (Throwable e) {
             System.out.println("Exception while execute UserDAOImpl.createUserWithId()");
@@ -45,15 +47,10 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         return newId;
     }
 
-    public void createWithId(User user) throws DBException {
-        if(user == null)
-            return;
-        long newId = createReturnId(user);
-        user.setId(newId);
-    }
-
     public void update(User user) throws DBException {
-        if(user == null)return;
+        if(user == null || user.getId() == 0)
+            throw new IllegalArgumentException("Exception while execute CategoryDAOImpl.create . Input id != 0 ");
+
         Connection connection = null;
         try {
             connection = getConnection();
@@ -62,7 +59,9 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.setLong(4, user.getId());
-            preparedStatement.executeUpdate();
+            if(preparedStatement.executeUpdate() != 1){
+                throw new IllegalStateException("Exception while execute CategoryDAOImpl.update - 0 or more than 1 record updated");
+            }
         } catch (Throwable e) {
             System.out.println("Exception while execute UserDAOImpl.updateUser");
             e.printStackTrace();
@@ -72,7 +71,8 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     }
 
     public void delete(User user) throws DBException {
-        if(user == null)return;
+        if(user == null || user.getId() == 0)
+            return;
         Connection connection = null;
         try {
             connection = getConnection();
@@ -81,7 +81,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
             preparedStatement.executeUpdate();
             user.setId(0);
         } catch (Throwable e) {
-            System.out.println("Exception while execute UserDAOImpl.deleteUser()");
+            System.out.println("Exception while execute UserDAOImpl.delete");
             e.printStackTrace();
         } finally {
             closeConnection(connection);
