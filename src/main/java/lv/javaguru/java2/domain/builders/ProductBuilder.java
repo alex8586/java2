@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Maksims on 8/7/2016.
- */
 public class ProductBuilder {
 
     private List<Product> productList = new LinkedList<>();

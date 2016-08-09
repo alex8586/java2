@@ -1,12 +1,9 @@
-package lv.javaguru.java2.database.jdbc;
+package lv.javaguru.java2.database;
 
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Maksims on 8/3/2016.
- */
 public interface UniDAO<T,PK extends Serializable> {
 
     T create() throws SQLException;

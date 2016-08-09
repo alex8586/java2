@@ -1,5 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.DAO;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 
@@ -9,7 +10,8 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CategoryDAO extends DAOImpl implements DAO<Category>{
+public class CategoryDAO extends DAOImpl implements DAO<Category> {
+
     private final String CREATE_CATEGORY_RETURN_ID = "INSERT INTO categories(id,name) VALUES(DEFAULT,?)";
     private final String UPDATE_CATEGORY = "UPDATE categories SET name = ? WHERE id = ?";
     private final String DELETE_FROM_CATEGORIES = "DELETE FROM categories WHERE id = ?";

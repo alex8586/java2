@@ -1,5 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.DAO;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl extends DAOImpl implements DAO<User>{
+public class UserDAOImpl extends DAOImpl implements DAO<User> {
 
     private final String CREATE_USER_WITH_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
     private final String CREATE_USER_RETURN_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";

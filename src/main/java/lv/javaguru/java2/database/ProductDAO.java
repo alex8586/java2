@@ -1,6 +1,5 @@
-package lv.javaguru.java2.database.jdbc;
+package lv.javaguru.java2.database;
 
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 

@@ -1,5 +1,4 @@
-package lv.javaguru.java2.database.jdbc;
-import lv.javaguru.java2.database.DBException;
+package lv.javaguru.java2.database;
 import java.util.List;
 
 public interface DAO<T> {

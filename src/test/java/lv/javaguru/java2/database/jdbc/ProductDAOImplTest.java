@@ -22,7 +22,7 @@ public class ProductDAOImplTest {
         CategoryDAO dao = new CategoryDAO();
         category = new Category();
         category.setName("cat for prod");
-        dao.create(category);
+        dao.createReturnId(category);
     }
 
     @Test
