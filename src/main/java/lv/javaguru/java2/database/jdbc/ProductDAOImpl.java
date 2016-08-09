@@ -151,6 +151,7 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
             }
         }
         catch (Throwable e) {
+            System.out.println("Exception while execute ProductDAOImpl.createProduct()");
             e.printStackTrace();
         }finally {
             closeConnection(connection);

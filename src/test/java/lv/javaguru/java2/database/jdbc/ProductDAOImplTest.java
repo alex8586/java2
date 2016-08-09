@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 
 public class ProductDAOImplTest {
+
     private ProductDAOImpl productDAO = new ProductDAOImpl();
     private DatabaseCleaner cleaner = new DatabaseCleaner();
     private Category category;
@@ -22,7 +23,7 @@ public class ProductDAOImplTest {
         CategoryDAO dao = new CategoryDAO();
         category = new Category();
         category.setName("cat for prod");
-        dao.createReturnId(category);
+        dao.createWithId(category);
     }
 
     @Test

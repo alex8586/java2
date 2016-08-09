@@ -17,22 +17,24 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`user` (
   user_password VARCHAR(45) NOT NULL
 )
 ENGINE = InnoDB
-AUTO_INCREMENT = 1002;
+AUTO_INCREMENT = 1;
 
 -- -----------------------------------------------------
 -- Table `java2miska`.`categories`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `java2miska`.`categories` ;
 CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
   `id`   INT(11)  NOT NULL AUTO_INCREMENT,
   `name` CHAR(32) NOT NULL,
   PRIMARY KEY (`id`)
-);
+)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
 
-# -----------------------------------------------------
-# Table `java2miska`.`product`
-# -----------------------------------------------------
-
+-- -----------------------------------------------------
+-- Table `java2miska`.`product`
+-- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `java2miska`.`product`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`product`
@@ -48,9 +50,9 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`product`
   `RemainQTY` INT(11),
   `catID_FK` INT(11),
   CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id))
-    ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-;
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
+
 CREATE INDEX `category_FKI` ON `java2miska`.`product` (`catID_FK`);
 CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
 
