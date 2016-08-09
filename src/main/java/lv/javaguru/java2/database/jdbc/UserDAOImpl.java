@@ -12,7 +12,6 @@ import java.util.List;
 
 public class UserDAOImpl extends DAOImpl implements DAO<User> {
 
-    private final String CREATE_USER_WITH_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
     private final String CREATE_USER_RETURN_ID = "INSERT INTO user (user_fullName, user_email, user_password) values(?,?,?)";
     private final String UPDATE_USER = "UPDATE user SET user_fullName=?, user_email=?,user_password=? WHERE user_id=?";
     private final String DELETE_USER = "DELETE FROM user WHERE user_id=?";
@@ -27,7 +26,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_USER_WITH_ID, PreparedStatement.RETURN_GENERATED_KEYS);
+                    (CREATE_USER_RETURN_ID, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
@@ -35,7 +34,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if(resultSet.next()){
-                user.setId(resultSet.getLong(1));
+                newId = resultSet.getLong(1);
             }
         } catch (Throwable e) {
             System.out.println("Exception while execute UserDAOImpl.createUserWithId()");
@@ -45,6 +44,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         }
         return newId;
     }
+
     public void createWithId(User user) throws DBException {
         if(user == null)
             return;
@@ -93,7 +93,8 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_USER_BY_ID);
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -122,7 +123,8 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USERS);
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_ALL_USERS);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){

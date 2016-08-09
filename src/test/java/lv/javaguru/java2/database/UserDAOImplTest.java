@@ -32,11 +32,8 @@ public class UserDAOImplTest {
 
         User newUser = helperCreateOneUserWithoutId();
         userDAO.createWithId(newUser);
-        System.out.println(newUser.getId());
         User first = userDAO.getById(user.getId());
-        System.out.println(first.getId());
         User second = userDAO.getById(newUser.getId());
-        System.out.println(second.getId());
         assertNotSame(first.getId(), second.getId());
     }
 
