@@ -12,12 +12,8 @@ public class Cart {
 
     public void add(Product product, int quantity) {
         enforcePositiveQuantity(quantity);
-        if (items.containsKey(product)) {
-            int currentQuantity = items.get(product);
-            items.put(product, currentQuantity + quantity);
-        } else {
-            items.put(product, quantity);
-        }
+        int currentQuantity = items.getOrDefault(product, 0);
+        items.put(product, currentQuantity + quantity);
     }
 
     private void enforcePositiveQuantity(int quantity) {
@@ -32,13 +28,13 @@ public class Cart {
 
     public void remove(Product product, int quantity) {
         enforcePositiveQuantity(quantity);
-        if (items.containsKey(product)) {
-            int currentQuantity = items.get(product);
-            if (currentQuantity > quantity) {
-                items.put(product, currentQuantity - quantity);
-            } else {
-                remove(product);
-            }
+        int currentQuantity = items.getOrDefault(product, 0);
+        // removing some, not all of items
+        if (currentQuantity > quantity) {
+            items.put(product, currentQuantity - quantity);
+            // removing all or more items
+        } else {
+            remove(product);
         }
     }
 
