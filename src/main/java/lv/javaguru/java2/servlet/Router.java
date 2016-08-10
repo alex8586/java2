@@ -15,7 +15,6 @@ public class Router implements Filter {
 
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("hiiiii");
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 

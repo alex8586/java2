@@ -1,6 +1,5 @@
 <%@ page import="lv.javaguru.java2.domain.Category" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row">
@@ -13,7 +12,7 @@
                     Map modelData = (Map)request.getAttribute("model");
                     List<Category> categories = (List<Category>) modelData.get("categories");
                     for (Category category : categories) {%>
-                        <a href='category/<%= category.getId()  %>' class='collection-item '><h4><%=category.getName()%></h4></a>
+                        <a href='category/<%= category.getId()  %>' class='collection-item '><h6><%=category.getName()%></h6></a>
                     <%}
                 %>
         </div>
