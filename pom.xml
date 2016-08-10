@@ -69,8 +69,8 @@
                     <fork>true</fork>
                     <executable><!-- path-to-javac --></executable>
                     <compilerVersion>1.8</compilerVersion>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
@@ -78,6 +78,20 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>4.0.3</version>
+                <configuration>
+                    <user>root</user>
+                    <password>Store_test123</password>
+                    <schemas>
+                        <schema>store_test</schema>
+                    </schemas>
+                    <url>jdbc:mysql://localhost:3306/</url>
+                </configuration>
             </plugin>
 
         </plugins>
