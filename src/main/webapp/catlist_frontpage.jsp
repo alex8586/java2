@@ -3,9 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row">
-
-    <div class="col l6 offset-l3 m12 s12 center-align">
-
+    <div class="col l3 offset-l1 m12 s12 center-align">
         <div class="collection card">
             <h5 class="collection-header">Categories</h5>
                 <%
