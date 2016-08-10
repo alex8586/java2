@@ -15,10 +15,10 @@ public class Router implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         controllers = new HashMap<String, MVCController>();
 
-        HelloWorldController helloController = new HelloWorldController();
-
-//        controllers.put("/", helloController);
-//        controllers.put("/hello", helloController);
+        //controllers.put("/hello", );
+        //HelloWorldController helloController = new HelloWorldController();
+        //controllers.put("/", helloController);
+        //controllers.put("/hello", helloController);
     }
 
     public void doFilter(ServletRequest request,
