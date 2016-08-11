@@ -37,7 +37,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
             }
         }
         catch (Throwable e) {
-            e.printStackTrace();
+            System.out.println("Exception while execute CategoryDAO.update");
             throw new DBException(e);
         }
         finally {
@@ -62,7 +62,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
             }
         }
         catch (Throwable e) {
-            e.printStackTrace();
+            System.out.println("Exception while execute CategoryDAO.update");
             throw new DBException(e);
         }
         finally {
@@ -84,7 +84,6 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         }
         catch (Throwable e) {
             System.out.println("Exception while execute CategoryDAO.delete");
-            e.printStackTrace();
             throw new DBException(e);
         }
         finally {
@@ -107,11 +106,12 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
                 category.setId(resultSet.getLong("id"));
             }
             return category;
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             System.out.println("Exception while execute CategoryDAO.getByid");
-            e.printStackTrace();
             throw new DBException(e);
-        } finally {
+        }
+        finally {
             closeConnection(connection);
         }
     }
@@ -132,7 +132,6 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
             return categories;
         } catch (Throwable e) {
             System.out.println("Exception while execute CategoryDAO.getAll");
-            e.printStackTrace();
             throw new DBException(e);
         } finally {
             closeConnection(connection);

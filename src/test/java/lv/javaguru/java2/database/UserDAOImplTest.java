@@ -1,11 +1,13 @@
 package lv.javaguru.java2.database;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -22,7 +24,7 @@ public class UserDAOImplTest {
         cleaner.cleanDatabase();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DBException.class)
     public void createSecondUserWithSameEmailTest() throws DBException {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
@@ -33,6 +35,21 @@ public class UserDAOImplTest {
         User newUser = helperCreateOneUserWithoutId();
         assertEquals(user.getEmail(), newUser.getEmail());
         userDAO.create(newUser);
+    }
+
+    @Test(expected = DBException.class)
+    public void updateEmailToMatchAnotherEmailTest() throws DBException {
+        User user = helperCreateOneUserWithoutId();
+        userDAO.create(user);
+
+        User newUser = helperCreateOneUserWithoutId();
+        newUser.setEmail("mail@me.never");
+        userDAO.create(newUser);
+        assertTrue(newUser.getId() > 0 );
+
+        User yetAnotherUser = userDAO.getByEmail(newUser.getEmail());
+        yetAnotherUser.setEmail(user.getEmail());
+        userDAO.update(yetAnotherUser);
     }
 
     @Test
