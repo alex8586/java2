@@ -22,8 +22,8 @@ public class UserDAOImplTest {
         cleaner.cleanDatabase();
     }
 
-    @Test
-    public void createUserWithIdTest() throws DBException {
+    @Test(expected = IllegalArgumentException.class)
+    public void createSecondUserWithSameEmailTest() throws DBException {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -31,10 +31,8 @@ public class UserDAOImplTest {
         assertNotNull(user.getId());
 
         User newUser = helperCreateOneUserWithoutId();
+        assertEquals(user.getEmail(), newUser.getEmail());
         userDAO.create(newUser);
-        User first = userDAO.getById(user.getId());
-        User second = userDAO.getById(newUser.getId());
-        assertNotSame(first.getId(), second.getId());
     }
 
     @Test
@@ -133,11 +131,42 @@ public class UserDAOImplTest {
         assertEquals(0, userList.size());
     }
 
+    @Test
+    public void getByEmailTest() throws DBException {
+        User first = helperCreateOneUserWithoutId();
+        userDAO.create(first);
+        User second = helperCreateSecondUserWithoutId();
+        userDAO.create(second);
+
+        String passwordFromFirst = userDAO.getByEmail("mail@me.later").getPassword();
+        assertEquals("password", passwordFromFirst);
+
+        String passwordFromSecond = userDAO.getByEmail("mail@me.now").getPassword();
+        assertEquals("nobodyknow", passwordFromSecond);
+
+        User notExistUser = userDAO.getByEmail("no@mail.me");
+        assertNull(notExistUser);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getByEmailTestIfEmailNull() throws DBException {
+        String email = "";
+        userDAO.getByEmail(email);
+    }
+
     private User helperCreateOneUserWithoutId(){
         User user = new User();
         user.setFullName("fullName");
         user.setEmail("mail@me.later");
         user.setPassword("password");
+        return user;
+    }
+
+    private User helperCreateSecondUserWithoutId(){
+        User user = new User();
+        user.setFullName("someName");
+        user.setEmail("mail@me.now");
+        user.setPassword("nobodyknow");
         return user;
     }
 

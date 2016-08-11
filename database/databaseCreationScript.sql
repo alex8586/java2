@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`user` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
+CREATE UNIQUE INDEX user_user_email_uindex ON java2miska.user (user_email);
+
 -- -----------------------------------------------------
 -- Table `java2miska`.`categories`
 -- -----------------------------------------------------
