@@ -17,10 +17,15 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     private final String DELETE_USER = "DELETE FROM user WHERE user_id=?";
     private final String GET_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
     private final String GET_ALL_USERS = "SELECT * FROM user";
+    private final String GET_BY_EMAIL = "SELECT * FROM user WHERE user_email=?";
 
     public long create(User user) throws DBException {
         if(user == null || user.getId() != 0)
             throw new IllegalArgumentException("Exception while execute UserDAOImpl.create . Input id != 0 ");
+        User isExistUser = getByEmail(user.getEmail());
+        if(isExistUser != null)
+            throw new IllegalArgumentException("Exception while execute UserDAOImpl.create()." +
+                    "User with this email allready exist.");
 
         Connection connection = null;
         long newId = 0;
@@ -138,6 +143,37 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
             return userList;
         } catch (Throwable e) {
             System.out.println("Exception while execute UserDAOImpl.getAllUsers()");
+            e.printStackTrace();
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+    public User getByEmail(String email) throws DBException {
+        if(email == null || email.equals("")){
+            throw new IllegalArgumentException("Exception while execute UserDAOImpl.getByEmail()");
+        }
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_BY_EMAIL);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            User user = null;
+            if(resultSet.next()){
+                user = new User();
+                user.setId(resultSet.getLong(1));
+                user.setFullName(resultSet.getString(2));
+                user.setEmail(resultSet.getString(3));
+                user.setPassword(resultSet.getString(4));
+            }
+            return user;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute UserDAOImpl.getByEmail()");
             e.printStackTrace();
             throw new DBException(e);
         } finally {
