@@ -18,19 +18,19 @@ public class LoginController implements MVCController{
     public MVCModel execute(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
+        System.out.println("from loginpage");
         String name = null;
         try {
             User user = userDAO.getByEmail(email);
             if(user == null || !user.getPassword().equals(password)){
                 String error = "User with the same email not exist";
-                return new MVCModel(error, "/error.jsp");
+                return new MVCModel(error, "/login");
             }
                 name = user.getFullName();
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return new MVCModel(name, "/frontpageSkeleton.jsp");
+        return new MVCModel("","/frontpageSkeleton.jsp");
 
     }
 }

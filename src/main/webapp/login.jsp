@@ -28,7 +28,7 @@
 </header>
 <main>
 
-        <form class="col s8 offset-s4" action="" method="post">
+        <form class="col s8 offset-s4" action="trylogin" method="post">
 
             <div class="row">
                 <div class="input-field col s4 offset-s4">

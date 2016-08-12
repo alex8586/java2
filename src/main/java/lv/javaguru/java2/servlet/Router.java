@@ -23,12 +23,15 @@ public class Router implements Filter {
         FrontPageController frontPageController = new FrontPageController(categoryDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
+        LoginPageController loginPageController = new LoginPageController();
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
 
         controllers = new HashMap<String, MVCController>();
         controllers.put("/", frontPageController);
         controllers.put("/registration.jsp", registrationController);
-        controllers.put("/login.jsp", loginController);
+        controllers.put("/trylogin", loginController);
+        controllers.put("/login", loginPageController);
+
         //controllers.put("/youraddress",yourController);
     }
 
