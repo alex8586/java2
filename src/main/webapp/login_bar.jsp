@@ -6,7 +6,7 @@ if(name != null){%>
 Welcome , <%=name%>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="frontpageSkeleton.jsp">LOGOUT</a></li>
-        <li><a href="usercabinet.jsp">Cabinet</a></li>
+        <li><a href="usercabinet.jsp">CABINET</a></li>
     </ul>
 </div>
 <%}else{%>
