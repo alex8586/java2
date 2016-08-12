@@ -15,15 +15,9 @@
 <header>
   <nav>
     <div class="container">
-
-
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href=#>LOGIN</a></li>
-          <li><a href=#>REGISTER</a></li>
-
-        </ul>
+        <a href="frontpageSkeleton.jsp" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
+       <jsp:include page="login_bar.jsp"></jsp:include>
       </div>
     </div>
   </nav>
