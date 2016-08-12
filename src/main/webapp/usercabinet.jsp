@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -14,39 +15,42 @@
 <body>
 <header>
     <nav>
-        <div class="container">
+        <%@include file="header.jsp"%>
 
-
-            <div class="nav-wrapper">
-                <a href="frontpageSkeleton.jsp" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href=registration.jsp>REGISTER</a></li>
-                </ul>
-            </div>
-        </div>
     </nav>
 </header>
 <main>
 
-        <form class="col s8 offset-s4" action="login" method="post">
 
-            <div class="row">
-                <div class="input-field col s4 offset-s4">
+    <div class="row">
+            <div class="col s4 center">
+                <div class="text-accent-4">
+                    <h4>Change information</h4>
+                </div>
+
+                <div class="input-field">
+                    Enter first name and last name
+                    <input id="first_last_name" type="text" class="validate" name="fullName">
+                </div>
+                <div class="input-field">
                     Enter email
                     <input id="email" type="email" class="validate" name="email">
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s4 offset-s4">
+                <div class="input-field">
                     Enter password<input id="password" type="password" class="validate" name="password">
                 </div>
+                <div align="center">
+                    <button class="btn waves-effect waves-light" type="submit" name="register">Change
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
             </div>
-            <div align="center">
-            <button class="btn waves-effect waves-light offset-s4" type="submit" name="register">Log in
-                <i class="material-icons right">send</i>
-            </button>
-            </div>
-        </form>
+
+
+    </div>
+
+
+
 
 
 </main>

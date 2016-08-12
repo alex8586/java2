@@ -29,33 +29,33 @@
 </header>
 <main>
 
-    <div class="center-align" >
+
         <form class="col s8" action="registration" method="post">
 
             <div class="row">
-                <div class="input-field col s4 center-align">
+                <div class="input-field col s4 offset-s4">
                     Enter first name and last name
                     <input id="first_last_name" type="text" class="validate" name="fullName">
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s4 offset-s4">
                     Enter email
                     <input id="email" type="email" class="validate" name="email">
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s4 offset-s4">
                     Enter password<input id="password" type="password" class="validate" name="password">
                 </div>
             </div>
-
+            <div align="center">
             <button class="btn waves-effect waves-light" type="submit" name="register">Register me
                 <i class="material-icons right">send</i>
             </button>
-
+            </div>
         </form>
-    </div>
+
 
 </main>
 <%@include file="footer.jsp"%>
