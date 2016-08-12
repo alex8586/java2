@@ -30,7 +30,7 @@
 <main>
 
 
-        <form class="col s8" action="registration" method="post">
+        <form class="col s8" action="" method="post">
 
             <div class="row">
                 <div class="input-field col s4 offset-s4">

@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
+import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +17,18 @@ public class Router implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
+        UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
         FrontPageController frontPageController = new FrontPageController(categoryDAO);
+        RegistrationController registrationController = new RegistrationController(userDAO);
+        LoginController loginController = new LoginController(userDAO);
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
+
         controllers = new HashMap<String, MVCController>();
-        controllers.put("/",frontPageController);
+        controllers.put("/", frontPageController);
+        controllers.put("/registration.jsp", registrationController);
+        controllers.put("/login.jsp", loginController);
         //controllers.put("/youraddress",yourController);
     }
 
