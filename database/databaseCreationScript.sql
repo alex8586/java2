@@ -28,7 +28,7 @@ CREATE UNIQUE INDEX user_user_email_uindex ON java2miska.user (user_email);
 DROP TABLE IF EXISTS `java2miska`.`categories` ;
 CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
   `id`   INT(11)  NOT NULL AUTO_INCREMENT,
-  `name` CHAR(32) NOT NULL,
+  `name` CHAR(64) NOT NULL,
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB
@@ -57,6 +57,11 @@ AUTO_INCREMENT = 1;
 
 CREATE INDEX `category_FKI` ON `java2miska`.`product` (`catID_FK`);
 CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
+
+INSERT INTO categories(id,name) VALUES(DEFAULT ,"Соки и нектары 'моя печенюшечка'");
+INSERT INTO categories(id,name) VALUES(DEFAULT ,"Закусь");
+INSERT INTO categories(id,name) VALUES(DEFAULT ,"Товары для поклонниц Стасика Михайлова");
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
