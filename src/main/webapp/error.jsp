@@ -1,6 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp"%>
+<%@include file="includes/header.jsp"%>
 <% String error = (String) request.getAttribute("model");%>
     <div class="container ">
         <div class="offset-s4 center">
@@ -13,5 +13,5 @@
     </div>
 
 
-<%@include file="footer.jsp"%>
+<%@include file="includes/footer.jsp"%>
 

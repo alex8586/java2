@@ -19,9 +19,9 @@
 
 
             <div class="nav-wrapper">
-                <a href="frontpageSkeleton.jsp" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
+                <a href="index" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href=login.jsp>LOGIN</a></li>
+                    <li><a href="login">LOGIN</a></li>
                 </ul>
             </div>
         </div>
@@ -29,8 +29,14 @@
 </header>
 <main>
 
+        <% String error = (String) request.getAttribute("model");
+            if(error != null)%>
+            <div class="col s8 center red-text">
+                <br>
+                <h4><%=error%></h4>
+            </div>
 
-        <form class="col s8" action="" method="post">
+        <form class="col s8" action="tryregister" method="post">
 
             <div class="row">
                 <div class="input-field col s4 offset-s4">
@@ -58,6 +64,6 @@
 
 
 </main>
-<%@include file="footer.jsp"%>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>

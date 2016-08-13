@@ -8,9 +8,6 @@ import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +16,10 @@ import static org.junit.Assert.*;
 /**
  * Created by algis on 16.11.8.
  */
-public class FrontPageControllerTest {
+public class CategoryControllerTest {
 
     private CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
-    private FrontPageController frontPageController = new FrontPageController(categoryDAO);
+    private CategoryController categoryController = new CategoryController(categoryDAO);
     private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     Map<String,Object> mvcModelData;
@@ -30,7 +27,7 @@ public class FrontPageControllerTest {
     public void before() throws DBException{
         cleaner.cleanDatabase();
         createCategories();
-        mvcModelData = (Map<String,Object>)frontPageController.execute(null).getData();
+        mvcModelData = (Map<String,Object>) categoryController.execute(null).getData();
         assertNotNull(mvcModelData);
     }
 

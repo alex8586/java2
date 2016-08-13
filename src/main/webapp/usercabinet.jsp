@@ -15,7 +15,7 @@
 <body>
 <header>
     <nav>
-        <%@include file="header.jsp"%>
+        <%@include file="includes/header.jsp"%>
 
     </nav>
 </header>
@@ -54,6 +54,6 @@
 
 
 </main>
-<%@include file="footer.jsp"%>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>

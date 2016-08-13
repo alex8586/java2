@@ -12,11 +12,18 @@ public class RegistrationController implements MVCController{
     public RegistrationController(UserDAOImpl userDAO) {
         this.userDAO = userDAO;
     }
+
     @Override
     public MVCModel execute(HttpServletRequest request) {
+        System.out.println("in RegistrationController (press button registration)");
         String name = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+
+        if(name.isEmpty() || email.isEmpty() || password.isEmpty()){
+            String errorEmptyFields = "All fields must be filled";
+            return new MVCModel(errorEmptyFields, "/registration.jsp");
+        }
 
         User user = new User();
         user.setFullName(name);
@@ -28,7 +35,7 @@ public class RegistrationController implements MVCController{
             User userCheckedByEmail = userDAO.getByEmail(user.getEmail());
             if(userCheckedByEmail!= null){
                 String error = "User with the same email already exist";
-                return new MVCModel(error, "/error.jsp");
+                return new MVCModel(error, "/registration.jsp");
             }
                 userDAO.create(user);
             User userFromDao = userDAO.getByEmail(email);
@@ -37,6 +44,7 @@ public class RegistrationController implements MVCController{
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        return new MVCModel(userName, "/frontpageSkeleton.jsp");
+
+        return new MVCModel(userName, "/index.jsp");
     }
 }

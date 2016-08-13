@@ -16,21 +16,31 @@ public class LoginController implements MVCController{
 
     @Override
     public MVCModel execute(HttpServletRequest request) {
+        System.out.println("in LoginController (press button login)");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        System.out.println("from loginpage");
+
+        if(email.isEmpty() || password.isEmpty()){
+            String errorEmptyFields = "All fields must be filled";
+            return new MVCModel(errorEmptyFields, "/login.jsp");
+        }
+
         String name = null;
         try {
             User user = userDAO.getByEmail(email);
-            if(user == null || !user.getPassword().equals(password)){
-                String error = "User with the same email not exist";
-                return new MVCModel(error, "/login");
+            if(user == null){
+                String errorByMail = "User with this email not exist";
+                return new MVCModel(errorByMail, "/login.jsp");
+            }else if(!user.getPassword().equals(password)){
+                String errorByPassword = "Wrong password";
+                return new MVCModel(errorByPassword, "/login.jsp");
             }
                 name = user.getFullName();
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return new MVCModel("","/frontpageSkeleton.jsp");
+
+        return new MVCModel(name,"/index.jsp");
 
     }
 }

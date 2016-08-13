@@ -20,7 +20,8 @@ public class Router implements Filter {
         UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
-        FrontPageController frontPageController = new FrontPageController(categoryDAO);
+        IndexController indexController = new IndexController();
+        CategoryController categoryController = new CategoryController(categoryDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         RegistrationPageController registrationPageController = new RegistrationPageController();
         LoginController loginController = new LoginController(userDAO);
@@ -28,9 +29,10 @@ public class Router implements Filter {
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
 
         controllers = new HashMap<String, MVCController>();
-        controllers.put("/", frontPageController);
-        controllers.put("/registration.jsp", registrationController);
-        controllers.put("/tryregister", registrationPageController);
+        controllers.put("/index", indexController);
+        controllers.put("/index", categoryController);
+        controllers.put("/tryregister", registrationController);
+        controllers.put("/register", registrationPageController);
         controllers.put("/trylogin", loginController);
         controllers.put("/login", loginPageController);
 
@@ -44,6 +46,7 @@ public class Router implements Filter {
         HttpServletResponse resp = (HttpServletResponse)response;
 
         String contextURI = req.getServletPath();
+
         MVCController controller = controllers.get(contextURI);
         if (controller != null) {
             MVCModel model = controller.execute(req);

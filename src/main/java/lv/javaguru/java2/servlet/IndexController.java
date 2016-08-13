@@ -2,11 +2,12 @@ package lv.javaguru.java2.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class LoginPageController implements MVCController{
+public class IndexController implements MVCController {
 
     @Override
     public MVCModel execute(HttpServletRequest request) {
-        System.out.println("in LoginPageController");
-        return new MVCModel("","/login.jsp");
+        System.out.println("in indexController");
+        return new MVCModel("","/index.jsp");
     }
 }
+
