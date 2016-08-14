@@ -6,8 +6,11 @@ import lv.javaguru.java2.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class LoginController implements MVCController{
+public class LoginController extends MVCController{
 
+    private final String EMPTY_FIELDS = "All fields must be filled";
+    private final String WRONG_EMAIL = "user with such email not found";
+    private final String WRONG_PASSWORD = "wrong password";
     private UserDAOImpl userDAO;
 
     public LoginController(UserDAOImpl userDAO) {
@@ -15,32 +18,42 @@ public class LoginController implements MVCController{
     }
 
     @Override
-    public MVCModel execute(HttpServletRequest request) {
-        System.out.println("in LoginController (press button login)");
+    public MVCModel executeGet(HttpServletRequest request) {
+        String error = (String) request.getSession().getAttribute("loginError");
+        return new MVCModel(error,"/login.jsp");
+    }
+
+    @Override
+    public MVCModel executePost(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         if(email.isEmpty() || password.isEmpty()){
-            String errorEmptyFields = "All fields must be filled";
-            return new MVCModel(errorEmptyFields, "/login.jsp");
+            request.getSession().setAttribute("loginError" , EMPTY_FIELDS);
+            return new MVCModel("/login.jsp");
         }
 
-        String name = null;
         try {
             User user = userDAO.getByEmail(email);
+            String error = null;
             if(user == null){
-                String errorByMail = "User with this email not exist";
-                return new MVCModel(errorByMail, "/login.jsp");
-            }else if(!user.getPassword().equals(password)){
-                String errorByPassword = "Wrong password";
-                return new MVCModel(errorByPassword, "/login.jsp");
+                error = WRONG_EMAIL;
             }
-                name = user.getFullName();
+            else if(!user.getPassword().equals(password)) {
+                error = WRONG_PASSWORD;
+            }
+            if(error != null){
+                request.getSession().setAttribute("loginError" , error);
+                return new MVCModel("/login");
+            }
+            else{
+                request.getSession().setAttribute("user" , user);
+                return new MVCModel("/index");
+            }
         } catch (DBException e) {
             e.printStackTrace();
         }
-
-        return new MVCModel(name,"/index.jsp");
+        return new MVCModel("/login");
 
     }
 }

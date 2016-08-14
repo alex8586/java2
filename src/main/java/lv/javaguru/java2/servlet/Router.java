@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Router implements Filter {
 
-    private Map<String, MVCController> controllers;
+    private Map<String, MVCController> controllers = new HashMap<String, MVCController>();
 
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -20,21 +20,14 @@ public class Router implements Filter {
         UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
-        IndexController indexController = new IndexController();
-        CategoryController categoryController = new CategoryController(categoryDAO);
+        FrontPageController frontPageController= new FrontPageController(categoryDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
-        RegistrationPageController registrationPageController = new RegistrationPageController();
         LoginController loginController = new LoginController(userDAO);
-        LoginPageController loginPageController = new LoginPageController();
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
 
-        controllers = new HashMap<String, MVCController>();
-        controllers.put("/index", indexController);
-        controllers.put("/index", categoryController);
-        controllers.put("/tryregister", registrationController);
-        controllers.put("/register", registrationPageController);
-        controllers.put("/trylogin", loginController);
-        controllers.put("/login", loginPageController);
+        controllers.put("/index", frontPageController);
+        controllers.put("/register", registrationController);
+        controllers.put("/login", loginController);
 
         //controllers.put("/youraddress",yourController);
     }
@@ -46,16 +39,29 @@ public class Router implements Filter {
         HttpServletResponse resp = (HttpServletResponse)response;
 
         String contextURI = req.getServletPath();
-
         MVCController controller = controllers.get(contextURI);
         if (controller != null) {
-            MVCModel model = controller.execute(req);
+            MVCModel model;
+            if(((HttpServletRequest) request).getMethod().equals("POST"))
+                model = controller.doPost(req);
+            else
+                model = controller.doGet(req);
             req.setAttribute("model", model.getData());
-            ServletContext context = req.getServletContext();
-            RequestDispatcher requestDispatcher = context.getRequestDispatcher(model.getViewName());
-            requestDispatcher.forward(req, resp);
+
+            if(model.isRedirect()) {
+                System.out.println("redirecting to ... " + model.getViewName());
+                resp.sendRedirect(model.getViewName());
+            }
+            else {
+                System.out.println("forwarding to ... " + model.getViewName());
+                RequestDispatcher requestDispatcher = req.getServletContext().getRequestDispatcher(model.getViewName());
+                requestDispatcher.forward(req, resp);
+            }
         }
-        else filterChain.doFilter(request,response);
+        else {
+            System.out.println("unable to find controller for URI " + contextURI);
+            filterChain.doFilter(request,response);
+        }
     }
 
     public void destroy() {

@@ -1,3 +1,5 @@
+<%@ page import="java.util.Map" %>
+<%@ page import="lv.javaguru.java2.domain.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -19,8 +21,26 @@
         <a href="index" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
         <%--<%@include file="login_bar.jsp"%>--%>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="login">LOGIN</a></li>
-            <li><a href="register">REGISTER</a></li>
+
+            <%
+              Map<String,Object> model = (Map<String,Object>)request.getAttribute("model");
+              String userName = null;
+              if(model != null){
+                User user = (User) model.get("user");
+                if(user != null)
+                  userName = user.getFullName();
+              }
+              if(userName != null){%>
+                Hi, <%= userName %>!
+              <%}
+              else{%>
+                <li><a href="login">LOGIN</a></li>
+                <li><a href="register">REGISTER</a></li>
+              <%}
+            %>
+
+
+
         </ul>
       </div>
     </div>

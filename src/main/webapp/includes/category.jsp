@@ -8,13 +8,13 @@
             <h5 class="collection-header">Categories</h5>
                 <%
                     if(request.getAttribute("model") instanceof Map){
-                    Map modelData = (Map)request.getAttribute("model");
-                    if(modelData != null){
-                    List<Category> categories = (List<Category>) modelData.get("categories");
-                    for (Category category : categories) {%>
-                        <a href='category/<%= category.getId()  %>' class='collection-item '><h6><%=category.getName()%></h6></a>
-                    <%}
-                    }
+                        Map modelData = (Map)request.getAttribute("model");
+                        if(modelData != null){
+                            List<Category> categories = (List<Category>) modelData.get("categories");
+                            for (Category category : categories) {%>
+                                <a href='category/<%= category.getId()  %>' class='collection-item '><h6><%=category.getName()%></h6></a>
+                            <%}
+                        }
                     }
                 %>
         </div>

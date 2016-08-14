@@ -16,10 +16,10 @@ import static org.junit.Assert.*;
 /**
  * Created by algis on 16.11.8.
  */
-public class CategoryControllerTest {
+public class FrontPageControllerTest {
 
     private CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
-    private CategoryController categoryController = new CategoryController(categoryDAO);
+    private FrontPageController frontPageController = new FrontPageController(categoryDAO);
     private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     Map<String,Object> mvcModelData;
@@ -27,7 +27,7 @@ public class CategoryControllerTest {
     public void before() throws DBException{
         cleaner.cleanDatabase();
         createCategories();
-        mvcModelData = (Map<String,Object>) categoryController.execute(null).getData();
+        mvcModelData = (Map<String,Object>) frontPageController.doGet(null).getData();
         assertNotNull(mvcModelData);
     }
 

@@ -6,22 +6,23 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryController implements MVCController{
+public class FrontPageController extends MVCController{
 
     private CategoryDAOImpl categoryDAO;
-    public CategoryController(CategoryDAOImpl categoryDAO) {
+    public FrontPageController(CategoryDAOImpl categoryDAO) {
         this.categoryDAO = categoryDAO;
     }
 
-    public MVCModel execute(HttpServletRequest request) {
-        System.out.println("in category controller");
+    @Override
+    public MVCModel executeGet(HttpServletRequest request) {
         Map<String,Object> frontPageData = new HashMap<String,Object>();
         try {
+            frontPageData.put("user" , request.getSession().getAttribute("user"));
             frontPageData.put("categories" , categoryDAO.getAll());
             frontPageData.put("products" , null);
         }
         catch (DBException dbe){
         }
-        return new MVCModel(frontPageData, "/index.jsp");
+        return new MVCModel(frontPageData, "/frontpage.jsp");
     }
 }
