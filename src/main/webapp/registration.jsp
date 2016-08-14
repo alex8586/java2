@@ -4,7 +4,8 @@
 <main>
 
         <%
-            String error = (String) request.getAttribute("model");
+            Map<String,Object> map = (Map)request.getAttribute("model");
+            String error = (String) map.get("registrationError");
             if(error != null){%>
                 <div class="col s8 center red-text"><br>
                     <h4><%=error%></h4>
@@ -13,7 +14,6 @@
         %>
 
         <form class="col s8" action="register" method="post">
-
             <div class="row">
                 <div class="input-field col s4 offset-s4">
                     Enter first name and last name

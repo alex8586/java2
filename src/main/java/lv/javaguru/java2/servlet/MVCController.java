@@ -17,9 +17,9 @@ abstract class MVCController {
     };
 
     public MVCModel doPost(HttpServletRequest request){
-        System.out.println(" in " + this.getClass().getName() + " executeGet()");
+        System.out.println(" in " + this.getClass().getName() + " executePost()");
         MVCModel model = executePost(request);
-        System.out.println(" out " + this.getClass().getName() + " executeGet()");
+        System.out.println(" out " + this.getClass().getName() + " executePost()");
         return model;
     }
     protected MVCModel executePost(HttpServletRequest request){

@@ -4,6 +4,8 @@ import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationController extends MVCController {
 
@@ -19,7 +21,9 @@ public class RegistrationController extends MVCController {
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
         String error = (String) request.getSession().getAttribute("registrationError");
-        return new MVCModel(error,"/registration.jsp");
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("registrationError" , error);
+        return new MVCModel(map,"/registration.jsp");
     }
 
     @Override

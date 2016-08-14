@@ -5,6 +5,8 @@ import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginController extends MVCController{
 
@@ -20,7 +22,9 @@ public class LoginController extends MVCController{
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         String error = (String) request.getSession().getAttribute("loginError");
-        return new MVCModel(error,"/login.jsp");
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("loginError" , error);
+        return new MVCModel(map,"/login.jsp");
     }
 
     @Override
@@ -30,7 +34,7 @@ public class LoginController extends MVCController{
 
         if(email.isEmpty() || password.isEmpty()){
             request.getSession().setAttribute("loginError" , EMPTY_FIELDS);
-            return new MVCModel("/login.jsp");
+            return new MVCModel("/login");
         }
 
         try {

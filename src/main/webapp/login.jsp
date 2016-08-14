@@ -4,7 +4,8 @@
 
 <main>
         <%
-            String error = (String) request.getAttribute("model");
+            Map<String,Object> map = (Map)request.getAttribute("model");
+            String error = (String) map.get("loginError");
             if(error != null){%>
                  <div class="col s8 center red-text"><br>
                     <h4><%=error%></h4>
