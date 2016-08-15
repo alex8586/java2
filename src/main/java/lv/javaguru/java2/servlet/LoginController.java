@@ -21,7 +21,11 @@ public class LoginController extends MVCController{
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        String error = (String) request.getSession().getAttribute("loginError");
+        String error = null;
+        if(request.getSession().getAttribute("loginError") != null) {
+             error = (String) request.getSession().getAttribute("loginError");
+             request.removeAttribute("loginError");
+        }
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("loginError" , error);
         return new MVCModel(map,"/login.jsp");

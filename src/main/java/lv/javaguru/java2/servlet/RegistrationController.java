@@ -20,7 +20,11 @@ public class RegistrationController extends MVCController {
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
-        String error = (String) request.getSession().getAttribute("registrationError");
+        String error = null;
+        if(request.getSession().getAttribute("registrationError") != null) {
+            error = (String) request.getSession().getAttribute("registrationError");
+            request.removeAttribute("registrationError");
+        }
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("registrationError" , error);
         return new MVCModel(map,"/registration.jsp");
