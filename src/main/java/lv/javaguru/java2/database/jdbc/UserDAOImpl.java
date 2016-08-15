@@ -1,6 +1,5 @@
 package lv.javaguru.java2.database.jdbc;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import lv.javaguru.java2.database.DAO;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
@@ -21,16 +20,9 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     private final String GET_ALL_USERS = "SELECT * FROM user";
     private final String GET_BY_EMAIL = "SELECT * FROM user WHERE user_email=?";
 
-    public long create(User user) throws DBException {
+    public long create(User user) {
         if(user == null || user.getId() != 0)
             throw new IllegalArgumentException("Exception while execute UserDAOImpl.create() . Input id != 0 ");
-        /*
-        User isExistUser = getByEmail(user.getEmail());
-        if(isExistUser != null)
-            throw new IllegalArgumentException("Exception while execute UserDAOImpl.create()." +
-                    "User with this email allready exist.");
-        */
-
         Connection connection = null;
         long newId = 0;
         try {
@@ -58,7 +50,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         return newId;
     }
 
-    public void update(User user) throws DBException {
+    public void update(User user) {
         if(user == null || user.getId() == 0)
             throw new IllegalArgumentException("Exception while execute CategoryDAOImpl.create . Input id != 0 ");
 
@@ -82,7 +74,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         }
     }
 
-    public void delete(User user) throws DBException {
+    public void delete(User user) {
         if(user == null || user.getId() == 0)
             return;
         Connection connection = null;
@@ -117,7 +109,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
             return null;
     }
 
-    public User getById(long id) throws DBException {
+    public User getById(long id) {
         if(id == 0)return null;
         Connection connection = null;
         try {
@@ -134,7 +126,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         }
     }
 
-    public List<User> getAll() throws DBException {
+    public List<User> getAll() {
         List<User> userList = new ArrayList<User>();
         Connection connection = null;
         try {
@@ -155,7 +147,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         }
     }
 
-    public User getByEmail(String email) throws DBException {
+    public User getByEmail(String email) {
         if(email == null || email.equals("")){
             throw new IllegalArgumentException("Exception while execute UserDAOImpl.getByEmail()");
         }

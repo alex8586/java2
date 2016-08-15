@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database;
 
-public class DBException extends Exception {
+public class DBException extends RuntimeException {
 
     public DBException(String message) {
         super(message);

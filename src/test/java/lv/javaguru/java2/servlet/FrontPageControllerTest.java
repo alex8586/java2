@@ -1,7 +1,6 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.IntegrationTest;
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
 import lv.javaguru.java2.domain.Category;
 import org.junit.Before;
@@ -19,22 +18,22 @@ public class FrontPageControllerTest extends IntegrationTest {
     Map<String, Object> mvcModelData = new HashMap<>();
 
     @Before
-    public void before() throws DBException{
+    public void before() {
         createCategories();
     }
 
     @Test
     @Ignore
-    public void doReturnListOfCategories() throws DBException{
+    public void doReturnListOfCategories() {
     }
 
     @Test
     @Ignore
-    public void doNotReturnProducts() throws DBException{
+    public void doNotReturnProducts() {
     }
 
 
-    private void createCategories() throws DBException{
+    private void createCategories() {
         Category category;
         category = new Category();
         category.setName("test1");

@@ -18,7 +18,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
     private final String GET_CATEGORY_BY_ID = "SELECT * FROM categories where id = ?";
     private final String GET_ALL_CATEGORIES = "SELECT * FROM categories";
 
-    public long create(Category category) throws DBException {
+    public long create(Category category) {
         long newId = 0;
         if(category == null || category.getId() != 0)
             throw new IllegalArgumentException("Exception while execute CategoryDAO.create . Input id != 0 ");
@@ -46,7 +46,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         return newId;
     }
 
-    public void update(Category category) throws DBException{
+    public void update(Category category) {
         if(category == null || category.getId() == 0)
             throw new IllegalArgumentException("Exception while execute CategoryDAO.create . Input id != 0 ");
 
@@ -70,7 +70,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         }
     }
 
-    public void delete(Category category) throws DBException{
+    public void delete(Category category) {
         if(category == null || category.getId() == 0)
             return ;
         Connection connection = null;
@@ -91,7 +91,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         }
     }
 
-    public Category getById(long id) throws DBException{
+    public Category getById(long id) {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -116,7 +116,7 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         }
     }
 
-    public List<Category> getAll() throws DBException{
+    public List<Category> getAll() {
         Connection connection = null;
         List<Category> categories = new LinkedList<Category>();
         try {

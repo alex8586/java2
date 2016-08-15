@@ -1,7 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
@@ -19,7 +18,7 @@ public class ProductDAOImplTest {
     private Category category;
 
     @Before
-    public void before() throws DBException{
+    public void before() {
         cleaner.cleanDatabase();
         CategoryDAOImpl dao = new CategoryDAOImpl();
         category = new Category();
@@ -28,7 +27,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void testFindWithWrongParamReturnsNull() throws DBException{
+    public void testFindWithWrongParamReturnsNull() {
         Product product = productDAO.getById(-1);
         assertNull(product);
         product = productDAO.getByVendorCode("thisisnotexistingvendorcodebecausedbwillnotallowsuchlongvendorcode");
@@ -36,7 +35,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void testCanFindCreatedRecord() throws DBException{
+    public void testCanFindCreatedRecord() {
         Product product = newProduct();
         productDAO.create(product);
         assertTrue(product.getId() > 0 );
@@ -50,7 +49,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void getProductByIdTest() throws DBException {
+    public void getProductByIdTest() {
         Product product = newProduct();
         long idFromDAO = productDAO.create(product);
         Product productFromDAO = productDAO.getById(idFromDAO);
@@ -64,7 +63,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void testCanSeeUpdatesAfterUpdate() throws DBException{
+    public void testCanSeeUpdatesAfterUpdate() {
         Product product = newProduct();
         productDAO.create(product);
         Product newProduct = productDAO.getById(product.getId());
@@ -79,7 +78,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void testCantFindDeletedRecord() throws DBException{
+    public void testCantFindDeletedRecord() {
         Product product = newProduct();
         productDAO.create(product);
         Product newProduct = productDAO.getById(product.getId());
@@ -91,7 +90,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void getNewEmptyProductTest() throws DBException {
+    public void getNewEmptyProductTest() {
         Product product = productDAO.getNewEmptyProduct();
         assertTrue(product.getId() > 0);
         assertNull(product.getUnit());
@@ -102,7 +101,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void getAllProductsTest() throws DBException {
+    public void getAllProductsTest() {
         List<Product> productList = productDAO.getAll();
         assertTrue(0 == productList.size());
 
@@ -120,7 +119,7 @@ public class ProductDAOImplTest {
     }
 
     @Test
-    public void getProductByVendorCodeTest() throws DBException {
+    public void getProductByVendorCodeTest() {
         Product product = newProduct();
         productDAO.create(product);
 
@@ -143,7 +142,7 @@ public class ProductDAOImplTest {
 
 
     @Test
-    public void getProductByCategory() throws DBException {
+    public void getProductByCategory() {
         CategoryDAOImpl dao = new CategoryDAOImpl();
         Category otherCategory = new Category();
         otherCategory.setName("another category for products");

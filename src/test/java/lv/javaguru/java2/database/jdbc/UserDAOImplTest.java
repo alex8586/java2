@@ -19,12 +19,12 @@ public class UserDAOImplTest {
     private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     @Before
-    public void cleanDatabase() throws DBException {
+    public void cleanDatabase() {
         cleaner.cleanDatabase();
     }
 
     @Test(expected = DBException.class)
-    public void createSecondUserWithSameEmailTest() throws DBException {
+    public void createSecondUserWithSameEmailTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -37,7 +37,7 @@ public class UserDAOImplTest {
     }
 
     @Test(expected = DBException.class)
-    public void updateEmailToMatchAnotherEmailTest() throws DBException {
+    public void updateEmailToMatchAnotherEmailTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
 
@@ -52,7 +52,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void createUserReturnIdTest() throws DBException {
+    public void createUserReturnIdTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -66,7 +66,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void updateUserTest() throws DBException {
+    public void updateUserTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
         userDAO.create(user);
@@ -87,7 +87,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void deleteUserTest() throws DBException {
+    public void deleteUserTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         assertNotNull(user.getId());
@@ -101,7 +101,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getUserByIdTest() throws DBException {
+    public void getUserByIdTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         long id = user.getId();
@@ -114,7 +114,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getAllUsersTest() throws DBException {
+    public void getAllUsersTest() {
         User user = new User();
         user.setFullName("1");
         user.setEmail("1");
@@ -148,7 +148,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getByEmailTest() throws DBException {
+    public void getByEmailTest() {
         User first = helperCreateOneUserWithoutId();
         userDAO.create(first);
         User second = helperCreateSecondUserWithoutId();
@@ -165,7 +165,7 @@ public class UserDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getByEmailTestIfEmailNull() throws DBException {
+    public void getByEmailTestIfEmailNull() {
         String email = "";
         userDAO.getByEmail(email);
     }

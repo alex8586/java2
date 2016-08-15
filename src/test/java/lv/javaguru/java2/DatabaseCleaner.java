@@ -24,7 +24,7 @@ public class DatabaseCleaner extends DAOImpl {
         return tableList;
     }
 
-    public void cleanDatabase() throws DBException {
+    public void cleanDatabase() {
         Connection connection = null;
         try {
             connection = getConnection();
