@@ -21,45 +21,51 @@ public class CartTest {
     }
 
     @Test
-    public void testAddingWithoutQuantity() {
+    public void addWithoutQuantity() {
         cart.add(product);
         cart.add(product);
         assertTrue(cart.getQuantity(product) == 2);
     }
 
     @Test
-    public void testAddingWithQuantity() {
+    public void addWithQuantity() {
         cart.add(product, 4);
         cart.add(product, 3);
         assertTrue(cart.getQuantity(product) == 7);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void addingZeroItemsFails() {
+    public void addZeroQuantityShouldFail() {
         cart.add(product, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void addingNegativeItemsFails() {
+    public void addNegativeQuantityShouldFail() {
         cart.add(product, -2);
     }
 
     @Test
-    public void testRemovingSeveralItems() {
+    public void removeProducts() {
         cart.add(product, 5);
         cart.remove(product, 4);
         assertTrue(cart.getQuantity(product) == 1);
     }
 
     @Test
-    public void testRemovingProduct() {
+    public void remove() {
         cart.add(product, 10);
         cart.remove(product);
         assertNull(cart.getQuantity(product));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void removeFromEmptyCartShouldFail() {
+        cart.remove(product);
+        assertNull(cart.getQuantity(product));
+    }
+
     @Test
-    public void removingLastItemRemovesProduct() {
+    public void removeLastItemShouldRemoveProduct() {
         cart.add(product, 2);
         cart.remove(product, 1);
         cart.remove(product, 1);
@@ -67,12 +73,12 @@ public class CartTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void removingZeroItemsFails() {
+    public void removeZeroQuantityShouldFail() {
         cart.remove(product, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void removingNegativeItemsFails() {
+    public void removeNegativeQuantityShouldFail() {
         cart.remove(product, -1);
     }
 
