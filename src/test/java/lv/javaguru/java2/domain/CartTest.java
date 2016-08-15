@@ -21,14 +21,14 @@ public class CartTest {
     }
 
     @Test
-    public void testAddingWithoutQuantity() throws Exception {
+    public void testAddingWithoutQuantity() {
         cart.add(product);
         cart.add(product);
         assertTrue(cart.getQuantity(product) == 2);
     }
 
     @Test
-    public void testAddingWithQuantity() throws Exception {
+    public void testAddingWithQuantity() {
         cart.add(product, 4);
         cart.add(product, 3);
         assertTrue(cart.getQuantity(product) == 7);
@@ -45,14 +45,14 @@ public class CartTest {
     }
 
     @Test
-    public void testRemovingSeveralItems() throws Exception {
+    public void testRemovingSeveralItems() {
         cart.add(product, 5);
         cart.remove(product, 4);
         assertTrue(cart.getQuantity(product) == 1);
     }
 
     @Test
-    public void testRemovingProduct() throws Exception {
+    public void testRemovingProduct() {
         cart.add(product, 10);
         cart.remove(product);
         assertNull(cart.getQuantity(product));
