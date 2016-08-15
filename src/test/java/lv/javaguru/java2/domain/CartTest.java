@@ -1,56 +1,58 @@
 package lv.javaguru.java2.domain;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class CartTest {
+
+    private static final String NAME = "name";
+    private static final String VENDOR_CODE = "AA1";
+
+    private Product product;
+    private Cart cart;
+
+    @Before
+    public void before() {
+        product =  new Product(NAME, VENDOR_CODE);
+        cart = new Cart();
+    }
+
     @Test
     public void testAddingWithoutQuantity() throws Exception {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product);
         cart.add(product);
-        assertEquals(2, (int) cart.getQuantity(product));
+        assertTrue(cart.getQuantity(product) == 2);
     }
 
     @Test
     public void testAddingWithQuantity() throws Exception {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, 4);
         cart.add(product, 3);
-        assertEquals(7, (int) cart.getQuantity(product));
+        assertTrue(cart.getQuantity(product) == 7);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void addingZeroItemsFails() {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void addingNegativeItemsFails() {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, -2);
     }
 
     @Test
     public void testRemovingSeveralItems() throws Exception {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, 5);
         cart.remove(product, 4);
-        assertEquals(1, (int) cart.getQuantity(product));
+        assertTrue(cart.getQuantity(product) == 1);
     }
 
     @Test
     public void testRemovingProduct() throws Exception {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, 10);
         cart.remove(product);
         assertNull(cart.getQuantity(product));
@@ -58,8 +60,6 @@ public class CartTest {
 
     @Test
     public void removingLastItemRemovesProduct() {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product, 2);
         cart.remove(product, 1);
         cart.remove(product, 1);
@@ -68,29 +68,25 @@ public class CartTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void removingZeroItemsFails() {
-        new Cart().remove(new Product(), 0);
+        cart.remove(product, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void removingNegativeItemsFails() {
-        new Cart().remove(new Product(), -1);
+        cart.remove(product, -1);
     }
 
     @Test
     public void setQuantityForProductInCart() {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.add(product);
         cart.setQuantity(product, 5);
-        assertEquals(5, (int) cart.getQuantity(product));
+        assertTrue(cart.getQuantity(product) == 5);
     }
 
     @Test
     public void setQuantityForProductNotInCart() {
-        Cart cart = new Cart();
-        Product product = new Product();
         cart.setQuantity(product, 5);
-        assertEquals(5, (int) cart.getQuantity(product));
+        assertTrue(cart.getQuantity(product) == 5);
     }
 
 }
