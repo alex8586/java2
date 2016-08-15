@@ -7,7 +7,7 @@ public class IntegrationTest {
     private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     @Before
-    public void before() {
+    public void setup() {
         cleaner.cleanDatabase();
     }
 }

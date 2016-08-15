@@ -1,9 +1,8 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.DatabaseCleaner;
+import lv.javaguru.java2.IntegrationTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,15 +10,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-public class CategoryDAOImplTest {
+public class CategoryDAOImplTest extends IntegrationTest {
 
     private CategoryDAOImpl categoryDAOImpl = new CategoryDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
-
-    @Before
-    public void before() {
-        cleaner.cleanDatabase();
-    }
 
     @Test
     public void findWithWrongIdReturnsNull() {

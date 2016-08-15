@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.DatabaseCleaner;
+import lv.javaguru.java2.IntegrationTest;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
@@ -11,15 +11,13 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-public class ProductDAOImplTest {
+public class ProductDAOImplTest extends IntegrationTest{
 
     private ProductDAOImpl productDAO = new ProductDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
     private Category category;
 
     @Before
     public void before() {
-        cleaner.cleanDatabase();
         CategoryDAOImpl dao = new CategoryDAOImpl();
         category = new Category();
         category.setName("category for products");

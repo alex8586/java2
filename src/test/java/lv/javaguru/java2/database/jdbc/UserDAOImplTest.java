@@ -1,9 +1,8 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.DatabaseCleaner;
+import lv.javaguru.java2.IntegrationTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,15 +12,9 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class UserDAOImplTest {
+public class UserDAOImplTest extends IntegrationTest {
 
     private UserDAOImpl userDAO = new UserDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
-
-    @Before
-    public void cleanDatabase() {
-        cleaner.cleanDatabase();
-    }
 
     @Test(expected = DBException.class)
     public void createSecondUserWithSameEmailTest() {
@@ -140,11 +133,6 @@ public class UserDAOImplTest {
         userList.clear();
         userList = userDAO.getAll();
         assertEquals(2, userList.size());
-
-        cleaner.cleanDatabase();
-        userList.clear();
-        userList = userDAO.getAll();
-        assertEquals(0, userList.size());
     }
 
     @Test
