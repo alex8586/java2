@@ -23,7 +23,7 @@ public class RegistrationController extends MVCController {
         String error = null;
         if(request.getSession().getAttribute("registrationError") != null) {
             error = (String) request.getSession().getAttribute("registrationError");
-            request.removeAttribute("registrationError");
+            request.getSession().removeAttribute("registrationError");
         }
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("registrationError" , error);
