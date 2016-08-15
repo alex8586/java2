@@ -1,18 +1,17 @@
-package lv.javaguru.java2.database;
+package lv.javaguru.java2.database.jdbc;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class UserDAOImplTest {
 

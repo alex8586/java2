@@ -1,7 +1,7 @@
-package lv.javaguru.java2.database;
+package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,13 +11,13 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-public class CategoryDAOTest {
+public class CategoryDAOImplTest {
 
     private CategoryDAOImpl categoryDAOImpl = new CategoryDAOImpl();
     private DatabaseCleaner cleaner = new DatabaseCleaner();
 
     @Before
-    public void before() throws DBException{
+    public void before() throws DBException {
         cleaner.cleanDatabase();
     }
 
