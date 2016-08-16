@@ -50,18 +50,24 @@ CREATE TABLE IF NOT EXISTS `java2miska`.`product`
   `DisplayName` VARCHAR(60),
   `DisplayDescription` VARCHAR(400),
   `RemainQTY` INT(11),
-  `catID_FK` INT(11),
-  CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id))
+  `catID_FK` INT(11)
+#   ,CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id)
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
-CREATE INDEX `category_FKI` ON `java2miska`.`product` (`catID_FK`);
-CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
+# CREATE INDEX `category_FKI` ON `java2miska`.`product` (`catID_FK`);
+# CREATE UNIQUE INDEX `VendorCode_UNIQUE` ON `java2miska`.`product` (`VendorCode`);
 
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Соки и нектары 'моя печенюшечка'");
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Закусь");
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Товары для поклонниц Стасика Михайлова");
 
+
+
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY) VALUES (DEFAULT,"Морква","СуперМорква в ящиках по 250 килограмм",4);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY) VALUES (DEFAULT,"Морква","СуперМорква в ящиках по 250 килограмм",4);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY) VALUES (DEFAULT,"Морква","СуперМорква в ящиках по 250 килограмм",4);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
