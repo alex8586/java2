@@ -65,9 +65,6 @@ public class ProfileController extends MVCController {
                 user.setPassword(password);
                 userDAO.update(user);
 
-                request.getSession().removeAttribute("user");
-                request.getSession().setAttribute("user", user);
-
                 Map<String, Object> map = new HashMap<>();
                 map.put("user", user);
                 map.put("profileError", USER_UPDATED);
