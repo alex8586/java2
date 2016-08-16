@@ -19,7 +19,7 @@
     <div class="container">
       <div class="nav-wrapper">
         <a href="index" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
-        <%--<%@include file="login_bar.jsp"%>--%>
+
         <ul id="nav-mobile" class="right hide-on-med-and-down">
 
             <%
@@ -33,6 +33,7 @@
               if(userName != null){%>
                 Hi, <%= userName %>!
                     <div class="right hide-on-med-and-down">
+                      <li><a href="profile">PROFILE</a> </li>
                       <li><a href="logout">LOGOUT</a></li>
                     </div>
 
