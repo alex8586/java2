@@ -58,7 +58,7 @@ public class ProfileController extends MVCController {
             User userCheckedByEmail = userDAO.getByEmail(email);
             User fromSession = (User) request.getSession().getAttribute("user");
 
-            if(userCheckedByEmail != null && email.equals(fromSession.getEmail())){
+            if(userCheckedByEmail == null || email.equals(fromSession.getEmail())){
                 User user = (User) request.getSession().getAttribute("user");
                 user.setFullName(name);
                 user.setEmail(email);
