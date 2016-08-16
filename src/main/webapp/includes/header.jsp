@@ -32,7 +32,11 @@
               }
               if(userName != null){%>
                 Hi, <%= userName %>!
-              <%}
+                    <div class="right hide-on-med-and-down">
+                      <li><a href="logout">LOGOUT</a></li>
+                    </div>
+
+                    <%}
               else{%>
                 <li><a href="login">LOGIN</a></li>
                 <li><a href="register">REGISTER</a></li>

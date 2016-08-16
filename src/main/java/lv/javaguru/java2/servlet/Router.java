@@ -23,12 +23,13 @@ public class Router implements Filter {
         FrontPageController frontPageController= new FrontPageController(categoryDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
+        LogoutController logoutController = new LogoutController();
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
 
         controllers.put("/index", frontPageController);
         controllers.put("/register", registrationController);
         controllers.put("/login", loginController);
-
+        controllers.put("/logout", logoutController);
         //controllers.put("/youraddress",yourController);
     }
 
