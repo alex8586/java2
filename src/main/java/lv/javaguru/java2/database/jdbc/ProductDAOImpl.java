@@ -1,7 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.database.DAO;
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.builders.ProductBuilder;
@@ -28,7 +27,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
             " WHERE ProductID=?";
 
     @Override
-    public long create(Product product) throws DBException {
+    public long create(Product product) {
         long newId = 0;
         if(product == null || product.getId() != 0)
             throw new IllegalArgumentException("Exception while execute ProductDAOImpl.create . Input id != 0 ");
@@ -65,7 +64,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
     }
 
     @Override
-    public void update(Product product) throws DBException {
+    public void update(Product product) {
         if(product == null || product.getId() == 0)
             throw new IllegalArgumentException("Exception while execute ProductDAOImpl.create . Input id != 0 ");
 
@@ -97,7 +96,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
     }
 
     @Override
-    public void delete(Product product) throws DBException {
+    public void delete(Product product) {
         if(product == null || product.getId() == 0)
             return ;
         Connection connection = null;
@@ -118,7 +117,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
 
 
     @Override
-    public Product getById(long id) throws DBException {
+    public Product getById(long id) {
 
         Connection connection = null;
         Product product = null;
@@ -143,7 +142,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
         return product;
     }
 
-    public Product getByVendorCode(String vendorCode) throws DBException {
+    public Product getByVendorCode(String vendorCode) {
         Connection connection = null;
         Product product = null;
 
@@ -172,7 +171,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
     }
 
     @Override
-    public List<Product> getAll() throws DBException {
+    public List<Product> getAll() {
         Connection connection = null;
         List<Product> productList = null;
         try {
@@ -191,7 +190,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
         return productList;
     }
 
-    public List<Product> getByCategory(Category category) throws DBException {
+    public List<Product> getByCategory(Category category) {
         Connection connection = null;
         List<Product> productList = null;
         try {
@@ -212,7 +211,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
         return productList;
     }
     
-    public Product getNewEmptyProduct() throws DBException {
+    public Product getNewEmptyProduct() {
         Connection connection=null;
         Product product = new Product();
         try {

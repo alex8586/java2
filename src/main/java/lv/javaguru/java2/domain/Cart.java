@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
+
     private HashMap<Product, Integer> items = new HashMap<>();
 
     public void add(Product product) {
@@ -16,23 +17,16 @@ public class Cart {
         items.put(product, currentQuantity + quantity);
     }
 
-    private void enforcePositiveQuantity(int quantity) {
-        if (quantity < 1) {
-            throw new IllegalArgumentException("Quantity must be greater than zero.");
-        }
-    }
-
     public void remove(Product product) {
+        enforcePositiveQuantity(items.getOrDefault(product, 0));
         items.remove(product);
     }
 
     public void remove(Product product, int quantity) {
         enforcePositiveQuantity(quantity);
         int currentQuantity = items.getOrDefault(product, 0);
-        // removing some, not all of items
         if (currentQuantity > quantity) {
             items.put(product, currentQuantity - quantity);
-            // removing all or more items
         } else {
             remove(product);
         }
@@ -61,4 +55,11 @@ public class Cart {
 
         return stringBuilder.toString();
     }
+
+    private void enforcePositiveQuantity(int quantity) {
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
+        }
+    }
+
 }

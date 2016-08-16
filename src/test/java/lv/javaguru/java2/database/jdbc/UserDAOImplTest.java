@@ -1,31 +1,23 @@
-package lv.javaguru.java2.database;
+package lv.javaguru.java2.database.jdbc;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+import lv.javaguru.java2.IntegrationTest;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-public class UserDAOImplTest {
+public class UserDAOImplTest extends IntegrationTest {
 
     private UserDAOImpl userDAO = new UserDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
-
-    @Before
-    public void cleanDatabase() throws DBException {
-        cleaner.cleanDatabase();
-    }
 
     @Test(expected = DBException.class)
-    public void createSecondUserWithSameEmailTest() throws DBException {
+    public void createSecondUserWithSameEmailTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -38,7 +30,7 @@ public class UserDAOImplTest {
     }
 
     @Test(expected = DBException.class)
-    public void updateEmailToMatchAnotherEmailTest() throws DBException {
+    public void updateEmailToMatchAnotherEmailTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
 
@@ -53,7 +45,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void createUserReturnIdTest() throws DBException {
+    public void createUserReturnIdTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -67,7 +59,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void updateUserTest() throws DBException {
+    public void updateUserTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
         userDAO.create(user);
@@ -88,7 +80,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void deleteUserTest() throws DBException {
+    public void deleteUserTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         assertNotNull(user.getId());
@@ -102,7 +94,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getUserByIdTest() throws DBException {
+    public void getUserByIdTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         long id = user.getId();
@@ -115,7 +107,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getAllUsersTest() throws DBException {
+    public void getAllUsersTest() {
         User user = new User();
         user.setFullName("1");
         user.setEmail("1");
@@ -141,15 +133,10 @@ public class UserDAOImplTest {
         userList.clear();
         userList = userDAO.getAll();
         assertEquals(2, userList.size());
-
-        cleaner.cleanDatabase();
-        userList.clear();
-        userList = userDAO.getAll();
-        assertEquals(0, userList.size());
     }
 
     @Test
-    public void getByEmailTest() throws DBException {
+    public void getByEmailTest() {
         User first = helperCreateOneUserWithoutId();
         userDAO.create(first);
         User second = helperCreateSecondUserWithoutId();
@@ -166,7 +153,7 @@ public class UserDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getByEmailTestIfEmailNull() throws DBException {
+    public void getByEmailTestIfEmailNull() {
         String email = "";
         userDAO.getByEmail(email);
     }

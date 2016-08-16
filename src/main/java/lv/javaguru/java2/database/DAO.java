@@ -3,13 +3,13 @@ import java.util.List;
 
 public interface DAO<T> {
 
-    long create(T t) throws DBException;
+    long create(T t);
 
-    void update(T t) throws DBException;
+    void update(T t);
 
-    void delete(T t) throws DBException;
+    void delete(T t);
 
-    T getById(long id) throws DBException;
+    T getById(long id);
 
-    List<T> getAll() throws DBException;
+    List<T> getAll();
 }

@@ -1,9 +1,8 @@
-package lv.javaguru.java2.database;
+package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
+import lv.javaguru.java2.IntegrationTest;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,24 +10,18 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-public class CategoryDAOTest {
+public class CategoryDAOImplTest extends IntegrationTest {
 
     private CategoryDAOImpl categoryDAOImpl = new CategoryDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
-
-    @Before
-    public void before() throws DBException{
-        cleaner.cleanDatabase();
-    }
 
     @Test
-    public void findWithWrongIdReturnsNull() throws DBException {
+    public void findWithWrongIdReturnsNull() {
         Category category = categoryDAOImpl.getById(-1);
         assertNull(category);
     }
 
     @Test
-    public void testCreateReturnId() throws DBException {
+    public void testCreateReturnId() {
         Category category = new Category();
         category.setName("foo");
         long id = categoryDAOImpl.create(category);
@@ -36,7 +29,7 @@ public class CategoryDAOTest {
     }
 
     @Test
-    public void testCanFindCreatedRecord() throws DBException{
+    public void testCanFindCreatedRecord() {
         Category category = getDummyRecordFromDb();
         long id = category.getId();
         assertFalse(id == 0);
@@ -48,21 +41,22 @@ public class CategoryDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void creatingCategoryWithIdShouldFail() throws DBException {
+    public void creatingCategoryWithIdShouldFail() {
         Category category = new Category();
         category.setName("Dairy");
         long id1 = categoryDAOImpl.create(category);
         assertTrue(true);
         long id2 = categoryDAOImpl.create(category);
     }
+
     @Test(expected = IllegalArgumentException.class)
-    public void creatingCategoryWithNullShouldFail() throws DBException {
+    public void creatingCategoryWithNullShouldFail()  {
         Category category = null;
         categoryDAOImpl.create(category);
     }
 
     @Test
-    public void testCanSeeUpdatesAfterUpdate() throws DBException{
+    public void testCanSeeUpdatesAfterUpdate() {
         Category category = getDummyRecordFromDb();
 
         long id = category.getId();
@@ -76,26 +70,26 @@ public class CategoryDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void updateNewRecordSholdFail() throws DBException {
+    public void updateNewRecordSholdFail() {
         Category category = new Category();
         category.setName("Dairy");
         categoryDAOImpl.update(category);
     }
     @Test(expected = DBException.class)
-    public void updateWithoutIdShouldFail() throws DBException {
+    public void updateWithoutIdShouldFail() {
         Category category = new Category();
         category.setName("Dairy");
         category.setId(-100500);
         categoryDAOImpl.update(category);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void updateNullRecordSholdFail() throws DBException {
+    public void updateNullRecordSholdFail() {
         Category category = null;
         categoryDAOImpl.update(category);
     }
 
     @Test
-    public void testCouldNotFindDeletedRecord() throws DBException{
+    public void testCouldNotFindDeletedRecord() {
         Category category = getDummyRecordFromDb();
         long id = category.getId();
 
@@ -107,14 +101,14 @@ public class CategoryDAOTest {
         assertNull(yetAnotherCategory);
     }
     @Test
-    public void testDelitingNullDoNothing() throws DBException{
+    public void testDelitingNullDoNothing() {
         Category category = null;
         categoryDAOImpl.delete(category);
     }
 
 
     @Test
-    public void testFindAll() throws DBException{
+    public void testFindAll() {
         insertDummyRecordToDb("name1");
         insertDummyRecordToDb("name2");
         insertDummyRecordToDb("name3");
@@ -140,13 +134,13 @@ public class CategoryDAOTest {
         assertEquals("name5" , categories.get(3).getName());
     }
 
-    private void insertDummyRecordToDb(String name) throws DBException{
+    private void insertDummyRecordToDb(String name) {
         Category category = new Category();
         category.setName(name);
         categoryDAOImpl.create(category);
     }
 
-    private Category getDummyRecordFromDb() throws DBException{
+    private Category getDummyRecordFromDb() {
         Category category = new Category();
         category.setName("name");
         categoryDAOImpl.create(category);

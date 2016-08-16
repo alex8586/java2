@@ -1,15 +1,14 @@
 package lv.javaguru.java2.domain;
 
-public class Category {
-    private long id;
+public class Category extends BaseEntity {
+
     private String name;
 
-    public long getId() {
-        return id;
+    public Category() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Category(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -18,6 +17,25 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (id != category.id) return false;
+        return name.equals(category.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        return result;
     }
 
     @Override
