@@ -22,6 +22,7 @@
         <div class="col s4 m2 center">
             <div class="collection card">
                 <h5 class="collection-header">Menu</h5>
+                <a class="collection-item" href="index"><h6>Main page</h6></a>
                 <a class="collection-item" href=""><h6>Update profile</h6></a>
                 <a class="collection-item" href=""><h6>Show cart</h6></a>
                 <a class="collection-item" href=""><h6>Show history</h6></a>
