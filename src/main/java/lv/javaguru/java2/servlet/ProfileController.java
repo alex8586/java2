@@ -9,12 +9,11 @@ import java.util.Map;
 
 public class ProfileController extends MVCController {
 
-    private UserDAOImpl userDAO;
-
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String USER_ALREADY_EXISTS = "User with this email already exists";
     private final String UNEXPECTED_ERROR = "Oops, something went wrong";
     private final String USER_UPDATED = "Information succesfully updated !";
+    private UserDAOImpl userDAO;
 
     public ProfileController(UserDAOImpl userDAO) {
         this.userDAO = userDAO;
@@ -37,7 +36,7 @@ public class ProfileController extends MVCController {
             map.put("user", user);
             return new MVCModel(map, "/profile.jsp");
         }
-            map.put("user", user);
+        map.put("user", user);
 
         return new MVCModel(map, "/profile.jsp");
     }
@@ -58,7 +57,7 @@ public class ProfileController extends MVCController {
             User userCheckedByEmail = userDAO.getByEmail(email);
             User fromSession = (User) request.getSession().getAttribute("user");
 
-            if(userCheckedByEmail == null || email.equals(fromSession.getEmail())){
+            if (userCheckedByEmail == null || email.equals(fromSession.getEmail())) {
                 User user = (User) request.getSession().getAttribute("user");
                 user.setFullName(name);
                 user.setEmail(email);
@@ -73,7 +72,7 @@ public class ProfileController extends MVCController {
                 map.put("profileError", USER_UPDATED);
                 return new MVCModel(map, "/profile.jsp");
 
-            }else if(userCheckedByEmail != null) {
+            } else if (userCheckedByEmail != null) {
                 request.getSession().setAttribute("profileError", USER_ALREADY_EXISTS);
                 return new MVCModel("/profile");
             }

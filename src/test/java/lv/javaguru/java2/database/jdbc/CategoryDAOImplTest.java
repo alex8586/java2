@@ -50,7 +50,7 @@ public class CategoryDAOImplTest extends IntegrationTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void creatingCategoryWithNullShouldFail()  {
+    public void creatingCategoryWithNullShouldFail() {
         Category category = null;
         categoryDAOImpl.create(category);
     }

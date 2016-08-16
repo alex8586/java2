@@ -16,7 +16,7 @@ public class CartTest {
 
     @Before
     public void before() {
-        product =  new Product(NAME, VENDOR_CODE);
+        product = new Product(NAME, VENDOR_CODE);
         cart = new Cart();
     }
 

@@ -20,19 +20,22 @@
 </header>
 <main>
     <%
-        Map<String,Object> map = (Map)request.getAttribute("model");
+        Map<String, Object> map = (Map) request.getAttribute("model");
         String error = (String) map.get("profileError");
-        if(error != null){%>
+        if (error != null) {%>
     <div class="col s8 center red-text"><br>
-        <h4><%=error%></h4>
+        <h4><%=error%>
+        </h4>
     </div>
-    <%}
+    <%
+        }
         User user = (User) map.get("user");
-        if(user != null){%>
-            Your name : <%=user.getFullName()%><br>
-            Your email : <%=user.getEmail()%><br>
-            Your password : <%=user.getPassword()%><br>
-       <% }
+        if (user != null) {
+    %>
+    Your name : <%=user.getFullName()%><br>
+    Your email : <%=user.getEmail()%><br>
+    Your password : <%=user.getPassword()%><br>
+    <% }
     %>
 
     <div class="row">

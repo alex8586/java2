@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-public class ProductDAOImplTest extends IntegrationTest{
+public class ProductDAOImplTest extends IntegrationTest {
 
     private ProductDAOImpl productDAO = new ProductDAOImpl();
     private Category category;

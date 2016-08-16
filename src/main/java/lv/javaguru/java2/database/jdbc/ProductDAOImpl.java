@@ -210,7 +210,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
         }
         return productList;
     }
-    
+
     public Product getNewEmptyProduct() {
         Connection connection=null;
         Product product = new Product();

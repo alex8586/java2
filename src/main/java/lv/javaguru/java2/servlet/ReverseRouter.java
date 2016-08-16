@@ -11,7 +11,7 @@ public class ReverseRouter {
         this.defaultPath = defaultPath;
         routes = new HashMap<String, String>();
         for (Map.Entry<String, ?> controllerAndRoute : controllers.entrySet()) {
-            routes.put(controllerAndRoute.getValue().getClass().getSimpleName(), controllerAndRoute.getKey());
+            routes.put(controllerAndRoute.getValue().getClass().getSimpleName(), controllerAndRoute.getKey().substring(1));
         }
     }
 

@@ -17,21 +17,18 @@ public class Router implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
         UserDAOImpl userDAO = new UserDAOImpl();
-        //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
         FrontPageController frontPageController= new FrontPageController(categoryDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
         LogoutController logoutController = new LogoutController();
-        ProfileController profileController= new ProfileController(userDAO);
-        //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
+        ProfileController profileController = new ProfileController(userDAO);
 
         controllers.put("/index", frontPageController);
         controllers.put("/register", registrationController);
         controllers.put("/login", loginController);
         controllers.put("/logout", logoutController);
         controllers.put("/profile", profileController);
-        //controllers.put("/youraddress",yourController);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
