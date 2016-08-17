@@ -1,4 +1,5 @@
-<%@attribute name="aProduct" required="true" type="lv.javaguru.java2.domain.Product" %>
+<%@attribute name="product" required="true" type="lv.javaguru.java2.domain.Product" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <div class="col l3 s12 m7">
     <div class="card horizontal">
         <div class="card-image">
@@ -6,12 +7,13 @@
         </div>
         <div class="card-stacked">
             <div class="card-content">
-                <span class="card-title"><%=aProduct.getDisplayName()%></span>
-                <p><%=aProduct.getDisplayDescription()%>
-                </p>
+                <span class="card-title">
+                    ${product.displayName}
+                </span>
+                <p><${product.displayDescription}%></p>
             </div>
             <div class="card-action">
-                <a href="#">This is a link</a>
+                <a href="<tags:linkTo controller="ProductController" resourceId="${product.id}" />">This is a link</a>
             </div>
             hi
         </div>

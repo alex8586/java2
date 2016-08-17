@@ -28,6 +28,7 @@ public class Router implements Filter {
         ProfileCartController profileCartController = new ProfileCartController();
         ProfileHistoryController profileHistoryController = new ProfileHistoryController();
         ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
+        ProductController productController = new ProductController();
 
         controllers.put("/index", frontPageController);
         controllers.put("/register", registrationController);
@@ -37,6 +38,7 @@ public class Router implements Filter {
         controllers.put("/profile_cart", profileCartController);
         controllers.put("/profile_history", profileHistoryController);
         controllers.put("/profile_update", profileUpdateController);
+        controllers.put("/product", productController);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);

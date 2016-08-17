@@ -1,5 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@include file="includes/header.jsp"%>
 <%@include file="includes/category.jsp" %>
 
@@ -11,9 +13,8 @@
 </div>
 
 <div class="row">
-
     <c:forEach items="${requestScope.model.products}" var="product">
-        <tags:productCard aProduct="${product}"/>
+        <tags:productCard product="${product}"/>
     </c:forEach>
 </div>
 
