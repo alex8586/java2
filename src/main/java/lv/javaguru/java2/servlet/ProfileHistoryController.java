@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileController extends MVCController {
+public class ProfileHistoryController extends MVCController{
 
     @Override
     public MVCModel executeGet(HttpServletRequest request){
@@ -23,11 +23,11 @@ public class ProfileController extends MVCController {
 
             map.put("profileError", error);
             map.put("user", user);
-            return new MVCModel(map, "/profile.jsp");
+            return new MVCModel(map, "/profile_history.jsp");
         }
         map.put("user", user);
 
-        return new MVCModel(map, "/profile.jsp");
+        return new MVCModel(map, "/profile_history.jsp");
     }
 
     @Override

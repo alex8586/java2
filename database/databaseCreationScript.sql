@@ -62,7 +62,23 @@ AUTO_INCREMENT = 1;
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Соки и нектары 'моя печенюшечка'");
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Закусь");
 INSERT INTO categories(id,name) VALUES(DEFAULT ,"Товары для поклонниц Стасика Михайлова");
+INSERT INTO categories(id,name) VALUES(DEFAULT ,"Швейная машинка Zinger");
+INSERT INTO categories(id,name) VALUES(DEFAULT ,"Деньги, карты, три ствола");
 
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"Морква","СуперМорква в ящиках по 250 килограмм",4, 23);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"Норковая шубка","Только после химчистки",4, 2349);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"Торт ШВАРЦВАЛЬДСКИЙ","Для любителей очень мягких и сочных тортов мы рекомендуем именно этот торт.",4, 7);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"YotaPhone 2"," смартфон с полноценной изогнутой сенсорной панелью E-Ink.",4, 734);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY)
+VALUES (DEFAULT,"AngularJS","JavaScript-фреймворк с открытым исходным кодом. Предназначен для разработки одностраничных приложений.",4);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"Lexus RX","Просто хорошая машинка",4, 22500);
+INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+VALUES (DEFAULT,"Мелафон","Миелофон (от греч. μυελός «мозг» (обычно костный) и греч. φωνή «звук, голос, шум») — фантастический, реально не существующий",4, 321);
 
 
 INSERT INTO product(ProductID, DisplayName, DisplayDescription, RemainQTY) VALUES (DEFAULT,"Морква","СуперМорква в ящиках по 250 килограмм",4);

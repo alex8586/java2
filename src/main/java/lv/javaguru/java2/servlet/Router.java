@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
+import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 
 import javax.servlet.*;
@@ -17,14 +18,18 @@ public class Router implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
+        ProductDAOImpl productDAO = new ProductDAOImpl();
         UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
-        FrontPageController frontPageController= new FrontPageController(categoryDAO);
+        FrontPageController frontPageController= new FrontPageController(categoryDAO, productDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
         LogoutController logoutController = new LogoutController();
-        ProfileController profileController= new ProfileController(userDAO);
+        ProfileController profileController= new ProfileController();
+        ProfileCartController profileCartController = new ProfileCartController();
+        ProfileHistoryController profileHistoryController = new ProfileHistoryController();
+        ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
         //YourController yourController = new YourController(yourstuff,categoryDAO,whatever)
 
         controllers.put("/index", frontPageController);
@@ -32,6 +37,9 @@ public class Router implements Filter {
         controllers.put("/login", loginController);
         controllers.put("/logout", logoutController);
         controllers.put("/profile", profileController);
+        controllers.put("/profile_cart", profileCartController);
+        controllers.put("/profile_history", profileHistoryController);
+        controllers.put("/profile_update", profileUpdateController);
         //controllers.put("/youraddress",yourController);
     }
 
