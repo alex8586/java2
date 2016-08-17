@@ -1,5 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-</main>
 <footer class="page-footer">
     <div class="container">
         <div class="footer-copyright">
@@ -10,12 +8,4 @@
         </div>
     </div>
 </footer>
-<!--Import jQuery before materialize.js-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="miskaweb/js/materialize.min.js"></script>
-<script> // Initialize collapse button
-$(".button-collapse").sideNav();
-// Initialize collapsible (uncomment the line below if you use the dropdown variation)
-//$('.collapsible').collapsible();</script>
-</body>
-</html>
+
