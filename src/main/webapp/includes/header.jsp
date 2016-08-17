@@ -22,6 +22,7 @@
                 <a href="<tags:linkTo controller="FrontPageController" />" class="brand-logo"><i class="material-icons">all_inclusive</i>
                     MISKA</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+
                     <%
                         Map<String, Object> model = (Map<String, Object>) request.getAttribute("model");
                         String userName = null;
@@ -32,7 +33,6 @@
                         }
                         if (userName != null) {%>
                     Hi, <%= userName %>!
-
                     <li><a href="">NEWS</a></li>
                     <li><a href="">SALE</a></li>
                     <li><a href="">YOUR IDEA</a></li>
@@ -46,12 +46,14 @@
                     <%} else {%>
                     <li><a href="<tags:linkTo controller="LoginController" />">LOGIN</a></li>
                     <li><a href="<tags:linkTo controller="RegistrationController" />">REGISTER</a></li>
-                    <%
-                        }
-                    %>
+                    <%}%>
                 </ul>
+
             </div>
         </div>
     </nav>
 </header>
+<main>
+
+
 
