@@ -1,7 +1,5 @@
-<%@ page import="lv.javaguru.java2.domain.User" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -25,15 +23,14 @@
                 </a>
 
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="">NEWS</a></li>
+                    <li><a href="">SALE</a></li>
+                    <li><a href="">YOUR IDEA</a></li>
+                    <li><a href="">YOUR IDEA</a></li>
+                    <li><a href="">SHIPPING</a></li>
+                    <li><a href="">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">
-                        weee
-                        Hi ${sessionScope.model.user.fullName}!
-                        <li><a href="">NEWS</a></li>
-                        <li><a href="">SALE</a></li>
-                        <li><a href="">YOUR IDEA</a></li>
-                        <li><a href="">YOUR IDEA</a></li>
-                        <li><a href="">SHIPPING</a></li>
-                        <li><a href="">CONTACT</a></li>
+                        Hi ${sessionScope.user.fullName}!
                         <div class="right hide-on-med-and-down">
                             <li><a href="<tags:linkTo controller="ProfileController" />">PROFILE</a></li>
                             <li><a href="<tags:linkTo controller="LogoutController" />">LOGOUT</a></li>
