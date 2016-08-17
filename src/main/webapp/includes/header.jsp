@@ -30,7 +30,7 @@
                     <li><a href="">SHIPPING</a></li>
                     <li><a href="">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">
-                        Hi ${sessionScope.model.user.fullName}!
+                        Hi ${sessionScope.user.fullName}!
                         <div class="right hide-on-med-and-down">
                             <li><a href="<tags:linkTo controller="ProfileController" />">PROFILE</a></li>
                             <li><a href="<tags:linkTo controller="LogoutController" />">LOGOUT</a></li>
