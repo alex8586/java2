@@ -54,10 +54,11 @@
                 String error = (String) map.get("registrationError");
                 if (error != null) {%>
             <div class="red-text"><br>
-                <h4><%=error%></h4>
+                <h4><%=error%>
+                </h4>
                 <hr>
             </div>
-                <%}%>
+            <%}%>
         </div>
     </div>
 </main>

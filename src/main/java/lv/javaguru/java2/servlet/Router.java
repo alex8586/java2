@@ -22,11 +22,11 @@ public class Router implements Filter {
         UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
-        FrontPageController frontPageController= new FrontPageController(categoryDAO, productDAO);
+        FrontPageController frontPageController = new FrontPageController(categoryDAO, productDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
         LogoutController logoutController = new LogoutController();
-        ProfileController profileController= new ProfileController();
+        ProfileController profileController = new ProfileController();
         ProfileCartController profileCartController = new ProfileCartController();
         ProfileHistoryController profileHistoryController = new ProfileHistoryController();
         ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);

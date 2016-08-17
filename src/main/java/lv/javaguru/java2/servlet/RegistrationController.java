@@ -24,7 +24,7 @@ public class RegistrationController extends MVCController {
         if(request.getSession().getAttribute("registrationError") != null) {
             error = (String) request.getSession().getAttribute("registrationError");
             request.getSession().removeAttribute("registrationError");
-        }else if(request.getSession().getAttribute("user") != null) {
+        } else if (request.getSession().getAttribute("user") != null) {
             return new MVCModel("/index");
         }
         Map<String,Object> map = new HashMap<String,Object>();

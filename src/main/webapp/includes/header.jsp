@@ -1,5 +1,5 @@
-<%@ page import="java.util.Map" %>
 <%@ page import="lv.javaguru.java2.domain.User" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
 
             <div class="col s3 ">
 
-                    <a href="index" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
+                <a href="index" class="brand-logo"><i class="material-icons">all_inclusive</i> MISKA</a>
 
             </div>
             <div class="col s7">

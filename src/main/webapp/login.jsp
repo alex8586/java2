@@ -44,14 +44,16 @@
         </div>
         <div class="col s2">
             <%
-                Map<String,Object> map = (Map)request.getAttribute("model");
+                Map<String, Object> map = (Map) request.getAttribute("model");
                 String error = (String) map.get("loginError");
-                if(error != null){%>
+                if (error != null) {%>
             <div class="red-text"><br>
-                <h4><%=error%></h4>
+                <h4><%=error%>
+                </h4>
                 <hr>
             </div>
-            <%}
+            <%
+                }
             %>
         </div>
     </div>

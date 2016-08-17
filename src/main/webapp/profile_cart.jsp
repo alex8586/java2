@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col s7">
-           Here we could see user cart.
+            Here we could see user cart.
         </div>
         <div class="col s2">
             <hr>

@@ -8,12 +8,11 @@ import java.util.Map;
 
 public class ProfileUpdateController extends MVCController {
 
-    private UserDAOImpl userDAO;
-
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String USER_ALREADY_EXISTS = "User with this email already exists";
     private final String UNEXPECTED_ERROR = "Oops, something went wrong";
     private final String USER_UPDATED = "Information succesfully updated !";
+    private UserDAOImpl userDAO;
 
     public ProfileUpdateController(UserDAOImpl userDAO) {
         this.userDAO = userDAO;

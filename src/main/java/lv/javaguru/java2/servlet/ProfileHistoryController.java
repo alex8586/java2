@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileHistoryController extends MVCController{
+public class ProfileHistoryController extends MVCController {
 
     @Override
-    public MVCModel executeGet(HttpServletRequest request){
+    public MVCModel executeGet(HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return new MVCModel("/index");
         }
@@ -31,7 +31,7 @@ public class ProfileHistoryController extends MVCController{
     }
 
     @Override
-    public MVCModel executePost(HttpServletRequest request){
+    public MVCModel executePost(HttpServletRequest request) {
         return new MVCModel("/index");
     }
 
