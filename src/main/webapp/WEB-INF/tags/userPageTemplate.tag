@@ -25,7 +25,6 @@
             <div class="col s2">
                 <jsp:invoke fragment="rightBar"/>
             </div>
-
         </div>
     </jsp:body>
 </tags:pageTemplate>
