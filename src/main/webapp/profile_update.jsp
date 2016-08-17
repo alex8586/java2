@@ -56,25 +56,18 @@
             </div>
         </div>
         <div class="col s2">
+            <c:if test="${not empty requestScope.model.profileError}">
+                <div class="red-text"><br>
+                    <h4>${requestScope.model.profileError}</h4>
+                    <hr>
+                </div>
+            </c:if>
             <hr>
-            <%
-                Map<String, Object> map = (Map) request.getAttribute("model");
-                String error = (String) map.get("profileError");
-                if (error != null) {%>
-            <div class="red-text">
-                <h4><%=error%>
-                </h4>
-            </div>
-            <%
-                }
-                User user = (User) map.get("user");
-                if (user != null) {
-            %>
-            Your name : <%=user.getFullName()%><br>
-            Your email : <%=user.getEmail()%><br>
-            Your password : <%=user.getPassword()%><br>
-            <% }
-            %>
+            <c:if test="${not empty sessionScope.user}">
+                Your name : ${sessionScope.user.fullName}<br>
+                Your email : ${sessionScope.user.email}<br>
+                Your password : ${sessionScope.user.password}<br>
+            </c:if>
             <hr>
         </div>
     </div>

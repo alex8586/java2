@@ -16,14 +16,13 @@
         <div class="col s7">
             Here is the main profile.
         </div>
-        <div class="col s2">
 
+        <div class="col s2">
             <div class="red-text">
                 <hr>
                 <h4>Some information here</h4>
                 <hr>
             </div>
-
         </div>
     </div>
 </main>
