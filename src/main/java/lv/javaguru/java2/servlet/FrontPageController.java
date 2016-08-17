@@ -11,8 +11,10 @@ public class FrontPageController extends MVCController{
 
     private CategoryDAOImpl categoryDAO ;
     private ProductDAOImpl productDAO= new ProductDAOImpl();
-    public FrontPageController(CategoryDAOImpl categoryDAO) {
+
+    public FrontPageController(CategoryDAOImpl categoryDAO, ProductDAOImpl productDAO) {
         this.categoryDAO = categoryDAO;
+        this.productDAO = productDAO;
     }
 
     @Override
