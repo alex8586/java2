@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class FrontPageControllerTest extends IntegrationTest {
 
+    Map<String, Object> mvcModelData = new HashMap<>();
     private CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
     private FrontPageController frontPageController = new FrontPageController(categoryDAO);
-    Map<String, Object> mvcModelData = new HashMap<>();
 
     @Before
     public void before() {

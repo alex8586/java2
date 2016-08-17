@@ -9,17 +9,18 @@ USE `java2miska` ;
 -- Table `java2miska`.`users`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `java2miska`.`users` ;
+DROP TABLE IF EXISTS `java2miska`.`users`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`users` (
-  id INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  email VARCHAR(45) NOT NULL,
+  id       INT(11) PRIMARY KEY AUTO_INCREMENT,
+  name     VARCHAR(45) NOT NULL,
+  email    VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL
 )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
-CREATE UNIQUE INDEX users_email_uindex ON java2miska.users (email);
+CREATE UNIQUE INDEX users_email_uindex
+  ON java2miska.users (email);
 
 -- -----------------------------------------------------
 -- Table `java2miska`.`categories`

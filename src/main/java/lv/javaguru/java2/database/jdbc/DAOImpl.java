@@ -55,7 +55,7 @@ public class DAOImpl {
         }
     }
 
-    protected void closeConnection(Connection connection){
+    protected void closeConnection(Connection connection) {
         try {
             if(connection != null) {
                 connection.close();

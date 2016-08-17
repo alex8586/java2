@@ -15,17 +15,16 @@ public class Router implements Filter {
 
     private Map<String, MVCController> controllers = new HashMap<String, MVCController>();
 
-
     public void init(FilterConfig filterConfig) throws ServletException {
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
         ProductDAOImpl productDAO = new ProductDAOImpl();
         UserDAOImpl userDAO = new UserDAOImpl();
-        //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
         FrontPageController frontPageController = new FrontPageController(categoryDAO, productDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
         LogoutController logoutController = new LogoutController();
+        ProfileController profileController = new ProfileController(userDAO);
         ProfileController profileController = new ProfileController();
         ProfileCartController profileCartController = new ProfileCartController();
         ProfileHistoryController profileHistoryController = new ProfileHistoryController();
@@ -41,6 +40,9 @@ public class Router implements Filter {
         controllers.put("/profile_history", profileHistoryController);
         controllers.put("/profile_update", profileUpdateController);
         //controllers.put("/youraddress",yourController);
+
+        ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
+        filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
     }
 
     public void doFilter(ServletRequest request,
