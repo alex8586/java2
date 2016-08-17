@@ -10,7 +10,7 @@
                 <span class="card-title">
                     ${product.displayName}
                 </span>
-                <p><${product.displayDescription}%></p>
+                <p>${product.displayDescription}%</p>
             </div>
             <div class="card-action">
                 <a href="<tags:linkTo controller="ProductController" resourceId="${product.id}" />">This is a link</a>
