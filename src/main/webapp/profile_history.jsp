@@ -22,14 +22,14 @@
         <div class="col s4 m2 center">
             <div class="collection card">
                 <h5 class="collection-header">Menu</h5>
-                <a class="collection-item" href="profile"><h6>Profile main</h6></a>
+                <a class="collection-item" href="profile"><h6>Main page</h6></a>
                 <a class="collection-item" href="profile_update"><h6>Update profile</h6></a>
                 <a class="collection-item" href="profile_cart"><h6>Show cart</h6></a>
                 <a class="collection-item" href="profile_history"><h6>Show history</h6></a>
             </div>
         </div>
         <div class="col s6 ">
-            Here is the main profile.
+            Here we could see user history.
         </div>
         <div class="col s2">
 

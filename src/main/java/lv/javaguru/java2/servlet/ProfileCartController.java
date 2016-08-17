@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileController extends MVCController {
+public class ProfileCartController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request){
@@ -27,7 +27,7 @@ public class ProfileController extends MVCController {
         }
         map.put("user", user);
 
-        return new MVCModel(map, "/profile.jsp");
+        return new MVCModel(map, "/profile_cart.jsp");
     }
 
     @Override

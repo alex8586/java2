@@ -13,25 +13,34 @@
             <%}
         %>
 
-        <form class="col s8 offset-s4" action="login" method="post">
-            <div class="row">
-                <div class="input-field col s4 offset-s4">
-                    Enter email
-                    <input id="email" type="email" class="validate" name="email">
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s4 offset-s4">
-                    Enter password<input id="password" type="password" class="validate" name="password">
-                </div>
-            </div>
-            <div align="center">
-            <button class="btn waves-effect waves-light offset-s4" type="submit" name="register">Log in
-                <i class="material-icons right">send</i>
-            </button>
-            </div>
-        </form>
+    <div class="row">
+        <div class="col s4 m2 center">
 
+        </div>
+        <div class="col s6 left-align">
+            <form action="login" method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="email" type="email" class="validate" name="email">
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="password" type="password" class="validate" name="password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="register">Change
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+        <div class="col s2">
+
+        </div>
+
+    </div>
 
 </main>
 <%@include file="includes/footer.jsp"%>

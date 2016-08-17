@@ -22,10 +22,10 @@
         <div class="col s4 m2 center">
             <div class="collection card">
                 <h5 class="collection-header">Menu</h5>
-                <a class="collection-item" href="index"><h6>Main page</h6></a>
-                <a class="collection-item" href=""><h6>Update profile</h6></a>
-                <a class="collection-item" href=""><h6>Show cart</h6></a>
-                <a class="collection-item" href=""><h6>Show history</h6></a>
+                <a class="collection-item" href="profile"><h6>Main page</h6></a>
+                <a class="collection-item" href="profile_update"><h6>Update profile</h6></a>
+                <a class="collection-item" href="profile_cart"><h6>Show cart</h6></a>
+                <a class="collection-item" href="profile_history"><h6>Show history</h6></a>
             </div>
         </div>
         <div class="col s6 ">
@@ -34,7 +34,7 @@
         <div class="col s2">
 
             <div class="red-text">
-                <h4>Next div</h4>
+                <h4>And here some information</h4>
             </div>
 
         </div>
