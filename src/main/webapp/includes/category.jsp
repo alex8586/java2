@@ -1,8 +1,8 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<ul id="slide-out" class="side-nav">
+<div class="collection card center">
+    <h5 class="collection-header">Categories</h5>
     <c:forEach items="${requestScope.model.categories}" var="category">
-        <li><a href='#'>${category.name}</a></li>
+        <a href="<tags:linkTo controller="CategoryChooseController" resourceId="${category.id}"/>"
+           class="collection-item">${category.name}</a>
     </c:forEach>
-</ul>
-
+</div>

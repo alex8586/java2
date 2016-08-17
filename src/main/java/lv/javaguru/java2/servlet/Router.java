@@ -29,8 +29,11 @@ public class Router implements Filter {
         ProfileHistoryController profileHistoryController = new ProfileHistoryController();
         ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
         ProductController productController = new ProductController();
+        CategoryChooseController categoryChooseController = new CategoryChooseController();
 
         controllers.put("/index", frontPageController);
+        controllers.put("/index/category", categoryChooseController);
+
         controllers.put("/register", registrationController);
         controllers.put("/login", loginController);
         controllers.put("/logout", logoutController);
