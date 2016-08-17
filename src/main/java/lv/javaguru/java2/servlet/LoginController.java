@@ -25,6 +25,8 @@ public class LoginController extends MVCController{
         if(request.getSession().getAttribute("loginError") != null) {
              error = (String) request.getSession().getAttribute("loginError");
              request.getSession().removeAttribute("loginError");
+        }else if(request.getSession().getAttribute("user") != null) {
+            return new MVCModel("/index");
         }
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("loginError" , error);

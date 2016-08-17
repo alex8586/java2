@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
+import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 
 import javax.servlet.*;
@@ -17,10 +18,11 @@ public class Router implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
         CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
+        ProductDAOImpl productDAO = new ProductDAOImpl();
         UserDAOImpl userDAO = new UserDAOImpl();
         //YourStuff yourStuff = new YourStuff(moreStuff,evenMoreStuff);
 
-        FrontPageController frontPageController= new FrontPageController(categoryDAO);
+        FrontPageController frontPageController= new FrontPageController(categoryDAO, productDAO);
         RegistrationController registrationController = new RegistrationController(userDAO);
         LoginController loginController = new LoginController(userDAO);
         LogoutController logoutController = new LogoutController();
