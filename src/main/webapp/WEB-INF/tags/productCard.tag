@@ -15,7 +15,6 @@
             <div class="card-action">
                 <a href="<tags:linkTo controller="ProductController" resourceId="${product.id}" />">This is a link</a>
             </div>
-            hi
         </div>
     </div>
 </div>
