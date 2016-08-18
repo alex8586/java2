@@ -58,7 +58,7 @@ public class LoginController extends MVCController{
             }
             else{
                 request.getSession().setAttribute("user" , user);
-                return new MVCModel("/index");
+                return new MVCModel("/profile");
             }
         } catch (DBException e) {
             e.printStackTrace();

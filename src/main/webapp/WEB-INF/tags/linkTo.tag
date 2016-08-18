@@ -1,14 +1,18 @@
 <%@ tag import="lv.javaguru.java2.servlet.ReverseRouter" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="controller" required="true" %>
 <%@attribute name="resourceId" required="false" %>
 <%
     ReverseRouter reverseRouter = (ReverseRouter) application.getAttribute("reverseRouter");
-    if (resourceId == null) {
-        out.println(reverseRouter.linkTo(controller));
-    } else {
-        out.println(reverseRouter.linkTo(controller, resourceId));
-    }
 %>
+<c:if test="${not empty resourceId}">
+    <%= reverseRouter.linkTo(controller, resourceId) %>
+</c:if>
+<c:if test="${empty resourceId}">
+    <%= reverseRouter.linkTo(controller) %>
+</c:if>
+
+
 
 
 

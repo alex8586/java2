@@ -2,7 +2,6 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <tags:userPageTemplate>
     <jsp:attribute name="content">
          <form action="profile_update" method="post">

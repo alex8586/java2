@@ -10,5 +10,3 @@
         right bar here
     </jsp:attribute>
 </tags:userPageTemplate>
-
-
