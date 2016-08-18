@@ -1,18 +1,18 @@
 package lv.javaguru.java2.domain;
 
-public class User {
+public class User extends BaseEntity {
 
-    private long id;
     private String fullName;
     private String email;
     private String password;
 
-    public long getId() {
-        return id;
+    public User() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public User(String fullName, String email, String password) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
     }
 
     public String getFullName() {
@@ -37,6 +37,26 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        if (id != user.id) return false;
+        if (!fullName.equals(user.fullName)) return false;
+        if (!email.equals(user.email)) return false;
+        return password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     @Override

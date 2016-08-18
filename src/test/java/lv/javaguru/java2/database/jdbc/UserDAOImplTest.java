@@ -1,29 +1,23 @@
-package lv.javaguru.java2.database;
+package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.DatabaseCleaner;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+import lv.javaguru.java2.IntegrationTest;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-public class UserDAOImplTest {
+public class UserDAOImplTest extends IntegrationTest {
 
     private UserDAOImpl userDAO = new UserDAOImpl();
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
 
-    @Before
-    public void cleanDatabase() throws DBException {
-        cleaner.cleanDatabase();
-    }
-
-    @Test
-    public void createUserWithIdTest() throws DBException {
+    @Test(expected = DBException.class)
+    public void createSecondUserWithSameEmailTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -31,14 +25,27 @@ public class UserDAOImplTest {
         assertNotNull(user.getId());
 
         User newUser = helperCreateOneUserWithoutId();
+        assertEquals(user.getEmail(), newUser.getEmail());
         userDAO.create(newUser);
-        User first = userDAO.getById(user.getId());
-        User second = userDAO.getById(newUser.getId());
-        assertNotSame(first.getId(), second.getId());
+    }
+
+    @Test(expected = DBException.class)
+    public void updateEmailToMatchAnotherEmailTest() {
+        User user = helperCreateOneUserWithoutId();
+        userDAO.create(user);
+
+        User newUser = helperCreateOneUserWithoutId();
+        newUser.setEmail("mail@me.never");
+        userDAO.create(newUser);
+        assertTrue(newUser.getId() > 0 );
+
+        User yetAnotherUser = userDAO.getByEmail(newUser.getEmail());
+        yetAnotherUser.setEmail(user.getEmail());
+        userDAO.update(yetAnotherUser);
     }
 
     @Test
-    public void createUserReturnIdTest() throws DBException {
+    public void createUserReturnIdTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
 
@@ -52,7 +59,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void updateUserTest() throws DBException {
+    public void updateUserTest() {
         User user = helperCreateOneUserWithoutId();
         assertEquals(0, user.getId());
         userDAO.create(user);
@@ -73,7 +80,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void deleteUserTest() throws DBException {
+    public void deleteUserTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         assertNotNull(user.getId());
@@ -87,7 +94,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getUserByIdTest() throws DBException {
+    public void getUserByIdTest() {
         User user = helperCreateOneUserWithoutId();
         userDAO.create(user);
         long id = user.getId();
@@ -100,7 +107,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getAllUsersTest() throws DBException {
+    public void getAllUsersTest() {
         User user = new User();
         user.setFullName("1");
         user.setEmail("1");
@@ -126,11 +133,29 @@ public class UserDAOImplTest {
         userList.clear();
         userList = userDAO.getAll();
         assertEquals(2, userList.size());
+    }
 
-        cleaner.cleanDatabase();
-        userList.clear();
-        userList = userDAO.getAll();
-        assertEquals(0, userList.size());
+    @Test
+    public void getByEmailTest() {
+        User first = helperCreateOneUserWithoutId();
+        userDAO.create(first);
+        User second = helperCreateSecondUserWithoutId();
+        userDAO.create(second);
+
+        String passwordFromFirst = userDAO.getByEmail("mail@me.later").getPassword();
+        assertEquals("password", passwordFromFirst);
+
+        String passwordFromSecond = userDAO.getByEmail("mail@me.now").getPassword();
+        assertEquals("nobodyknow", passwordFromSecond);
+
+        User notExistUser = userDAO.getByEmail("no@mail.me");
+        assertNull(notExistUser);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getByEmailTestIfEmailNull() {
+        String email = "";
+        userDAO.getByEmail(email);
     }
 
     private User helperCreateOneUserWithoutId(){
@@ -138,6 +163,14 @@ public class UserDAOImplTest {
         user.setFullName("fullName");
         user.setEmail("mail@me.later");
         user.setPassword("password");
+        return user;
+    }
+
+    private User helperCreateSecondUserWithoutId(){
+        User user = new User();
+        user.setFullName("someName");
+        user.setEmail("mail@me.now");
+        user.setPassword("nobodyknow");
         return user;
     }
 

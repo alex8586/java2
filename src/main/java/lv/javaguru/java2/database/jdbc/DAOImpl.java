@@ -45,11 +45,7 @@ public class DAOImpl {
         }
     }
 
-    public void setDbSchema(String dbSchema){
-        this.dbSchema = dbSchema;
-    }
-
-    protected Connection getConnection() throws DBException {
+    protected Connection getConnection() {
         try{
             return DriverManager.getConnection(dbBaseUrl + dbSchema, userName, password);
         } catch (SQLException e) {
@@ -59,7 +55,7 @@ public class DAOImpl {
         }
     }
 
-    protected void closeConnection(Connection connection) throws DBException {
+    protected void closeConnection(Connection connection) {
         try {
             if(connection != null) {
                 connection.close();
