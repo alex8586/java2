@@ -1,5 +1,8 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Category extends BaseEntity {
 
     private String name;
@@ -11,6 +14,11 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
+    public static void main(String[] args) {
+        Category c = new Category();
+        System.out.print(c.getName());
+    }
+
     public String getName() {
         return name;
     }
@@ -20,26 +28,33 @@ public class Category extends BaseEntity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public String toString() {
+        return "Category{" + "id=" + id + ", name='" + name + '\'' + '}';
+    }
 
-        Category category = (Category) o;
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
 
-        if (id != category.id) return false;
-        return name.equals(category.name);
+        if ((object == null) || !(object instanceof Category)) {
+            return false;
+        }
 
+        Category that = (Category) object;
+
+        return new EqualsBuilder()
+                .append(id, that.getId())
+                .append(name, that.getName())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return new HashCodeBuilder()
+                .append(id)
+                .append(name)
+                .toHashCode();
     }
 }
