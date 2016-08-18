@@ -24,8 +24,7 @@ public class ShippingProfileDAOImpl extends DAOImpl implements DAO<ShippingProfi
             "INSERT INTO shipping_profile(id,person,document,address,phone,userID_FK) VALUES " + " (DEFAULT ,?,?,?,?,?)";
     private final String UPDATE_SHIPPING_PROFILE =
             "UPDATE shipping_profile SET person=?,document=?,address=?,phone=?,userID_FK=? WHERE id=?";
-    private final String DELETE_SHIPPING_PROFILE =
-            "DELETE FROM shipping_profile WHERE id=?"
+    private final String DELETE_SHIPPING_PROFILE = "DELETE FROM shipping_profile WHERE id=?";
 
     @Override
     public long create(ShippingProfile shippingProfile) {
@@ -90,22 +89,7 @@ public class ShippingProfileDAOImpl extends DAOImpl implements DAO<ShippingProfi
 
     @Override
     public void delete(ShippingProfile shippingProfile) {
-        if (shippingProfile == null || shippingProfile.getId() == 0)
-            return;
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(DELETE_SHIPPING_PROFILE);
-            preparedStatement.setLong(1, shippingProfile.getId());
-            preparedStatement.executeUpdate();
-            shippingProfile.setId(0);
-        } catch (Throwable e) {
-            System.out.println("Exception while deleting shipping_profile");
-            e.printStackTrace();
-        } finally {
-            closeConnection(connection);
-        }
+        super.delete(shippingProfile, DELETE_SHIPPING_PROFILE);
     }
 
     @Override

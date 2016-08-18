@@ -97,22 +97,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
 
     @Override
     public void delete(Product product) {
-        if(product == null || product.getId() == 0)
-            return ;
-        Connection connection = null;
-        try {
-            connection=getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(DELETE_PRODUCT);
-            preparedStatement.setLong(1,product.getId());
-            preparedStatement.executeUpdate();
-            product.setId(0);
-        } catch (Throwable e) {
-            System.out.println("Exception while deleting product");
-            e.printStackTrace();
-        }finally {
-            closeConnection(connection);
-        }
+        super.delete(product, DELETE_PRODUCT);
     }
 
 

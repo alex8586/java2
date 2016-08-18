@@ -72,21 +72,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     }
 
     public void delete(User user) {
-        if (user == null || user.getId() == 0)
-            return;
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.executeUpdate();
-            user.setId(0);
-        } catch (Throwable e) {
-            System.out.println("Exception while execute UserDAOImpl.delete");
-            e.printStackTrace();
-        } finally {
-            closeConnection(connection);
-        }
+        super.delete(user, DELETE_USER);
     }
 
 

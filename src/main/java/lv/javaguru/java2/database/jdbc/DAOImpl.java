@@ -1,10 +1,12 @@
 package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.database.DBException;
+import lv.javaguru.java2.domain.BaseEntity;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -65,5 +67,25 @@ public class DAOImpl {
             e.printStackTrace();
             throw new DBException(e);
         }
+    }
+
+    protected void delete(BaseEntity baseEntity, String DELETE_STATEMENT) {
+        if (baseEntity == null || baseEntity.getId() == 0)
+            return;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(DELETE_STATEMENT);
+            preparedStatement.setLong(1, baseEntity.getId());
+            preparedStatement.executeUpdate();
+            baseEntity.setId(0);
+        } catch (Throwable e) {
+            System.out.println("Exception while deleting " + baseEntity.getClass().getSimpleName());
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection);
+        }
+
     }
 }
