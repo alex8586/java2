@@ -2,6 +2,8 @@ package lv.javaguru.java2;
 
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.DAOImpl;
+import lv.javaguru.java2.domain.BaseEntity;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,4 +62,9 @@ public class DatabaseCleaner extends DAOImpl {
         connection.commit();
     }
 
+
+    @Override
+    protected BaseEntity buildFromResultSet(ResultSet resultSet) throws SQLException {
+        throw new NotImplementedException();
+    }
 }

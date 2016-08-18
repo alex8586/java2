@@ -75,8 +75,8 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
         super.delete(user, DELETE_USER);
     }
 
-
-    private User buildFromResultSet(ResultSet resultSet) throws SQLException {
+    @Override
+    protected User buildFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getLong("id"));
         user.setFullName(resultSet.getString("name"));
@@ -94,20 +94,7 @@ public class UserDAOImpl extends DAOImpl implements DAO<User> {
     }
 
     public User getById(long id) {
-        if (id == 0) return null;
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID);
-            preparedStatement.setLong(1, id);
-            return getFromStatement(preparedStatement);
-        } catch (Throwable e) {
-            System.out.println("Exception while execute UserDAOImpl.getUserById()");
-            e.printStackTrace();
-            throw new DBException(e);
-        } finally {
-            closeConnection(connection);
-        }
+        return (User) super.getById(id, GET_USER_BY_ID);
     }
 
     public List<User> getAll() {

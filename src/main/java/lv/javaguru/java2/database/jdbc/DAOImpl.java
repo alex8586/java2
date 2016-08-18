@@ -4,13 +4,10 @@ import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.BaseEntity;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
-public class DAOImpl {
+public abstract class DAOImpl {
 
     private static final String DB_CONFIG_FILE = "database.properties";
 
@@ -86,6 +83,28 @@ public class DAOImpl {
         } finally {
             closeConnection(connection);
         }
-
     }
+
+    protected abstract BaseEntity buildFromResultSet(ResultSet resultSet) throws SQLException;
+
+    public BaseEntity getById(long id, final String SELECT_STATEMENT) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STATEMENT);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return buildFromResultSet(resultSet);
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getById with " + SELECT_STATEMENT);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+
 }

@@ -100,31 +100,25 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
         super.delete(product, DELETE_PRODUCT);
     }
 
+    @Override
+    protected Product buildFromResultSet(ResultSet resultSet) throws SQLException {
+        Product product = new Product();
+        product.setId(resultSet.getLong("ProductID"));
+        product.setVendorCode(resultSet.getString("VendorCode"));
+        product.setCategoryID(resultSet.getLong("catID_FK"));
+        product.setDisplayDescription(resultSet.getString("DisplayDescription"));
+        product.setDisplayName(resultSet.getString("DisplayName"));
+        product.setPrice(resultSet.getInt("price"));
+        product.setRemainQty(resultSet.getInt("RemainQTY"));
+        product.setVendorName(resultSet.getString("VendorName"));
+        product.setVendorDescription(resultSet.getString("VendorDescription"));
+        product.setUnit(resultSet.getString("unit"));
+        return product;
+    }
 
     @Override
     public Product getById(long id) {
-
-        Connection connection = null;
-        Product product = null;
-
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(GET_PRODUCT_BY_ID);
-            preparedStatement.setLong(1,id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ProductBuilder productBuilder = new ProductBuilder(resultSet);
-            product = productBuilder.getProduct();
-
-        } catch (SQLException e) {
-            System.out.println("Exception in getProductByID(long id)");
-            e.printStackTrace();
-        }
-        finally {
-            closeConnection(connection);
-        }
-        return product;
+        return (Product) getById(id, GET_PRODUCT_BY_ID);
     }
 
     public Product getByVendorCode(String vendorCode) {

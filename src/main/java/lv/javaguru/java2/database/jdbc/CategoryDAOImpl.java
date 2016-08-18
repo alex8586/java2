@@ -7,6 +7,7 @@ import lv.javaguru.java2.domain.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,29 +75,16 @@ public class CategoryDAOImpl extends DAOImpl implements DAO<Category> {
         super.delete(category, DELETE_FROM_CATEGORIES);
     }
 
-    public Category getById(long id) {
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_CATEGORY_BY_ID);
-            preparedStatement.setLong(1,id);
+    @Override
+    protected Category buildFromResultSet(ResultSet resultSet) throws SQLException {
+        Category category = new Category();
+        category.setName(resultSet.getString("name"));
+        category.setId(resultSet.getLong("id"));
+        return category;
+    }
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            Category category = null;
-            if(resultSet.next()) {
-                category = new Category();
-                category.setName(resultSet.getString("name"));
-                category.setId(resultSet.getLong("id"));
-            }
-            return category;
-        }
-        catch (Throwable e) {
-            System.out.println("Exception while execute CategoryDAO.getByid");
-            throw new DBException(e);
-        }
-        finally {
-            closeConnection(connection);
-        }
+    public Category getById(long id) {
+        return (Category) getById(id, GET_CATEGORY_BY_ID);
     }
 
     public List<Category> getAll() {
