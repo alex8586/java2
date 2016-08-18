@@ -55,7 +55,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
             }
         }
         catch (Throwable e) {
-            System.out.println("Exception while execute ProductDAOImpl.createProduct()");
+            System.out.println("Exception while execute ProductDAOImpl.create()");
             e.printStackTrace();
         }finally {
             closeConnection(connection);
@@ -66,7 +66,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
     @Override
     public void update(Product product) {
         if(product == null || product.getId() == 0)
-            throw new IllegalArgumentException("Exception while execute ProductDAOImpl.create . Input id != 0 ");
+            throw new IllegalArgumentException("Exception while execute ProductDAOImpl.update . Input id != 0 ");
 
         Connection connection=null;
         try {
@@ -85,7 +85,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
             preparedStatement.setLong(10,product.getId());
             preparedStatement.executeUpdate();
             if(preparedStatement.executeUpdate() != 1){
-                throw new IllegalStateException("Exception while execute CategoryDAOImpl.update - 0 or more than 1 record updated");
+                throw new IllegalStateException("Exception while execute ProductDAOImpl.update - 0 or more than 1 record updated");
             }
         } catch (Throwable e) {
             System.out.println("Exception while updating product");

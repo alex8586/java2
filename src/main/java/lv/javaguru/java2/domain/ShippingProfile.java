@@ -1,8 +1,5 @@
 package lv.javaguru.java2.domain;
 
-/**
- * Created by algis on 16.18.8.
- */
 public class ShippingProfile extends BaseEntity {
     private long userId;
     private String person;
@@ -10,7 +7,7 @@ public class ShippingProfile extends BaseEntity {
     private String phone;
     private String address;
 
-    
+
     public long getUserId() {
         return userId;
     }
