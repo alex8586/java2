@@ -24,10 +24,12 @@ CREATE UNIQUE INDEX users_email_uindex
 
 DROP TABLE IF EXISTS `java2miska`.`shipping_profile`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`shipping_profile` (
-  id            INT(11) PRIMARY KEY AUTO_INCREMENT,
-  targetPerson  VARCHAR(100) NOT NULL,
-  targetAddress VARCHAR(100) NOT NULL,
-  userID_FK     INT(11),
+  id        INT(11) PRIMARY KEY AUTO_INCREMENT,
+  person    VARCHAR(100) NOT NULL,
+  document  VARCHAR(50)  NOT NULL,
+  address   VARCHAR(100) NOT NULL,
+  phone     VARCHAR(15)  NOT NULL,
+  userID_FK INT(11),
   CONSTRAINT `user_FK` FOREIGN KEY (`userID_FK`) REFERENCES `java2miska`.`user` (id)
 )
   ENGINE = InnoDB

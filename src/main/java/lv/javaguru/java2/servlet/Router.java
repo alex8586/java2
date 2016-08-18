@@ -39,7 +39,7 @@ public class Router implements Filter {
         controllers.put("/logout", logoutController);
         controllers.put("/profile", profileController);
         controllers.put("/profile_cart", profileCartController);
-        controllers.put("/profile_history", profileHistoryController);
+        controllers.put("/profile/history", profileHistoryController);
         controllers.put("/profile_update", profileUpdateController);
         controllers.put("/product", productController);
 
