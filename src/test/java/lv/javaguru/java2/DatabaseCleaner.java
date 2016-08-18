@@ -1,15 +1,13 @@
 package lv.javaguru.java2;
 
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.jdbc.DAOImpl;
-import lv.javaguru.java2.domain.BaseEntity;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import lv.javaguru.java2.database.jdbc.JdbcConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseCleaner extends DAOImpl {
+public class DatabaseCleaner extends JdbcConnector {
 
     private List<String> getTableNames(Connection connection) {
         List<String> tableList = new ArrayList<String>();
@@ -62,9 +60,4 @@ public class DatabaseCleaner extends DAOImpl {
         connection.commit();
     }
 
-
-    @Override
-    protected BaseEntity buildFromResultSet(ResultSet resultSet) throws SQLException {
-        throw new NotImplementedException();
-    }
 }

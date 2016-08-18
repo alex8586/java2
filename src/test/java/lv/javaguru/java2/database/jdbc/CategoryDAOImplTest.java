@@ -82,7 +82,7 @@ public class CategoryDAOImplTest extends IntegrationTest {
         categoryDAOImpl.update(category);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void updateNullRecordSholdFail() {
+    public void updateNullRecordShouldFail() {
         Category category = null;
         categoryDAOImpl.update(category);
     }

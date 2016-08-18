@@ -3,77 +3,81 @@ package lv.javaguru.java2.database.jdbc;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.BaseEntity;
 
-import java.io.IOException;
-import java.sql.*;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class DAOImpl {
+public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
 
-    private static final String DB_CONFIG_FILE = "database.properties";
+    abstract long create(T t);
 
-    private String dbBaseUrl  = null;
-    private String dbSchema = null;
-    private String userName  = null;
-    private String password = null;
+    abstract void update(T t);
 
-    public DAOImpl() {
-        registerJDBCDriver();
-        initDatabaseConnectionProperties();
-    }
+    abstract void delete(T t);
 
-    private void registerJDBCDriver() {
+    abstract T getById(long id);
+
+    abstract List<T> getAll();
+
+    protected abstract void fillPreparedStatement(PreparedStatement preparedStatement, T baseEntity) throws SQLException;
+
+    public long create(T baseEntity, String sql) {
+        long newId = 0;
+        if (baseEntity == null || baseEntity.getId() != 0)
+            throw new IllegalArgumentException("Exception while execute create for " + sql + ". null or existing object received");
+        Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Exception while registering JDBC driver!");
-            e.printStackTrace();
-        }
-    }
-
-    private void initDatabaseConnectionProperties() {
-        Properties properties = new Properties();
-        try {
-            properties.load(DAOImpl.class.getClassLoader().getResourceAsStream(DB_CONFIG_FILE));
-            dbBaseUrl = properties.getProperty("dbBaseUrl");
-            dbSchema = properties.getProperty("dbSchema");
-            userName = properties.getProperty("userName");
-            password = properties.getProperty("password");
-        } catch (IOException e){
-            System.out.println("Exception while reading JDBC configuration from file = " + DB_CONFIG_FILE);
-            e.printStackTrace();
-        }
-    }
-
-    protected Connection getConnection() {
-        try{
-            return DriverManager.getConnection(dbBaseUrl + dbSchema, userName, password);
-        } catch (SQLException e) {
-            System.out.println("Exception while getting connection to database");
-            e.printStackTrace();
-            throw new DBException(e);
-        }
-    }
-
-    protected void closeConnection(Connection connection) {
-        try {
-            if(connection != null) {
-                connection.close();
+            connection = getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            fillPreparedStatement(preparedStatement, baseEntity);
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            if (rs.next()) {
+                newId = rs.getLong(1);
+                baseEntity.setId(newId);
             }
-        } catch (SQLException e) {
-            System.out.println("Exception while closing connection to database");
-            e.printStackTrace();
+        } catch (Throwable e) {
+            System.out.println("Exception while execute create for " + sql);
             throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+        return newId;
+    }
+
+    public void update(T baseEntity, String sql) {
+        if (baseEntity == null || baseEntity.getId() == 0)
+            throw new IllegalArgumentException("Exception while execute update with " + sql + " . null or new object received");
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(sql);
+            fillPreparedStatement(preparedStatement, baseEntity);
+            if (preparedStatement.executeUpdate() != 1) {
+                throw new IllegalStateException("Exception while execute update for " + baseEntity.getClass().getSimpleName() + " - 0 or more than 1 record updated");
+            }
+        } catch (Throwable e) {
+            System.out.println("Exception while execute CategoryDAO.update");
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
         }
     }
 
-    protected void delete(BaseEntity baseEntity, String DELETE_STATEMENT) {
+    protected void delete(T baseEntity, String sql) {
         if (baseEntity == null || baseEntity.getId() == 0)
             return;
         Connection connection = null;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
-                    connection.prepareStatement(DELETE_STATEMENT);
+                    connection.prepareStatement(sql);
             preparedStatement.setLong(1, baseEntity.getId());
             preparedStatement.executeUpdate();
             baseEntity.setId(0);
@@ -85,13 +89,13 @@ public abstract class DAOImpl {
         }
     }
 
-    protected abstract BaseEntity buildFromResultSet(ResultSet resultSet) throws SQLException;
+    protected abstract T buildFromResultSet(ResultSet resultSet) throws SQLException;
 
-    public BaseEntity getById(long id, final String SELECT_STATEMENT) {
+    public BaseEntity getById(long id, final String sql) {
         Connection connection = null;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STATEMENT);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
@@ -99,11 +103,31 @@ public abstract class DAOImpl {
             else
                 return null;
         } catch (Throwable e) {
-            System.out.println("Exception while execute getById with " + SELECT_STATEMENT);
+            System.out.println("Exception while execute getById with " + sql);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
         }
+    }
+
+    public List<T> getAll(String sql) {
+        List<T> entityList = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                entityList.add(buildFromResultSet(resultSet));
+            }
+        } catch (Throwable e) {
+            System.out.println("Exception while execute get all with " + sql);
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection);
+        }
+        return entityList;
     }
 
 

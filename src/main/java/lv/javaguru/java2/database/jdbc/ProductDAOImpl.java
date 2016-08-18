@@ -1,6 +1,5 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.database.DAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.builders.ProductBuilder;
@@ -11,93 +10,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
+public class ProductDAOImpl extends DAOImpl<Product> {
 
-    private final String GET_PRODUCT_BY_ID = "SELECT * FROM product WHERE ProductID = ?";
+    private final String GET_BY_ID = "SELECT * FROM product WHERE ProductID = ?";
     private final String GET_PRODUCT_BY_VENDOR_CODE = "SELECT * FROM product WHERE VendorCode = ?";
     private final String GET_PRODUCT_BY_CATEGORY = "SELECT * FROM product WHERE catID_FK=?";
-    private final String GET_ALL_PRODUCTS = "SELECT * FROM product";
-    private final String CREATE_PRODUCT =
+    private final String GET_ALL = "SELECT * FROM product";
+    private final String CREATE_NEW =
             "INSERT INTO product(ProductID, VendorCode, VendorName, VendorDescription, unit, price, DisplayName, DisplayDescription, RemainQTY, catID_FK) VALUES " +
             " (DEFAULT ,?,?,?,?,?,?,?,?,?)";
     private final String GET_NEW_EMPTY_PRODUCT = "INSERT INTO product (ProductID) VALUES (DEFAULT )";
-    private final String DELETE_PRODUCT = "DELETE FROM product WHERE ProductID=?";
-    private final String UPDATE_PRODUCT = "UPDATE product SET VendorCode=?, VendorName=?, VendorDescription=?, " +
+    private final String DELETE_BY_ID = "DELETE FROM product WHERE ProductID=?";
+    private final String UPDATE_BY_ID = "UPDATE product SET VendorCode=?, VendorName=?, VendorDescription=?, " +
             "unit=?, price=?, DisplayName=?, DisplayDescription=?, RemainQTY=?, catID_FK=? " +
             " WHERE ProductID=?";
 
     @Override
+    protected void fillPreparedStatement(PreparedStatement preparedStatement, Product product) throws SQLException {
+        preparedStatement.setString(1, product.getVendorCode());
+        preparedStatement.setString(2, product.getVendorName());
+        preparedStatement.setString(3, product.getVendorDescription());
+        preparedStatement.setString(4, product.getUnit());
+        preparedStatement.setInt(5, product.getPrice());
+        preparedStatement.setString(6, product.getDisplayName());
+        preparedStatement.setString(7, product.getDisplayDescription());
+        preparedStatement.setInt(8, product.getRemainQty());
+        preparedStatement.setLong(9, product.getCategoryID());
+        if (product.getId() != 0)
+            preparedStatement.setLong(10, product.getId());
+    }
+
+    @Override
     public long create(Product product) {
-        long newId = 0;
-        if(product == null || product.getId() != 0)
-            throw new IllegalArgumentException("Exception while execute ProductDAOImpl.create . Input id != 0 ");
-
-        Connection connection = null;
-        try {
-            connection=getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_PRODUCT,PreparedStatement.RETURN_GENERATED_KEYS);
-
-            preparedStatement.setString(1,product.getVendorCode());
-            preparedStatement.setString(2,product.getVendorName());
-            preparedStatement.setString(3,product.getVendorDescription());
-            preparedStatement.setString(4,product.getUnit());
-            preparedStatement.setInt(5,product.getPrice());
-            preparedStatement.setString(6,product.getDisplayName());
-            preparedStatement.setString(7,product.getDisplayDescription());
-            preparedStatement.setInt(8,product.getRemainQty());
-            preparedStatement.setLong(9,product.getCategoryID());
-            preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            if(rs.next()){
-                newId = rs.getLong(1);
-                product.setId(newId);
-            }
-        }
-        catch (Throwable e) {
-            System.out.println("Exception while execute ProductDAOImpl.create()");
-            e.printStackTrace();
-        }finally {
-            closeConnection(connection);
-        }
-        return newId;
+        return super.create(product, CREATE_NEW);
     }
 
     @Override
     public void update(Product product) {
-        if(product == null || product.getId() == 0)
-            throw new IllegalArgumentException("Exception while execute ProductDAOImpl.update . Input id != 0 ");
+        super.update(product, UPDATE_BY_ID);
 
-        Connection connection=null;
-        try {
-            connection=getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(UPDATE_PRODUCT);
-            preparedStatement.setString(1,product.getVendorCode());
-            preparedStatement.setString(2,product.getVendorName());
-            preparedStatement.setString(3,product.getVendorDescription());
-            preparedStatement.setString(4,product.getUnit());
-            preparedStatement.setInt(5,product.getPrice());
-            preparedStatement.setString(6,product.getDisplayName());
-            preparedStatement.setString(7,product.getDisplayDescription());
-            preparedStatement.setInt(8,product.getRemainQty());
-            preparedStatement.setLong(9,product.getCategoryID());
-            preparedStatement.setLong(10,product.getId());
-            preparedStatement.executeUpdate();
-            if(preparedStatement.executeUpdate() != 1){
-                throw new IllegalStateException("Exception while execute ProductDAOImpl.update - 0 or more than 1 record updated");
-            }
-        } catch (Throwable e) {
-            System.out.println("Exception while updating product");
-            e.printStackTrace();
-        }finally {
-            closeConnection(connection);
-        }
     }
 
     @Override
     public void delete(Product product) {
-        super.delete(product, DELETE_PRODUCT);
+        super.delete(product, DELETE_BY_ID);
     }
 
     @Override
@@ -118,7 +74,7 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
 
     @Override
     public Product getById(long id) {
-        return (Product) getById(id, GET_PRODUCT_BY_ID);
+        return (Product) getById(id, GET_BY_ID);
     }
 
     public Product getByVendorCode(String vendorCode) {
@@ -132,13 +88,10 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
             preparedStatement.setString(1,vendorCode);
             ResultSet resultSet = preparedStatement.executeQuery();
             ProductBuilder productBuilder = new ProductBuilder(resultSet);
-            if(resultSet.first()) {
-                product = productBuilder.getProduct();
-            } else {
-                System.out.println("not found");}
-
-            if(resultSet.next()) System.out.println("more than one with this VendorCode");
-
+            if (resultSet.first())
+                product = buildFromResultSet(resultSet);
+            else
+                return null;
         } catch (SQLException e) {
             System.out.println("Exception in getProductByID(long id)");
             e.printStackTrace();
@@ -151,23 +104,9 @@ public class ProductDAOImpl extends DAOImpl implements DAO<Product> {
 
     @Override
     public List<Product> getAll() {
-        Connection connection = null;
-        List<Product> productList = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(GET_ALL_PRODUCTS);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ProductBuilder productBuilder = new ProductBuilder(resultSet);
-            productList = productBuilder.getProductList();
-        } catch (Throwable e) {
-            System.out.println("Exception while getting all products list");
-            e.printStackTrace();
-        }finally {
-            closeConnection(connection);
-        }
-        return productList;
+        return getAll(GET_ALL);
     }
+
 
     public List<Product> getByCategory(Category category) {
         Connection connection = null;
