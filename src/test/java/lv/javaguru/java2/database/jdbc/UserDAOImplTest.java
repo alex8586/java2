@@ -1,6 +1,5 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.IntegrationTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 import org.junit.Test;
@@ -12,7 +11,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class UserDAOImplTest extends IntegrationTest {
+public class UserDAOImplTest {
 
     private UserDAOImpl userDAO = new UserDAOImpl();
 

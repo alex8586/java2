@@ -12,19 +12,19 @@ import java.util.List;
 
 public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
 
-    abstract long create(T t);
+    public abstract long create(T t);
 
-    abstract void update(T t);
+    public abstract void update(T t);
 
-    abstract void delete(T t);
+    public abstract void delete(T t);
 
-    abstract T getById(long id);
+    public abstract T getById(long id);
 
-    abstract List<T> getAll();
+    public abstract List<T> getAll();
 
     protected abstract void fillPreparedStatement(PreparedStatement preparedStatement, T baseEntity) throws SQLException;
 
-    public long create(T baseEntity, String sql) {
+    protected long create(T baseEntity, String sql) {
         long newId = 0;
         if (baseEntity == null || baseEntity.getId() != 0)
             throw new IllegalArgumentException("Exception while execute create for " + sql + ". null or existing object received");
@@ -49,7 +49,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         return newId;
     }
 
-    public void update(T baseEntity, String sql) {
+    protected void update(T baseEntity, String sql) {
         if (baseEntity == null || baseEntity.getId() == 0)
             throw new IllegalArgumentException("Exception while execute update with " + sql + " . null or new object received");
 
@@ -91,7 +91,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
 
     protected abstract T buildFromResultSet(ResultSet resultSet) throws SQLException;
 
-    public BaseEntity getById(long id, final String sql) {
+    protected BaseEntity getById(long id, final String sql) {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -110,7 +110,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         }
     }
 
-    public List<T> getAll(String sql) {
+    protected List<T> getAll(String sql) {
         List<T> entityList = new ArrayList<>();
         Connection connection = null;
         try {

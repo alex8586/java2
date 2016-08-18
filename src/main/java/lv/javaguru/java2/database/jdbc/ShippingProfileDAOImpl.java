@@ -18,17 +18,6 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
     private final String GET_ALL = "SELECT * FROM shipping_profile";
 
     @Override
-    protected void fillPreparedStatement(PreparedStatement preparedStatement, ShippingProfile shippingProfile) throws SQLException {
-        preparedStatement.setString(1, shippingProfile.getPerson());
-        preparedStatement.setString(2, shippingProfile.getDocument());
-        preparedStatement.setString(3, shippingProfile.getAddress());
-        preparedStatement.setString(4, shippingProfile.getPhone());
-        preparedStatement.setLong(5, shippingProfile.getUserId());
-        if (shippingProfile.getId() != 0)
-            preparedStatement.setLong(6, shippingProfile.getId());
-    }
-
-    @Override
     public long create(ShippingProfile shippingProfile) {
         return super.create(shippingProfile, CREATE_NEW);
     }
@@ -44,6 +33,27 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
     }
 
     @Override
+    public ShippingProfile getById(long id) {
+        return (ShippingProfile) getById(id, GET_BY_ID);
+    }
+
+    @Override
+    public List<ShippingProfile> getAll() {
+        return super.getAll(GET_ALL);
+    }
+
+    @Override
+    protected void fillPreparedStatement(PreparedStatement preparedStatement, ShippingProfile shippingProfile) throws SQLException {
+        preparedStatement.setString(1, shippingProfile.getPerson());
+        preparedStatement.setString(2, shippingProfile.getDocument());
+        preparedStatement.setString(3, shippingProfile.getAddress());
+        preparedStatement.setString(4, shippingProfile.getPhone());
+        preparedStatement.setLong(5, shippingProfile.getUserId());
+        if (shippingProfile.getId() != 0)
+            preparedStatement.setLong(6, shippingProfile.getId());
+    }
+
+    @Override
     protected ShippingProfile buildFromResultSet(ResultSet resultSet) throws SQLException {
         ShippingProfile shippingProfile = new ShippingProfile();
         shippingProfile.setId(resultSet.getLong("id"));
@@ -52,16 +62,6 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
         shippingProfile.setPerson(resultSet.getString("person"));
         shippingProfile.setPhone(resultSet.getString("phone"));
         return shippingProfile;
-    }
-
-    @Override
-    public ShippingProfile getById(long id) {
-        return (ShippingProfile) getById(id, GET_BY_ID);
-    }
-
-    @Override
-    public List<ShippingProfile> getAll() {
-        return super.getAll(GET_ALL);
     }
 
 }

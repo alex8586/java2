@@ -1,18 +1,15 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.IntegrationTest;
 import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Category;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class FrontPageControllerTest extends IntegrationTest {
+public class FrontPageControllerTest {
 
     Map<String, Object> mvcModelData = new HashMap<>();
     private CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
@@ -24,15 +21,7 @@ public class FrontPageControllerTest extends IntegrationTest {
         createCategories();
     }
 
-    @Test
-    @Ignore
-    public void doReturnListOfCategories() {
-    }
 
-    @Test
-    @Ignore
-    public void doNotReturnProducts() {
-    }
 
 
     private void createCategories() {

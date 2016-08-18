@@ -16,13 +16,6 @@ public class CategoryDAOImpl extends DAOImpl<Category> {
     private final String GET_ALL = "SELECT * FROM categories";
 
     @Override
-    protected void fillPreparedStatement(PreparedStatement preparedStatement, Category category) throws SQLException {
-        preparedStatement.setString(1, category.getName());
-        if (category.getId() != 0)
-            preparedStatement.setLong(2, category.getId());
-    }
-
-    @Override
     public long create(Category category) {
         return super.create(category, CREATE_NEW);
     }
@@ -38,14 +31,6 @@ public class CategoryDAOImpl extends DAOImpl<Category> {
     }
 
     @Override
-    protected Category buildFromResultSet(ResultSet resultSet) throws SQLException {
-        Category category = new Category();
-        category.setName(resultSet.getString("name"));
-        category.setId(resultSet.getLong("id"));
-        return category;
-    }
-
-    @Override
     public Category getById(long id) {
         return (Category) getById(id, GET_BY_ID);
     }
@@ -53,5 +38,20 @@ public class CategoryDAOImpl extends DAOImpl<Category> {
     @Override
     public List<Category> getAll() {
         return super.getAll(GET_ALL);
+    }
+
+    @Override
+    protected void fillPreparedStatement(PreparedStatement preparedStatement, Category category) throws SQLException {
+        preparedStatement.setString(1, category.getName());
+        if (category.getId() != 0)
+            preparedStatement.setLong(2, category.getId());
+    }
+
+    @Override
+    protected Category buildFromResultSet(ResultSet resultSet) throws SQLException {
+        Category category = new Category();
+        category.setName(resultSet.getString("name"));
+        category.setId(resultSet.getLong("id"));
+        return category;
     }
 }

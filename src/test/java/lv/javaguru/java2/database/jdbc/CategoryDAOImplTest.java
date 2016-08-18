@@ -1,17 +1,28 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.IntegrationTest;
-import lv.javaguru.java2.database.DBException;
+import lv.javaguru.java2.BaseEntityTest;
 import lv.javaguru.java2.domain.Category;
-import org.junit.Test;
 
-import java.util.List;
+public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImpl> {
 
-import static org.junit.Assert.*;
+    @Override
+    protected void initDAO() {
+        testedDAO = new CategoryDAOImpl();
+    }
+
+    @Override
+    protected Category newRecord() {
+        return new Category();
+    }
+
+    @Override
+    protected void initRecordWithData(Category category) {
+        category.setName("category");
+    }
 
 
-public class CategoryDAOImplTest extends IntegrationTest {
 
+    /*
     private CategoryDAOImpl categoryDAOImpl = new CategoryDAOImpl();
 
     @Test
@@ -144,4 +155,5 @@ public class CategoryDAOImplTest extends IntegrationTest {
         categoryDAOImpl.create(category);
         return category;
     }
+    */
 }

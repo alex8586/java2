@@ -1,13 +1,14 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.builders.ProductBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAOImpl extends DAOImpl<Product> {
@@ -26,21 +27,6 @@ public class ProductDAOImpl extends DAOImpl<Product> {
             " WHERE ProductID=?";
 
     @Override
-    protected void fillPreparedStatement(PreparedStatement preparedStatement, Product product) throws SQLException {
-        preparedStatement.setString(1, product.getVendorCode());
-        preparedStatement.setString(2, product.getVendorName());
-        preparedStatement.setString(3, product.getVendorDescription());
-        preparedStatement.setString(4, product.getUnit());
-        preparedStatement.setInt(5, product.getPrice());
-        preparedStatement.setString(6, product.getDisplayName());
-        preparedStatement.setString(7, product.getDisplayDescription());
-        preparedStatement.setInt(8, product.getRemainQty());
-        preparedStatement.setLong(9, product.getCategoryID());
-        if (product.getId() != 0)
-            preparedStatement.setLong(10, product.getId());
-    }
-
-    @Override
     public long create(Product product) {
         return super.create(product, CREATE_NEW);
     }
@@ -57,49 +43,29 @@ public class ProductDAOImpl extends DAOImpl<Product> {
     }
 
     @Override
-    protected Product buildFromResultSet(ResultSet resultSet) throws SQLException {
-        Product product = new Product();
-        product.setId(resultSet.getLong("ProductID"));
-        product.setVendorCode(resultSet.getString("VendorCode"));
-        product.setCategoryID(resultSet.getLong("catID_FK"));
-        product.setDisplayDescription(resultSet.getString("DisplayDescription"));
-        product.setDisplayName(resultSet.getString("DisplayName"));
-        product.setPrice(resultSet.getInt("price"));
-        product.setRemainQty(resultSet.getInt("RemainQTY"));
-        product.setVendorName(resultSet.getString("VendorName"));
-        product.setVendorDescription(resultSet.getString("VendorDescription"));
-        product.setUnit(resultSet.getString("unit"));
-        return product;
-    }
-
-    @Override
     public Product getById(long id) {
         return (Product) getById(id, GET_BY_ID);
     }
 
     public Product getByVendorCode(String vendorCode) {
         Connection connection = null;
-        Product product = null;
-
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
                     connection.prepareStatement(GET_PRODUCT_BY_VENDOR_CODE);
             preparedStatement.setString(1,vendorCode);
             ResultSet resultSet = preparedStatement.executeQuery();
-            ProductBuilder productBuilder = new ProductBuilder(resultSet);
-            if (resultSet.first())
-                product = buildFromResultSet(resultSet);
+            if (resultSet.next())
+                return buildFromResultSet(resultSet);
             else
                 return null;
         } catch (SQLException e) {
             System.out.println("Exception in getProductByID(long id)");
-            e.printStackTrace();
+            throw new DBException(e);
         }
         finally {
             closeConnection(connection);
         }
-        return product;
     }
 
     @Override
@@ -110,16 +76,16 @@ public class ProductDAOImpl extends DAOImpl<Product> {
 
     public List<Product> getByCategory(Category category) {
         Connection connection = null;
-        List<Product> productList = null;
+        List<Product> productList = new ArrayList<>();
         try {
             connection = getConnection();
             PreparedStatement preparedStatement =
                     connection.prepareStatement(GET_PRODUCT_BY_CATEGORY);
             preparedStatement.setLong(1,category.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            ProductBuilder productBuilder = new ProductBuilder(resultSet);
-            productList = productBuilder.getProductList();
+            while (resultSet.next()) {
+                productList.add(buildFromResultSet(resultSet));
+            }
         } catch (Throwable e) {
             System.out.println("Exception while getting all products by category");
             e.printStackTrace();
@@ -150,5 +116,37 @@ public class ProductDAOImpl extends DAOImpl<Product> {
         }
         return product;
     }
+
+    @Override
+    protected void fillPreparedStatement(PreparedStatement preparedStatement, Product product) throws SQLException {
+        preparedStatement.setString(1, product.getVendorCode());
+        preparedStatement.setString(2, product.getVendorName());
+        preparedStatement.setString(3, product.getVendorDescription());
+        preparedStatement.setString(4, product.getUnit());
+        preparedStatement.setInt(5, product.getPrice());
+        preparedStatement.setString(6, product.getDisplayName());
+        preparedStatement.setString(7, product.getDisplayDescription());
+        preparedStatement.setInt(8, product.getRemainQty());
+        preparedStatement.setLong(9, product.getCategoryID());
+        if (product.getId() != 0)
+            preparedStatement.setLong(10, product.getId());
+    }
+
+    @Override
+    protected Product buildFromResultSet(ResultSet resultSet) throws SQLException {
+        Product product = new Product();
+        product.setId(resultSet.getLong("ProductID"));
+        product.setVendorCode(resultSet.getString("VendorCode"));
+        product.setCategoryID(resultSet.getLong("catID_FK"));
+        product.setDisplayDescription(resultSet.getString("DisplayDescription"));
+        product.setDisplayName(resultSet.getString("DisplayName"));
+        product.setPrice(resultSet.getInt("price"));
+        product.setRemainQty(resultSet.getInt("RemainQTY"));
+        product.setVendorName(resultSet.getString("VendorName"));
+        product.setVendorDescription(resultSet.getString("VendorDescription"));
+        product.setUnit(resultSet.getString("unit"));
+        return product;
+    }
+
 
 }

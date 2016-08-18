@@ -19,34 +19,18 @@ public class UserDAOImpl extends DAOImpl<User> {
     private final String GET_BY_EMAIL = "SELECT * FROM users WHERE email=?";
 
     @Override
-    protected void fillPreparedStatement(PreparedStatement preparedStatement, User user) throws SQLException {
-        preparedStatement.setString(1, user.getFullName());
-        preparedStatement.setString(2, user.getEmail());
-        preparedStatement.setString(3, user.getPassword());
-        if (user.getId() != 0)
-            preparedStatement.setLong(4, user.getId());
-    }
-
     public long create(User user) {
         return super.create(user, CREATE_NEW);
     }
 
+    @Override
     public void update(User user) {
         update(user, UPDATE_BY_ID);
     }
 
+    @Override
     public void delete(User user) {
         super.delete(user, DELETE_BY_ID);
-    }
-
-    @Override
-    protected User buildFromResultSet(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.setId(resultSet.getLong("id"));
-        user.setFullName(resultSet.getString("name"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPassword(resultSet.getString("password"));
-        return user;
     }
 
     public User getById(long id) {
@@ -82,4 +66,24 @@ public class UserDAOImpl extends DAOImpl<User> {
             closeConnection(connection);
         }
     }
+
+    @Override
+    protected void fillPreparedStatement(PreparedStatement preparedStatement, User user) throws SQLException {
+        preparedStatement.setString(1, user.getFullName());
+        preparedStatement.setString(2, user.getEmail());
+        preparedStatement.setString(3, user.getPassword());
+        if (user.getId() != 0)
+            preparedStatement.setLong(4, user.getId());
+    }
+
+    @Override
+    protected User buildFromResultSet(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getLong("id"));
+        user.setFullName(resultSet.getString("name"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        return user;
+    }
+
 }
