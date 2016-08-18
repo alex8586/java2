@@ -22,6 +22,19 @@ AUTO_INCREMENT = 1;
 CREATE UNIQUE INDEX users_email_uindex
   ON java2miska.users (email);
 
+DROP TABLE IF EXISTS `java2miska`.`shipping_profile`;
+CREATE TABLE IF NOT EXISTS `java2miska`.`shipping_profile` (
+  id            INT(11) PRIMARY KEY AUTO_INCREMENT,
+  targetPerson  VARCHAR(100) NOT NULL,
+  targetAddress VARCHAR(100) NOT NULL,
+  userID_FK     INT(11),
+  CONSTRAINT `user_FK` FOREIGN KEY (`userID_FK`) REFERENCES `java2miska`.`user` (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1;
+CREATE INDEX `user`
+  ON `java2miska`.`shipping_profile` (`userID_FK`);
+
 -- -----------------------------------------------------
 -- Table `java2miska`.`categories`
 -- -----------------------------------------------------
