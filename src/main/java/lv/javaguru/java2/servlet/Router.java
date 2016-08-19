@@ -38,9 +38,9 @@ public class Router implements Filter {
         controllers.put("/login", loginController);
         controllers.put("/logout", logoutController);
         controllers.put("/profile", profileController);
-        controllers.put("/profile_cart", profileCartController);
+        controllers.put("/profile/cart", profileCartController);
         controllers.put("/profile/history", profileHistoryController);
-        controllers.put("/profile_update", profileUpdateController);
+        controllers.put("/profile/update", profileUpdateController);
         controllers.put("/product", productController);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
