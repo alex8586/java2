@@ -83,7 +83,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
             baseEntity.setId(0);
         } catch (Throwable e) {
             System.out.println("Exception while deleting " + baseEntity.getClass().getSimpleName());
-            e.printStackTrace();
+            throw new DBException(e);
         } finally {
             closeConnection(connection);
         }
@@ -110,6 +110,25 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         }
     }
 
+    protected BaseEntity getByCondition(final String sql, Object value) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, value);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return buildFromResultSet(resultSet);
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getByCondition with " + sql);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
     protected List<T> getAll(String sql) {
         List<T> entityList = new ArrayList<>();
         Connection connection = null;
@@ -129,6 +148,29 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         }
         return entityList;
     }
+
+    protected List<T> getAllByFK(String sql, BaseEntity entity) {
+        List<T> entityList = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(sql);
+            preparedStatement.setLong(1, entity.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                entityList.add(buildFromResultSet(resultSet));
+            }
+        } catch (Throwable e) {
+            System.out.println("Exception while execute get all with " + sql);
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection);
+        }
+        return entityList;
+    }
+
+
 
 
 }

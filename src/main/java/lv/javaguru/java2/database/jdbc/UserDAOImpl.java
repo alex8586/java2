@@ -1,9 +1,7 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,21 +48,7 @@ public class UserDAOImpl extends DAOImpl<User> {
     }
 
     public User getByEmail(String email) {
-        if (email == null || email.equals("")) {
-            throw new IllegalArgumentException("Exception while execute UserDAOImpl.getByEmail()");
-        }
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_EMAIL);
-            preparedStatement.setString(1, email);
-            return getFromStatement(preparedStatement);
-        } catch (Throwable e) {
-            System.out.println("Exception while execute UserDAOImpl.getByEmail()");
-            throw new DBException(e);
-        } finally {
-            closeConnection(connection);
-        }
+        return (User) getByCondition(GET_BY_EMAIL, email);
     }
 
     @Override

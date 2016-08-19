@@ -3,6 +3,7 @@ package lv.javaguru.java2.database.jdbc;
 import lv.javaguru.java2.BaseEntityTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
+import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,5 +61,13 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
         dao.update(recordFromDAO);
     }
 
-
+    @Test(expected = DBException.class)
+    public void cantDeleteWithProducts() {
+        Product product = new Product();
+        product.setVendorCode("vendor");
+        product.setCategoryID(recordFromDAO.getId());
+        ProductDAOImpl productDAO = new ProductDAOImpl();
+        productDAO.create(product);
+        dao.delete(recordFromDAO);
+    }
 }

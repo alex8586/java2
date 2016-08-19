@@ -82,8 +82,9 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
     public void createReturnsId() {
         RecordClass record = newRecord();
         fillRecordWithData(record);
-        dao.create(record);
+        long id = dao.create(record);
         assertTrue(record.getId() > 0);
+        assertTrue(record.getId() == id);
     }
 
     @Test

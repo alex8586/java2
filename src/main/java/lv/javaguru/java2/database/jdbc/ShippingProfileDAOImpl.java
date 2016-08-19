@@ -2,6 +2,7 @@ package lv.javaguru.java2.database.jdbc;
 
 
 import lv.javaguru.java2.domain.ShippingProfile;
+import lv.javaguru.java2.domain.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
     private final String DELETE_BY_ID = "DELETE FROM shipping_profiles WHERE id=?";
     private final String GET_BY_ID = "SELECT * FROM shipping_profiles WHERE id=?";
     private final String GET_ALL = "SELECT * FROM shipping_profiles";
+    private final String GET_BY_USER = "SELECT * FROM shipping_profiles WHERE userFK_ID = ?";
 
     @Override
     public long create(ShippingProfile shippingProfile) {
@@ -63,6 +65,10 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
         shippingProfile.setPhone(resultSet.getString("phone"));
         shippingProfile.setUserId(resultSet.getLong("userID_FK"));
         return shippingProfile;
+    }
+
+    public List<ShippingProfile> getByUser(User user) {
+        return super.getAllByFK(GET_BY_USER, user);
     }
 
 }
