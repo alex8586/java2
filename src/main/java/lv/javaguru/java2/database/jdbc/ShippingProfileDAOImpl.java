@@ -17,7 +17,7 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
     private final String DELETE_BY_ID = "DELETE FROM shipping_profiles WHERE id=?";
     private final String GET_BY_ID = "SELECT * FROM shipping_profiles WHERE id=?";
     private final String GET_ALL = "SELECT * FROM shipping_profiles";
-    private final String GET_BY_USER = "SELECT * FROM shipping_profiles WHERE userFK_ID = ?";
+    private final String GET_BY_USER = "SELECT * FROM shipping_profiles WHERE userID_FK = ?";
 
     @Override
     public long create(ShippingProfile shippingProfile) {
@@ -67,8 +67,7 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
         return shippingProfile;
     }
 
-    public List<ShippingProfile> getByUser(User user) {
+    public List<ShippingProfile> getAllByUser(User user) {
         return super.getAllByFK(GET_BY_USER, user);
     }
-
 }

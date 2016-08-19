@@ -93,4 +93,13 @@ public class ShippingProfileDAOImplTest extends BaseEntityTest<ShippingProfile, 
         recordFromDAO.setDocument(null);
         dao.update(recordFromDAO);
     }
+
+    @Test
+    public void getAllByUserTest() {
+        assertEquals(1, dao.getAllByUser(user).size());
+        ShippingProfile shippingProfile = new ShippingProfile();
+        fillRecordWithData(shippingProfile);
+        dao.create(shippingProfile);
+        assertEquals(2, dao.getAllByUser(user).size());
+    }
 }
