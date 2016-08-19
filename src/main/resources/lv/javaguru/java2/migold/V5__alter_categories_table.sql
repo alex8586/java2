@@ -1,0 +1,4 @@
+
+ALTER TABLE categories
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
