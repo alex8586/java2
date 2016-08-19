@@ -63,7 +63,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
                 throw new IllegalStateException("Exception while execute update for " + baseEntity.getClass().getSimpleName() + " - 0 or more than 1 record updated");
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute CategoryDAO.update");
+            System.out.println("Exception while execute update for " + baseEntity.getClass().getSimpleName());
             throw new DBException(e);
         } finally {
             closeConnection(connection);

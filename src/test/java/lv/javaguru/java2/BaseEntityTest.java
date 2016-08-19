@@ -88,8 +88,6 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
 
     @Test
     public void testCanFindCreatedRecord() {
-        System.out.println(newRecord);
-        System.out.println(recordFromDAO);
         assertTrue(recordFromDAO.getId() > 0);
         compareRecords(newRecord, recordFromDAO);
     }

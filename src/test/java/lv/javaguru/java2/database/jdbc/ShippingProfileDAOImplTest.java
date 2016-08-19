@@ -16,6 +16,7 @@ public class ShippingProfileDAOImplTest extends BaseEntityTest<ShippingProfile, 
     private User user = new User();
 
     @Before
+    @Override
     public void before() {
         cleaner.cleanDatabase();
         UserDAOImpl userDAO = new UserDAOImpl();
