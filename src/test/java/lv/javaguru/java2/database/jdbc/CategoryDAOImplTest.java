@@ -3,9 +3,8 @@ package lv.javaguru.java2.database.jdbc;
 import lv.javaguru.java2.BaseEntityTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,7 +12,7 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
 
     @Override
     protected void initDAO() {
-        testedDAO = new CategoryDAOImpl();
+        dao = new CategoryDAOImpl();
     }
 
     @Override
@@ -29,7 +28,6 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
 
     @Override
     protected void fillRecordWithData(Category category) {
-        Random random = new Random();
         category.setName("category" + random.nextInt(100000));
     }
 
@@ -38,16 +36,29 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
         category.setName("another " + category.getName());
     }
 
+    @Before
+    public void before() {
+        cleaner.cleanDatabase();
+        super.before();
+    }
 
     @Test(expected = DBException.class)
     public void creatingWithNullNameFails() {
         Category record = newRecord();
-        testedDAO.create(record);
+        dao.create(record);
     }
 
     @Test(expected = DBException.class)
     public void updatingWithNullNameFails() {
         recordFromDAO.setName(null);
-        testedDAO.update(recordFromDAO);
+        dao.update(recordFromDAO);
     }
+
+    @Test(expected = DBException.class)
+    public void savingWithVevyLongNameFails() {
+        recordFromDAO.setName("thisisverylongnamesoupdateshouldfall.omgitwasntenougthsoletsadddalittlebitmorelength");
+        dao.update(recordFromDAO);
+    }
+
+
 }

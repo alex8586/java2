@@ -55,6 +55,7 @@ public class ShippingProfile extends BaseEntity {
                 ", document='" + document + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

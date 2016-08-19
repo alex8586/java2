@@ -6,15 +6,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Random;
 
 import static junit.framework.TestCase.*;
 
 public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass extends DAOImpl<RecordClass>> {
 
+    protected Random random = new Random();
     protected RecordClass newRecord;
     protected RecordClass recordFromDAO;
-    protected DAOClass testedDAO;
-    private DatabaseCleaner cleaner = new DatabaseCleaner();
+    protected DAOClass dao;
+    protected DatabaseCleaner cleaner = new DatabaseCleaner();
 
     public BaseEntityTest() {
         initDAO();
@@ -22,61 +24,57 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
 
     protected abstract void initDAO();
     protected abstract RecordClass newRecord();
-
     protected abstract void fillRecordWithData(RecordClass record);
-
     protected abstract void makeChangesInRecord(RecordClass record1);
-
     protected abstract void compareRecords(RecordClass record1, RecordClass record2);
 
     protected void insertRandomDummyRecords(int count) {
         for (int i = 0; i < count; i++) {
             RecordClass record = newRecord();
             fillRecordWithData(record);
-            testedDAO.create(record);
+            dao.create(record);
         }
     }
 
     @Before
-    public void setup() {
-        cleaner.cleanDatabase();
+    public void before() {
         newRecord = newRecord();
         fillRecordWithData(newRecord);
-        testedDAO.create(newRecord);
-        recordFromDAO = testedDAO.getById(newRecord.getId());
+        dao.create(newRecord);
+        recordFromDAO = dao.getById(newRecord.getId());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createWithNullFails() {
-        testedDAO.create(null);
+        dao.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createWithNonZeroIdFails() {
         RecordClass fresh = newRecord();
         fresh.setId(123);
-        testedDAO.create(fresh);
+        dao.create(fresh);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void updateWithNullFails() {
-        testedDAO.update(null);
+        dao.update(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void updateWithZeroFails() {
         RecordClass fresh = newRecord();
-        testedDAO.update(fresh);
+        dao.update(fresh);
     }
 
     @Test
     public void deleteNullDoNothing() {
-        testedDAO.delete(null);
+        dao.delete(null);
     }
 
     @Test
     public void findWithWrongIdReturnsNull() {
-        RecordClass record = testedDAO.getById(-1);
+        RecordClass record = dao.getById(-1);
         assertNull(record);
     }
 
@@ -84,12 +82,14 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
     public void createReturnsId() {
         RecordClass record = newRecord();
         fillRecordWithData(record);
-        testedDAO.create(record);
+        dao.create(record);
         assertTrue(record.getId() > 0);
     }
 
     @Test
     public void testCanFindCreatedRecord() {
+        System.out.println(newRecord);
+        System.out.println(recordFromDAO);
         assertTrue(recordFromDAO.getId() > 0);
         compareRecords(newRecord, recordFromDAO);
     }
@@ -97,17 +97,17 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
     @Test
     public void testCouldNotFindDeletedRecord() {
         long id = recordFromDAO.getId();
-        testedDAO.delete(recordFromDAO);
+        dao.delete(recordFromDAO);
         assertEquals(0, recordFromDAO.getId());
-        recordFromDAO = testedDAO.getById(id);
+        recordFromDAO = dao.getById(id);
         assertNull(recordFromDAO);
     }
 
     @Test
     public void testCanSeeUpdatesAfterUpdate() {
         makeChangesInRecord(recordFromDAO);
-        testedDAO.update(recordFromDAO);
-        RecordClass updatedRecord = testedDAO.getById(recordFromDAO.getId());
+        dao.update(recordFromDAO);
+        RecordClass updatedRecord = dao.getById(recordFromDAO.getId());
         compareRecords(recordFromDAO, updatedRecord);
     }
 
@@ -115,31 +115,31 @@ public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass ex
     public void testGetAll() {
         List<RecordClass> records;
 
-        records = testedDAO.getAll();
+        records = dao.getAll();
         assertEquals(1, records.size());
 
         insertRandomDummyRecords(3);
-        records = testedDAO.getAll();
+        records = dao.getAll();
         assertEquals(4, records.size());
 
         insertRandomDummyRecords(2);
-        records = testedDAO.getAll();
+        records = dao.getAll();
         assertEquals(6, records.size());
 
-        testedDAO.delete(records.get(0));
-        records = testedDAO.getAll();
+        dao.delete(records.get(0));
+        records = dao.getAll();
         assertEquals(5, records.size());
 
-        testedDAO.delete(records.get(4));
-        records = testedDAO.getAll();
+        dao.delete(records.get(4));
+        records = dao.getAll();
         assertEquals(4, records.size());
 
-        testedDAO.delete(records.get(1));
-        records = testedDAO.getAll();
+        dao.delete(records.get(1));
+        records = dao.getAll();
         assertEquals(3, records.size());
 
         insertRandomDummyRecords(5);
-        records = testedDAO.getAll();
+        records = dao.getAll();
         assertEquals(8, records.size());
     }
 }
