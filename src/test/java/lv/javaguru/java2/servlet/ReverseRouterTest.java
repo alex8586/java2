@@ -27,19 +27,19 @@ public class ReverseRouterTest {
     @Test
     public void testExistingPath() {
         String path = reverseRouter.linkTo("Integer");
-        assertEquals("IntegerLink", path);
+        assertEquals("/IntegerLink", path);
 
         String anotherPath = reverseRouter.linkTo("IllegalFormatCodePointException");
-        assertEquals("error", anotherPath);
+        assertEquals("/error", anotherPath);
     }
 
     @Test
     public void testExistingPathWithId() {
         String path = reverseRouter.linkTo("Integer", "124");
-        assertEquals("IntegerLink?id=124", path);
+        assertEquals("/IntegerLink?id=124", path);
 
         String anotherPath = reverseRouter.linkTo("IllegalFormatCodePointException", "100500");
-        assertEquals("error?id=100500", anotherPath);
+        assertEquals("/error?id=100500", anotherPath);
     }
 
     @Test

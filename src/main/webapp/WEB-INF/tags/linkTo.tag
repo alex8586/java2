@@ -6,10 +6,10 @@
     ReverseRouter reverseRouter = (ReverseRouter) application.getAttribute("reverseRouter");
 %>
 <c:if test="${not empty resourceId}">
-    <%= reverseRouter.linkTo(controller, resourceId) %>
+    <c:url value="<%= reverseRouter.linkTo(controller, resourceId)%>"/>
 </c:if>
 <c:if test="${empty resourceId}">
-    <%= reverseRouter.linkTo(controller) %>
+    <c:url value="<%= reverseRouter.linkTo(controller)%>"/>
 </c:if>
 
 
