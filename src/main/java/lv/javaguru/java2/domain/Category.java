@@ -8,9 +8,16 @@ public class Category extends BaseEntity {
     private String name;
 
     public Category() {
+        this(0, "Mayo");
+        //TODO: is it ok creating categories without name? set a default name for now.
     }
 
     public Category(String name) {
+        this(0, name);
+    }
+
+    public Category(long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
