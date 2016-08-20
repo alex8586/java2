@@ -12,6 +12,10 @@ public class ReverseRouter {
         routes = new HashMap<String, String>();
         for (Map.Entry<String, ?> controllerAndRoute : controllers.entrySet()) {
             routes.put(controllerAndRoute.getValue().getClass().getSimpleName(), controllerAndRoute.getKey());
+            MVCController controller = (MVCController) controllerAndRoute.getValue();
+            if (controller != null) {
+                MVCController.setLinkTo(controllerAndRoute.getKey());
+            }
         }
     }
 

@@ -17,6 +17,8 @@
                         cart</h6></a>
                     <a class="collection-item" href="<tags:linkTo controller="ProfileHistoryController"/>"><h6>Show
                         history</h6></a>
+                    <a class="collection-item" href="<tags:linkTo controller="ShippingProfileController"/>"><h6>Shipping
+                        profiles</h6></a>
                 </div>
             </div>
             <div class="col s8">
