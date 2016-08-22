@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 public class LogoutController extends MVCController {
 
     @Override
-    public MVCModel doGet(HttpServletRequest request) {
-
+    public MVCModel executeGet(HttpServletRequest request) {
         request.getSession().invalidate();
-
         return new MVCModel("/index");
     }
 }
