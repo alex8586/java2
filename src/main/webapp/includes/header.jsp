@@ -16,7 +16,7 @@
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">SHIPPING</a></li>
-                    <li><a href="">CONTACT</a></li>
+                    <li><a href="<tags:linkTo controller="ContactController" />">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">
                         <li><a href="<tags:linkTo controller="ProfileController" />">PROFILE</a></li>
                         <li><a href="<tags:linkTo controller="LogoutController" />">LOGOUT</a></li>

@@ -30,10 +30,12 @@ public class Router implements Filter {
         ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
         ProductController productController = new ProductController();
         CategoryChooseController categoryChooseController = new CategoryChooseController();
+        ContactController contactController = new ContactController(categoryDAO);
 
         controllers.put("/index", frontPageController);
         controllers.put("/index/category", categoryChooseController);
 
+        controllers.put("/contacts", contactController);
         controllers.put("/register", registrationController);
         controllers.put("/login", loginController);
         controllers.put("/logout", logoutController);
