@@ -46,6 +46,7 @@
                 <hr>
                 <%@include file="includes/cart.jsp" %>
                 <hr>
+                <%@include file="includes/product_banner.jsp" %>
             </div>
         </div>
     </jsp:body>

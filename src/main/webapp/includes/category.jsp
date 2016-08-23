@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <div class="collection card center">
     <h5 class="collection-header">Categories</h5>
     <c:forEach items="${requestScope.model.categories}" var="category">

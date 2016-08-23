@@ -6,7 +6,7 @@
             ${product.displayName}
         </div>
         <div class="card-image">
-            <img src="miskaweb/img/product.jpg" height="130" width="130">
+            <img src="${product.imgUrl}" height="130" width="130">
         </div>
         <div class="card-content left-align">
             <p>${product.displayDescription}</p>

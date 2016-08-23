@@ -11,6 +11,7 @@ public class Product extends BaseEntity {
     private String displayName;
     private String displayDescription;
     private int remainQty;
+    private String imgUrl;
 
     public Product() {
     }
@@ -103,6 +104,14 @@ public class Product extends BaseEntity {
 
     public void setRemainQty(int remainQty) {
         this.remainQty = remainQty;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

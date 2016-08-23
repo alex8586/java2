@@ -21,16 +21,16 @@ public class Router implements Filter {
         UserDAOImpl userDAO = new UserDAOImpl();
 
         FrontPageController frontPageController = new FrontPageController(categoryDAO, productDAO);
-        RegistrationController registrationController = new RegistrationController(userDAO);
-        LoginController loginController = new LoginController(userDAO);
+        RegistrationController registrationController = new RegistrationController(userDAO, productDAO);
+        LoginController loginController = new LoginController(userDAO, productDAO);
         LogoutController logoutController = new LogoutController();
-        ProfileController profileController = new ProfileController(userDAO);
-        ProfileCartController profileCartController = new ProfileCartController();
-        ProfileHistoryController profileHistoryController = new ProfileHistoryController();
-        ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
+        ProfileController profileController = new ProfileController(userDAO, productDAO);
+        ProfileCartController profileCartController = new ProfileCartController(productDAO);
+        ProfileHistoryController profileHistoryController = new ProfileHistoryController(productDAO);
+        ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO, productDAO);
         ProductController productController = new ProductController();
-        CategoryChooseController categoryChooseController = new CategoryChooseController();
-        ContactController contactController = new ContactController(categoryDAO);
+        CategoryChooseController categoryChooseController = new CategoryChooseController(productDAO);
+        ContactController contactController = new ContactController(categoryDAO, productDAO);
 
         controllers.put("/index", frontPageController);
         controllers.put("/index/category", categoryChooseController);

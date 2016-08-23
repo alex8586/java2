@@ -6,7 +6,7 @@
 <tags:pageTemplate>
     <jsp:body>
         <div class="row">
-            <div class="col s3">
+            <div class="col s2">
                 <div class="collection card center">
                     <h5 class="collection-header">Menu</h5>
                     <a class="collection-item" href="<tags:linkTo controller="ProfileController"/>"><h6>Profile
@@ -19,7 +19,7 @@
                         history</h6></a>
                 </div>
             </div>
-            <div class="col s7">
+            <div class="col s8">
                 <jsp:invoke fragment="content"/>
             </div>
             <div class="col s2">

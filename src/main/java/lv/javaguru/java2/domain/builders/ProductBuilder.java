@@ -46,6 +46,7 @@ public class ProductBuilder {
         product.setVendorName(resultSet.getString("VendorName"));
         product.setVendorDescription(resultSet.getString("VendorDescription"));
         product.setUnit(resultSet.getString("unit"));
+        product.setImgUrl(resultSet.getString("imgurl"));
     }
 
 }
