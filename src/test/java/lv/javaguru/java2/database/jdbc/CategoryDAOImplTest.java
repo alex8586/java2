@@ -21,23 +21,22 @@ public class CategoryDAOImplTest extends IntegrationTest {
     }
 
     @Test
-    public void testCreateReturnId() {
-        Category category = new Category();
-        category.setName("foo");
+    public void testCreate() {
+        Category category = new Category("foo");
         long id = categoryDAOImpl.create(category);
         assertTrue(id > 0 );
     }
 
     @Test
-    public void testCanFindCreatedRecord() {
+    public void canFindCreatedRecord() {
         Category category = getDummyRecordFromDb();
         long id = category.getId();
         assertFalse(id == 0);
         Category anotherCategory = categoryDAOImpl.getById(id);
 
         assertNotNull(anotherCategory);
-        assertEquals(category.getName(),anotherCategory.getName());
-        assertEquals(category.getId(),anotherCategory.getId());
+        assertEquals(category.getName(), anotherCategory.getName());
+        assertEquals(category.getId(), anotherCategory.getId());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -141,8 +140,7 @@ public class CategoryDAOImplTest extends IntegrationTest {
     }
 
     private Category getDummyRecordFromDb() {
-        Category category = new Category();
-        category.setName("name");
+        Category category = new Category("name");
         categoryDAOImpl.create(category);
         return category;
     }
