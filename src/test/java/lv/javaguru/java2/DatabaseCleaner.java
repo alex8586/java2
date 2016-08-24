@@ -1,7 +1,7 @@
 package lv.javaguru.java2;
 
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.jdbc.JdbcConnector;
+import lv.javaguru.java2.database.jdbc.successor.JdbcConnector;
 
 import java.sql.*;
 import java.util.ArrayList;

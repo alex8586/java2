@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
+import lv.javaguru.java2.database.jdbc.successor.ShippingProfileDAOImpl;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 

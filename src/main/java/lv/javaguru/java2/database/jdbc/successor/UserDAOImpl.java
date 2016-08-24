@@ -1,4 +1,4 @@
-package lv.javaguru.java2.database.jdbc;
+package lv.javaguru.java2.database.jdbc.successor;
 
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
