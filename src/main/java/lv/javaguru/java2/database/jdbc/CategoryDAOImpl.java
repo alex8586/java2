@@ -1,4 +1,4 @@
-package lv.javaguru.java2.database.jdbc.successor;
+package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.domain.Category;

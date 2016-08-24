@@ -1,8 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.jdbc.successor.CategoryDAOImpl;
-import lv.javaguru.java2.database.jdbc.successor.ProductDAOImpl;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.apache.commons.lang3.StringUtils;
