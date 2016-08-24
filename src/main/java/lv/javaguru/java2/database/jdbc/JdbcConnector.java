@@ -34,7 +34,7 @@ public class JdbcConnector {
     private void initDatabaseConnectionProperties() {
         Properties properties = new Properties();
         try {
-            properties.load(DAOImpl.class.getClassLoader().getResourceAsStream(DB_CONFIG_FILE));
+            properties.load(JdbcConnector.class.getClassLoader().getResourceAsStream(DB_CONFIG_FILE));
             dbBaseUrl = properties.getProperty("dbBaseUrl");
             dbSchema = properties.getProperty("dbSchema");
             userName = properties.getProperty("userName");
