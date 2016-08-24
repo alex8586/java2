@@ -46,6 +46,7 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
     @Test(expected = DBException.class)
     public void creatingWithNullNameFails() {
         Category record = newRecord();
+        record.setName(null);
         dao.create(record);
     }
 
