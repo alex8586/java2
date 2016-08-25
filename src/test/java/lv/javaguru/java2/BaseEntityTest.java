@@ -1,28 +1,32 @@
 package lv.javaguru.java2;
 
+import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.jdbc.DAOImpl;
 import lv.javaguru.java2.domain.BaseEntity;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.Random;
 
 import static junit.framework.TestCase.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringConfig.class})
 public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass extends DAOImpl<RecordClass>> {
 
     protected Random random = new Random();
     protected RecordClass newRecord;
     protected RecordClass recordFromDAO;
+
+    @Autowired
     protected DAOClass dao;
     protected DatabaseCleaner cleaner = new DatabaseCleaner();
 
-    public BaseEntityTest() {
-        initDAO();
-    }
-
-    protected abstract void initDAO();
     protected abstract RecordClass newRecord();
     protected abstract void fillRecordWithData(RecordClass record);
     protected abstract void makeChangesInRecord(RecordClass record1);

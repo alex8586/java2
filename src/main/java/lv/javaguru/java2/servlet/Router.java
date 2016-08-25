@@ -48,6 +48,7 @@ public class Router implements Filter {
         HttpServletResponse resp = (HttpServletResponse)response;
 
         String contextURI = req.getServletPath();
+        System.out.println(contextURI);
         MVCController controller = controllers.get(contextURI);
         if (controller != null) {
             MVCModel model;

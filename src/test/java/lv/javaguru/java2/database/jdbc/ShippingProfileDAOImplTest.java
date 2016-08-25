@@ -28,11 +28,6 @@ public class ShippingProfileDAOImplTest extends BaseEntityTest<ShippingProfile, 
     }
 
     @Override
-    protected void initDAO() {
-        dao = new ShippingProfileDAOImpl();
-    }
-
-    @Override
     protected ShippingProfile newRecord() {
         return new ShippingProfile();
     }

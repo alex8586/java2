@@ -15,11 +15,6 @@ public class ProductDAOImplTest extends BaseEntityTest<Product, ProductDAOImpl> 
     private Category anotherCategory = new Category();
 
     @Override
-    protected void initDAO() {
-        dao = new ProductDAOImpl();
-    }
-
-    @Override
     protected Product newRecord() {
         return new Product();
     }

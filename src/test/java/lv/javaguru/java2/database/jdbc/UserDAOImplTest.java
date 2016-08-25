@@ -19,11 +19,6 @@ public class UserDAOImplTest extends BaseEntityTest<User, UserDAOImpl> {
     }
 
     @Override
-    protected void initDAO() {
-        dao = new UserDAOImpl();
-    }
-
-    @Override
     protected User newRecord() {
         return new User();
     }
