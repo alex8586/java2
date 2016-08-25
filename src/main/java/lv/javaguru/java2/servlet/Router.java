@@ -22,7 +22,6 @@ public class Router implements Filter {
         try {
             springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
         } catch (BeansException e) {
-
         }
 
         addController("/index", FrontPageController.class);

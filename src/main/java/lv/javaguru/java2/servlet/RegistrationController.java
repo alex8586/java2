@@ -21,7 +21,7 @@ public class RegistrationController extends MVCController {
     UserRegistrationService userRegistrationService;
 
     @Autowired
-    @Qualifier("RandomSaleOffer")
+    @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
 
     @Override

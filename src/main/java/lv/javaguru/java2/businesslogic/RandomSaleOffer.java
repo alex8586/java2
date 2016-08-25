@@ -1,5 +1,4 @@
 package lv.javaguru.java2.businesslogic;
-
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +10,23 @@ import java.util.Random;
 @Component
 public class RandomSaleOffer implements SpecialSaleOffer {
 
-    @Autowired
+
     ProductDAO productDAO;
 
     private List<Product> products;
     private Random random = new Random();
 
-    public RandomSaleOffer() {
+    @Autowired
+    public RandomSaleOffer(ProductDAO productDAO) {
+        this.productDAO = productDAO;
         revolve();
     }
-
     @Override
     public Product getOffer() {
-        return products.get(random.nextInt(products.size()));
+        if (products.size() > 0)
+            return products.get(random.nextInt(products.size()));
+        else
+            return null;
     }
 
     private void revolve() {

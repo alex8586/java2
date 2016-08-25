@@ -18,10 +18,10 @@ import java.util.Map;
 public class LoginController extends MVCController{
 
     @Autowired
-    UserLoginService userLoginService;
+    private UserLoginService userLoginService;
 
     @Autowired
-    @Qualifier("RandomSaleOffer")
+    @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
 
     @Override
@@ -37,7 +37,7 @@ public class LoginController extends MVCController{
         Product product = specialSaleOffer.getOffer();
         if (product != null)
             imgPath = product.getImgUrl();
-        
+
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("loginError" , error);
         map.put("imgPath", imgPath);
