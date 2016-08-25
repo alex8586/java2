@@ -82,7 +82,7 @@ public class Product extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder()
+        return new HashCodeBuilder(11, 37)
                 .append(id)
                 .append(name)
                 .append(description)
@@ -98,6 +98,7 @@ public class Product extends BaseEntity {
                 + "name: " + name + ", "
                 + "description: " + description + ", "
                 + "price: " + price + ", "
-                + "categoryId: " + categoryId;
+                + "categoryId: " + categoryId
+                + "}";
     }
 }
