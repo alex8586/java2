@@ -4,7 +4,14 @@
 <tags:pageTemplate>
     <jsp:body>
         <div class="row">
-                ${requestScope.model.product}
+            <c:if test="${not empty requestScope.model.error}">
+                ${requestScope.model.error}
+            </c:if>
+            <c:if test="${empty requestScope.model.error}">
+                ${requestScope.model.product} <br>
+                <a href="<tags:linkTo controller="CartController" resourceId="${requestScope.model.product.id}"/>">Add
+                    to Cart</a>
+            </c:if>
         </div>
     </jsp:body>
 </tags:pageTemplate>

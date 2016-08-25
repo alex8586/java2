@@ -13,7 +13,7 @@ import java.util.Map;
 public class ProductController extends MVCController {
 
     private static final String UNABLE_TO_PROCESS_REQUEST = "Error. Unable to find product";
-    private static final String WRONG_PRODUCT_ID
+    private static final String WRONG_PRODUCT_ID = "Error. No item with such id";
 
     ProductDAOImpl productDAO = new ProductDAOImpl();
 
