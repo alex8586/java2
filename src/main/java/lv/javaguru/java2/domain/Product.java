@@ -10,6 +10,7 @@ public class Product extends BaseEntity {
     private String description;
     private long price;
     private long categoryId;
+    private String imgUrl;
 
     public Product() {
     }
@@ -23,9 +24,8 @@ public class Product extends BaseEntity {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
+    public long getCategoryID() {
+        return categoryID;
     }
 
     public String getDescription() {

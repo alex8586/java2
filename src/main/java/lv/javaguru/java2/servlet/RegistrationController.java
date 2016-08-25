@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Component
 public class RegistrationController extends MVCController {
@@ -33,8 +35,20 @@ public class RegistrationController extends MVCController {
         } else if (request.getSession().getAttribute("user") != null) {
             return new MVCModel("/index");
         }
+        String imgPath;
+        int bannerId;
+        List<Product> productList = productDAO.getAll();
+        if (productList.size() == 0) {
+            imgPath = "miskaweb/img/default.jpg";
+        } else {
+            Random random = new Random();
+            bannerId = random.nextInt(productList.size());
+            imgPath = productList.get(bannerId).getImgUrl();
+        }
+
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("registrationError" , error);
+        map.put("imgPath", imgPath);
         return new MVCModel(map,"/registration.jsp");
     }
 

@@ -8,5 +8,7 @@
     </jsp:attribute>
     <jsp:attribute name="rightBar">
         right bar here
+        <hr>
+        <%@include file="includes/product_banner.jsp" %>
     </jsp:attribute>
 </tags:userPageTemplate>

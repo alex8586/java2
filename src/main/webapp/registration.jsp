@@ -43,6 +43,7 @@
                         <hr>
                     </div>
                 </c:if>
+                <%@include file="includes/product_banner.jsp" %>
             </div>
         </div>
     </jsp:body>
