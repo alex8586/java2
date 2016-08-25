@@ -1,7 +1,7 @@
 package lv.javaguru.java2;
 
 import lv.javaguru.java2.config.SpringConfig;
-import lv.javaguru.java2.database.jdbc.DAOImpl;
+import lv.javaguru.java2.database.CrudDAO;
 import lv.javaguru.java2.domain.BaseEntity;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass extends DAOImpl<RecordClass>> {
+public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass extends CrudDAO<RecordClass>> {
 
     protected Random random = new Random();
     protected RecordClass newRecord;
