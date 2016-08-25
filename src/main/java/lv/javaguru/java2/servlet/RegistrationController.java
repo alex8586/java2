@@ -1,7 +1,9 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.UserRegistrationService;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +21,21 @@ public class RegistrationController extends MVCController {
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String UNEXPECTED_ERROR = "Oops, something went wrong";
     private final String USER_ALREADY_EXISTS = "User already exists";
-
-    private UserDAO userDAO;
-    private ProductDAO productDAO;
-
-    //inject via constructor style
     @Autowired
-    public RegistrationController(UserDAO userDAO, ProductDAO productDAO) {
-        this.userDAO = userDAO;
-        this.productDAO = productDAO;
-    }
-
+    UserRegistrationService userRegistrationService;
+    @Autowired
+    private ProductDAO productDAO;
+    
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
-        String error = null;
-        if(request.getSession().getAttribute("registrationError") != null) {
-            error = (String) request.getSession().getAttribute("registrationError");
-            request.getSession().removeAttribute("registrationError");
-        } else if (request.getSession().getAttribute("user") != null) {
+
+        User user = (User) request.getSession().getAttribute("user");
+        String error = (String) request.getSession().getAttribute("registrationError");
+        request.getSession().removeAttribute("registrationError");
+
+        if (user != null)
             return new MVCModel("/index");
-        }
+
         String imgPath;
         int bannerId;
         List<Product> productList = productDAO.getAll();
@@ -62,28 +59,14 @@ public class RegistrationController extends MVCController {
         String name = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        if(name.isEmpty() || email.isEmpty() || password.isEmpty()){
-            request.getSession().setAttribute("registrationError" , EMPTY_FIELDS);
-            return new MVCModel("/register");
-        }
-
         try {
-            User userCheckedByEmail = userDAO.getByEmail(email);
-            if(userCheckedByEmail!= null){
-                request.getSession().setAttribute("registrationError" , USER_ALREADY_EXISTS);
-                return new MVCModel("/register");
-            }
-            User user = new User();
-            user.setFullName(name);
-            user.setEmail(email);
-            user.setPassword(password);
-            userDAO.create(user);
+            userRegistrationService.register(name, email, password);
             return new MVCModel("/login");
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } catch (ServiceException e) {
+            request.getSession().setAttribute("registrationError", e.getMessage());
+            return new MVCModel("/register");
+        } catch (DBException e) {
+            return new MVCModel("/error");
         }
-        request.getSession().setAttribute("registrationError" , UNEXPECTED_ERROR);
-        return new MVCModel("/register");
     }
 }
