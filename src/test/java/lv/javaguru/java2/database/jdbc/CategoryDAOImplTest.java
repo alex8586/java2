@@ -10,12 +10,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImpl> {
 
-    @Override
-    protected void initDAO() {
-        dao = new CategoryDAOImpl();
-    }
+public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImpl> {
 
     @Override
     protected Category newRecord() {
