@@ -9,14 +9,13 @@ import static org.junit.Assert.assertTrue;
 public class CartTest {
 
     private static final String NAME = "name";
-    private static final String VENDOR_CODE = "AA1";
 
     private Product product;
     private Cart cart;
 
     @Before
     public void before() {
-        product = new Product(NAME, VENDOR_CODE);
+        product = new Product(NAME);
         cart = new Cart();
     }
 
