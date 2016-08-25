@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
 
-    private final String CREATE_NEW = "INSERT INTO shipping_profiles(person,document,address,phone,userID_FK,id) VALUES " + " (?,?,?,?,?,DEFAULT)";
-    private final String UPDATE_BY_ID = "UPDATE shipping_profiles SET person=?,document=?,address=?,phone=?,userID_FK=? WHERE id=?";
-    private final String DELETE_BY_ID = "DELETE FROM shipping_profiles WHERE id=?";
-    private final String GET_BY_ID = "SELECT * FROM shipping_profiles WHERE id=?";
+    private final String CREATE_NEW = "INSERT INTO shipping_profiles (person, document, address, phone, user_id, id) VALUES " + " (?, ?, ?, ?, ?, DEFAULT)";
+    private final String UPDATE_BY_ID = "UPDATE shipping_profiles SET person = ?, document = ?, address = ?, phone = ?, user_id= ? WHERE id = ?";
+    private final String DELETE_BY_ID = "DELETE FROM shipping_profiles WHERE id = ?";
+    private final String GET_BY_ID = "SELECT * FROM shipping_profiles WHERE id = ?";
     private final String GET_ALL = "SELECT * FROM shipping_profiles";
-    private final String GET_BY_USER = "SELECT * FROM shipping_profiles WHERE userID_FK = ?";
+    private final String GET_BY_USER = "SELECT * FROM shipping_profiles WHERE user_id = ?";
 
     @Override
     public long create(ShippingProfile shippingProfile) {
@@ -63,7 +63,7 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
         shippingProfile.setDocument(resultSet.getString("document"));
         shippingProfile.setPerson(resultSet.getString("person"));
         shippingProfile.setPhone(resultSet.getString("phone"));
-        shippingProfile.setUserId(resultSet.getLong("userID_FK"));
+        shippingProfile.setUserId(resultSet.getLong("user_id"));
         return shippingProfile;
     }
 
