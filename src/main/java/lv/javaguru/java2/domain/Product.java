@@ -1,152 +1,99 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Product extends BaseEntity {
 
-    private long categoryID;
-    private String vendorCode;
-    private String vendorName;
-    private String vendorDescription;
-    private String unit;
-    private int price;
-    private String displayName;
-    private String displayDescription;
-    private int remainQty;
+    private long id;
+    private String name;
+    private String description;
+    private long price;
+    private long categoryId;
 
     public Product() {
     }
 
-    public Product(String vendorCode, String displayName) {
-        this.vendorCode = vendorCode;
-        this.displayName = displayName;
-    }
-
-    public Product(long categoryID, String vendorCode, String vendorName, String vendorDescription,
-                   String unit, int price, String displayName, String displayDescription, int remainQty) {
-        this.categoryID = categoryID;
-        this.vendorCode = vendorCode;
-        this.vendorName = vendorName;
-        this.vendorDescription = vendorDescription;
-        this.unit = unit;
-        this.price = price;
-        this.displayName = displayName;
-        this.displayDescription = displayDescription;
-        this.remainQty = remainQty;
-    }
-
-    public long getCategoryID() {
-        return categoryID;
-    }
-
-    public void setCategoryID(long categoryID) {
-        this.categoryID = categoryID;
-    }
-
-    public String getVendorCode() {
-        return vendorCode;
-    }
-
-    public void setVendorCode(String vendorCode) {
-        this.vendorCode = vendorCode;
-    }
-
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    public String getVendorDescription() {
-        return vendorDescription;
-    }
-
-    public void setVendorDescription(String vendorDescription) {
-        this.vendorDescription = vendorDescription;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayDescription() {
-        return displayDescription;
-    }
-
-    public void setDisplayDescription(String displayDescription) {
-        this.displayDescription = displayDescription;
-    }
-
-    public int getRemainQty() {
-        return remainQty;
-    }
-
-    public void setRemainQty(int remainQty) {
-        this.remainQty = remainQty;
+    public Product(String name) {
+        this.name = name;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public long getId() {
+        return id;
+    }
 
-        Product product = (Product) o;
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 
-        if (id != product.id) return false;
-        if (categoryID != product.categoryID) return false;
-        if (price != product.price) return false;
-        if (remainQty != product.remainQty) return false;
-        if (!vendorCode.equals(product.vendorCode)) return false;
-        if (vendorName != null ? !vendorName.equals(product.vendorName) : product.vendorName != null) return false;
-        if (vendorDescription != null ? !vendorDescription.equals(product.vendorDescription) : product.vendorDescription != null)
-            return false;
-        if (unit != null ? !unit.equals(product.unit) : product.unit != null) return false;
-        if (!displayName.equals(product.displayName)) return false;
-        return !(displayDescription != null ? !displayDescription.equals(product.displayDescription) : product.displayDescription != null);
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || this.getClass() != object.getClass()) return false;
+
+        Product other = (Product) object;
+
+        return new EqualsBuilder()
+                .append(this.getId(), other.getId())
+                .append(this.getName(), other.getName())
+                .append(this.getDescription(), other.getDescription())
+                .append(this.getPrice(), other.getPrice())
+                .append(this.getCategoryId(), other.getCategoryId())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (categoryID ^ (categoryID >>> 32));
-        result = 31 * result + vendorCode.hashCode();
-        result = 31 * result + (vendorName != null ? vendorName.hashCode() : 0);
-        result = 31 * result + (vendorDescription != null ? vendorDescription.hashCode() : 0);
-        result = 31 * result + (unit != null ? unit.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + displayName.hashCode();
-        result = 31 * result + (displayDescription != null ? displayDescription.hashCode() : 0);
-        result = 31 * result + remainQty;
-        return result;
+        return new HashCodeBuilder()
+                .append(id)
+                .append(name)
+                .append(description)
+                .append(price)
+                .append(categoryId)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "Product{" +
-                "productID=" + id +
-                ", categoryID=" + categoryID +
-                ", displayName='" + displayName + '\'' +
-                '}';
+        return "Product {"
+                + "id: " + id + ", "
+                + "name: " + name + ", "
+                + "description: " + description + ", "
+                + "price: " + price + ", "
+                + "categoryId: " + categoryId;
     }
 }

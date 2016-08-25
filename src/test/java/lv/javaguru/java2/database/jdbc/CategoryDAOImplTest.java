@@ -67,8 +67,7 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
     @Test(expected = DBException.class)
     public void cantDeleteWithProducts() {
         Product product = new Product();
-        product.setVendorCode("vendor");
-        product.setCategoryID(recordFromDAO.getId());
+        product.setCategoryId(recordFromDAO.getId());
         ProductDAOImpl productDAO = new ProductDAOImpl();
         productDAO.create(product);
         dao.delete(recordFromDAO);
