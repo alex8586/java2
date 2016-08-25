@@ -4,7 +4,7 @@
 
 <tags:userPageTemplate>
     <jsp:attribute name="content">
-         <form action="profile_update" method="post">
+         <form action="<tags:linkTo controller="ProfileUpdateController" />" method="post">
              <div class="row">
                  <div class="input-field col s12">
                      <input id="fullName" type="text" class="validate" name="fullName">
