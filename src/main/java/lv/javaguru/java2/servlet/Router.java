@@ -25,31 +25,18 @@ public class Router implements Filter {
 
         }
 
-        MVCController registrationController = getBean(RegistrationController.class);
-        MVCController loginController = getBean(LoginController.class);
-        MVCController logoutController = getBean(LogoutController.class);
+        addController("/index", FrontPageController.class);
+        addController("/index/category", CategoryChooseController.class);
 
-        MVCController profileUpdateController = getBean(ProfileUpdateController.class);
-        MVCController profileController = getBean(ProfileController.class);
-        MVCController profileCartController = getBean(ProfileCartController.class);
-        MVCController profileHistoryController = getBean(ProfileHistoryController.class);
-
-        MVCController frontPageController = getBean(FrontPageController.class);
-        MVCController categoryChooseController = getBean(CategoryChooseController.class);
-        MVCController productController = getBean(ProductController.class);
-
-        controllers.put("/index", frontPageController);
-        controllers.put("/index/category", categoryChooseController);
-
-        controllers.put("/register", registrationController);
-        controllers.put("/login", loginController);
-        controllers.put("/logout", logoutController);
-        controllers.put("/profile", profileController);
-        controllers.put("/profile/cart", profileCartController);
-        controllers.put("/profile/history", profileHistoryController);
-        controllers.put("/profile/update", profileUpdateController);
-        controllers.put("/product", productController);
-
+        addController("/register", RegistrationController.class);
+        addController("/login", LoginController.class);
+        addController("/logout", LogoutController.class);
+        addController("/profile", ProfileController.class);
+        addController("/profile/cart", ProfileCartController.class);
+        addController("/profile/history", ProfileHistoryController.class);
+        addController("/profile/update", ProfileUpdateController.class);
+        addController("/product", ProductController.class);
+        
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
     }
@@ -92,5 +79,9 @@ public class Router implements Filter {
 
     private MVCController getBean(Class clazz) {
         return (MVCController) springContext.getBean(clazz);
+    }
+
+    private void addController(String route, Class clazz) {
+        controllers.put(route, (MVCController) springContext.getBean(clazz));
     }
 }
