@@ -1,9 +1,0 @@
-CREATE TABLE users (
-  id       INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name     VARCHAR(45) NOT NULL,
-  email    VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
-  UNIQUE INDEX email (email)
-)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1;

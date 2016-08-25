@@ -4,6 +4,7 @@ import lv.javaguru.java2.BaseEntityTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,16 +58,16 @@ public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImp
     }
 
     @Test(expected = DBException.class)
-    public void savingWithVevyLongNameFails() {
-        recordFromDAO.setName("thisisverylongnamesoupdateshouldfall.omgitwasntenougthsoletsadddalittlebitmorelength");
+    public void savingWithVeryLongNameFails() {
+        String veryLongName = StringUtils.leftPad("name", 512, '*');
+        recordFromDAO.setName(veryLongName);
         dao.update(recordFromDAO);
     }
 
     @Test(expected = DBException.class)
     public void cantDeleteWithProducts() {
         Product product = new Product();
-        product.setVendorCode("vendor");
-        product.setCategoryID(recordFromDAO.getId());
+        product.setCategoryId(recordFromDAO.getId());
         ProductDAOImpl productDAO = new ProductDAOImpl();
         productDAO.create(product);
         dao.delete(recordFromDAO);

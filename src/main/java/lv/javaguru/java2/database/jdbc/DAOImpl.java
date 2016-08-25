@@ -13,13 +13,9 @@ import java.util.List;
 public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
 
     public abstract long create(T t);
-
     public abstract void update(T t);
-
     public abstract void delete(T t);
-
     public abstract T getById(long id);
-
     public abstract List<T> getAll();
 
     protected abstract void fillPreparedStatement(PreparedStatement preparedStatement, T baseEntity) throws SQLException;

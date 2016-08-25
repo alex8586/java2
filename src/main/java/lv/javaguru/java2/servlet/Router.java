@@ -1,8 +1,9 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+import lv.javaguru.java2.config.SpringConfig;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -13,35 +14,28 @@ import java.util.Map;
 
 public class Router implements Filter {
 
+    private ApplicationContext springContext;
     private Map<String, MVCController> controllers = new HashMap<String, MVCController>();
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        CategoryDAOImpl categoryDAO = new CategoryDAOImpl();
-        ProductDAOImpl productDAO = new ProductDAOImpl();
-        UserDAOImpl userDAO = new UserDAOImpl();
 
-        FrontPageController frontPageController = new FrontPageController(categoryDAO, productDAO);
-        RegistrationController registrationController = new RegistrationController(userDAO);
-        LoginController loginController = new LoginController(userDAO);
-        LogoutController logoutController = new LogoutController();
-        ProfileController profileController = new ProfileController(userDAO);
-        ProfileCartController profileCartController = new ProfileCartController();
-        ProfileHistoryController profileHistoryController = new ProfileHistoryController();
-        ProfileUpdateController profileUpdateController = new ProfileUpdateController(userDAO);
-        ProductController productController = new ProductController();
-        CategoryChooseController categoryChooseController = new CategoryChooseController();
+        try {
+            springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
+        } catch (BeansException e) {
 
-        controllers.put("/index", frontPageController);
-        controllers.put("/index/category", categoryChooseController);
+        }
 
-        controllers.put("/register", registrationController);
-        controllers.put("/login", loginController);
-        controllers.put("/logout", logoutController);
-        controllers.put("/profile", profileController);
-        controllers.put("/profile/cart", profileCartController);
-        controllers.put("/profile/history", profileHistoryController);
-        controllers.put("/profile/update", profileUpdateController);
-        controllers.put("/product", productController);
+        addController("/index", FrontPageController.class);
+        addController("/index/category", CategoryChooseController.class);
+
+        addController("/register", RegistrationController.class);
+        addController("/login", LoginController.class);
+        addController("/logout", LogoutController.class);
+        addController("/profile", ProfileController.class);
+        addController("/profile/cart", ProfileCartController.class);
+        addController("/profile/history", ProfileHistoryController.class);
+        addController("/profile/update", ProfileUpdateController.class);
+        addController("/product", ProductController.class);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
@@ -81,5 +75,13 @@ public class Router implements Filter {
 
     public void destroy() {
 
+    }
+
+    private MVCController getBean(Class clazz) {
+        return (MVCController) springContext.getBean(clazz);
+    }
+
+    private void addController(String route, Class clazz) {
+        controllers.put(route, (MVCController) springContext.getBean(clazz));
     }
 }

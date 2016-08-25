@@ -1,20 +1,26 @@
 package lv.javaguru.java2.servlet;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+
+import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ProfileUpdateController extends MVCController {
 
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String USER_ALREADY_EXISTS = "User with this email already exists";
     private final String UNEXPECTED_ERROR = "Oops, something went wrong";
     private final String USER_UPDATED = "Information succesfully updated !";
-    private UserDAOImpl userDAO;
 
-    public ProfileUpdateController(UserDAOImpl userDAO) {
+    private UserDAO userDAO;
+
+    @Autowired
+    public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 

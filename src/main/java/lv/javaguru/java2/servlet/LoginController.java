@@ -1,23 +1,24 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
+import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class LoginController extends MVCController{
 
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String WRONG_EMAIL = "user with such email not found";
     private final String WRONG_PASSWORD = "wrong password";
-    private UserDAOImpl userDAO;
 
-    public LoginController(UserDAOImpl userDAO) {
-        this.userDAO = userDAO;
-    }
+    @Autowired //inject via
+    private UserDAO userDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
