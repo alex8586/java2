@@ -1,9 +1,8 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
-import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +23,8 @@ public class ProfileController extends MVCController {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private ProductDAO productDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

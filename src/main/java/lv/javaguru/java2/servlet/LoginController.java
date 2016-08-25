@@ -1,9 +1,8 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.DBException;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.database.UserDAO;
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,10 @@ public class LoginController extends MVCController{
     private final String WRONG_EMAIL = "user with such email not found";
     private final String WRONG_PASSWORD = "wrong password";
 
-    @Autowired //inject via
+    @Autowired //inject via reflection
     private UserDAO userDAO;
+    @Autowired
+    private ProductDAO productDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

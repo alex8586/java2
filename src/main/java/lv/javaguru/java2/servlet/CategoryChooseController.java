@@ -1,19 +1,19 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+@Component
 class CategoryChooseController extends MVCController {
 
-    ProductDAOImpl productDAO;
-
-    public CategoryChooseController(ProductDAOImpl productDAO) {
-        this.productDAO = productDAO;
-    }
+    @Autowired
+    ProductDAO productDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

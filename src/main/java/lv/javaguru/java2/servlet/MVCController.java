@@ -14,7 +14,7 @@ abstract class MVCController {
     }
     protected MVCModel executeGet(HttpServletRequest request){
         throw  new NotImplementedException();
-    };
+    }
 
     public MVCModel doPost(HttpServletRequest request){
         System.out.println(" in " + this.getClass().getName() + " executePost()");

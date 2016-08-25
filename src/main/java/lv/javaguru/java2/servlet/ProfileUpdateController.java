@@ -1,8 +1,7 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.database.UserDAO;
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
-import lv.javaguru.java2.database.jdbc.UserDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,16 @@ public class ProfileUpdateController extends MVCController {
     private final String USER_UPDATED = "Information succesfully updated !";
 
     private UserDAO userDAO;
+    private ProductDAO productDAO;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
+    }
+
+    @Autowired
+    public void setProductDAO(ProductDAO productDAO) {
+        this.productDAO = productDAO;
     }
 
     @Override

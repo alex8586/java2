@@ -1,9 +1,11 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.CategoryDAOImpl;
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
+import lv.javaguru.java2.database.CategoryDAO;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -11,15 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+@Component
 public class ContactController extends MVCController {
 
-    private CategoryDAOImpl categoryDAO;
-    private ProductDAOImpl productDAO;
-
-    public ContactController(CategoryDAOImpl categoryDAO, ProductDAOImpl productDAO){
-        this.categoryDAO = categoryDAO;
-        this.productDAO = productDAO;
-    }
+    @Autowired
+    private CategoryDAO categoryDAO;
+    @Autowired
+    private ProductDAO productDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

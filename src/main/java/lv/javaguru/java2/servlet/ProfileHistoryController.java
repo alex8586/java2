@@ -1,8 +1,9 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +15,10 @@ import java.util.Random;
 @Component
 public class ProfileHistoryController extends MVCController {
 
-    ProductDAOImpl productDAO;
+    private ProductDAO productDAO;
 
-    public ProfileHistoryController(ProductDAOImpl productDAO){
+    @Autowired
+    public ProfileHistoryController(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }
 

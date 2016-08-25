@@ -36,6 +36,7 @@ public class Router implements Filter {
         addController("/profile/history", ProfileHistoryController.class);
         addController("/profile/update", ProfileUpdateController.class);
         addController("/product", ProductController.class);
+        addController("/contacts", ContactController.class);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);

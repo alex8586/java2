@@ -15,17 +15,13 @@ public class Product extends BaseEntity {
     public Product() {
     }
 
+
     public Product(String name) {
         this.name = name;
     }
 
-    @Override
-    public long getId() {
-        return id;
-    }
-
     public long getCategoryID() {
-        return categoryID;
+        return categoryId;
     }
 
     public String getDescription() {
@@ -58,6 +54,14 @@ public class Product extends BaseEntity {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

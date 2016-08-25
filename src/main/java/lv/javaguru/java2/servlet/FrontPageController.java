@@ -1,6 +1,9 @@
 package lv.javaguru.java2.servlet;
+
+import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,8 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +21,13 @@ public class RegistrationController extends MVCController {
     private final String USER_ALREADY_EXISTS = "User already exists";
 
     private UserDAO userDAO;
+    private ProductDAO productDAO;
 
     //inject via constructor style
     @Autowired
-    public RegistrationController(UserDAO userDAO) {
+    public RegistrationController(UserDAO userDAO, ProductDAO productDAO) {
         this.userDAO = userDAO;
+        this.productDAO = productDAO;
     }
 
     @Override
