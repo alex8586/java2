@@ -36,7 +36,7 @@ public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
 
     @Override
     public ShippingProfile getById(long id) {
-        return (ShippingProfile) getById(id, GET_BY_ID);
+        return (ShippingProfile) super.getById(id, GET_BY_ID);
     }
 
     @Override

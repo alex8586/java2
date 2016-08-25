@@ -40,24 +40,24 @@ public class ProductDAOImpl extends DAOImpl<Product> {
 
     @Override
     public Product getById(long id) {
-        return (Product) getById(id, GET_BY_ID);
+        return (Product) super.getById(id, GET_BY_ID);
     }
 
     public Product getByVendorCode(String vendorCode) {
-        return (Product) getByCondition(GET_BY_VENDOR_CODE, vendorCode);
+        return (Product) super.getByCondition(GET_BY_VENDOR_CODE, vendorCode);
     }
 
     @Override
     public List<Product> getAll() {
-        return getAll(GET_ALL);
+        return super.getAll(GET_ALL);
     }
 
     public List<Product> getAllAvailable() {
-        return getAll(GET_ALL_AVAILABLE);
+        return super.getAll(GET_ALL_AVAILABLE);
     }
 
     public List<Product> getAllByCategory(Category category) {
-        return getAllByFK(GET_BY_CATEGORY, category);
+        return super.getAllByFK(GET_BY_CATEGORY, category);
     }
 
     @Override

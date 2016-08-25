@@ -36,7 +36,7 @@ public class UserDAOImpl extends DAOImpl<User> {
     }
 
     public List<User> getAll() {
-        return getAll(GET_ALL);
+        return super.getAll(GET_ALL);
     }
 
     private User getFromStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -48,7 +48,7 @@ public class UserDAOImpl extends DAOImpl<User> {
     }
 
     public User getByEmail(String email) {
-        return (User) getByCondition(GET_BY_EMAIL, email);
+        return (User) super.getByCondition(GET_BY_EMAIL, email);
     }
 
     @Override
