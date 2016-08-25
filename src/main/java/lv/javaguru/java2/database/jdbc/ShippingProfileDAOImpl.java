@@ -1,16 +1,17 @@
 package lv.javaguru.java2.database.jdbc;
 
-
+import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
-public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> {
+@Component
+public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> implements ShippingProfileDAO {
 
     private final String CREATE_NEW = "INSERT INTO shipping_profiles(person,document,address,phone,userID_FK,id) VALUES " + " (?,?,?,?,?,DEFAULT)";
     private final String UPDATE_BY_ID = "UPDATE shipping_profiles SET person=?,document=?,address=?,phone=?,userID_FK=? WHERE id=?";

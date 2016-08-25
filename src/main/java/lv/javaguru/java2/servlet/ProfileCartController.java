@@ -1,11 +1,13 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.domain.User;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ProfileCartController extends MVCController {
 
     @Override

@@ -1,14 +1,17 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProductDAOImpl extends DAOImpl<Product> {
+@Component
+public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
 
     private final String GET_BY_ID = "SELECT * FROM product WHERE ProductID = ?";
     private final String GET_BY_VENDOR_CODE = "SELECT * FROM product WHERE VendorCode = ?";

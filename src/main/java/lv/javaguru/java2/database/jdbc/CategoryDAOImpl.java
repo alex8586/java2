@@ -1,13 +1,16 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.domain.Category;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CategoryDAOImpl extends DAOImpl<Category> {
+@Component
+public class CategoryDAOImpl extends DAOImpl<Category> implements CategoryDAO {
 
     private final String CREATE_NEW = "INSERT INTO categories(name,id) VALUES(?,DEFAULT)";
     private final String UPDATE_BY_ID = "UPDATE categories SET name = ? WHERE id = ?";
