@@ -16,37 +16,35 @@
                     <label>Enter new shipping profile , or add </label>
                 </div>
                  <script>
+
+                     var spMap = {};
+                     spMap['empty'] = {'profileId': '', 'address': '', 'person': '', 'phone': '', 'document': ''};
+                     <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
+                     spMap['${shippingProfile.id}'] = {
+                         'profileId': '${shippingProfile.id}',
+                         'address': '${shippingProfile.address}',
+                         'person': '${shippingProfile.person}',
+                         'phone': '${shippingProfile.phone}',
+                         'document': '${shippingProfile.document}'
+                     };
+                     </c:forEach>
+
                      $('#list').on('change', function (e) {
-                         var activeId = $("#list").val();
-                         switch (activeId) {
-                             case "empty":
-                                 $('#profileId').val('');
-                                 $('#address').val('');
-                                 $('#address_label').removeClass('active');
-                                 $('#person').val('');
-                                 $('#person_label').removeClass('active');
-                                 $('#phone').val('');
-                                 $('#phone_label').removeClass('active');
-                                 $('#document').val('');
-                                 $('#document_label').removeClass('active');
-                                 $("#delete_button").attr("disabled", true);
-                                 break;
-                                 <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
-                             case "${shippingProfile.id}":
-                                 $('#profileId').val('${shippingProfile.id}');
-                                 $('#address').val('${shippingProfile.address}');
-                                 $('#address_label').addClass('active');
-                                 $('#person').val('${shippingProfile.person}');
-                                 $('#person_label').addClass('active');
-                                 $('#phone').val('${shippingProfile.phone}');
-                                 $('#phone_label').addClass('active');
-                                 $('#document').val('${shippingProfile.document}');
-                                 $('#document_label').addClass('active');
-                                 $("#delete_button").attr("disabled", false);
-                                 break;
-                                 </c:forEach>
+                         var id = $("#list").val();
+                         var record = spMap[id];
+                         for (var key in record) {
+                             var value = record[key];
+                             $('#' + key).val(value);
+                             if (value.length > 0) {
+                                 $('#' + key + '_label').addClass('active');
+                             }
+                             else {
+                                 $('#' + key + '_label').removeClass('active');
+                             }
                          }
+                         $("#delete_button").attr("disabled", id == 'empty');
                      });
+
                  </script>
              </c:if>
              <div class="row">

@@ -26,16 +26,5 @@ public abstract class MVCController {
     protected MVCModel executePost(HttpServletRequest request){
         throw new NotImplementedException();
     }
-
-
-    public final MVCModel doDelete(HttpServletRequest request) {
-        System.out.println(" in " + this.getClass().getName() + " executeDelete()");
-        MVCModel model = executeDelete(request);
-        System.out.println(" out " + this.getClass().getName() + " executeDelete()");
-        return model;
-    }
-
-    protected MVCModel executeDelete(HttpServletRequest request) {
-        throw  new NotImplementedException();
-    }
+    
 }
