@@ -18,6 +18,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
+    private CurrentUser currentUser;
+
+    @Override
+    public boolean allowRegistration() {
+        return !currentUser.authorized();
+    }
+
     @Override
     public User register(String name, String email, String password) throws ServiceException {
         if (email == null || password == null || name == null)

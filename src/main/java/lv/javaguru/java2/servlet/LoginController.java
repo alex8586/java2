@@ -2,6 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.UserLoginService;
+import lv.javaguru.java2.businesslogic.serviceexception.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
@@ -24,22 +25,22 @@ public class LoginController extends MVCController{
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
 
+    @Autowired
+    private Error error;
+
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-
-        User user = (User) request.getSession().getAttribute("user");
-        String error = (String) request.getSession().getAttribute("loginError");
-        request.getSession().removeAttribute("loginError");
-        if (user != null)
+        if (!userLoginService.allowLogin()) {
             return new MVCModel("/index");
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (error.isError())
+            map.put("loginError", error.getError());
 
         String imgPath = "miskaweb/img/default.jpg";
         Product product = specialSaleOffer.getOffer();
         if (product != null)
             imgPath = product.getImgUrl();
-
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("loginError" , error);
         map.put("imgPath", imgPath);
         return new MVCModel(map,"/login.jsp");
     }
@@ -49,11 +50,12 @@ public class LoginController extends MVCController{
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
-            User user = userLoginService.login(email, password);
-            request.getSession().setAttribute("user", user);
+            User user = userLoginService.authenticate(email, password);
+            userLoginService.login(user);
+            request.getSession().setAttribute("user", user); //old style
             return new MVCModel("/profile");
         } catch (ServiceException e) {
-            request.getSession().setAttribute("loginError", e.getMessage());
+            error.setError(e.getMessage());
             return new MVCModel("/login");
         } catch (DBException e) {
             return new MVCModel("/error");

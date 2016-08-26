@@ -18,8 +18,21 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
+    private CurrentUser currentUser;
+
+
     @Override
-    public User login(String email, String password) throws ServiceException {
+    public boolean allowLogin() {
+        return !currentUser.authorized();
+    }
+
+    @Override
+    public User authenticate(String email, String password) throws ServiceException {
+
+        if (currentUser.authorized())
+            throw new IllegalRequestException();
+
         if (email == null || password == null)
             throw new IllegalRequestException();
 
@@ -33,5 +46,10 @@ public class UserLoginServiceImpl implements UserLoginService {
             throw new ServiceException(WRONG_PASSWORD);
         }
         return user;
+    }
+
+    @Override
+    public void login(User user) {
+        currentUser.setUser(user);
     }
 }
