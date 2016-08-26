@@ -10,12 +10,9 @@ import java.util.Random;
 @Component
 public class RandomSaleOffer implements SpecialSaleOffer {
 
-
     ProductDAO productDAO;
-
     private List<Product> products;
     private Random random = new Random();
-
     @Autowired
     public RandomSaleOffer(ProductDAO productDAO) {
         this.productDAO = productDAO;
