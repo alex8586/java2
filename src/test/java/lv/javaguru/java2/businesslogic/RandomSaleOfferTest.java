@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic;
 
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
@@ -17,7 +18,6 @@ public class RandomSaleOfferTest {
 
     @Mock
     private ProductDAO productDAO;
-
     private RandomSaleOffer randomSaleOffer;
 
     @Before
@@ -60,7 +60,13 @@ public class RandomSaleOfferTest {
                 fail();
         }
     }
-    
+
+    @Test(expected = DBException.class)
+    public void failsWhenDAOThrowException() {
+        Mockito.doThrow(new DBException("")).when(productDAO).getAll();
+        randomSaleOffer = new RandomSaleOffer(productDAO);
+    }
+
     public Product sampleProduct(int code) {
         Product product = new Product();
         product.setName("name" + code);
