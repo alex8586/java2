@@ -40,7 +40,6 @@ public class RegistrationController extends MVCController {
         if (product != null)
             imgPath = product.getImgUrl();
 
-        map.put("registrationError" , error);
         map.put("imgPath", imgPath);
         return new MVCModel(map,"/registration.jsp");
     }

@@ -1,5 +1,4 @@
 package lv.javaguru.java2.businesslogic;
-
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
@@ -19,8 +18,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private UserDAO userDAO;
 
     @Autowired
-    private CurrentUser currentUser;
-
+    private UserProvider currentUser;
 
     @Override
     public boolean allowLogin() {
@@ -29,8 +27,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public User authenticate(String email, String password) throws ServiceException {
-
-        if (currentUser.authorized())
+        if (!allowLogin())
             throw new IllegalRequestException();
 
         if (email == null || password == null)
@@ -51,5 +48,10 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     public void login(User user) {
         currentUser.setUser(user);
+    }
+
+    @Override
+    public void logout() {
+        currentUser.setUser(null);
     }
 }

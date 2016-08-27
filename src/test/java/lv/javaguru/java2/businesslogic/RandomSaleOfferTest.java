@@ -20,7 +20,7 @@ public class RandomSaleOfferTest {
     private RandomSaleOffer randomSaleOffer;
 
     @Before
-    public void setup() {
+    public void before() {
         MockitoAnnotations.initMocks(this);
     }
 

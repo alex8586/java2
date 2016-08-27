@@ -19,7 +19,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private UserDAO userDAO;
 
     @Autowired
-    private CurrentUser currentUser;
+    private UserProvider currentUser;
 
     @Override
     public boolean allowRegistration() {

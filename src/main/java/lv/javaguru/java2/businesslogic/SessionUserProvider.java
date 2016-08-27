@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Component
-public class CurrentSessionUser implements CurrentUser {
+public class SessionUserProvider implements UserProvider {
 
     private User user;
 
