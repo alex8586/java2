@@ -1,19 +1,19 @@
-   sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('All products',0)");//1
-            sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Fruits',1)");//2
-            sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Vegetables',1)");//3
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Fresh',3)");//4
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Marinades',3)");//5
+   sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('All products',0)");//1
+            sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Fruits',1)");//2
+            sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Vegetables',1)");//3
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Fresh',3)");//4
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Marinades',3)");//5
 
-            sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Milk products',1)");//6
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Milk',6)");//7
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Cream',6)");//8
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Butter',6)");//9
+            sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Milk products',1)");//6
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Milk',6)");//7
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Cream',6)");//8
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Butter',6)");//9
 
-            sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Meat',1)");//10
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Chicken',10)");//11
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Pork',10)");//12
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Beef',10)");//13
-                sqlStatements.add("INSERT INTO categories(name,father_id) VALUES('Sausages',10)");//14
+            sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Meat',1)");//10
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Chicken',10)");//11
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Pork',10)");//12
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Beef',10)");//13
+                sqlStatements.add("INSERT INTO categories(id,name,father_id) VALUES('Sausages',10)");//14
 
         /*fruits 1*/
         sqlStatements.add("INSERT INTO products(id,name,description,price,category_id) VALUES(default,'Small Green Aapples' ,'','img/products/fruits/01/',1.29,2)");//01
