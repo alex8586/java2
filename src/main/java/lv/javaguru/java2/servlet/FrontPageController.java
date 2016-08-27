@@ -1,47 +1,21 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.CategoryDAO;
-import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.businesslogic.FrontPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Component
 public class FrontPageController extends MVCController{
 
     @Autowired
-    private CategoryDAO categoryDAO;
-    @Autowired
-    private ProductDAO productDAO;
+    FrontPageService frontPageService;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> frontPageData = new HashMap<String, Object>();
-        try {
-            String imgPath;
-            int bannerId;
-            List<Product> productList = productDAO.getAll();
-            if (productList.size() == 0) {
-                imgPath = "miskaweb/img/default.jpg";
-            } else {
-                Random random = new Random();
-                bannerId = random.nextInt(productList.size());
-                imgPath = productList.get(bannerId).getImgUrl();
-            }
-
-            frontPageData.put("user", request.getSession().getAttribute("user"));
-            frontPageData.put("categories", categoryDAO.getAll());
-            frontPageData.put("products", productDAO.getAll());
-            frontPageData.put("imgPath", imgPath);
-        } catch (DBException dbe) {
-        }
+        Map<String, Object> frontPageData = frontPageService.serve();
         return new MVCModel(frontPageData, "/frontpage.jsp");
     }
 }
