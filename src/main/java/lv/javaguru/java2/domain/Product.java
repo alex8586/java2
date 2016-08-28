@@ -3,7 +3,7 @@ package lv.javaguru.java2.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Product extends BaseEntity {
+public class Product implements BaseEntity {
 
     private long id;
     private String name;
@@ -15,9 +15,18 @@ public class Product extends BaseEntity {
     public Product() {
     }
 
-
     public Product(String name) {
         this.name = name;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getCategoryID() {

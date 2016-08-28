@@ -1,7 +1,8 @@
 package lv.javaguru.java2.domain;
 
-public class User extends BaseEntity {
+public class User implements BaseEntity {
 
+    private long id;
     private String fullName;
     private String email;
     private String password;
@@ -13,6 +14,16 @@ public class User extends BaseEntity {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFullName() {

@@ -3,8 +3,9 @@ package lv.javaguru.java2.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Category extends BaseEntity {
+public class Category implements BaseEntity {
 
+    private long id;
     private String name;
 
     public Category() {
@@ -21,9 +22,14 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
-    public static void main(String[] args) {
-        Category c = new Category();
-        System.out.print(c.getName());
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

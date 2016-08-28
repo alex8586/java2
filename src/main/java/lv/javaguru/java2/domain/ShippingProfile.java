@@ -1,12 +1,21 @@
 package lv.javaguru.java2.domain;
 
-public class ShippingProfile extends BaseEntity {
+public class ShippingProfile implements BaseEntity {
+
+    private long id;
     private long userId;
     private String person;
     private String document;
     private String phone;
     private String address;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getUserId() {
         return userId;
@@ -51,11 +60,12 @@ public class ShippingProfile extends BaseEntity {
     @Override
     public String toString() {
         return "ShippingProfile{" +
+                "id='" + id + '\'' +
                 "person='" + person + '\'' +
                 ", document='" + document + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId='" + id + '\'' +
                 '}';
     }
 }
