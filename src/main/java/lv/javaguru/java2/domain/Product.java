@@ -15,7 +15,6 @@ public class Product extends BaseEntity {
     public Product() {
     }
 
-
     public Product(String name) {
         this.name = name;
     }

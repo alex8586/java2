@@ -41,6 +41,7 @@ public class ProfileUpdateServiceImplTest {
 
     @Test(expected = WrongFieldFormat.class)
     public void testFailsWithSameException() throws ServiceException {
+        Mockito.doReturn(true).when(userProvider).authorized();
         WrongFieldFormat exception = new WrongFieldFormat("error");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(any(), any(), any());
         profileUpdateService.update(goodName, goodMail, goodName);

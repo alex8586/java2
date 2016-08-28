@@ -42,6 +42,8 @@
             Your password : ${sessionScope.user.password}<br>
         </c:if>
         <hr>
-        <%@include file="includes/product_banner.jsp" %>
+
+        <img src="<c:url value='includes/product_banner.jsp' />"/>
+
     </jsp:attribute>
 </tags:userPageTemplate>

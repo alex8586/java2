@@ -1,8 +1,11 @@
 USE java2miska;
 
-DELETE FROM categories;
-
 DELETE FROM products;
+DELETE FROM categories;
+ALTER TABLE categories
+  AUTO_INCREMENT = 1;
+ALTER TABLE products
+  AUTO_INCREMENT = 1;
 
 INSERT INTO categories (id, name, father_id) VALUES (default, 'All products', 0);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Fruits', 1);
@@ -21,8 +24,10 @@ INSERT INTO categories (id, name, father_id) VALUES (default, 'Pork', 10);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Beef', 10);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Sausages', 10);
 
+SELECT *
+FROM categories;
 
-INSERT INTO products (id, name, description, price, category_id)
+INSERT INTO products (id, name, description, imgurl, price, category_id)
 VALUES (default, 'Small Green Aapples', '', 'img/products/fruits/01/', 1.29, 2);
 
 INSERT INTO products (id, name, description, imgurl, price, category_id)
@@ -121,3 +126,5 @@ VALUES (default, 'Salami', '', 'img/products/meat/sausages/43/', 4.54, 14);
 
 UPDATE products
 SET products.description = CONCAT('desc for ', products.name);
+UPDATE products
+SET products.imgurl = "img/products/image_coming_soon.png";

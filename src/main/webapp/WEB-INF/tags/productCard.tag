@@ -3,13 +3,13 @@
 <div class="col s3">
     <div class="card vertical-grabber">
         <div class="card-title center">
-            ${product.displayName}
+            ${product.name}
         </div>
         <div class="card-image">
             <img src="${product.imgUrl}" height="130" width="130">
         </div>
         <div class="card-content left-align">
-            <p>${product.displayDescription}</p>
+            <p>${product.description}</p>
             <hr>
             Price : ${product.price} &#8364
         </div>
