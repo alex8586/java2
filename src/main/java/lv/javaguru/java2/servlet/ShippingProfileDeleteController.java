@@ -1,22 +1,20 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
+import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by algis on 16.21.8.
- */
+@Component
 public class ShippingProfileDeleteController extends MVCController {
 
     private final String UNABLE_TO_LOCATE_RESOURCE = "Unable to locate resource for removal";
-    private ShippingProfileDAOImpl shippingProfileDAO;
 
-    public ShippingProfileDeleteController(ShippingProfileDAOImpl shippingProfileDAO) {
-        this.shippingProfileDAO = shippingProfileDAO;
-    }
+    @Autowired
+    private ShippingProfileDAO shippingProfileDAO;
 
     public MVCModel executePost(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
