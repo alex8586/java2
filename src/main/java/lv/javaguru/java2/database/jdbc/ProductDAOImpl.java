@@ -1,5 +1,4 @@
 package lv.javaguru.java2.database.jdbc;
-
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -18,7 +17,7 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
     private static final String GET_BY_ID = "SELECT * FROM " + TABLE + " WHERE id = ?";
     private static final String GET_BY_CATEGORY = "SELECT * FROM " + TABLE + " WHERE category_id = ?";
     private static final String GET_ALL = "SELECT * FROM " + TABLE;
-    private static final String CREATE = "INSERT INTO " + TABLE + " (name, description, price, category_id, id) VALUES (?, ?, ?, ?, DEFAULT)";
+    private static final String CREATE = "INSERT INTO " + TABLE + " (name, description, price, category_id,imgurl,id) VALUES (?, ?, ?, ?, '',DEFAULT)";
     private static final String UPDATE = "UPDATE " + TABLE + " SET name = ?, description = ?, price = ?, category_id = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM " + TABLE + " WHERE id = ?";
 

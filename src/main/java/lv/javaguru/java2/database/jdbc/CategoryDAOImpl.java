@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class CategoryDAOImpl extends DAOImpl<Category> implements CategoryDAO {
 
-    private final String CREATE_NEW = "INSERT INTO categories(name,id) VALUES(?,DEFAULT)";
+    private final String CREATE_NEW = "INSERT INTO categories(name,father_id,id) VALUES(?,0,DEFAULT)";
     private final String UPDATE_BY_ID = "UPDATE categories SET name = ? WHERE id = ?";
     private final String DELETE_BY_ID = "DELETE FROM categories WHERE id = ?";
     private final String GET_BY_ID = "SELECT * FROM categories where id = ?";
