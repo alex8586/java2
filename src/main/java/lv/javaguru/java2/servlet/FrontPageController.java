@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,9 +26,16 @@ public class FrontPageController extends MVCController{
     public MVCModel executeGet(HttpServletRequest request) {
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         try {
+            List<Product> productList = null;
+            Category category = (Category) request.getSession().getAttribute("currentCategory");
+            System.out.println(category);
+            if (category == null || category.getId() == 1)
+                productList = productDAO.getAll();
+            else
+                productList = productDAO.getAllByCategory(category);
+
             String imgPath;
             int bannerId;
-            List<Product> productList = productDAO.getAll();
             if (productList.size() == 0) {
                 imgPath = "miskaweb/img/default.jpg";
             } else {
@@ -38,7 +46,7 @@ public class FrontPageController extends MVCController{
 
             frontPageData.put("user", request.getSession().getAttribute("user"));
             frontPageData.put("categories", categoryDAO.getAll());
-            frontPageData.put("products", productDAO.getAll());
+            frontPageData.put("products", productList);
             frontPageData.put("imgPath", imgPath);
         } catch (DBException dbe) {
         }
