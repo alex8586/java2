@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
+@Component("JDBC_ShippingProfileDAO")
 public class ShippingProfileDAOImpl extends DAOImpl<ShippingProfile> implements ShippingProfileDAO {
 
     private final String CREATE_NEW = "INSERT INTO shipping_profiles (person, document, address, phone, user_id, id) VALUES " + " (?, ?, ?, ?, ?, DEFAULT)";

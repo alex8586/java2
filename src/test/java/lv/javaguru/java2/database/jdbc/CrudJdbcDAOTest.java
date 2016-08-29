@@ -1,5 +1,6 @@
-package lv.javaguru.java2;
+package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.CrudDAO;
 import lv.javaguru.java2.domain.BaseEntity;

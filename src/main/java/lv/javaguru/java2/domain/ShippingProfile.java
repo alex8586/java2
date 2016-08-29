@@ -1,18 +1,40 @@
 package lv.javaguru.java2.domain;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "shipping_profiles")
 public class ShippingProfile implements BaseEntity {
 
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "user_id")
     private long userId;
+
+    @Column(name = "person")
     private String person;
+
+    @Column(name = "document")
     private String document;
-    private String phone;
+
+    @Column(name = "address")
     private String address;
 
+    @Column(name = "phone")
+    private String phone;
+
+    public ShippingProfile() {
+    }
+
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
@@ -60,12 +82,12 @@ public class ShippingProfile implements BaseEntity {
     @Override
     public String toString() {
         return "ShippingProfile{" +
-                "id='" + id + '\'' +
                 "person='" + person + '\'' +
                 ", document='" + document + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", userId='" + id + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
+
 }

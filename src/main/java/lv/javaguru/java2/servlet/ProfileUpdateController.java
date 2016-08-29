@@ -5,6 +5,7 @@ import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +22,13 @@ public class ProfileUpdateController extends MVCController {
     private final String UNEXPECTED_ERROR = "Oops, something went wrong";
     private final String USER_UPDATED = "Information succesfully updated !";
 
+    @Autowired
+    @Qualifier("JDBC_UserDAO")
     private UserDAO userDAO;
+
+    @Autowired
+    @Qualifier("JDBC_ProductDAO")
     private ProductDAO productDAO;
-
-    @Autowired
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
-    @Autowired
-    public void setProductDAO(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

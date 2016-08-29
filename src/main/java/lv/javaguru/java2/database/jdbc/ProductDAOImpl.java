@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
+@Component("JDBC_ProductDAO")
 public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
 
     private static final String TABLE = "products";

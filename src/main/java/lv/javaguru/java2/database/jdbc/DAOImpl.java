@@ -31,6 +31,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
                     connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             fillPreparedStatement(preparedStatement, baseEntity);
             preparedStatement.executeUpdate();
+
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
                 newId = rs.getLong(1);
@@ -93,6 +94,7 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
                 return buildFromResultSet(resultSet);

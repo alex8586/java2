@@ -5,6 +5,7 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,10 @@ import java.util.Random;
 public class ContactController extends MVCController {
 
     @Autowired
+    @Qualifier("JDBC_CategoryDAO")
     private CategoryDAO categoryDAO;
     @Autowired
+    @Qualifier("JDBC_ProductDAO")
     private ProductDAO productDAO;
 
     @Override

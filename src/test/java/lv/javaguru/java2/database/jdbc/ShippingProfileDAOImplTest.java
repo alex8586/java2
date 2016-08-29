@@ -1,11 +1,13 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.database.DBException;
+import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,17 +15,20 @@ import static org.junit.Assert.assertTrue;
 
 public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile, ShippingProfileDAOImpl> {
 
+    @Autowired
+    @Qualifier("JDBC_UserDAO")
+    UserDAO userDAO;
     private User user = new User();
 
     @Before
     @Override
     public void before() {
         cleaner.cleanDatabase();
-        UserDAOImpl userDAO = new UserDAOImpl();
         user.setFullName("name");
         user.setEmail("email");
         user.setPassword("pass");
         userDAO.create(user);
+        System.out.println("created user : " + user + " " + user.getId());
         super.before();
     }
 

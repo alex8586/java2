@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
+@Component("JDBC_UserDAO")
 public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
 
     private final String CREATE_NEW = "INSERT INTO users (name, email, password,id) values(?,?,?,DEFAULT)";

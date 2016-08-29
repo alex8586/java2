@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +16,9 @@ import java.util.Random;
 @Component
 public class ProfileHistoryController extends MVCController {
 
-    private ProductDAO productDAO;
-
     @Autowired
-    public ProfileHistoryController(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
+    @Qualifier("JDBC_ProductDAO")
+    private ProductDAO productDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

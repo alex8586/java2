@@ -1,3 +1,4 @@
+
 package lv.javaguru.java2.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;

@@ -1,6 +1,5 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;

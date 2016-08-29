@@ -1,10 +1,23 @@
 package lv.javaguru.java2.domain;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User implements BaseEntity {
 
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "name")
     private String fullName;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
 
     public User() {
@@ -16,12 +29,10 @@ public class User implements BaseEntity {
         this.password = password;
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }
@@ -79,4 +90,3 @@ public class User implements BaseEntity {
                 '}';
     }
 }
-

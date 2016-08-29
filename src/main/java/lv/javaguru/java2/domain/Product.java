@@ -3,13 +3,30 @@ package lv.javaguru.java2.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product implements BaseEntity {
 
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
-    private String description;
-    private long price;
+
+    @Column(name = "category_id")
     private long categoryId;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private long price;
+
+    @Column(name = "imgurl")
     private String imgUrl;
 
     public Product() {
@@ -110,4 +127,5 @@ public class Product implements BaseEntity {
                 + "categoryId: " + categoryId
                 + "}";
     }
+
 }

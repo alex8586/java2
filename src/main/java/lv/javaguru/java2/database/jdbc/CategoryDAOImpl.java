@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
+@Component("JDBC_CategoryDAO")
 public class CategoryDAOImpl extends DAOImpl<Category> implements CategoryDAO {
 
     private final String CREATE_NEW = "INSERT INTO categories(name,father_id,id) VALUES(?,0,DEFAULT)";

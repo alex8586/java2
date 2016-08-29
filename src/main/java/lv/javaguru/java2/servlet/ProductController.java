@@ -2,6 +2,8 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,9 @@ public class ProductController extends MVCController {
     private static final String UNABLE_TO_PROCESS_REQUEST = "Error. Unable to find product";
     private static final String WRONG_PRODUCT_ID = "Error. No item with such id";
 
-    ProductDAOImpl productDAO = new ProductDAOImpl();
+    @Autowired
+    @Qualifier("JDBC_ProductDAO")
+    ProductDAOImpl productDAO;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
