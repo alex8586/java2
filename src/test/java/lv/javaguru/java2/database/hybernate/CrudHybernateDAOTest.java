@@ -42,5 +42,13 @@ public abstract class CrudHybernateDAOTest<RecordClass extends BaseEntity, DAOCl
         assertNull(recordFromDAO);
     }
 
+    @Test(expected = ConcurrencyFailureException.class)
+    public void deleteWithWrongIdFails() {
+        RecordClass fresh = newRecord();
+        fillRecordWithData(fresh);
+        fresh.setId(-1);
+        dao.delete(fresh);
+    }
+
 
 }

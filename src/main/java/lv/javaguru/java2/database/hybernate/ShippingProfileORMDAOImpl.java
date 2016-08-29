@@ -54,6 +54,6 @@ public class ShippingProfileORMDAOImpl implements ShippingProfileDAO {
     @Override
     public List getAllByUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        return (List) session.createCriteria(ShippingProfile.class).add(Restrictions.eq("user_id", user.getId()));
+        return session.createCriteria(ShippingProfile.class).add(Restrictions.eq("user_id", user.getId())).list();
     }
 }

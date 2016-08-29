@@ -1,9 +1,11 @@
 package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -50,5 +52,11 @@ public class ProductORMDAOImpl implements ProductDAO {
     public List getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Product.class).list();
+    }
+
+    @Override
+    public List getAllByCategory(Category category) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Product.class).add(Restrictions.eq("categoryId", category.getId())).list();
     }
 }

@@ -37,4 +37,12 @@ public abstract class CrudJdbcDAOTest<RecordClass extends BaseEntity, DAOClass e
         recordFromDAO = dao.getById(id);
         assertNull(recordFromDAO);
     }
+
+    @Test
+    public void deleteWithWrongIdFails() {
+        RecordClass fresh = newRecord();
+        fillRecordWithData(fresh);
+        fresh.setId(-1);
+        dao.delete(fresh);
+    }
 }
