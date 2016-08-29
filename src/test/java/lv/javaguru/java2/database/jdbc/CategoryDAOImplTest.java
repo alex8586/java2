@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.BaseEntityTest;
+import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -11,7 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 
-public class CategoryDAOImplTest extends BaseEntityTest<Category, CategoryDAOImpl> {
+public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOImpl> {
 
     @Override
     protected Category newRecord() {

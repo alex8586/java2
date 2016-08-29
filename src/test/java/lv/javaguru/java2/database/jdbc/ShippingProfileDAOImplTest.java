@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.BaseEntityTest;
+import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class ShippingProfileDAOImplTest extends BaseEntityTest<ShippingProfile, ShippingProfileDAOImpl> {
+public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile, ShippingProfileDAOImpl> {
 
     private User user = new User();
 

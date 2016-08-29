@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.BaseEntityTest;
+import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class UserDAOImplTest extends BaseEntityTest<User, UserDAOImpl> {
+public class UserDAOImplTest extends CrudJdbcDAOTest<User, UserDAOImpl> {
 
     @Before
     @Override

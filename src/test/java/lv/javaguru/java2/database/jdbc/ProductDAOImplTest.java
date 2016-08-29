@@ -1,6 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.BaseEntityTest;
+import lv.javaguru.java2.CrudJdbcDAOTest;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 
-public class ProductDAOImplTest extends BaseEntityTest<Product, ProductDAOImpl> {
+public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl> {
 
     private Category category = new Category();
     private Category anotherCategory = new Category();

@@ -17,7 +17,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-public abstract class BaseEntityTest<RecordClass extends BaseEntity, DAOClass extends CrudDAO<RecordClass>> {
+public abstract class CrudJdbcDAOTest<RecordClass extends BaseEntity, DAOClass extends CrudDAO<RecordClass>> {
 
     protected Random random = new Random();
     protected RecordClass newRecord;

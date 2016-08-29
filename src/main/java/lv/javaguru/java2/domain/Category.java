@@ -3,33 +3,24 @@ package lv.javaguru.java2.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "categories")
 public class Category implements BaseEntity {
 
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "father_id")
+    private long father_id;
+
     public Category() {
-        this(0, "Mayo");
-        //TODO: is it ok creating categories without name? set a default name for now.
-    }
-
-    public Category(String name) {
-        this(0, name);
-    }
-
-    public Category(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -38,6 +29,22 @@ public class Category implements BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getFather_id() {
+        return father_id;
+    }
+
+    public void setFather_id(long father_id) {
+        this.father_id = father_id;
     }
 
     @Override
