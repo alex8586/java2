@@ -34,4 +34,5 @@ public class CategoryORMDAOImplTest extends CrudHybernateDAOTest<Category, Categ
         cleaner.cleanDatabase();
         super.before();
     }
+
 }
