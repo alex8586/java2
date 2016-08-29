@@ -6,11 +6,15 @@ import lv.javaguru.java2.domain.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOImpl> {
+
+    @Autowired
+    ProductDAOImpl productDAO;
 
     @Override
     protected Category newRecord() {
@@ -63,7 +67,6 @@ public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOIm
     public void cantDeleteWithProducts() {
         Product product = new Product();
         product.setCategoryId(recordFromDAO.getId());
-        ProductDAOImpl productDAO = new ProductDAOImpl();
         productDAO.create(product);
         dao.delete(recordFromDAO);
     }
