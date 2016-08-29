@@ -1,4 +1,4 @@
-package lv.javaguru.java2.database.hibernate;
+package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Component("ORM_ShippingProfileDAO")
 @Transactional
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShippingProfileORMDAOImpl implements ShippingProfileDAO {
 
     @Autowired
@@ -54,6 +57,6 @@ public class ShippingProfileORMDAOImpl implements ShippingProfileDAO {
     @Override
     public List getAllByUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(ShippingProfile.class).add(Restrictions.eq("user_id", user.getId())).list();
+        return session.createCriteria(ShippingProfile.class).add(Restrictions.eq("userId", user.getId())).list();
     }
 }

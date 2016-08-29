@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Component("ORM_UserDAO")
 @Transactional
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserORMDAOImpl implements UserDAO {
 
     @Autowired
