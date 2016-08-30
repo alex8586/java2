@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by algis on 16.17.8.
- */
 
+/*
+This dummy controller so we could have roubust product page
+ */
 @Component
 public class ProductController extends MVCController {
 

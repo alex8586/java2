@@ -22,7 +22,7 @@ public class LoginController extends MVCController{
     private final String WRONG_EMAIL = "user with such email not found";
     private final String WRONG_PASSWORD = "wrong password";
 
-    @Autowired //inject via reflection
+    @Autowired
     @Qualifier("JDBC_UserDAO")
     private UserDAO userDAO;
     @Autowired
