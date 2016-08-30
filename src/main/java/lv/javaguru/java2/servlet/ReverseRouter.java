@@ -13,6 +13,7 @@ public class ReverseRouter {
         for (Map.Entry<String, ?> controllerAndRoute : controllers.entrySet()) {
             routes.put(controllerAndRoute.getValue().getClass().getSimpleName(), controllerAndRoute.getKey());
         }
+
     }
 
     public String linkTo(String controller) {

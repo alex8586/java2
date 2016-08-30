@@ -31,12 +31,12 @@ public class ShippingProfileDeleteController extends MVCController {
             if (shippingProfile != null) {
                 if (shippingProfile.getUserId() == user.getId()) {
                     shippingProfileDAO.delete(shippingProfile);
-                    return new MVCModel("/profile/shippingProfile");
+                    return new MVCModel("/profile/shippingProfiles");
                 } else
                     throw new IllegalStateException("Unable to access resource");
             }
         }
         request.getSession().setAttribute("profileError", UNABLE_TO_LOCATE_RESOURCE);
-        return new MVCModel("/profile/shippingProfile");
+        return new MVCModel("/profile/shippingProfiles");
     }
 }

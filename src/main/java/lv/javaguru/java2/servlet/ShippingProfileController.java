@@ -3,20 +3,20 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ShippingProfileController extends MVCController {
     private final String EMPTY_FIELDS = "All fields must be filled";
 
+    @Autowired
     private ShippingProfileDAOImpl shippingProfileDAO;
-
-    public ShippingProfileController(ShippingProfileDAOImpl shippingProfileDAO) {
-        this.shippingProfileDAO = shippingProfileDAO;
-    }
 
     public MVCModel executeGet(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -42,7 +42,7 @@ public class ShippingProfileController extends MVCController {
         if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
                 shippingProfile.getPhone().isEmpty() || shippingProfile.getDocument().isEmpty()) {
             request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return new MVCModel("/profile/shippingProfile");
+            return new MVCModel("/profile/shippingProfiles");
         }
         if (shippingProfile.getUserId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
@@ -54,7 +54,7 @@ public class ShippingProfileController extends MVCController {
             shippingProfile.setUserId(user.getId());
             shippingProfileDAO.create(shippingProfile);
         }
-        return new MVCModel("/profile/shippingProfile");
+        return new MVCModel("/profile/shippingProfiles");
     }
 
 

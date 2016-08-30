@@ -79,7 +79,7 @@
                      $("#delete_button").attr("disabled", true);
                      $("#delete_button").click(function () {
                          if ($('#profileId').val) {
-                             $("form").attr("action", "/java2/profile/shippingProfile/delete");
+                             $("form").attr("action", "/java2/profile/shippingProfiles/delete");
                              $("form").submit();
                          }
                      });
