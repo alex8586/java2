@@ -13,7 +13,6 @@ public class ReverseRouter {
         for (Map.Entry<String, ?> controllerAndRoute : controllers.entrySet()) {
             routes.put(controllerAndRoute.getValue().getClass().getSimpleName(), controllerAndRoute.getKey());
         }
-
     }
 
     public String linkTo(String controller) {
@@ -25,5 +24,13 @@ public class ReverseRouter {
             return routes.get(controller) + "?id=" + id;
         else
             return defaultPath;
+    }
+
+    public String linkTo(Class controllerClass) {
+        return linkTo(controllerClass.getSimpleName());
+    }
+
+    public String linkTo(Class controllerClass, Long id) {
+        return linkTo(controllerClass.getSimpleName(), id.toString());
     }
 }

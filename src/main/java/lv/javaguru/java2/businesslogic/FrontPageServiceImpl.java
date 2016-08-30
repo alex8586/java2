@@ -30,10 +30,12 @@ public class FrontPageServiceImpl implements FrontPageService {
     private SpecialSaleOffer specialSaleOffer;
 
     public Map<String, Object> serve(Category category) {
+
+
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryDAO.getAll());
-        
+
         if (category == null)
             frontPageData.put("products", productDAO.getAll());
         else
