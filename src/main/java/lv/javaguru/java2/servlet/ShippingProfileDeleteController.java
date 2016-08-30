@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ public class ShippingProfileDeleteController extends MVCController {
     private final String UNABLE_TO_LOCATE_RESOURCE = "Unable to locate resource for removal";
 
     @Autowired
+    @Qualifier("JDBC_ShippingProfileDAO")
     private ShippingProfileDAO shippingProfileDAO;
 
     public MVCModel executePost(HttpServletRequest request) {

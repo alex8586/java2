@@ -27,8 +27,4 @@ public class CategoryChooseController extends MVCController {
         return new MVCModel("/index");
     }
 
-    @Override
-    public MVCModel executePost(HttpServletRequest request) {
-        return new MVCModel("/index");
-    }
 }
