@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.config.SpringConfig;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -44,7 +45,9 @@ public class Router implements Filter {
         addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
 
         ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
+        reverseRouter.setAlias(Product.class, ProductController.class);
         filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
+
     }
 
     public void doFilter(ServletRequest request,
