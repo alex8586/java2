@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.config.SpringConfig;
+import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
 import org.springframework.beans.BeansException;
@@ -10,13 +11,12 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Router implements Filter {
 
+    PathResolver pathResolver;
     private AnnotationConfigWebApplicationContext springContext;
-    private Map<String, MVCController> controllers = new HashMap<String, MVCController>();
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -24,13 +24,12 @@ public class Router implements Filter {
             springContext = new AnnotationConfigWebApplicationContext();
             springContext.register(SpringConfig.class);
             springContext.refresh();
-
         } catch (BeansException e) {
         }
+        pathResolver = springContext.getBean(PathResolver.class);
 
         addController("/index", FrontPageController.class);
         addController("/index/category", CategoryChooseController.class);
-
         addController("/register", RegistrationController.class);
         addController("/login", LoginController.class);
         addController("/logout", LogoutController.class);
@@ -40,13 +39,12 @@ public class Router implements Filter {
         addController("/profile/update", ProfileUpdateController.class);
         addController("/product", ProductController.class);
         addController("/contacts", ContactController.class);
-
         addController("/profile/shippingProfiles", ShippingProfileController.class);
         addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
 
-        ReverseRouter reverseRouter = new ReverseRouter(controllers, "/error.jsp");
-        reverseRouter.setAlias(Product.class, ProductController.class);
-        filterConfig.getServletContext().setAttribute("reverseRouter", reverseRouter);
+        pathResolver.setAlias(Product.class, ProductController.class);
+        pathResolver.setAlias(Category.class, CategoryChooseController.class);
+        filterConfig.getServletContext().setAttribute("reverseRouter", pathResolver);
 
     }
 
@@ -58,7 +56,7 @@ public class Router implements Filter {
 
         String contextURI = req.getServletPath();
         System.out.println(contextURI);
-        MVCController controller = controllers.get(contextURI);
+        MVCController controller = pathResolver.getPathFor(contextURI);
         if (controller != null) {
             MVCModel model;
             if(((HttpServletRequest) request).getMethod().equals("POST"))
@@ -87,11 +85,7 @@ public class Router implements Filter {
 
     }
 
-    private MVCController getBean(Class clazz) {
-        return (MVCController) springContext.getBean(clazz);
-    }
-
     private void addController(String route, Class clazz) {
-        controllers.put(route, (MVCController) springContext.getBean(clazz));
+        pathResolver.registerPath(route, (MVCController) springContext.getBean(clazz));
     }
 }
