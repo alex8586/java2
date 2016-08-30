@@ -9,6 +9,6 @@
     <jsp:attribute name="rightBar">
         some right bar content for a profile history
         <hr>
-        <%@include file="includes/product_banner.jsp" %>
+        <%@include file="/includes/product_banner.jsp" %>
     </jsp:attribute>
 </tags:userPageTemplate>

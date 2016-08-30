@@ -1,56 +1,45 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.UserRegistrationService;
+import lv.javaguru.java2.businesslogic.serviceexception.Error;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Component
 public class RegistrationController extends MVCController {
 
-    private final String EMPTY_FIELDS = "All fields must be filled";
-    private final String UNEXPECTED_ERROR = "Oops, something went wrong";
-    private final String USER_ALREADY_EXISTS = "User already exists";
-
     @Autowired
-    @Qualifier("JDBC_UserDAO")
-    private UserDAO userDAO;
-
+    UserRegistrationService userRegistrationService;
     @Autowired
-    @Qualifier("JDBC_ProductDAO")
-    private ProductDAO productDAO;
+    Error error;
+    @Autowired
+    @Qualifier("randomSaleOffer")
+    private SpecialSaleOffer specialSaleOffer;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
-        String error = null;
-        if(request.getSession().getAttribute("registrationError") != null) {
-            error = (String) request.getSession().getAttribute("registrationError");
-            request.getSession().removeAttribute("registrationError");
-        } else if (request.getSession().getAttribute("user") != null) {
+
+        if (!userRegistrationService.allowRegistration()) {
             return new MVCModel("/index");
         }
-        String imgPath;
-        int bannerId;
-        List<Product> productList = productDAO.getAll();
-        if (productList.size() == 0) {
-            imgPath = "miskaweb/img/default.jpg";
-        } else {
-            Random random = new Random();
-            bannerId = random.nextInt(productList.size());
-            imgPath = productList.get(bannerId).getImgUrl();
-        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (error.isError())
+            map.put("registrationError", error.getError());
 
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("registrationError" , error);
+        String imgPath = "miskaweb/img/default.jpg";
+        Product product = specialSaleOffer.getOffer();
+        if (product != null)
+            imgPath = product.getImgUrl();
+
         map.put("imgPath", imgPath);
         return new MVCModel(map,"/registration.jsp");
     }
@@ -61,28 +50,14 @@ public class RegistrationController extends MVCController {
         String name = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        if(name.isEmpty() || email.isEmpty() || password.isEmpty()){
-            request.getSession().setAttribute("registrationError" , EMPTY_FIELDS);
-            return new MVCModel("/register");
-        }
-
         try {
-            User userCheckedByEmail = userDAO.getByEmail(email);
-            if(userCheckedByEmail!= null){
-                request.getSession().setAttribute("registrationError" , USER_ALREADY_EXISTS);
-                return new MVCModel("/register");
-            }
-            User user = new User();
-            user.setFullName(name);
-            user.setEmail(email);
-            user.setPassword(password);
-            userDAO.create(user);
+            userRegistrationService.register(name, email, password);
             return new MVCModel("/login");
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } catch (ServiceException e) {
+            error.setError(e.getMessage());
+            return new MVCModel("/register");
+        } catch (DBException e) {
+            return new MVCModel("/error");
         }
-        request.getSession().setAttribute("registrationError" , UNEXPECTED_ERROR);
-        return new MVCModel("/register");
     }
 }

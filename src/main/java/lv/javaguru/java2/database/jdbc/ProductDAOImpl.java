@@ -69,6 +69,7 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         product.setDescription(resultSet.getString("description"));
         product.setPrice(resultSet.getLong("price"));
         product.setCategoryId(resultSet.getLong("category_id"));
+        product.setImgUrl(resultSet.getString("imgurl"));
 
         return product;
     }

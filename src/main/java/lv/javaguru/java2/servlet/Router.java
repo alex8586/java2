@@ -3,8 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
 import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +14,17 @@ import java.util.Map;
 
 public class Router implements Filter {
 
-    private ApplicationContext springContext;
+    private AnnotationConfigWebApplicationContext springContext;
     private Map<String, MVCController> controllers = new HashMap<String, MVCController>();
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
         try {
-            springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
-        } catch (BeansException e) {
+            springContext = new AnnotationConfigWebApplicationContext();
+            springContext.register(SpringConfig.class);
+            springContext.refresh();
 
+        } catch (BeansException e) {
         }
 
         addController("/index", FrontPageController.class);
