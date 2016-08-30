@@ -19,10 +19,10 @@ import java.util.Random;
 public class FrontPageController extends MVCController{
 
     @Autowired
-    @Qualifier("JDBC_CategoryDAO")
+    @Qualifier("ORM_CategoryDAO")
     private CategoryDAO categoryDAO;
     @Autowired
-    @Qualifier("JDBC_ProductDAO")
+    @Qualifier("ORM_ProductDAO")
     private ProductDAO productDAO;
 
     @Override

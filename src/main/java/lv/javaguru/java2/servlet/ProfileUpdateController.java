@@ -74,7 +74,7 @@ public class ProfileUpdateController extends MVCController {
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return new MVCModel("/profile_update");
+            return new MVCModel("/profile/update");
         }
 
         try {
@@ -95,13 +95,13 @@ public class ProfileUpdateController extends MVCController {
 
             }else if(userCheckedByEmail != null) {
                 request.getSession().setAttribute("profileError", USER_ALREADY_EXISTS);
-                return new MVCModel("/profile_update");
+                return new MVCModel("/profile/update");
             }
 
         } catch (Throwable e) {
             e.printStackTrace();
         }
         request.getSession().setAttribute("profileError", UNEXPECTED_ERROR);
-        return new MVCModel("/profile_update");
+        return new MVCModel("/profile/update");
     }
 }

@@ -5,6 +5,7 @@ import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.servlet.MVCController;
 import lv.javaguru.java2.servlet.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CategoryChooseController extends MVCController {
 
     @Autowired
-    CategoryDAO categoryDAO;
+    @Qualifier("ORM_CategoryDAO")
+    private CategoryDAO categoryDAO;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
