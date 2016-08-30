@@ -1,7 +1,7 @@
 package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
@@ -50,9 +50,9 @@ public class UserRegistrationServiceImplTest {
         assertFalse(userRegistrationService.allowRegistration());
     }
 
-    @Test(expected = WrongFieldFormat.class)
+    @Test(expected = WrongFieldFormatException.class)
     public void testFailsWithSameException() throws ServiceException {
-        WrongFieldFormat exception = new WrongFieldFormat("error");
+        WrongFieldFormatException exception = new WrongFieldFormatException("error");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(any(), any(), any());
         userRegistrationService.register(goodName, goodMail, goodName);
     }

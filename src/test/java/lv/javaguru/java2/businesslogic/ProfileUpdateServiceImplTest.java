@@ -2,7 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,10 +39,10 @@ public class ProfileUpdateServiceImplTest {
         profileUpdateService.update(goodName, goodMail, goodPass);
     }
 
-    @Test(expected = WrongFieldFormat.class)
+    @Test(expected = WrongFieldFormatException.class)
     public void testFailsWithSameException() throws ServiceException {
         Mockito.doReturn(true).when(userProvider).authorized();
-        WrongFieldFormat exception = new WrongFieldFormat("error");
+        WrongFieldFormatException exception = new WrongFieldFormatException("error");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(any(), any(), any());
         profileUpdateService.update(goodName, goodMail, goodName);
     }

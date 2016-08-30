@@ -13,9 +13,9 @@ public class LogoutController extends MVCController {
     UserLogoutService userLogoutService;
 
     @Override
-    public MVCModel doGet(HttpServletRequest request) {
+    public MVCModel executeGet(HttpServletRequest request) {
         userLogoutService.logout();
-        request.getSession().invalidate(); // old style
+        request.getSession().invalidate();
         return new MVCModel("/index");
     }
 }

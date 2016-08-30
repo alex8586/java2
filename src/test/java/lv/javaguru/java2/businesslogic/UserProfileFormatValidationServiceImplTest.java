@@ -2,7 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.config.SpringConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,12 +27,12 @@ public class UserProfileFormatValidationServiceImplTest {
         profileFormatValidationService.validate(null, goodMail, goodPass);
     }
 
-    @Test(expected = WrongFieldFormat.class)
+    @Test(expected = WrongFieldFormatException.class)
     public void failsFailsWhenSomeFieldsAreEmpty() throws ServiceException {
         profileFormatValidationService.validate(goodName, "", goodPass);
     }
 
-    @Test(expected = WrongFieldFormat.class)
+    @Test(expected = WrongFieldFormatException.class)
     public void failsWhenPassAndAreNameEquals() throws ServiceException {
         profileFormatValidationService.validate(goodName, goodMail, goodName);
     }

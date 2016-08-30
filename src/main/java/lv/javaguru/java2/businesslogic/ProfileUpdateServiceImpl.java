@@ -5,12 +5,14 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProfileUpdateServiceImpl implements ProfileUpdateService {
 
     @Autowired
+    @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
     @Autowired
     private UserProvider userProvider;

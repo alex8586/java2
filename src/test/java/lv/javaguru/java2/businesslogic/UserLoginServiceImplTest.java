@@ -2,7 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;
@@ -58,7 +58,7 @@ public class UserLoginServiceImplTest {
         userLoginService.authenticate(null, goodPass);
     }
 
-    @Test(expected = WrongFieldFormat.class)
+    @Test(expected = WrongFieldFormatException.class)
     public void testLoginAttemptFailsWhenSomeFieldsAreEmpty() throws ServiceException {
         userLoginService.authenticate(goodMail, "");
     }

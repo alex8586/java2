@@ -2,7 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,10 +16,10 @@ public class UserProfileFormatValidationServiceImpl implements UserProfileFormat
             throw new IllegalRequestException();
 
         if (email.isEmpty() || password.isEmpty() || name.isEmpty())
-            throw new WrongFieldFormat(EMPTY_FIELDS);
+            throw new WrongFieldFormatException(EMPTY_FIELDS);
 
         if (name.equals(password))
-            throw new WrongFieldFormat(BAD_PASSWORD);
+            throw new WrongFieldFormatException(BAD_PASSWORD);
         return true;
     }
 }

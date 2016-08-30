@@ -17,9 +17,11 @@ public class FrontPageServiceImpl implements FrontPageService {
     UserProvider userProvider;
 
     @Autowired
+    @Qualifier("ORM_CategoryDAO")
     CategoryDAO categoryDAO;
 
     @Autowired
+    @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
 
     @Autowired

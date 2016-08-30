@@ -1,10 +1,11 @@
 package lv.javaguru.java2.businesslogic;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormat;
+import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final String WRONG_PASSWORD = "wrong password";
 
     @Autowired
+    @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
 
     @Autowired
@@ -34,7 +36,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             throw new IllegalRequestException();
 
         if (email.isEmpty() || password.isEmpty())
-            throw new WrongFieldFormat(EMPTY_FIELDS);
+            throw new WrongFieldFormatException(EMPTY_FIELDS);
 
         User user = userDAO.getByEmail(email);
         if (user == null) {
