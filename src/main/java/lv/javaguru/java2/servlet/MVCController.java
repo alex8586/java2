@@ -4,7 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.HttpServletRequest;
 
-abstract class MVCController {
+public abstract class MVCController {
 
     public MVCModel doGet(HttpServletRequest request){
         System.out.println(" in " + this.getClass().getName() + " executeGet()");
