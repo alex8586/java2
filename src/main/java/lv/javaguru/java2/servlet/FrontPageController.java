@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.FrontPageService;
+import lv.javaguru.java2.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class FrontPageController extends MVCController{
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> frontPageData = frontPageService.serve();
+        Map<String, Object> frontPageData = frontPageService.serve((Category) request.getSession().getAttribute("currentCategory"));
         return new MVCModel(frontPageData, "/frontpage.jsp");
     }
 }

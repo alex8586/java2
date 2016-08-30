@@ -4,6 +4,7 @@ import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 public class ProfileUpdateServiceImplTest {
 
@@ -45,5 +48,17 @@ public class ProfileUpdateServiceImplTest {
         WrongFieldFormatException exception = new WrongFieldFormatException("error");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(any(), any(), any());
         profileUpdateService.update(goodName, goodMail, goodName);
+    }
+
+    @Test
+    public void testUpdateSucceedsWhenEverythingFine() throws ServiceException {
+        User user = new User();
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(user).when(userProvider).getUser();
+        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(any(), any(), any());
+        profileUpdateService.update(goodName, goodMail, goodName);
+
+        verify(userProvider, times(1)).getUser();
+        verify(userDAO, times(1)).update(user);
     }
 }
