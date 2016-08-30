@@ -31,7 +31,7 @@ public class LoginController extends MVCController{
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         if (!userLoginService.allowLogin()) {
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
         Map<String, Object> map = new HashMap<String, Object>();
         if (error.isError())
@@ -53,10 +53,10 @@ public class LoginController extends MVCController{
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
             request.getSession().setAttribute("user", user); //old style
-            return new MVCModel("/profile");
+            return redirectTo(ProfileController.class);
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return new MVCModel("/login");
+            return redirectTo(LoginController.class);
         } catch (DBException e) {
             return new MVCModel("/error");
         }

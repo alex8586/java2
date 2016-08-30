@@ -23,7 +23,7 @@ public class ProfileHistoryController extends MVCController {
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
 
         User user = (User) request.getSession().getAttribute("user");
@@ -48,7 +48,7 @@ public class ProfileHistoryController extends MVCController {
 
     @Override
     public MVCModel executePost(HttpServletRequest request) {
-        return new MVCModel("/index");
+        return redirectTo(FrontPageController.class);
     }
 
 }

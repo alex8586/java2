@@ -21,7 +21,7 @@ public class ShippingProfileDeleteController extends MVCController {
     public MVCModel executePost(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return new MVCModel("/login");
+            return redirectTo(LoginController.class);
         }
         String param = request.getParameter("profileId");
         long id = 0;
@@ -31,12 +31,12 @@ public class ShippingProfileDeleteController extends MVCController {
             if (shippingProfile != null) {
                 if (shippingProfile.getUserId() == user.getId()) {
                     shippingProfileDAO.delete(shippingProfile);
-                    return new MVCModel("/profile/shippingProfiles");
+                    return redirectTo(ShippingProfileController.class);
                 } else
                     throw new IllegalStateException("Unable to access resource");
             }
         }
         request.getSession().setAttribute("profileError", UNABLE_TO_LOCATE_RESOURCE);
-        return new MVCModel("/profile/shippingProfiles");
+        return redirectTo(ShippingProfileController.class);
     }
 }

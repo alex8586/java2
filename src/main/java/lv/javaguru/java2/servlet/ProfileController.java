@@ -32,7 +32,7 @@ public class ProfileController extends MVCController {
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
 
         User user = (User) request.getSession().getAttribute("user");
@@ -73,7 +73,7 @@ public class ProfileController extends MVCController {
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return new MVCModel("/profile");
+            return redirectTo(ProfileController.class);
         }
 
         try {
@@ -97,13 +97,13 @@ public class ProfileController extends MVCController {
 
             } else if (userCheckedByEmail != null) {
                 request.getSession().setAttribute("profileError", USER_ALREADY_EXISTS);
-                return new MVCModel("/profile");
+                return redirectTo(ProfileController.class);
             }
 
         } catch (Throwable e) {
             e.printStackTrace();
         }
         request.getSession().setAttribute("profileError", UNEXPECTED_ERROR);
-        return new MVCModel("/profile");
+        return redirectTo(ProfileController.class);
     }
 }

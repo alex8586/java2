@@ -21,7 +21,7 @@ public class ShippingProfileController extends MVCController {
     public MVCModel executeGet(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return new MVCModel("/login");
+            return redirectTo(LoginController.class);
         }
         Map<String, Object> map = new HashMap<String, Object>();
         List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
@@ -36,13 +36,13 @@ public class ShippingProfileController extends MVCController {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return new MVCModel("/login");
+            return redirectTo(LoginController.class);
         }
         ShippingProfile shippingProfile = buildShippingProfileFromRequest(request);
         if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
                 shippingProfile.getPhone().isEmpty() || shippingProfile.getDocument().isEmpty()) {
             request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return new MVCModel("/profile/shippingProfiles");
+            return redirectTo(ShippingProfileController.class);
         }
         if (shippingProfile.getUserId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
@@ -54,7 +54,7 @@ public class ShippingProfileController extends MVCController {
             shippingProfile.setUserId(user.getId());
             shippingProfileDAO.create(shippingProfile);
         }
-        return new MVCModel("/profile/shippingProfiles");
+        return redirectTo(ShippingProfileController.class);
     }
 
 

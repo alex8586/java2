@@ -16,6 +16,6 @@ public class LogoutController extends MVCController {
     public MVCModel executeGet(HttpServletRequest request) {
         userLogoutService.logout();
         request.getSession().invalidate();
-        return new MVCModel("/index");
+        return redirectTo(FrontPageController.class);
     }
 }

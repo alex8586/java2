@@ -29,8 +29,9 @@ public class RegistrationController extends MVCController {
     protected MVCModel executeGet(HttpServletRequest request) {
 
         if (!userRegistrationService.allowRegistration()) {
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
+
         Map<String, Object> map = new HashMap<String, Object>();
         if (error.isError())
             map.put("registrationError", error.getError());
@@ -52,10 +53,10 @@ public class RegistrationController extends MVCController {
         String password = request.getParameter("password");
         try {
             userRegistrationService.register(name, email, password);
-            return new MVCModel("/login");
+            return redirectTo(LoginController.class);
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return new MVCModel("/register");
+            return redirectTo(RegistrationController.class);
         } catch (DBException e) {
             return new MVCModel("/error");
         }
