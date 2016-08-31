@@ -22,6 +22,9 @@ public class FrontPageServiceImpl implements FrontPageService {
     CategoryDAO categoryDAO;
 
     @Autowired
+    CategoryTree categoryTree;
+
+    @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
 
@@ -31,12 +34,11 @@ public class FrontPageServiceImpl implements FrontPageService {
 
     public Map<String, Object> serve(Category category) {
 
+
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         frontPageData.put("user", userProvider.getUser());
-        frontPageData.put("categories", categoryDAO.getAll());
-
-        Product product;
-        if (category == null){
+        frontPageData.put("categories", categoryTree.asOrderedList());
+        if (category == null)
             frontPageData.put("products", productDAO.getAll());
             product = specialSaleOffer.getOffer();
         } else {

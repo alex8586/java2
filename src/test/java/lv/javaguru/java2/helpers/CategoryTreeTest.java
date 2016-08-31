@@ -6,10 +6,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CategoryTreeTest {
 
@@ -78,7 +78,7 @@ public class CategoryTreeTest {
     }
 
     @Test
-    public void testTParentAndTwoChildren() {
+    public void testParentAndTwoChildren() {
         listForTests.add(rootCategory);
         listForTests.add(rootsChild1);
         listForTests.add(rootsChild2);
@@ -90,6 +90,13 @@ public class CategoryTreeTest {
         List<Category> childs = categoryTree.getChildren(rootCategory);
         assertTrue(childs.contains(rootsChild1));
         assertTrue(childs.contains(rootsChild2));
+
+        Iterator<Category> iterator = categoryTree.iterator();
+        assertEquals(rootCategory, iterator.next());
+        assertEquals(rootsChild1, iterator.next());
+        assertEquals(rootsChild2, iterator.next());
+        assertFalse(iterator.hasNext());
+
     }
 
     @Test
@@ -150,7 +157,16 @@ public class CategoryTreeTest {
         assertEquals(2, categoryTree.getChildren(rootsChild1).size());
         assertEquals(5, categoryTree.getAncestors(rootsChild1).size());
 
+        Iterator<Category> iterator = categoryTree.iterator();
+        assertEquals(rootCategory, iterator.next());
+        assertEquals(rootsChild1, iterator.next());
+        assertEquals(son1ofRootsChild1, iterator.next());
+        iterator.next();
+        assertEquals(son2ofson1ofRootsChild1, iterator.next());
+        iterator.next();
+        iterator.next();
+        assertEquals(rootsChild2, iterator.next());
+        iterator.next();
+        assertFalse(iterator.hasNext());
     }
-
-
 }

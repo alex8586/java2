@@ -29,6 +29,10 @@ class TreeNode<Type> {
         this.parent = parent;
     }
 
+    public TreeNode<Type> getParentNode() {
+        return this.parent;
+    }
+
     public Type getInstance() {
         return this.instance;
     }
@@ -45,6 +49,10 @@ class TreeNode<Type> {
     public void setChildren(List<TreeNode<Type>> children) {
         this.children = children;
         addAncestors(children);
+    }
+
+    public List<TreeNode<Type>> getChildrenNodes() {
+        return this.children;
     }
 
     public List<Type> getAncestors() {

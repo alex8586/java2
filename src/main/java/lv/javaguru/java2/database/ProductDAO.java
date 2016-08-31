@@ -9,6 +9,8 @@ public interface ProductDAO extends CrudDAO<Product> {
 
     List<Product> getAllByCategory(Category category);
 
+    List<Product> getCategoryContent(Category category);
+
     Product getRandomProduct();
 
     Product getRandomProductWithoutCurrentCategoryId(long id);

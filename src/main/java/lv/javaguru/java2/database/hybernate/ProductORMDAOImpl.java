@@ -3,6 +3,7 @@ package lv.javaguru.java2.database.hybernate;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.helpers.CategoryTree;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("ORM_ProductDAO")
 @Transactional
@@ -21,6 +23,9 @@ public class ProductORMDAOImpl implements ProductDAO {
 
     @Autowired
     SessionFactory sessionFactory;
+
+    @Autowired
+    CategoryTree categoryTree;
 
     @Override
     public long create(Product product) {
@@ -61,6 +66,16 @@ public class ProductORMDAOImpl implements ProductDAO {
     }
 
     @Override
+    public List getCategoryContent(Category category) {
+        System.out.println(categoryTree);
+        List<Category> categories = categoryTree.getAncestors(category);
+        List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
+        ids.add(category.getId());
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Product.class).add(Restrictions.in("categoryId", ids)).list();
+    }
+
+    @Override
     public Product getRandomProduct() {
         Session session = sessionFactory.getCurrentSession();
         return (Product) session.createCriteria(Product.class)
@@ -72,7 +87,7 @@ public class ProductORMDAOImpl implements ProductDAO {
     public Product getRandomProductWithoutCurrentCategoryId(long id) {
         Session session = sessionFactory.getCurrentSession();
         return (Product) session.createCriteria(Product.class)
-                .add(Restrictions.sqlRestriction("order by rand() where category_id not like" + id))
+                .add(Restrictions.sqlRestriction("1=1 order by rand() where category_id not like" + id))
                 .setMaxResults(1);
     }
 }

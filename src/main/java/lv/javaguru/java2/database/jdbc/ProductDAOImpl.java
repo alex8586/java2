@@ -119,5 +119,10 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
             closeConnection(connection);
         }
     }
+    @Override
+    public List getCategoryContent(Category category) {
+        throw new NotImplementedException();
+    }
+
 
 }
