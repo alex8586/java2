@@ -5,6 +5,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 DROP SCHEMA IF EXISTS java2miska;
 CREATE SCHEMA IF NOT EXISTS `java2miska` DEFAULT CHARACTER SET utf8 ;
 USE `java2miska` ;
+GRANT ALL PRIVILEGES ON *.* TO 'max'@'localhost' IDENTIFIED BY 'Klopolk73' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 -- -----------------------------------------------------
 -- Table `java2miska`.`users`
@@ -26,7 +28,7 @@ AUTO_INCREMENT = 1;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `java2miska`.`shipping_profiles`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`shipping_profiles` (
-  id        INT(11) PRIMARY KEY AUTO_INCREMENT,
+  id       BIGINT(11) PRIMARY KEY AUTO_INCREMENT,
   person    VARCHAR(100) NOT NULL,
   document  VARCHAR(50)  NOT NULL,
   address   VARCHAR(100) NOT NULL,
@@ -59,7 +61,7 @@ CREATE INDEX `user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `java2miska`.`categories` ;
 CREATE TABLE IF NOT EXISTS `java2miska`.`categories` (
-  `id`   INT(11)  NOT NULL AUTO_INCREMENT,
+  `id`   BIGINT(11)  NOT NULL AUTO_INCREMENT,
   `name` CHAR(64) NOT NULL,
   PRIMARY KEY (`id`)
 )
@@ -73,7 +75,7 @@ AUTO_INCREMENT = 1;
 DROP TABLE IF EXISTS `java2miska`.`products`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`products`
 (
-  `ProductID`          INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `ProductID`          BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `VendorCode`         VARCHAR(10),
   `VendorName`         VARCHAR(60),
   `VendorDescription`  VARCHAR(300),

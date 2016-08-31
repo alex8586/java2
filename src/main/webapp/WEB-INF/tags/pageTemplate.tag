@@ -17,7 +17,7 @@
     <jsp:doBody/>
 </main>
 <%@include file="/includes/footer.jsp" %>
-<!--Import jQuery before materialize.js-->
+
 <c:url var="js" value="/miskaweb/js/materialize.min.js"/>
 <script type="text/javascript" src="${js}"></script>
 <script>

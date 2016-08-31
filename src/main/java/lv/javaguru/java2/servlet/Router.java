@@ -41,9 +41,10 @@ public class Router implements Filter {
         addController("/contacts", ContactController.class);
         addController("/profile/shippingProfiles", ShippingProfileController.class);
         addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
+        addController("/admin",AdminPageController.class);
 
-        pathResolver.setAlias(Product.class, ProductController.class);
-        pathResolver.setAlias(Category.class, CategoryChooseController.class);
+//        pathResolver.setAlias(Product.class, ProductController.class);
+//        pathResolver.setAlias(Category.class, CategoryChooseController.class);
         filterConfig.getServletContext().setAttribute("reverseRouter", pathResolver);
 
     }
