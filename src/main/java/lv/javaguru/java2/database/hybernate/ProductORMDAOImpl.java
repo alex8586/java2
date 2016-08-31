@@ -59,4 +59,18 @@ public class ProductORMDAOImpl implements ProductDAO {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Product.class).add(Restrictions.eq("categoryId", category.getId())).list();
     }
+
+    @Override
+    public Product getRandomProduct() {
+        Session session = sessionFactory.getCurrentSession();
+        return (Product) session.createCriteria(Product.class).add(Restrictions.sqlRestriction("ORDER BY RAND()")).setMaxResults(1);
+    }
+
+    @Override
+    public Product getRandomProductWithoutCurrentCategoryId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Product) session.createCriteria(Product.class)
+                .add(Restrictions.sqlRestriction("order by rand() where category_id not like" + id))
+                .setMaxResults(1);
+    }
 }

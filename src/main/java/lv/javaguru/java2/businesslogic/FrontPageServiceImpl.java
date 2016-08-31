@@ -42,9 +42,18 @@ public class FrontPageServiceImpl implements FrontPageService {
             frontPageData.put("products", productDAO.getAllByCategory(category));
 
         String imgPath = "miskaweb/img/default.jpg";
-        Product product = specialSaleOffer.getOffer();
-        if (product != null)
-            imgPath = product.getImgUrl();
+        Product product;
+        if(category == null){
+            product = specialSaleOffer.getOffer();
+            if(product != null){
+                imgPath = product.getImgUrl();
+            }
+        }else{
+            product = specialSaleOffer.getOffer(category.getId());
+            if(product != null)
+                imgPath = product.getImgUrl();
+        }
+
         frontPageData.put("imgPath", imgPath);
         System.out.println("model imagepath = " + imgPath);
         return frontPageData;

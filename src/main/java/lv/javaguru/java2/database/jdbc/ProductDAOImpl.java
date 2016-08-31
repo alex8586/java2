@@ -1,9 +1,12 @@
 package lv.javaguru.java2.database.jdbc;
+
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +23,8 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
     private static final String CREATE = "INSERT INTO " + TABLE + " (name, description, price, category_id,imgurl,id) VALUES (?, ?, ?, ?, '',DEFAULT)";
     private static final String UPDATE = "UPDATE " + TABLE + " SET name = ?, description = ?, price = ?, category_id = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM " + TABLE + " WHERE id = ?";
-
+    private static final String GET_RANDOM_PRODUCT = "SELECT * FROM "+ TABLE + " ORDER BY rand() LIMIT ?";
+    private static final String GET_RANDOM_PRODUCT_WITHOUT_CURRENT_CATEGORY_ID = "SELECT * FROM "+ TABLE + " WHERE category_id NOT LIKE ? ORDER BY rand() LIMIT 1";
     @Override
     public long create(Product product) {
         return super.create(product, CREATE);
@@ -74,5 +78,45 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         return product;
     }
 
+    @Override
+    public Product getRandomProduct(){
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_RANDOM_PRODUCT);
+            preparedStatement.setLong(1, 1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return buildFromResultSet(resultSet);
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getRandomProduct");
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+    @Override
+    public Product getRandomProductWithoutCurrentCategoryId(long id){
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_RANDOM_PRODUCT_WITHOUT_CURRENT_CATEGORY_ID);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return buildFromResultSet(resultSet);
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getRandomProduct");
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
 
 }

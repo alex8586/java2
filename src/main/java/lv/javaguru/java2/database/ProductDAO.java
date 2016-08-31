@@ -6,5 +6,10 @@ import lv.javaguru.java2.domain.Product;
 import java.util.List;
 
 public interface ProductDAO extends CrudDAO<Product> {
+
     List<Product> getAllByCategory(Category category);
+
+    Product getRandomProduct();
+
+    Product getRandomProductWithoutCurrentCategoryId(long id);
 }
