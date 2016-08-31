@@ -31,31 +31,21 @@ public class FrontPageServiceImpl implements FrontPageService {
 
     public Map<String, Object> serve(Category category) {
 
-
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryDAO.getAll());
 
-        if (category == null)
-            frontPageData.put("products", productDAO.getAll());
-        else
-            frontPageData.put("products", productDAO.getAllByCategory(category));
-
-        String imgPath = "miskaweb/img/default.jpg";
         Product product;
-        if(category == null){
+        if (category == null){
+            frontPageData.put("products", productDAO.getAll());
             product = specialSaleOffer.getOffer();
-            if(product != null){
-                imgPath = product.getImgUrl();
-            }
-        }else{
+        } else {
+            frontPageData.put("products", productDAO.getAllByCategory(category));
             product = specialSaleOffer.getOffer(category.getId());
-            if(product != null)
-                imgPath = product.getImgUrl();
         }
 
-        frontPageData.put("imgPath", imgPath);
-        System.out.println("model imagepath = " + imgPath);
+        frontPageData.put("saleOffer", product);
+        System.out.println("model imagepath = " + product.getImgUrl());
         return frontPageData;
     }
 }

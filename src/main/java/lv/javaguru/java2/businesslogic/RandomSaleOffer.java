@@ -19,7 +19,7 @@ public class RandomSaleOffer implements SpecialSaleOffer {
         if (product != null)
             return product;
         else
-            return null;
+            return emptyProduct();
     }
 
     @Override
@@ -28,8 +28,12 @@ public class RandomSaleOffer implements SpecialSaleOffer {
         if(product != null)
             return product;
         else
-            return null;
+            return emptyProduct();
     }
 
-
+    private Product emptyProduct(){
+        Product product = new Product();
+        product.setImgUrl("miskaweb/img/default.jpg");
+        return product;
+    }
 }

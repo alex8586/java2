@@ -36,12 +36,8 @@ public class RegistrationController extends MVCController {
         if (error.isError())
             map.put("registrationError", error.getError());
 
-        String imgPath = "/miskaweb/img/default.jpg";
         Product product = specialSaleOffer.getOffer();
-        if (product != null)
-            imgPath = product.getImgUrl();
-
-        map.put("imgPath", imgPath);
+        map.put("saleOffer", product);
         return new MVCModel(map,"/registration.jsp");
     }
 

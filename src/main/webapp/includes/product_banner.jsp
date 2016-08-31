@@ -3,7 +3,9 @@
 
     <div class="card-image">
         <hr>
-        <img src="<c:url value="${requestScope.model.imgPath}" />" width="202" height="224">
-        <img src="miskaweb/img/sale.jpg" width="202" height="50">
+        <a href="">
+            <img src="<c:url value="${requestScope.model.saleOffer.imgUrl}" />" width="202" height="224">
+            <img src="miskaweb/img/sale.jpg" width="202" height="50">
+        </a>
         <hr>
     </div>
