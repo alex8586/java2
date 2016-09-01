@@ -5,6 +5,9 @@ CREATE TABLE shipping_profiles (
   address  VARCHAR(255) NOT NULL,
   phone    VARCHAR(50)  NOT NULL,
   user_id  INT(11),
-  CONSTRAINT FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT user_of_shipping_profile FOREIGN KEY (user_id) REFERENCES users (id)
     ON DELETE CASCADE
-);
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1;
+;

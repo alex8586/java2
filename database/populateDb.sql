@@ -24,9 +24,6 @@ INSERT INTO categories (id, name, father_id) VALUES (default, 'Pork', 10);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Beef', 10);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Sausages', 10);
 
-SELECT *
-FROM categories;
-
 INSERT INTO products (id, name, description, imgurl, price, category_id)
 VALUES (default, 'Small Green Aapples', '', 'img/products/fruits/01/', 1.29, 2);
 

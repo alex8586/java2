@@ -29,7 +29,6 @@ public class ShippingProfileORMDAOImplTest extends CrudHybernateDAOTest<Shipping
         user.setEmail("email");
         user.setPassword("pass");
         userDAO.create(user);
-        System.out.println("created user : " + user + " " + user.getId());
         super.before();
     }
 
