@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE products (
   id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name        VARCHAR(255) NOT NULL,
