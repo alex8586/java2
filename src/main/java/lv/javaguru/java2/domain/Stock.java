@@ -3,12 +3,11 @@ package lv.javaguru.java2.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "Stock")
 public class Stock implements BaseEntity {
     @Column(name = "id")
     @Id
@@ -84,7 +83,7 @@ public class Stock implements BaseEntity {
                 .append(expireDate)
                 .toHashCode();
     }
-    
+
     @Override
     public String toString() {
         return "Stock{" +
