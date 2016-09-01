@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface CountCustomersDAO {
 
-    void createCountCustomer(CountCustomer countCustomer);
+    long create(CountCustomer countCustomer);
 
-    void updateCountCustomer(CountCustomer countCustomer);
+    void update(CountCustomer countCustomer);
+
+    CountCustomer getById(long id);
 
     int getCountByProduct(long productId);
 
