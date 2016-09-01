@@ -35,7 +35,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             preparedStatement.setInt(3, countVisitor.getCounter());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
-            System.out.println("Exception while execute createCountCustomer()" + CREATE_COUNT_VISITOR);
+            System.out.println("Exception while execute create()" + CREATE_COUNT_VISITOR);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
@@ -45,7 +45,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     @Override
     public void updateCountVisitor(CountVisitor countVisitor) {
         if (countVisitor == null || countVisitor.getId() == 0)
-            throw new IllegalArgumentException("Exception while execute updateCountCustomer(). null or new object received");
+            throw new IllegalArgumentException("Exception while execute update(). null or new object received");
 
         Connection connection = null;
         try {
@@ -58,7 +58,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             preparedStatement.setLong(4, countVisitor.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
-            System.out.println("Exception while execute updateCountCustomer()" + UPDATE_COUNT_VISITOR);
+            System.out.println("Exception while execute update()" + UPDATE_COUNT_VISITOR);
             throw new DBException(e);
         } finally {
             closeConnection(connection);

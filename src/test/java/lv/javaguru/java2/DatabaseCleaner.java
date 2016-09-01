@@ -2,11 +2,13 @@ package lv.javaguru.java2;
 
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.JdbcConnector;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DatabaseCleaner extends JdbcConnector {
 
     private List<String> getTableNames(Connection connection) {

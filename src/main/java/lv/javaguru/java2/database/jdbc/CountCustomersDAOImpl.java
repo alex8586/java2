@@ -22,30 +22,36 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
     private final static String GET_ALL_COUNT = "SELECT * FROM customers_counter";
 
     @Override
-    public void createCountCustomer(CountCustomer countCustomer) {
+    public long create(CountCustomer countCustomer) {
         if (countCustomer == null || countCustomer.getId() != 0)
-            throw new IllegalArgumentException("Exception while execute createCountCustomer(). null or existing object received");
+            throw new IllegalArgumentException("Exception while execute create(). null or existing object received");
         Connection connection = null;
+        long countCustomerId = 0;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_COUNT_CUSTOMER);
+                    (CREATE_COUNT_CUSTOMER, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, countCustomer.getUserId());
             preparedStatement.setLong(2, countCustomer.getProductId());
             preparedStatement.setInt(3, countCustomer.getCounter());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next())
+                countCustomerId = resultSet.getLong(1);
         } catch (Throwable e) {
-            System.out.println("Exception while execute createCountCustomer()" + CREATE_COUNT_CUSTOMER);
+            System.out.println("Exception while execute create()" + CREATE_COUNT_CUSTOMER);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
         }
+        return countCustomerId;
     }
 
     @Override
-    public void updateCountCustomer(CountCustomer countCustomer) {
+    public void update(CountCustomer countCustomer) {
         if (countCustomer == null || countCustomer.getId() == 0)
-            throw new IllegalArgumentException("Exception while execute updateCountCustomer(). null or new object received");
+            throw new IllegalArgumentException("Exception while execute update(). null or new object received");
 
         Connection connection = null;
         try {
@@ -58,11 +64,16 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
             preparedStatement.setLong(4, countCustomer.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
-            System.out.println("Exception while execute updateCountCustomer()" + UPDATE_COUNT_CUSTOMER);
+            System.out.println("Exception while execute update()" + UPDATE_COUNT_CUSTOMER);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
         }
+    }
+
+    @Override
+    public CountCustomer getById(long id) {
+        return null;
     }
 
     @Override
