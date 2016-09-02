@@ -41,7 +41,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
 
         if (shippingProfile.getAddress() == null || shippingProfile.getPerson() == null ||
                 shippingProfile.getPhone() == null || shippingProfile.getDocument() == null) {
-            throw new IllegalRequestException();
+            throw new NullPointerException();
         }
 
         if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
@@ -49,12 +49,12 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
             throw new WrongFieldFormatException(EMPTY_FIELDS);
         }
 
-        if (shippingProfile.getUserId() > 0) {
+        if (shippingProfile.getId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
             if (oldProfile == null)
                 throw new RecordIsNotAvailable();
             if (!userProvider.isCurrent(oldProfile.getUserId()))
-                throw new IllegalStateException("Unable to access resource");
+                throw new IllegalRequestException();
             shippingProfileDAO.update(shippingProfile);
         } else {
             shippingProfile.setUserId(userProvider.getUser().getId());
@@ -67,15 +67,13 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
-        if (shippingProfile.getId() == 0)
-            throw new IllegalRequestException();
 
         ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
         if (oldProfile == null)
             throw new RecordIsNotAvailable();
 
         if (!userProvider.isCurrent(oldProfile.getUserId()))
-            throw new IllegalStateException("Unable to access resource");
+            throw new IllegalRequestException();
 
         shippingProfileDAO.delete(shippingProfile);
     }
