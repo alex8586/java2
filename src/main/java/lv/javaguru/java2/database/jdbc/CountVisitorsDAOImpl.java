@@ -19,11 +19,13 @@ import java.util.List;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitorsDAO {
 
-    private final static String CREATE_COUNT_VISITOR = "INSERT INTO visitors_counter (ip, product_id, counter) VALUES (?,?,?)";
-    private final static String UPDATE_COUNT_VISITOR = "UPDATE visitors_counter SET product_id=?, ip=?, counter=? WHERE id=?";
-    private final static String GET_BY_PRODUCT = "SELECT * FROM visitors_counter WHERE product_id=?";
-    private final static String GET_BY_IP = "SELECT * FROM visitors_counter WHERE ip=?";
-    private final static String GET_BY_PRODUCT_AND_IP = "SELECT * FROM visitors_counter WHERE product_id=? and ip=?";
+    private final static String CREATE = "INSERT INTO visitors_counter (ip, product_id, counter) VALUES (?,?,?)";
+    private final static String UPDATE = "UPDATE visitors_counter SET product_id=?, ip=?, counter=? WHERE id=?";
+    private final static String DELETE = "DELETE FROM visitors_counter WHERE id=?";
+    private final static String GET_BY_ID = "SELECT * FROM visitors_counter WHERE id =?";
+    private final static String GET_BY_PRODUCT_ID = "SELECT counter FROM visitors_counter WHERE product_id=?";
+    private final static String GET_BY_IP = "SELECT counter FROM visitors_counter WHERE ip=?";
+    private final static String GET_BY_PRODUCT_ID_AND_IP = "SELECT counter FROM visitors_counter WHERE product_id=? and ip=?";
     private final static String GET_ALL_COUNT = "SELECT * FROM visitors_counter";
 
     @Override
@@ -35,7 +37,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_COUNT_VISITOR, PreparedStatement.RETURN_GENERATED_KEYS);
+                    (CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, countVisitor.getIp());
             preparedStatement.setLong(2, countVisitor.getProductId());
             preparedStatement.setInt(3, countVisitor.getCounter());
@@ -45,7 +47,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             if(resultSet.next())
                 id = resultSet.getLong(1);
         } catch (Throwable e) {
-            System.out.println("Exception while execute create()" + CREATE_COUNT_VISITOR);
+            System.out.println("Exception while execute create()" + CREATE);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
@@ -62,14 +64,14 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (UPDATE_COUNT_VISITOR);
+                    (UPDATE);
             preparedStatement.setLong(1, countVisitor.getProductId());
             preparedStatement.setString(2, countVisitor.getIp());
             preparedStatement.setInt(3, countVisitor.getCounter());
             preparedStatement.setLong(4, countVisitor.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
-            System.out.println("Exception while execute update()" + UPDATE_COUNT_VISITOR);
+            System.out.println("Exception while execute update()" + UPDATE);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
@@ -78,12 +80,50 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
 
     @Override
     public void delete(CountVisitor countVisitor) {
-
+        if (countVisitor == null || countVisitor.getId() == 0)
+            return;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement.setLong(1, countVisitor.getId());
+            preparedStatement.executeUpdate();
+            countVisitor.setId(0);
+        } catch (Throwable e) {
+            System.out.println("Exception while execute delete()" + DELETE);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
     public CountVisitor getById(long id) {
-        return null;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_BY_ID);
+            preparedStatement.setLong(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            CountVisitor countVisitor;
+            if (resultSet.next()){
+                countVisitor = new CountVisitor();
+                countVisitor.setId(resultSet.getLong("id"));
+                countVisitor.setIp(resultSet.getString("ip"));
+                countVisitor.setProductId(resultSet.getLong("product_id"));
+                countVisitor.setCounter(resultSet.getInt("counter"));
+                return countVisitor;
+            }
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getById " + GET_BY_ID);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
@@ -92,14 +132,14 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
         int counter = 0;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_PRODUCT);
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_PRODUCT_ID);
             preparedStatement.setLong(1, productId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductId()" + GET_BY_PRODUCT);
+            System.out.println("Exception while execute getCountByProductId()" + GET_BY_PRODUCT_ID);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -135,7 +175,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (GET_BY_PRODUCT_AND_IP);
+                    (GET_BY_PRODUCT_ID_AND_IP);
             preparedStatement.setLong(1, productId);
             preparedStatement.setString(2, ip);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -143,7 +183,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductIdAndIp() " + GET_BY_PRODUCT_AND_IP);
+            System.out.println("Exception while execute getCountByProductIdAndIp() " + GET_BY_PRODUCT_ID_AND_IP);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
