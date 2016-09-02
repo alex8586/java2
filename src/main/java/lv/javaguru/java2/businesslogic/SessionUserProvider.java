@@ -19,4 +19,8 @@ public class SessionUserProvider implements UserProvider {
     public boolean authorized() {
         return user != null;
     }
+
+    public boolean isCurrent(long userId) {
+        return this.user.getId() == userId;
+    }
 }

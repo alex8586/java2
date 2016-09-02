@@ -1,10 +1,14 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.ShippingProfileService;
+import lv.javaguru.java2.businesslogic.UserProvider;
+import lv.javaguru.java2.businesslogic.serviceexception.Error;
+import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
-import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,50 +19,43 @@ import java.util.Map;
 
 @Component
 public class ShippingProfileController extends MVCController {
-    private final String EMPTY_FIELDS = "All fields must be filled";
 
     @Autowired
     private ShippingProfileDAOImpl shippingProfileDAO;
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
+    ShippingProfileService shippingProfileService;
+
+    @Autowired
+    Error error;
+
+    @Autowired
+    UserProvider userProvider;
 
     public MVCModel executeGet(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        List<ShippingProfile> shippingProfiles = null;
+        try {
+            shippingProfiles = shippingProfileService.list();
+        } catch (IllegalRequestException e) {
             return redirectTo(LoginController.class);
+        } catch (ServiceException e) {
+            error.setError(e.getMessage());
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
-        ShippingProfile profile = new ShippingProfile();
         map.put("shippingProfiles", shippingProfiles);
 
         Product product = specialSaleOffer.getOffer();
         map.put("saleOffer", product);
-        map.put("user", user);
+        map.put("user", userProvider.getUser());
         return new MVCModel(map, "/shippingProfiles.jsp");
     }
 
     public MVCModel executePost(HttpServletRequest request) {
-
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return redirectTo(LoginController.class);
-        }
         ShippingProfile shippingProfile = buildShippingProfileFromRequest(request);
-        if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
-                shippingProfile.getPhone().isEmpty() || shippingProfile.getDocument().isEmpty()) {
-            request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return redirectTo(ShippingProfileController.class);
-        }
-        if (shippingProfile.getUserId() > 0) {
-            ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
-            if (oldProfile.getUserId() != user.getId()) {
-                throw new IllegalStateException("Unable to access resource");
-            }
-            shippingProfileDAO.update(shippingProfile);
-        } else {
-            shippingProfile.setUserId(user.getId());
-            shippingProfileDAO.create(shippingProfile);
+        try {
+            shippingProfileService.save(shippingProfile);
+        } catch (Exception e) {
+            error.setError(e.getMessage());
         }
         return redirectTo(ShippingProfileController.class);
     }

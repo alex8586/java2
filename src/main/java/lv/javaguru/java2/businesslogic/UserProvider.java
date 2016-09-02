@@ -8,4 +8,6 @@ public interface UserProvider {
     void setUser(User user);
 
     boolean authorized();
+
+    boolean isCurrent(long userId);
 }
