@@ -3,7 +3,6 @@ package lv.javaguru.java2.database.hybernate;
 import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
-import lv.javaguru.java2.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -55,32 +54,39 @@ public class StockORMDAOImpl implements StockDAO {
     @Override
     public List<Stock> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(User.class).list();
+        return session.createCriteria(Stock.class).list();
     }
 
     @Override
     public List<Stock> allByProduct(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Stock.class).add(Restrictions.eq("product_id", product.getId())).list();
+        return (List<Stock>) session.createCriteria(Stock.class).add(Restrictions.eq("product_id", product.getId())).list();
     }
 
     @Override
-    public int countFreshByProduct(Product product, Date date) {
+    public long countFreshByProduct(Product product, Date date) {
         SimpleExpression expression = Restrictions.ge("expireDate", date);
         return countProductWithCriteria(product, expression);
     }
     @Override
-    public int countExpiredByProduct(Product product, Date date) {
+    public long countExpiredByProduct(Product product, Date date) {
         SimpleExpression expression = Restrictions.le("expireDate", date);
         return countProductWithCriteria(product, expression);
     }
 
-    private int countProductWithCriteria(Product product, SimpleExpression expression) {
+    private long countProductWithCriteria(Product product, SimpleExpression expression) {
+        if (expression.getValue() == null)
+            throw new NullPointerException("date = null");
         Session session = sessionFactory.getCurrentSession();
-        return (int) session.createCriteria(Stock.class)
-                .add(Restrictions.eq("product_id", product.getId()))
+        Object result = session.createCriteria(Stock.class)
+                .add(Restrictions.eq("productId", product.getId()))
                 .add(expression)
-                .setProjection(Projections.sum("count")).uniqueResult();
+                .setProjection(Projections.sum("quantity")).uniqueResult();
+
+        if (result == null)
+            return 0;
+
+        return (long) result;
     }
 
 }

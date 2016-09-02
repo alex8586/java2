@@ -21,6 +21,7 @@ public class Stock implements BaseEntity {
     private int quantity;
 
     @Column(name = "expire_date")
+    @Temporal(TemporalType.DATE)
     private Date expireDate;
 
     @Override

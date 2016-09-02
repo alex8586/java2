@@ -17,8 +17,8 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
     private static final String GET_BY_ID = "SELECT * FROM " + TABLE + " WHERE id = ?";
     private static final String GET_BY_CATEGORY = "SELECT * FROM " + TABLE + " WHERE category_id = ?";
     private static final String GET_ALL = "SELECT * FROM " + TABLE;
-    private static final String CREATE = "INSERT INTO " + TABLE + " (name, description, price, category_id,imgurl,id) VALUES (?, ?, ?, ?, '',DEFAULT)";
-    private static final String UPDATE = "UPDATE " + TABLE + " SET name = ?, description = ?, price = ?, category_id = ? WHERE id = ?";
+    private static final String CREATE = "INSERT INTO " + TABLE + " (name, description, price, category_id,imgurl,id) VALUES (?, ?, ?, ?, ?, DEFAULT)";
+    private static final String UPDATE = "UPDATE " + TABLE + " SET name = ?, description = ?, price = ?, category_id = ?,imgurl = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM " + TABLE + " WHERE id = ?";
 
     @Override
@@ -56,8 +56,9 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         preparedStatement.setString(2, product.getDescription());
         preparedStatement.setLong(3, product.getPrice());
         preparedStatement.setLong(4, product.getCategoryId());
+        preparedStatement.setString(5, product.getImgUrl());
         if (product.getId() != 0)
-            preparedStatement.setLong(5, product.getId());
+            preparedStatement.setLong(6, product.getId());
     }
 
     @Override
@@ -73,6 +74,5 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
 
         return product;
     }
-
 
 }

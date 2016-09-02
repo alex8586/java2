@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface StockDAO extends CrudDAO<Stock> {
     List<Stock> allByProduct(Product product);
-    int countFreshByProduct(Product product, Date date);
-    int countExpiredByProduct(Product product, Date date);
+
+    long countFreshByProduct(Product product, Date date);
+
+    long countExpiredByProduct(Product product, Date date);
 }
