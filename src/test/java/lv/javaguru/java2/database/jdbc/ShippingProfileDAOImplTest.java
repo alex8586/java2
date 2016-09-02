@@ -28,7 +28,6 @@ public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile,
         user.setEmail("email");
         user.setPassword("pass");
         userDAO.create(user);
-        System.out.println("created user : " + user + " " + user.getId());
         super.before();
     }
 
@@ -73,8 +72,10 @@ public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile,
 
     @Test(expected = DBException.class)
     public void unableToUpdateWithoutUser() {
-        recordFromDAO.setUserId(0);
+        System.out.println(recordFromDAO);
+        recordFromDAO.setUserId(-123);
         dao.update(recordFromDAO);
+        System.out.println(recordFromDAO);
     }
 
     @Test
