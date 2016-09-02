@@ -1,7 +1,7 @@
 package lv.javaguru.java2.database.hybernate;
 
-import lv.javaguru.java2.database.CountCustomersDAO;
-import lv.javaguru.java2.domain.CountCustomer;
+import lv.javaguru.java2.database.CountUsersDAO;
+import lv.javaguru.java2.domain.CountUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,51 +12,59 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component("ORM_CountCustomersDAO")
+@Component("ORM_CountUsersDAO")
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class CountCustomersORMDAOImpl implements CountCustomersDAO{
+public class CountUsersORMDAOImpl implements CountUsersDAO {
 
     @Autowired
     SessionFactory sessionFactory;
 
     @Override
-    public long create(CountCustomer countCustomer){
+    public long create(CountUser countUser) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(countCustomer);
+        session.persist(countUser);
         session.flush();
-        return countCustomer.getId();
+        return countUser.getId();
     }
 
     @Override
-    public void update(CountCustomer countCustomer){
+    public void update(CountUser countUser) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(countCustomer);
+        session.update(countUser);
     }
 
     @Override
-    public CountCustomer getById(long id){
+    public void delete(CountUser countUser) {
         Session session = sessionFactory.getCurrentSession();
-        return (CountCustomer) session.get(CountCustomer.class, id);
+        session.delete(countUser);
     }
 
     @Override
-    public int getCountByProduct(long productId) {
+    public CountUser getById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM customers_counter WHERE product_id="+productId;
+        return (CountUser) session.get(CountUser.class, id);
+    }
+
+    @Override
+    public int getCountByProductId(long productId) {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "SELECT counter FROM users_counter WHERE product_id=" + productId;
         int result = (int) session.createSQLQuery(sql).uniqueResult();
         return result;
     }
 
     @Override
-    public int getCountByCustomer(long userId) {
+    public int getCountByUserId(long userId) {
         Session session = sessionFactory.getCurrentSession();
-        return (int) session.get(CountCustomer.class, userId);
+        String sql = "SELECT counter FROM users_counter WHERE user_id=" + userId;
+        int result = (int) session.createSQLQuery(sql).uniqueResult();
+        return result;
     }
 
-    public int getCountByProductAndVisitor(long productId, long userId) {
+    public int getCountByProductIdAndUserId(long productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT * FROM customers_counter WHERE product_id="+productId+" and user_id="+userId;
+        String sql = "SELECT counter FROM users_counter WHERE product_id=" + productId + " and user_id=" + userId;
         int result = (int) session.createSQLQuery(sql).uniqueResult();
         return result;
     }
@@ -64,7 +72,7 @@ public class CountCustomersORMDAOImpl implements CountCustomersDAO{
     @Override
     public List getAllCount() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(CountCustomer.class).list();
+        return session.createCriteria(CountUser.class).list();
     }
 
 }
