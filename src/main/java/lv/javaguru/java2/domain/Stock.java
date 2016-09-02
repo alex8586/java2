@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Stock")
+@Table(name = "stock")
 public class Stock implements BaseEntity {
     @Column(name = "id")
     @Id
