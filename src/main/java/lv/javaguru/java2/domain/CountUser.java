@@ -6,15 +6,15 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "customers_counter")
-public class CountCustomer extends CountBaseEntity implements Serializable{
+@Table(name = "users_counter")
+public class CountUser extends CountBaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @Column(name = "user_id")
     private long userId;
 
-    public CountCustomer(){
+    public CountUser(){
         super();
     }
 

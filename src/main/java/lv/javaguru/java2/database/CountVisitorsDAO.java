@@ -6,16 +6,20 @@ import java.util.List;
 
 public interface CountVisitorsDAO {
 
-    void createCountVisitor(CountVisitor countVisitor);
+    long create(CountVisitor countVisitor);
 
-    void updateCountVisitor(CountVisitor countVisitor);
+    void update(CountVisitor countVisitor);
 
-    int getCountByProduct(long productId);
+    void delete(CountVisitor countVisitor);
+
+    CountVisitor getById(long id);
+
+    int getCountByProductId(long productId);
 
     int getCountByIp(String ip);
 
-    int getCountByProductAndVisitor(long productId, long userId);
+    int getCountByProductIdAndIp(long productId, String ip);
 
-    public List getAllCount();
+    List getAllCount();
 
 }

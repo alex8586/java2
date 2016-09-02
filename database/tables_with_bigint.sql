@@ -46,7 +46,7 @@ CREATE TABLE visitors_counter(
     ON DELETE SET NULL
 );
 
-CREATE TABLE customers_counter(
+CREATE TABLE users_counter(
   id BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_id BIGINT(11),
   product_id BIGINT(11),

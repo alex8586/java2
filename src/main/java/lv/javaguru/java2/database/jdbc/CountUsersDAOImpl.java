@@ -1,8 +1,8 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.database.CountCustomersDAO;
+import lv.javaguru.java2.database.CountUsersDAO;
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.domain.CountCustomer;
+import lv.javaguru.java2.domain.CountUser;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -11,19 +11,19 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("JDBC_CountCustomersDAO")
-public class CountCustomersDAOImpl extends JdbcConnector implements CountCustomersDAO{
+@Component("JDBC_CountUsersDAO")
+public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
 
-    private final static String CREATE_COUNT_CUSTOMER = "INSERT INTO customers_counter (user_id, product_id, counter) VALUES (?,?,?)";
-    private final static String UPDATE_COUNT_CUSTOMER = "UPDATE customers_counter SET user_id=?, product_id=?, counter=? WHERE id=?";
-    private final static String GET_BY_PRODUCT = "SELECT * FROM customers_counter WHERE product_id=?";
-    private final static String GET_BY_CUSTOMER = "SELECT * FROM customers_counter WHERE user_id=?";
-    private final static String GET_BY_PRODUCT_AND_USER = "SELECT * FROM customers_counter WHERE product_id=? and user_id=?";
-    private final static String GET_ALL_COUNT = "SELECT * FROM customers_counter";
+    private final static String CREATE_COUNT_CUSTOMER = "INSERT INTO users_counter (user_id, product_id, counter) VALUES (?,?,?)";
+    private final static String UPDATE_COUNT_CUSTOMER = "UPDATE users_counter SET user_id=?, product_id=?, counter=? WHERE id=?";
+    private final static String GET_BY_PRODUCT = "SELECT * FROM users_counter WHERE product_id=?";
+    private final static String GET_BY_CUSTOMER = "SELECT * FROM users_counter WHERE user_id=?";
+    private final static String GET_BY_PRODUCT_AND_USER = "SELECT * FROM users_counter WHERE product_id=? and user_id=?";
+    private final static String GET_ALL_COUNT = "SELECT * FROM users_counter";
 
     @Override
-    public long create(CountCustomer countCustomer) {
-        if (countCustomer == null || countCustomer.getId() != 0)
+    public long create(CountUser countUser) {
+        if (countUser == null || countUser.getId() != 0)
             throw new IllegalArgumentException("Exception while execute create(). null or existing object received");
         Connection connection = null;
         long countCustomerId = 0;
@@ -31,9 +31,9 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
                     (CREATE_COUNT_CUSTOMER, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setLong(1, countCustomer.getUserId());
-            preparedStatement.setLong(2, countCustomer.getProductId());
-            preparedStatement.setInt(3, countCustomer.getCounter());
+            preparedStatement.setLong(1, countUser.getUserId());
+            preparedStatement.setLong(2, countUser.getProductId());
+            preparedStatement.setInt(3, countUser.getCounter());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -49,8 +49,8 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
     }
 
     @Override
-    public void update(CountCustomer countCustomer) {
-        if (countCustomer == null || countCustomer.getId() == 0)
+    public void update(CountUser countUser) {
+        if (countUser == null || countUser.getId() == 0)
             throw new IllegalArgumentException("Exception while execute update(). null or new object received");
 
         Connection connection = null;
@@ -58,10 +58,10 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
                     (UPDATE_COUNT_CUSTOMER);
-            preparedStatement.setLong(1, countCustomer.getUserId());
-            preparedStatement.setLong(2, countCustomer.getProductId());
-            preparedStatement.setInt(3, countCustomer.getCounter());
-            preparedStatement.setLong(4, countCustomer.getId());
+            preparedStatement.setLong(1, countUser.getUserId());
+            preparedStatement.setLong(2, countUser.getProductId());
+            preparedStatement.setInt(3, countUser.getCounter());
+            preparedStatement.setLong(4, countUser.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
             System.out.println("Exception while execute update()" + UPDATE_COUNT_CUSTOMER);
@@ -72,12 +72,17 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
     }
 
     @Override
-    public CountCustomer getById(long id) {
+    public void delete(CountUser countUser) {
+
+    }
+
+    @Override
+    public CountUser getById(long id) {
         return null;
     }
 
     @Override
-    public int getCountByProduct(long productId) {
+    public int getCountByProductId(long productId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -89,7 +94,7 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProduct()" + GET_BY_PRODUCT);
+            System.out.println("Exception while execute getCountByProductId()" + GET_BY_PRODUCT);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -98,7 +103,7 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
     }
 
     @Override
-    public int getCountByCustomer(long userId) {
+    public int getCountByUserId(long userId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -110,7 +115,7 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByCustomer()" + GET_BY_CUSTOMER);
+            System.out.println("Exception while execute getCountByUserId()" + GET_BY_CUSTOMER);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -118,7 +123,7 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
         return counter;
     }
 
-    public int getCountByProductAndVisitor(long productId, long userId) {
+    public int getCountByProductIdAndUserId(long productId, long userId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -132,7 +137,7 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductAndVisitor()");
+            System.out.println("Exception while execute getCountByProductIdAndUserId()");
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -142,21 +147,21 @@ public class CountCustomersDAOImpl extends JdbcConnector implements CountCustome
 
     @Override
     public List getAllCount() {
-        List<CountCustomer> list = new ArrayList<>();
+        List<CountUser> list = new ArrayList<>();
         Connection connection = null;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
                     (GET_ALL_COUNT);
             ResultSet resultSet = preparedStatement.executeQuery();
-            CountCustomer countCustomer;
+            CountUser countUser;
             while (resultSet.next()) {
-                countCustomer = new CountCustomer();
-                countCustomer.setId(resultSet.getLong(1));
-                countCustomer.setUserId(resultSet.getLong(2));
-                countCustomer.setProductId(resultSet.getLong(3));
-                countCustomer.setCounter(resultSet.getInt(4));
-                list.add(countCustomer);
+                countUser = new CountUser();
+                countUser.setId(resultSet.getLong(1));
+                countUser.setUserId(resultSet.getLong(2));
+                countUser.setProductId(resultSet.getLong(3));
+                countUser.setCounter(resultSet.getInt(4));
+                list.add(countUser);
             }
         } catch (Throwable e) {
             System.out.println("Exception while execute getAllCount" + GET_ALL_COUNT);
