@@ -1,8 +1,9 @@
-package lv.javaguru.java2.database.hybernate;
+package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.CountVisitorsDAO;
+import lv.javaguru.java2.database.hybernate.CountClassHelper;
 import lv.javaguru.java2.domain.CountVisitor;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +21,15 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-public class CountVisitorORMDAOImplTest {
+public class CountVisitorsDAOImplTest {
+
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired
     private CountClassHelper countClassHelper;
-    @Qualifier("ORM_CountVisitorsDAO")
+    @Qualifier("JDBC_CountVisitorsDAO")
     @Autowired
-    private CountVisitorsDAO countVisitorsORMDAO;
+    private CountVisitorsDAO countVisitorsDAO;
 
     private Random random = new Random();
 
@@ -45,10 +47,10 @@ public class CountVisitorORMDAOImplTest {
         countVisitor.setIp("111.222.333.444");
         countVisitor.setProductId(productId);
         countVisitor.setCounter(0);
-        long countVisitorId = countVisitorsORMDAO.create(countVisitor);
+        long countVisitorId = countVisitorsDAO.create(countVisitor);
 
         assertTrue(countVisitorId > 0);
-        CountVisitor countVisitorFromDAO = countVisitorsORMDAO.getById(countVisitorId);
+        CountVisitor countVisitorFromDAO = countVisitorsDAO.getById(countVisitorId);
         assertEquals(countVisitor.getIp(), countVisitorFromDAO.getIp());
         assertEquals(countVisitor.getCounter(), countVisitorFromDAO.getCounter());
         assertEquals(countVisitor.getProductId(), countVisitorFromDAO.getProductId());
@@ -66,7 +68,7 @@ public class CountVisitorORMDAOImplTest {
         countVisitor.setIp(((CountVisitor) list.get(random.nextInt(15))).getIp());
         countVisitor.setProductId(((CountVisitor) list.get(random.nextInt(15))).getProductId());
         countVisitor.setCounter(7);
-        countVisitorsORMDAO.update(countVisitor);
+        countVisitorsDAO.update(countVisitor);
         assertTrue(id == countVisitor.getId());
         assertNotEquals(userIp, countVisitor.getIp());
         assertTrue(productId != countVisitor.getProductId());
@@ -79,8 +81,8 @@ public class CountVisitorORMDAOImplTest {
         CountVisitor countVisitor = createCountVisitor();
         long id = countVisitor.getId();
 
-        countVisitorsORMDAO.delete(countVisitor);
-        assertNull(countVisitorsORMDAO.getById(id));
+        countVisitorsDAO.delete(countVisitor);
+        assertNull(countVisitorsDAO.getById(id));
     }
 
     @Test
@@ -88,7 +90,7 @@ public class CountVisitorORMDAOImplTest {
         CountVisitor countVisitor = createCountVisitor();
         long id = countVisitor.getId();
 
-        CountVisitor fromDAO = countVisitorsORMDAO.getById(id);
+        CountVisitor fromDAO = countVisitorsDAO.getById(id);
         assertTrue(countVisitor.getId() == fromDAO.getId());
         assertEquals(countVisitor.getIp(),fromDAO.getIp());
         assertTrue(countVisitor.getProductId() == fromDAO.getProductId());
@@ -96,7 +98,7 @@ public class CountVisitorORMDAOImplTest {
 
         CountVisitor other = createCountVisitor();
         long otherId = other.getId();
-        CountVisitor otherFromDAO = countVisitorsORMDAO.getById(otherId);
+        CountVisitor otherFromDAO = countVisitorsDAO.getById(otherId);
         assertTrue(fromDAO.getId() != otherFromDAO.getId());
     }
 
@@ -111,8 +113,8 @@ public class CountVisitorORMDAOImplTest {
         int count2 = countVisitor2.getCounter();
         long productId2 = countVisitor2.getProductId();
 
-        assertTrue(count1 == countVisitorsORMDAO.getCountByProductId(productId1));
-        assertTrue(count2 == countVisitorsORMDAO.getCountByProductId(productId2));
+        assertTrue(count1 == countVisitorsDAO.getCountByProductId(productId1));
+        assertTrue(count2 == countVisitorsDAO.getCountByProductId(productId2));
     }
 
     @Test
@@ -126,8 +128,8 @@ public class CountVisitorORMDAOImplTest {
         int count2 = countVisitor2.getCounter();
         String ip2 = countVisitor2.getIp();
 
-        assertEquals(count1,countVisitorsORMDAO.getCountByIp(ip1));
-        assertEquals(count2, countVisitorsORMDAO.getCountByIp(ip2));
+        assertEquals(count1,countVisitorsDAO.getCountByIp(ip1));
+        assertEquals(count2, countVisitorsDAO.getCountByIp(ip2));
     }
 
     @Test
@@ -143,14 +145,14 @@ public class CountVisitorORMDAOImplTest {
         long productId2 = countVisitor2.getProductId();
         String ip2 = countVisitor2.getIp();
 
-        assertTrue(count1 == countVisitorsORMDAO.getCountByProductIdAndIp(productId1, ip1));
-        assertTrue(count2 == countVisitorsORMDAO.getCountByProductIdAndIp(productId2, ip2));
+        assertTrue(count1 == countVisitorsDAO.getCountByProductIdAndIp(productId1, ip1));
+        assertTrue(count2 == countVisitorsDAO.getCountByProductIdAndIp(productId2, ip2));
     }
 
     @Test
     public void getAllCountTest() {
         List list = createCountVisitorListWith15Records();
-        List fromDAO = countVisitorsORMDAO.getAllCount();
+        List fromDAO = countVisitorsDAO.getAllCount();
         assertTrue(list.size() == fromDAO.size());
     }
 
@@ -167,8 +169,8 @@ public class CountVisitorORMDAOImplTest {
         countVisitor.setIp(ip);
         countVisitor.setProductId(productId);
         countVisitor.setCounter(random.nextInt(30000));
-        long countCustomerId = countVisitorsORMDAO.create(countVisitor);
-        return countVisitorsORMDAO.getById(countCustomerId);
+        long countCustomerId = countVisitorsDAO.create(countVisitor);
+        return countVisitorsDAO.getById(countCustomerId);
     }
 
     public List createCountVisitorListWith15Records() {

@@ -14,11 +14,13 @@ import java.util.List;
 @Component("JDBC_CountUsersDAO")
 public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
 
-    private final static String CREATE_COUNT_CUSTOMER = "INSERT INTO users_counter (user_id, product_id, counter) VALUES (?,?,?)";
-    private final static String UPDATE_COUNT_CUSTOMER = "UPDATE users_counter SET user_id=?, product_id=?, counter=? WHERE id=?";
-    private final static String GET_BY_PRODUCT = "SELECT * FROM users_counter WHERE product_id=?";
-    private final static String GET_BY_CUSTOMER = "SELECT * FROM users_counter WHERE user_id=?";
-    private final static String GET_BY_PRODUCT_AND_USER = "SELECT * FROM users_counter WHERE product_id=? and user_id=?";
+    private final static String CREATE = "INSERT INTO users_counter (user_id, product_id, counter) VALUES (?,?,?)";
+    private final static String UPDATE = "UPDATE users_counter SET user_id=?, product_id=?, counter=? WHERE id=?";
+    private final static String DELETE = "DELETE FROM users_counter WHERE id=?";
+    private final static String GET_BY_ID = "SELECT * FROM users_counter WHERE id =?";
+    private final static String GET_BY_PRODUCT_ID = "SELECT counter FROM users_counter WHERE product_id=?";
+    private final static String GET_BY_USER_ID = "SELECT counter FROM users_counter WHERE user_id=?";
+    private final static String GET_BY_PRODUCT_ID_AND_USER_ID = "SELECT counter FROM users_counter WHERE product_id=? and user_id=?";
     private final static String GET_ALL_COUNT = "SELECT * FROM users_counter";
 
     @Override
@@ -30,7 +32,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (CREATE_COUNT_CUSTOMER, PreparedStatement.RETURN_GENERATED_KEYS);
+                    (CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, countUser.getUserId());
             preparedStatement.setLong(2, countUser.getProductId());
             preparedStatement.setInt(3, countUser.getCounter());
@@ -40,7 +42,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
             if(resultSet.next())
                 countCustomerId = resultSet.getLong(1);
         } catch (Throwable e) {
-            System.out.println("Exception while execute create()" + CREATE_COUNT_CUSTOMER);
+            System.out.println("Exception while execute create()" + CREATE);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
@@ -57,14 +59,14 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (UPDATE_COUNT_CUSTOMER);
+                    (UPDATE);
             preparedStatement.setLong(1, countUser.getUserId());
             preparedStatement.setLong(2, countUser.getProductId());
             preparedStatement.setInt(3, countUser.getCounter());
             preparedStatement.setLong(4, countUser.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
-            System.out.println("Exception while execute update()" + UPDATE_COUNT_CUSTOMER);
+            System.out.println("Exception while execute update()" + UPDATE);
             throw new DBException(e);
         } finally {
             closeConnection(connection);
@@ -73,12 +75,50 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
 
     @Override
     public void delete(CountUser countUser) {
-
+        if (countUser == null || countUser.getId() == 0)
+            return;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement.setLong(1, countUser.getId());
+            preparedStatement.executeUpdate();
+            countUser.setId(0);
+        } catch (Throwable e) {
+            System.out.println("Exception while execute delete()" + DELETE);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
     public CountUser getById(long id) {
-        return null;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (GET_BY_ID);
+            preparedStatement.setLong(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            CountUser countUser;
+            if (resultSet.next()){
+                countUser = new CountUser();
+                countUser.setId(resultSet.getLong("id"));
+                countUser.setUserId(resultSet.getLong("user_id"));
+                countUser.setProductId(resultSet.getLong("product_id"));
+                countUser.setCounter(resultSet.getInt("counter"));
+                return countUser;
+            }
+            else
+                return null;
+        } catch (Throwable e) {
+            System.out.println("Exception while execute getById " + GET_BY_ID);
+            throw new DBException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
@@ -87,14 +127,14 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         int counter = 0;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_PRODUCT);
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_PRODUCT_ID);
             preparedStatement.setLong(1, productId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductId()" + GET_BY_PRODUCT);
+            System.out.println("Exception while execute getCountByProductId()" + GET_BY_PRODUCT_ID);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -108,14 +148,14 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         int counter = 0;
         try {
             connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_CUSTOMER);
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_USER_ID);
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByUserId()" + GET_BY_CUSTOMER);
+            System.out.println("Exception while execute getCountByUserId()" + GET_BY_USER_ID);
             e.printStackTrace();
         } finally {
             closeConnection(connection);
@@ -129,7 +169,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (GET_BY_PRODUCT_AND_USER);
+                    (GET_BY_PRODUCT_ID_AND_USER_ID);
             preparedStatement.setLong(1, productId);
             preparedStatement.setLong(2, userId);
             ResultSet resultSet = preparedStatement.executeQuery();

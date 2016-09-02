@@ -15,15 +15,15 @@ import java.util.Random;
 @Component
 public class CountClassHelper {
 
-    @Qualifier("ORM_ProductDAO")
+    @Qualifier("JDBC_ProductDAO")
     @Autowired
     private ProductDAO productDAO;
 
-    @Qualifier("ORM_CategoryDAO")
+    @Qualifier("JDBC_CategoryDAO")
     @Autowired
     private CategoryDAO categoryDAO;
 
-    @Qualifier("ORM_UserDAO")
+    @Qualifier("JDBC_UserDAO")
     @Autowired
     private UserDAO userDAO;
 

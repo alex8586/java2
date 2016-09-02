@@ -1,8 +1,9 @@
-package lv.javaguru.java2.database.hybernate;
+package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.CountUsersDAO;
+import lv.javaguru.java2.database.hybernate.CountClassHelper;
 import lv.javaguru.java2.domain.CountUser;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,44 +21,45 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-public class CountUserORMDAOImplTest {
+public class CountUsersDAOImplTest {
 
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired
     private CountClassHelper countClassHelper;
-    @Qualifier("ORM_CountUsersDAO")
+    @Qualifier("JDBC_CountUsersDAO")
     @Autowired
-    private CountUsersDAO countUsersORMDAO;
+    private CountUsersDAO countUsersDAO;
 
     private Random random = new Random();
 
     @Before
-    public void before() {
+    public void delete(){
         databaseCleaner.cleanDatabase();
     }
 
     @Test
-    public void createCountUserTest() {
+    public void createTest(){
+        long userId = countClassHelper.createUser();
         long categoryId = countClassHelper.createCategory();
         long productId = countClassHelper.createProduct(categoryId);
-        long userId = countClassHelper.createUser();
 
         CountUser countUser = new CountUser();
         countUser.setUserId(userId);
         countUser.setProductId(productId);
-        countUser.setCounter(0);
-        long countUserId = countUsersORMDAO.create(countUser);
+        countUser.setCounter(17);
+        assertTrue(0 == countUser.getId());
 
-        assertTrue(countUserId > 0);
-        CountUser customerFromDAO = countUsersORMDAO.getById(countUserId);
-        assertEquals(countUser.getUserId(), customerFromDAO.getUserId());
-        assertEquals(countUser.getCounter(), customerFromDAO.getCounter());
-        assertEquals(countUser.getProductId(), customerFromDAO.getProductId());
+        long idFromDAO = countUsersDAO.create(countUser);
+        CountUser fromDAO = countUsersDAO.getById(idFromDAO);
+        assertEquals(countUser.getUserId(), fromDAO.getUserId());
+        assertEquals(countUser.getProductId(), fromDAO.getProductId());
+        assertTrue(countUser.getCounter() == fromDAO.getCounter());
+        assertNotNull(fromDAO.getId());
     }
 
     @Test
-    public void updateCountUserTest() {
+    public void updateTest(){
         List list = createCountUsersListWith15Records();
         CountUser countUser = (CountUser) list.get(random.nextInt(15));
         long id = countUser.getId();
@@ -68,7 +70,7 @@ public class CountUserORMDAOImplTest {
         countUser.setUserId(((CountUser) list.get(random.nextInt(15))).getUserId());
         countUser.setProductId(((CountUser) list.get(random.nextInt(15))).getProductId());
         countUser.setCounter(7);
-        countUsersORMDAO.update(countUser);
+        countUsersDAO.update(countUser);
         assertTrue(id == countUser.getId());
         assertTrue(userId != countUser.getUserId());
         assertTrue(productId != countUser.getProductId());
@@ -77,20 +79,20 @@ public class CountUserORMDAOImplTest {
     }
 
     @Test
-    public void deleteCountUserTest(){
+    public void deleteTest(){
         CountUser countUser = createCountUser();
         long id = countUser.getId();
 
-        countUsersORMDAO.delete(countUser);
-        assertNull(countUsersORMDAO.getById(id));
+        countUsersDAO.delete(countUser);
+        assertNull(countUsersDAO.getById(id));
     }
 
     @Test
-    public void getById(){
+    public void getByIdTest(){
         CountUser countUser = createCountUser();
         long id = countUser.getId();
 
-        CountUser fromDAO = countUsersORMDAO.getById(id);
+        CountUser fromDAO = countUsersDAO.getById(id);
         assertTrue(countUser.getId() == fromDAO.getId());
         assertTrue(countUser.getUserId() == fromDAO.getUserId());
         assertTrue(countUser.getProductId() == fromDAO.getProductId());
@@ -98,12 +100,12 @@ public class CountUserORMDAOImplTest {
 
         CountUser other = createCountUser();
         long otherId = other.getId();
-        CountUser otherFromDAO = countUsersORMDAO.getById(otherId);
+        CountUser otherFromDAO = countUsersDAO.getById(otherId);
         assertTrue(fromDAO.getId() != otherFromDAO.getId());
     }
 
     @Test
-    public void getCountByProductIdTest() {
+    public void getCountByProductIdTest(){
         List list = createCountUsersListWith15Records();
         CountUser countUser1 = (CountUser) list.get(8);
         CountUser countUser2 = (CountUser) list.get(3);
@@ -113,12 +115,12 @@ public class CountUserORMDAOImplTest {
         int count2 = countUser2.getCounter();
         long productId2 = countUser2.getProductId();
 
-        assertTrue(count1 == countUsersORMDAO.getCountByProductId(productId1));
-        assertTrue(count2 == countUsersORMDAO.getCountByProductId(productId2));
+        assertTrue(count1 == countUsersDAO.getCountByProductId(productId1));
+        assertTrue(count2 == countUsersDAO.getCountByProductId(productId2));
     }
 
     @Test
-    public void getCountByUserIdTest() {
+    public void getCountByUserIdTest(){
         List list = createCountUsersListWith15Records();
         CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
         CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
@@ -128,12 +130,12 @@ public class CountUserORMDAOImplTest {
         int count2 = countUser2.getCounter();
         long userId2 = countUser2.getUserId();
 
-        assertTrue(count1 == countUsersORMDAO.getCountByUserId(userId1));
-        assertTrue(count2 == countUsersORMDAO.getCountByUserId(userId2));
+        assertTrue(count1 == countUsersDAO.getCountByUserId(userId1));
+        assertTrue(count2 == countUsersDAO.getCountByUserId(userId2));
     }
 
     @Test
-    public void getCountByProductIdAndUserIdTest() {
+    public void getCountByProductIdAndUserIdTest(){
         List list = createCountUsersListWith15Records();
         CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
         CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
@@ -145,18 +147,18 @@ public class CountUserORMDAOImplTest {
         long productId2 = countUser2.getProductId();
         long userId2 = countUser2.getUserId();
 
-        assertTrue(count1 == countUsersORMDAO.getCountByProductIdAndUserId(productId1, userId1));
-        assertTrue(count2 == countUsersORMDAO.getCountByProductIdAndUserId(productId2, userId2));
+        assertTrue(count1 == countUsersDAO.getCountByProductIdAndUserId(productId1, userId1));
+        assertTrue(count2 == countUsersDAO.getCountByProductIdAndUserId(productId2, userId2));
     }
 
     @Test
-    public void getAllCountTest() {
+    public void getAllCountTest(){
         List list = createCountUsersListWith15Records();
-        List fromDAO = countUsersORMDAO.getAllCount();
+        List fromDAO = countUsersDAO.getAllCount();
         assertTrue(list.size() == fromDAO.size());
     }
 
-    public CountUser createCountUser() {
+    public CountUser createCountUser(){
         long categoryId = countClassHelper.createCategory();
         long productId = countClassHelper.createProduct(categoryId);
         long userId = countClassHelper.createUser();
@@ -165,8 +167,8 @@ public class CountUserORMDAOImplTest {
         countUser.setUserId(userId);
         countUser.setProductId(productId);
         countUser.setCounter(random.nextInt(30000));
-        long countCustomerId = countUsersORMDAO.create(countUser);
-        return countUsersORMDAO.getById(countCustomerId);
+        long id = countUsersDAO.create(countUser);
+        return countUsersDAO.getById(id);
     }
 
     public List createCountUsersListWith15Records() {
