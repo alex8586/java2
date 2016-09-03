@@ -23,9 +23,9 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     private final static String UPDATE = "UPDATE visitors_counter SET product_id=?, ip=?, counter=? WHERE id=?";
     private final static String DELETE = "DELETE FROM visitors_counter WHERE id=?";
     private final static String GET_BY_ID = "SELECT * FROM visitors_counter WHERE id =?";
-    private final static String GET_BY_PRODUCT_ID = "SELECT counter FROM visitors_counter WHERE product_id=?";
-    private final static String GET_BY_IP = "SELECT counter FROM visitors_counter WHERE ip=?";
-    private final static String GET_BY_PRODUCT_ID_AND_IP = "SELECT counter FROM visitors_counter WHERE product_id=? and ip=?";
+    private final static String GET_BY_PRODUCT_ID = "SELECT sum(counter) FROM visitors_counter WHERE product_id=?";
+    private final static String GET_BY_IP = "SELECT sum(counter) FROM visitors_counter WHERE ip=?";
+    private final static String GET_SUM_COUNT = "SELECT sum(counter) FROM visitors_counter";
     private final static String GET_ALL_COUNT = "SELECT * FROM visitors_counter";
 
     @Override
@@ -44,7 +44,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if(resultSet.next())
+            if (resultSet.next())
                 id = resultSet.getLong(1);
         } catch (Throwable e) {
             System.out.println("Exception while execute create()" + CREATE);
@@ -108,15 +108,14 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
 
             ResultSet resultSet = preparedStatement.executeQuery();
             CountVisitor countVisitor;
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 countVisitor = new CountVisitor();
                 countVisitor.setId(resultSet.getLong("id"));
                 countVisitor.setIp(resultSet.getString("ip"));
                 countVisitor.setProductId(resultSet.getLong("product_id"));
                 countVisitor.setCounter(resultSet.getInt("counter"));
                 return countVisitor;
-            }
-            else
+            } else
                 return null;
         } catch (Throwable e) {
             System.out.println("Exception while execute getById " + GET_BY_ID);
@@ -135,7 +134,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_PRODUCT_ID);
             preparedStatement.setLong(1, productId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
@@ -156,7 +155,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_IP);
             preparedStatement.setString(1, ip);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
@@ -169,21 +168,19 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     }
 
     @Override
-    public int getCountByProductIdAndIp(long productId, String ip) {
+    public int getSumCountFromAllTable() {
         Connection connection = null;
         int counter = 0;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (GET_BY_PRODUCT_ID_AND_IP);
-            preparedStatement.setLong(1, productId);
-            preparedStatement.setString(2, ip);
+                    (GET_SUM_COUNT);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductIdAndIp() " + GET_BY_PRODUCT_ID_AND_IP);
+            System.out.println("Exception while execute getSumCountFromAllTable() " + GET_SUM_COUNT);
             e.printStackTrace();
         } finally {
             closeConnection(connection);

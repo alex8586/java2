@@ -58,22 +58,22 @@ public class CountVisitorsDAOImplTest {
 
     @Test
     public void updateCountUserTest() {
-        List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor = (CountVisitor) list.get(random.nextInt(15));
-        long id = countVisitor.getId();
-        String userIp = countVisitor.getIp();
-        long productId = countVisitor.getProductId();
-        int counter = countVisitor.getCounter();
+        CountVisitor countVisitor1 = createCountVisitor();
+        CountVisitor countVisitor2 = createCountVisitor();
+        long id = countVisitor1.getId();
+        String ip = countVisitor1.getIp();
+        long productId = countVisitor1.getProductId();
+        int counter = countVisitor1.getCounter();
 
-        countVisitor.setIp(((CountVisitor) list.get(random.nextInt(15))).getIp());
-        countVisitor.setProductId(((CountVisitor) list.get(random.nextInt(15))).getProductId());
-        countVisitor.setCounter(7);
-        countVisitorsDAO.update(countVisitor);
-        assertTrue(id == countVisitor.getId());
-        assertNotEquals(userIp, countVisitor.getIp());
-        assertTrue(productId != countVisitor.getProductId());
-        assertTrue(countVisitor.getCounter() == 7);
-        assertNotSame(counter, countVisitor.getCounter());
+        countVisitor1.setIp(countVisitor2.getIp());
+        countVisitor1.setProductId(countVisitor2.getProductId());
+        countVisitor1.setCounter(countVisitor2.getCounter());
+
+        countVisitorsDAO.update(countVisitor1);
+        assertTrue(id == countVisitor1.getId());
+        assertNotEquals(ip, countVisitor1.getIp());
+        assertTrue(productId != countVisitor1.getProductId());
+        assertTrue(counter != countVisitor1.getCounter());
     }
 
     @Test
@@ -105,48 +105,51 @@ public class CountVisitorsDAOImplTest {
     @Test
     public void getCountByProductIdTest() {
         List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor1= (CountVisitor) list.get(random.nextInt(15));
         CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor3 = (CountVisitor) list.get(random.nextInt(15));
 
+        long productId = countVisitor1.getProductId();
+        countVisitor2.setProductId(productId);
+        countVisitorsDAO.update(countVisitor2);
+        countVisitor3.setProductId(productId);
+        countVisitorsDAO.update(countVisitor3);
         int count1 = countVisitor1.getCounter();
-        long productId1 = countVisitor1.getProductId();
         int count2 = countVisitor2.getCounter();
-        long productId2 = countVisitor2.getProductId();
+        int count3 = countVisitor3.getCounter();
 
-        assertTrue(count1 == countVisitorsDAO.getCountByProductId(productId1));
-        assertTrue(count2 == countVisitorsDAO.getCountByProductId(productId2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countVisitorsDAO.getCountByProductId(productId));
     }
 
     @Test
     public void getCountByIp() {
         List list = createCountVisitorListWith15Records();
         CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor2= (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor3 = (CountVisitor) list.get(random.nextInt(15));
 
+        String ip = countVisitor1.getIp();
+        countVisitor2.setIp(ip);
+        countVisitorsDAO.update(countVisitor2);
+        countVisitor3.setIp(ip);
+        countVisitorsDAO.update(countVisitor3);
         int count1 = countVisitor1.getCounter();
-        String ip1 = countVisitor1.getIp();
         int count2 = countVisitor2.getCounter();
-        String ip2 = countVisitor2.getIp();
+        int count3 = countVisitor3.getCounter();
 
-        assertEquals(count1,countVisitorsDAO.getCountByIp(ip1));
-        assertEquals(count2, countVisitorsDAO.getCountByIp(ip2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countVisitorsDAO.getCountByIp(ip));
     }
 
     @Test
-    public void getCountByProductIdAndIpTest() {
-        List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
-
-        int count1 = countVisitor1.getCounter();
-        long productId1 = countVisitor1.getProductId();
-        String ip1 = countVisitor1.getIp();
-        int count2 = countVisitor2.getCounter();
-        long productId2 = countVisitor2.getProductId();
-        String ip2 = countVisitor2.getIp();
-
-        assertTrue(count1 == countVisitorsDAO.getCountByProductIdAndIp(productId1, ip1));
-        assertTrue(count2 == countVisitorsDAO.getCountByProductIdAndIp(productId2, ip2));
+    public void getSumCountFromAllTableTest() {
+        List<CountVisitor> list = createCountVisitorListWith15Records();
+        int total = 0;
+        for(CountVisitor countVisitor : list){
+            total += countVisitor.getCounter();
+        }
+        assertTrue(total == countVisitorsDAO.getSumCountFromAllTable());
     }
 
     @Test

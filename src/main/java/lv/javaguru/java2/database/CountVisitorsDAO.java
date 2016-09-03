@@ -18,7 +18,7 @@ public interface CountVisitorsDAO {
 
     int getCountByIp(String ip);
 
-    int getCountByProductIdAndIp(long productId, String ip);
+    int getSumCountFromAllTable();
 
     List getAllCount();
 

@@ -18,7 +18,7 @@ public interface CountUsersDAO {
 
     int getCountByUserId(long userId);
 
-    int getCountByProductIdAndUserId(long productId, long userId);
+    int getSumCountFromAllTable();
 
     List getAllCount();
 

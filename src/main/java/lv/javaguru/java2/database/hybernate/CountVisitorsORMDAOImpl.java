@@ -49,7 +49,7 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     @Override
     public int getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM visitors_counter WHERE product_id=" + productId;
+        String sql = "SELECT sum(counter) FROM visitors_counter WHERE product_id=" + productId;
         int result = (int) session.createSQLQuery(sql).uniqueResult();
         return result;
     }
@@ -57,17 +57,17 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     @Override
     public int getCountByIp(String ip) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM visitors_counter WHERE ip='" + ip + "'";
+        String sql = "SELECT sum(counter) FROM visitors_counter WHERE ip='" + ip + "'";
         int result = (int) session.createSQLQuery(sql).uniqueResult();
         return result;
     }
 
     @Override
-    public int getCountByProductIdAndIp(long productId, String ip) {
+    public int getSumCountFromAllTable() {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM visitors_counter WHERE product_id=" + productId + " and ip='" + ip + "'";
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+        String sql = "SELECT sum(counter) FROM visitors_counter";
+        return (int) session.createSQLQuery(sql).uniqueResult();
+
     }
 
     @Override

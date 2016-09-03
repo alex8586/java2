@@ -60,22 +60,22 @@ public class CountUsersDAOImplTest {
 
     @Test
     public void updateTest(){
-        List list = createCountUsersListWith15Records();
-        CountUser countUser = (CountUser) list.get(random.nextInt(15));
-        long id = countUser.getId();
-        long userId = countUser.getUserId();
-        long productId = countUser.getProductId();
-        int counter = countUser.getCounter();
+        CountUser countUser1 = createCountUser();
+        CountUser countUser2 = createCountUser();
+        long id = countUser1.getId();
+        long userId = countUser1.getUserId();
+        long productId = countUser1.getProductId();
+        int counter = countUser1.getCounter();
 
-        countUser.setUserId(((CountUser) list.get(random.nextInt(15))).getUserId());
-        countUser.setProductId(((CountUser) list.get(random.nextInt(15))).getProductId());
-        countUser.setCounter(7);
-        countUsersDAO.update(countUser);
-        assertTrue(id == countUser.getId());
-        assertTrue(userId != countUser.getUserId());
-        assertTrue(productId != countUser.getProductId());
-        assertTrue(countUser.getCounter() == 7);
-        assertNotSame(counter, countUser.getCounter());
+        countUser1.setUserId(countUser2.getUserId());
+        countUser1.setProductId(countUser2.getProductId());
+        countUser1.setCounter(countUser2.getCounter());
+
+        countUsersDAO.update(countUser1);
+        assertTrue(id == countUser1.getId());
+        assertTrue(userId != countUser1.getUserId());
+        assertTrue(productId != countUser1.getProductId());
+        assertTrue(counter != countUser1.getCounter());
     }
 
     @Test
@@ -107,16 +107,21 @@ public class CountUsersDAOImplTest {
     @Test
     public void getCountByProductIdTest(){
         List list = createCountUsersListWith15Records();
-        CountUser countUser1 = (CountUser) list.get(8);
-        CountUser countUser2 = (CountUser) list.get(3);
+        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser3 = (CountUser) list.get(random.nextInt(15));
 
+        long productId = countUser1.getProductId();
+        countUser2.setProductId(productId);
+        countUsersDAO.update(countUser2);
+        countUser3.setProductId(productId);
+        countUsersDAO.update(countUser3);
         int count1 = countUser1.getCounter();
-        long productId1 = countUser1.getProductId();
         int count2 = countUser2.getCounter();
-        long productId2 = countUser2.getProductId();
+        int count3 = countUser3.getCounter();
 
-        assertTrue(count1 == countUsersDAO.getCountByProductId(productId1));
-        assertTrue(count2 == countUsersDAO.getCountByProductId(productId2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countUsersDAO.getCountByProductId(productId));
     }
 
     @Test
@@ -124,31 +129,29 @@ public class CountUsersDAOImplTest {
         List list = createCountUsersListWith15Records();
         CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
         CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser3 = (CountUser) list.get(random.nextInt(15));
 
+        long userId = countUser1.getUserId();
+        countUser2.setUserId(userId);
+        countUsersDAO.update(countUser2);
+        countUser3.setUserId(userId);
+        countUsersDAO.update(countUser3);
         int count1 = countUser1.getCounter();
-        long userId1 = countUser1.getUserId();
         int count2 = countUser2.getCounter();
-        long userId2 = countUser2.getUserId();
+        int count3 = countUser3.getCounter();
 
-        assertTrue(count1 == countUsersDAO.getCountByUserId(userId1));
-        assertTrue(count2 == countUsersDAO.getCountByUserId(userId2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countUsersDAO.getCountByUserId(userId));
     }
 
     @Test
-    public void getCountByProductIdAndUserIdTest(){
-        List list = createCountUsersListWith15Records();
-        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
-
-        int count1 = countUser1.getCounter();
-        long productId1 = countUser1.getProductId();
-        long userId1 = countUser1.getUserId();
-        int count2 = countUser2.getCounter();
-        long productId2 = countUser2.getProductId();
-        long userId2 = countUser2.getUserId();
-
-        assertTrue(count1 == countUsersDAO.getCountByProductIdAndUserId(productId1, userId1));
-        assertTrue(count2 == countUsersDAO.getCountByProductIdAndUserId(productId2, userId2));
+    public void getSumCountFromAllTableTest(){
+        List<CountUser> list = createCountUsersListWith15Records();
+        int total = 0;
+        for(CountUser countUser : list){
+            total += countUser.getCounter();
+        }
+        assertTrue(total == countUsersDAO.getSumCountFromAllTable());
     }
 
     @Test

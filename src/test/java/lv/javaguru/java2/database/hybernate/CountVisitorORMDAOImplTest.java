@@ -143,8 +143,8 @@ public class CountVisitorORMDAOImplTest {
         long productId2 = countVisitor2.getProductId();
         String ip2 = countVisitor2.getIp();
 
-        assertTrue(count1 == countVisitorsORMDAO.getCountByProductIdAndIp(productId1, ip1));
-        assertTrue(count2 == countVisitorsORMDAO.getCountByProductIdAndIp(productId2, ip2));
+        assertTrue(count1 == countVisitorsORMDAO.getSumCountFromAllTable());
+        assertTrue(count2 == countVisitorsORMDAO.getSumCountFromAllTable());
     }
 
     @Test

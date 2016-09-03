@@ -18,9 +18,9 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
     private final static String UPDATE = "UPDATE users_counter SET user_id=?, product_id=?, counter=? WHERE id=?";
     private final static String DELETE = "DELETE FROM users_counter WHERE id=?";
     private final static String GET_BY_ID = "SELECT * FROM users_counter WHERE id =?";
-    private final static String GET_BY_PRODUCT_ID = "SELECT counter FROM users_counter WHERE product_id=?";
-    private final static String GET_BY_USER_ID = "SELECT counter FROM users_counter WHERE user_id=?";
-    private final static String GET_BY_PRODUCT_ID_AND_USER_ID = "SELECT counter FROM users_counter WHERE product_id=? and user_id=?";
+    private final static String GET_BY_PRODUCT_ID = "SELECT sum(counter) FROM users_counter WHERE product_id=?";
+    private final static String GET_BY_USER_ID = "SELECT sum(counter) FROM users_counter WHERE user_id=?";
+    private final static String GET_SUM_COUNT = "SELECT sum(counter) FROM users_counter";
     private final static String GET_ALL_COUNT = "SELECT * FROM users_counter";
 
     @Override
@@ -163,21 +163,19 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         return counter;
     }
 
-    public int getCountByProductIdAndUserId(long productId, long userId) {
+    public int getSumCountFromAllTable() {
         Connection connection = null;
         int counter = 0;
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    (GET_BY_PRODUCT_ID_AND_USER_ID);
-            preparedStatement.setLong(1, productId);
-            preparedStatement.setLong(2, userId);
+                    (GET_SUM_COUNT);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 counter = resultSet.getInt(1);
             }
         } catch (Throwable e) {
-            System.out.println("Exception while execute getCountByProductIdAndUserId()");
+            System.out.println("Exception while execute getSumCountFromAllTable()");
             e.printStackTrace();
         } finally {
             closeConnection(connection);

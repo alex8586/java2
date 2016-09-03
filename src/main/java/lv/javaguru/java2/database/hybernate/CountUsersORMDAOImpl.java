@@ -4,6 +4,9 @@ import lv.javaguru.java2.database.CountUsersDAO;
 import lv.javaguru.java2.domain.CountUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -49,22 +52,26 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
     @Override
     public int getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM users_counter WHERE product_id=" + productId;
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+
+        return (int) session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("product_id", productId))
+                .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
     @Override
     public int getCountByUserId(long userId) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM users_counter WHERE user_id=" + userId;
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+//        String sql = "SELECT sum(counter) FROM users_counter WHERE user_id=" + userId;
+//        int result = (int) session.createSQLQuery(sql).uniqueResult();
+//        return result;
+        return (int) session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("user_id",userId))
+                .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
-    public int getCountByProductIdAndUserId(long productId, long userId) {
+    public int getSumCountFromAllTable() {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT counter FROM users_counter WHERE product_id=" + productId + " and user_id=" + userId;
+        String sql = "SELECT sum(counter) FROM users_counter";
         int result = (int) session.createSQLQuery(sql).uniqueResult();
         return result;
     }
@@ -75,4 +82,18 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
         return session.createCriteria(CountUser.class).list();
     }
 
+    private int countCountWithCriteria(CountUser countUser, SimpleExpression expression) {
+        if (expression.getValue() == null)
+            throw new NullPointerException("countUser == null");
+        Session session = sessionFactory.getCurrentSession();
+        Object result = session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("counter", countUser.getCounter()))
+                .add(expression)
+                .setProjection(Projections.sum("quantity")).uniqueResult();
+
+        if (result == null)
+            return 0;
+
+        return (int) result;
+    }
 }

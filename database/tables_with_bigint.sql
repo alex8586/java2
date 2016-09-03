@@ -56,3 +56,19 @@ CREATE TABLE users_counter(
   CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
     ON DELETE SET NULL
 );
+
+-- clean and truncate -----------
+SET FOREIGN_KEY_CHECKS=0;
+DELETE FROM categories;
+DELETE FROM products;
+DELETE FROM shipping_profiles;
+DELETE FROM users;
+DELETE FROM users_counter;
+DELETE FROM visitors_counter;
+TRUNCATE TABLE categories;
+TRUNCATE TABLE products;
+TRUNCATE TABLE shipping_profiles;
+TRUNCATE TABLE users;
+TRUNCATE TABLE users_counter;
+TRUNCATE TABLE visitors_counter;
+SET FOREIGN_KEY_CHECKS=1;
