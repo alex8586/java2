@@ -66,4 +66,11 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
         dao.create(anotherProduct);
         assertEquals(2, dao.getAllByCategory(category).size());
     }
+
+    @Test
+    public void getRandomProduct() {
+        Product product = dao.getRandomProduct();
+        assertEquals(product, recordFromDAO);
+    }
+
 }

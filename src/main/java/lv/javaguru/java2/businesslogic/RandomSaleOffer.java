@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class RandomSaleOffer implements SpecialSaleOffer {
 
     @Autowired
-    @Qualifier("JDBC_ProductDAO")
+    @Qualifier("ORM_ProductDAO")
     private ProductDAO productDAO;
 
     @Override

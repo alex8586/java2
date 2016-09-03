@@ -5,18 +5,20 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RandomSaleOfferTest {
 
     @Mock
     private ProductDAO productDAO;
+
+    @InjectMocks
     private RandomSaleOffer randomSaleOffer;
 
     @Before
@@ -25,46 +27,27 @@ public class RandomSaleOfferTest {
     }
 
     @Test
-    public void returnNullWhenDAOReturnEmptyArray() {
-        Mockito.doReturn(new ArrayList<Product>()).when(productDAO).getAll();
-        randomSaleOffer = new RandomSaleOffer(productDAO);
+    public void returnEmptyProductWhenDAOReturnNull() {
+        Mockito.doReturn(null).when(productDAO).getRandomProduct();
         Product product = randomSaleOffer.getOffer();
-        assertNull(product);
+        assertEquals(0, product.getId());
+        assertEquals(null, product.getName());
+        assertNotNull(product.getImgUrl());
     }
 
+
     @Test
-    public void returnProductWhenDAOReturnSingleProduct() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(sampleProduct(123));
-        Mockito.doReturn(products).when(productDAO).getAll();
-        randomSaleOffer = new RandomSaleOffer(productDAO);
+    public void returnProductFromDAO() {
+        Mockito.doReturn(sampleProduct(123)).when(productDAO).getRandomProduct();
         assertEquals(123, randomSaleOffer.getOffer().getId());
-    }
-
-    @Test
-    public void returnRandomProductWhenDAOReturnMultipleProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(sampleProduct(123));
-        products.add(sampleProduct(124));
-        products.add(sampleProduct(125));
-        products.add(sampleProduct(126));
-        Mockito.doReturn(products).when(productDAO).getAll();
-        randomSaleOffer = new RandomSaleOffer(productDAO);
-
-        long id = randomSaleOffer.getOffer().getId();
-        int paranoicCounter = 0;
-        while (randomSaleOffer.getOffer().getId() == id) {
-            paranoicCounter++;
-            if (paranoicCounter == 100)
-                fail();
-        }
     }
 
     @Test(expected = DBException.class)
     public void failsWhenDAOThrowException() {
-        Mockito.doThrow(new DBException("")).when(productDAO).getAll();
-        randomSaleOffer = new RandomSaleOffer(productDAO);
+        Mockito.doThrow(new DBException("")).when(productDAO).getRandomProduct();
+        randomSaleOffer.getOffer();
     }
+
 
     public Product sampleProduct(int code) {
         Product product = new Product();
