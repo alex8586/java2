@@ -3,10 +3,12 @@ package lv.javaguru.java2.dto.builders;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class ProductCardBuilder {
     public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
@@ -21,6 +23,8 @@ public class ProductCardBuilder {
         Date expireDate = null;
         for (Stock stock : allStock) {
             quantity += stock.getQuantity();
+            if (stock.getQuantity() <= 0)
+                continue;
             if (expireDate == null) {
                 expireDate = stock.getExpireDate();
             } else if (expireDate.compareTo(stock.getExpireDate()) > 0) {
