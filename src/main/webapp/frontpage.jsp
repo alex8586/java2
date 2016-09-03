@@ -8,8 +8,8 @@
                 <%@include file="includes/category.jsp" %>
             </div>
             <div class="col s8">
-                <c:forEach items="${requestScope.model.products}" var="product">
-                    <tags:productCard product="${product}"/>
+                <c:forEach items="${requestScope.model.productCards}" var="productCard">
+                    <tags:productCard productCard="${productCard}"/>
                 </c:forEach>
             </div>
             <div class="col s2">

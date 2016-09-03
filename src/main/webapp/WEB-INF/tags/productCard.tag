@@ -1,21 +1,25 @@
-<%@attribute name="product" required="true" type="lv.javaguru.java2.domain.Product" %>
+<%@attribute name="productCard" required="true" type="lv.javaguru.java2.dto.ProductCard" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <div class="col s3">
     <div class="card vertical-grabber">
         <div class="card-title center">
-            ${product.name}
+            ${productCard.productName}
         </div>
         <div class="card-image">
-            <a href="product?id=${product.id}"><img src="${product.imgUrl}" height="130" width="130"></a>
+            <a href="product?id=${productCard.id}"><img src="${productCard.imgUrl}" height="130" width="130"></a>
         </div>
         <div class="card-content left-align">
-            <p>${product.description}</p>
+            <p>${productCard.productDescription}</p>
             <hr>
-            Price : ${product.price} &#8364
+            Price : ${productCard.productPrice} &#8364
+            <hr>
+            Expiration: ${productCard.stockExpireDate}
+            <hr>
+            Stock: ${productCard.stockQuantity}
         </div>
         <div class="card-action center">
-
-            <a href="<tags:linkTo controller="CartController" resourceId="${product.id}" />">Add to cart</a>
+            <a href="<tags:linkTo controller="ProductController" resourceId="${productCard.productId}" />">This is a
+                link</a>
         </div>
     </div>
 </div>

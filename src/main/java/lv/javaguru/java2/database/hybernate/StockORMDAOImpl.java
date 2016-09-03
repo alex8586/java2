@@ -60,7 +60,7 @@ public class StockORMDAOImpl implements StockDAO {
     @Override
     public List<Stock> allByProduct(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        return (List<Stock>) session.createCriteria(Stock.class).add(Restrictions.eq("product_id", product.getId())).list();
+        return (List<Stock>) session.createCriteria(Stock.class).add(Restrictions.eq("productId", product.getId())).list();
     }
 
     @Override

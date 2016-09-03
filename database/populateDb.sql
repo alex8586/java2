@@ -25,7 +25,9 @@ INSERT INTO categories (id, name, father_id) VALUES (default, 'Beef', 10);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Sausages', 10);
 
 INSERT INTO products (id, name, description, imgurl, price, category_id)
-VALUES (default, 'Small Green Aapples', '', 'img/products/fruits/01/', 1.29, 2);
+VALUES (default, 'Small Green apples', '', 'img/products/fruits/01/', 1.29, 2);
+
+INSERT INTO stock (id, product_id, quantity, expire_date) VALUES (DEFAULT, 1, 123, '2017-01-20');
 
 INSERT INTO products (id, name, description, imgurl, price, category_id)
 VALUES (default, 'Large Green Apples', '', 'img/products/fruits/02/', 1.11, 2);

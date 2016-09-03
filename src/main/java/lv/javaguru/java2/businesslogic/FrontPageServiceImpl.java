@@ -1,28 +1,38 @@
 package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.dto.ProductCard;
+import lv.javaguru.java2.dto.builders.ProductCardBuilder;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 public class FrontPageServiceImpl implements FrontPageService {
 
     @Autowired
-    private UserProvider userProvider;
+    UserProvider userProvider;
 
     @Autowired
-    private CategoryTree categoryTree;
+    CategoryTree categoryTree;
 
     @Autowired
     @Qualifier("ORM_ProductDAO")
-    private ProductDAO productDAO;
+    ProductDAO productDAO;
+
+    @Autowired
+    StockDAO stockDAO;
+
+    @Autowired
+    ProductCardBuilder productCardBuilder;
 
     @Autowired
     @Qualifier("randomSaleOffer")
@@ -31,17 +41,21 @@ public class FrontPageServiceImpl implements FrontPageService {
     public Map<String, Object> serve(Category category) {
 
         Map<String, Object> frontPageData = new HashMap<String, Object>();
+        List<Product> productList = null;
+        Product offer;
+        if (category == null) {
+            productList = productDAO.getAll();
+            offer = specialSaleOffer.getOffer();
+        } else {
+            productList = productDAO.getByCategoryTree(category);
+            offer = specialSaleOffer.getOffer(category.getId());
+        }
+        List<ProductCard> productCards = productCardBuilder.build(productList);
+
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());
-        Product product;
-        if (category == null) {
-            frontPageData.put("products", productDAO.getAll());
-            product = specialSaleOffer.getOffer();
-        } else {
-            frontPageData.put("products", productDAO.getByCategoryTree(category));
-            product = specialSaleOffer.getOffer(category.getId());
-        }
-        frontPageData.put("saleOffer", product);
+        frontPageData.put("productCards", productCards);
+        frontPageData.put("saleOffer", offer);
         return frontPageData;
     }
 }
