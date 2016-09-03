@@ -7,6 +7,7 @@ import lv.javaguru.java2.domain.BaseEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,6 +24,7 @@ public abstract class CrudDAOTest<RecordClass extends BaseEntity, DAOClass exten
     protected RecordClass newRecord;
     protected RecordClass recordFromDAO;
 
+    @InjectMocks
     @Autowired
     protected DAOClass dao;
     protected DatabaseCleaner cleaner = new DatabaseCleaner();

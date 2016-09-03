@@ -66,8 +66,7 @@ public class ProductORMDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List getCategoryContent(Category category) {
-        System.out.println(categoryTree);
+    public List getByCategoryTree(Category category) {
         List<Category> categories = categoryTree.getAncestors(category);
         List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
         ids.add(category.getId());

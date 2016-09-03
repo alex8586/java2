@@ -2,13 +2,22 @@ package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.helpers.CategoryTree;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl> {
+
+    @Mock
+    CategoryTree categoryTree;
 
     private Category category = new Category();
     private Category anotherCategory = new Category();
@@ -74,6 +83,14 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
     public void getRandomProduct() {
         Product product = dao.getRandomProduct();
         assertEquals(product, recordFromDAO);
+    }
+
+    @Test
+    public void testGetByCategoryTree() {
+        Category category = new Category();
+        MockitoAnnotations.initMocks(this);
+        Mockito.doReturn(new ArrayList<Category>()).when(categoryTree).getAncestors(category);
+        dao.getByCategoryTree(category);
     }
 
 }

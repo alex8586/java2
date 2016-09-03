@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -34,11 +35,11 @@ public class FrontPageServiceImpl implements FrontPageService {
 
     public Map<String, Object> serve(Category category) {
 
-
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());
-        if (category == null)
+        Product product = null;
+        if (category == null) {
             frontPageData.put("products", productDAO.getAll());
             product = specialSaleOffer.getOffer();
         } else {
