@@ -40,7 +40,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
                     (CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, countVisitor.getIp());
             preparedStatement.setLong(2, countVisitor.getProductId());
-            preparedStatement.setInt(3, countVisitor.getCounter());
+            preparedStatement.setLong(3, countVisitor.getCounter());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -67,7 +67,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
                     (UPDATE);
             preparedStatement.setLong(1, countVisitor.getProductId());
             preparedStatement.setString(2, countVisitor.getIp());
-            preparedStatement.setInt(3, countVisitor.getCounter());
+            preparedStatement.setLong(3, countVisitor.getCounter());
             preparedStatement.setLong(4, countVisitor.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
@@ -126,7 +126,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     }
 
     @Override
-    public int getCountByProductId(long productId) {
+    public long getCountByProductId(long productId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -147,7 +147,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     }
 
     @Override
-    public int getCountByIp(String ip) {
+    public long getCountByIp(String ip) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -168,7 +168,7 @@ public class CountVisitorsDAOImpl extends JdbcConnector implements CountVisitors
     }
 
     @Override
-    public int getSumCountFromAllTable() {
+    public long getSumCountFromAllTable() {
         Connection connection = null;
         int counter = 0;
         try {

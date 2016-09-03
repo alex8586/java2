@@ -63,7 +63,7 @@ public class CountVisitorsDAOImplTest {
         long id = countVisitor1.getId();
         String ip = countVisitor1.getIp();
         long productId = countVisitor1.getProductId();
-        int counter = countVisitor1.getCounter();
+        long counter = countVisitor1.getCounter();
 
         countVisitor1.setIp(countVisitor2.getIp());
         countVisitor1.setProductId(countVisitor2.getProductId());
@@ -114,11 +114,11 @@ public class CountVisitorsDAOImplTest {
         countVisitorsDAO.update(countVisitor2);
         countVisitor3.setProductId(productId);
         countVisitorsDAO.update(countVisitor3);
-        int count1 = countVisitor1.getCounter();
-        int count2 = countVisitor2.getCounter();
-        int count3 = countVisitor3.getCounter();
+        long count1 = countVisitor1.getCounter();
+        long count2 = countVisitor2.getCounter();
+        long count3 = countVisitor3.getCounter();
 
-        int total = count1 + count2 + count3;
+        long total = count1 + count2 + count3;
         assertTrue(total == countVisitorsDAO.getCountByProductId(productId));
     }
 
@@ -134,11 +134,11 @@ public class CountVisitorsDAOImplTest {
         countVisitorsDAO.update(countVisitor2);
         countVisitor3.setIp(ip);
         countVisitorsDAO.update(countVisitor3);
-        int count1 = countVisitor1.getCounter();
-        int count2 = countVisitor2.getCounter();
-        int count3 = countVisitor3.getCounter();
+        long count1 = countVisitor1.getCounter();
+        long count2 = countVisitor2.getCounter();
+        long count3 = countVisitor3.getCounter();
 
-        int total = count1 + count2 + count3;
+        long total = count1 + count2 + count3;
         assertTrue(total == countVisitorsDAO.getCountByIp(ip));
     }
 
