@@ -46,6 +46,7 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
         product.setName(product.getName() + "prim");
         product.setDescription("booz" + product.getDescription());
         product.setCategoryId(anotherCategory.getId());
+        product.setImgUrl("picpath");
     }
 
     @Before
