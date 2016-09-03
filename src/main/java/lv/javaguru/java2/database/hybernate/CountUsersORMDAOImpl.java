@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -50,30 +49,25 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
     }
 
     @Override
-    public int getCountByProductId(long productId) {
+    public long getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
-
-        return (int) session.createCriteria(CountUser.class)
-                .add(Restrictions.eq("product_id", productId))
+        return (long) session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("productId", productId))
                 .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
     @Override
-    public int getCountByUserId(long userId) {
+    public long getCountByUserId(long userId) {
         Session session = sessionFactory.getCurrentSession();
-//        String sql = "SELECT sum(counter) FROM users_counter WHERE user_id=" + userId;
-//        int result = (int) session.createSQLQuery(sql).uniqueResult();
-//        return result;
-        return (int) session.createCriteria(CountUser.class)
-                .add(Restrictions.eq("user_id",userId))
+        return (long) session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("userId", userId))
                 .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
-    public int getSumCountFromAllTable() {
+    public long getSumCountFromAllTable() {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT sum(counter) FROM users_counter";
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+        return (Long) session.createCriteria(CountUser.class)
+                .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
     @Override
@@ -82,18 +76,4 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
         return session.createCriteria(CountUser.class).list();
     }
 
-    private int countCountWithCriteria(CountUser countUser, SimpleExpression expression) {
-        if (expression.getValue() == null)
-            throw new NullPointerException("countUser == null");
-        Session session = sessionFactory.getCurrentSession();
-        Object result = session.createCriteria(CountUser.class)
-                .add(Restrictions.eq("counter", countUser.getCounter()))
-                .add(expression)
-                .setProjection(Projections.sum("quantity")).uniqueResult();
-
-        if (result == null)
-            return 0;
-
-        return (int) result;
-    }
 }

@@ -35,7 +35,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
                     (CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, countUser.getUserId());
             preparedStatement.setLong(2, countUser.getProductId());
-            preparedStatement.setInt(3, countUser.getCounter());
+            preparedStatement.setLong(3, countUser.getCounter());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -62,7 +62,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
                     (UPDATE);
             preparedStatement.setLong(1, countUser.getUserId());
             preparedStatement.setLong(2, countUser.getProductId());
-            preparedStatement.setInt(3, countUser.getCounter());
+            preparedStatement.setLong(3, countUser.getCounter());
             preparedStatement.setLong(4, countUser.getId());
             preparedStatement.executeUpdate();
         } catch (Throwable e) {
@@ -122,7 +122,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
     }
 
     @Override
-    public int getCountByProductId(long productId) {
+    public long getCountByProductId(long productId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -143,7 +143,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
     }
 
     @Override
-    public int getCountByUserId(long userId) {
+    public long getCountByUserId(long userId) {
         Connection connection = null;
         int counter = 0;
         try {
@@ -163,7 +163,7 @@ public class CountUsersDAOImpl extends JdbcConnector implements CountUsersDAO {
         return counter;
     }
 
-    public int getSumCountFromAllTable() {
+    public long getSumCountFromAllTable() {
         Connection connection = null;
         int counter = 0;
         try {
