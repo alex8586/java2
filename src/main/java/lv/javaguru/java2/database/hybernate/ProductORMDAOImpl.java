@@ -70,7 +70,6 @@ public class ProductORMDAOImpl implements ProductDAO {
         List<Category> categories = categoryTree.getAncestors(category);
         List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
         ids.add(category.getId());
-        System.out.println(ids);
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Product.class).add(Restrictions.in("categoryId", ids)).list();
     }
