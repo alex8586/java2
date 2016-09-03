@@ -1,28 +1,60 @@
 package lv.javaguru.java2.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users_counter")
-public class CountUser extends CountBaseEntity implements Serializable{
+public class CountUser {
 
-    private static final long serialVersionUID = 1L;
+    @Column(name="id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(name="product_id")
+    private long productId;
+
+    @Column(name="counter")
+    private int counter;
 
     @Column(name = "user_id")
     private long userId;
 
     public CountUser(){
-        super();
+
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     public long getUserId() {
         return userId;
     }
 
-    public void setUserId(long user_id) {
-        this.userId = user_id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

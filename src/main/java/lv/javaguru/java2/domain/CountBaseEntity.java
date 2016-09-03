@@ -3,7 +3,7 @@ package lv.javaguru.java2.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@MappedSuperclass
+
 public abstract class CountBaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
