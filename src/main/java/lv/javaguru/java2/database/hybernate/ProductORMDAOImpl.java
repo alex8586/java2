@@ -63,7 +63,9 @@ public class ProductORMDAOImpl implements ProductDAO {
     @Override
     public Product getRandomProduct() {
         Session session = sessionFactory.getCurrentSession();
-        return (Product) session.createCriteria(Product.class).add(Restrictions.sqlRestriction("ORDER BY RAND()")).setMaxResults(1);
+        return (Product) session.createCriteria(Product.class)
+                .add(Restrictions.sqlRestriction("1=1 ORDER BY RAND()"))
+                .setMaxResults(1).uniqueResult();
     }
 
     @Override

@@ -45,7 +45,6 @@ public class FrontPageServiceImpl implements FrontPageService {
         }
 
         frontPageData.put("saleOffer", product);
-        System.out.println("model imagepath = " + product.getImgUrl());
         return frontPageData;
     }
 }
