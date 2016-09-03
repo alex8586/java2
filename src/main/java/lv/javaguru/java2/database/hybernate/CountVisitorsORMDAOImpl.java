@@ -4,6 +4,8 @@ import lv.javaguru.java2.database.CountVisitorsDAO;
 import lv.javaguru.java2.domain.CountVisitor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -47,26 +49,26 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     }
 
     @Override
-    public int getCountByProductId(long productId) {
+    public long getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT sum(counter) FROM visitors_counter WHERE product_id=" + productId;
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+        return (long) session.createCriteria(CountVisitor.class)
+                .add(Restrictions.eq("productId", productId))
+                .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
     @Override
-    public int getCountByIp(String ip) {
+    public long getCountByIp(String ip) {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT sum(counter) FROM visitors_counter WHERE ip='" + ip + "'";
-        int result = (int) session.createSQLQuery(sql).uniqueResult();
-        return result;
+        return (long) session.createCriteria(CountVisitor.class)
+                .add(Restrictions.eq("ip", ip))
+                .setProjection(Projections.sum("counter")).uniqueResult();
     }
 
     @Override
-    public int getSumCountFromAllTable() {
+    public long getSumCountFromAllTable() {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "SELECT sum(counter) FROM visitors_counter";
-        return (int) session.createSQLQuery(sql).uniqueResult();
+        return (Long) session.createCriteria(CountVisitor.class)
+                .setProjection(Projections.sum("counter")).uniqueResult();
 
     }
 

@@ -15,7 +15,7 @@ public class CountUser {
     private long productId;
 
     @Column(name="counter")
-    private int counter;
+    private long counter;
 
     @Column(name = "user_id")
     private long userId;
@@ -42,11 +42,11 @@ public class CountUser {
         this.productId = productId;
     }
 
-    public int getCounter() {
+    public long getCounter() {
         return counter;
     }
 
-    public void setCounter(int counter) {
+    public void setCounter(long counter) {
         this.counter = counter;
     }
 
