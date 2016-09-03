@@ -70,6 +70,7 @@ public class ProductORMDAOImpl implements ProductDAO {
         List<Category> categories = categoryTree.getAncestors(category);
         List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
         ids.add(category.getId());
+        System.out.println(ids);
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Product.class).add(Restrictions.in("categoryId", ids)).list();
     }
@@ -86,7 +87,8 @@ public class ProductORMDAOImpl implements ProductDAO {
     public Product getRandomProductWithoutCurrentCategoryId(long id) {
         Session session = sessionFactory.getCurrentSession();
         return (Product) session.createCriteria(Product.class)
-                .add(Restrictions.sqlRestriction("1=1 order by rand() where category_id not like" + id))
-                .setMaxResults(1);
+                .add(Restrictions.ne("categoryId", id))
+                .add(Restrictions.sqlRestriction("1=1 order by rand()"))
+                .setMaxResults(1).uniqueResult();
     }
 }

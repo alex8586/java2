@@ -1,5 +1,6 @@
 package lv.javaguru.java2.database.jdbc;
 
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -7,6 +8,7 @@ import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -83,6 +85,7 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         return product;
     }
 
+    /*
     @Override
     public Product getRandomProduct(){
         return (Product) super.getByCondition(GET_RANDOM_PRODUCT, 1);
@@ -92,8 +95,9 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
     public Product getRandomProductWithoutCurrentCategoryId(long id) {
         return (Product) super.getByCondition(GET_RANDOM_PRODUCT_WITHOUT_CURRENT_CATEGORY_ID, id);
     }
+    */
 
-    /*
+
     @Override
     public Product getRandomProductWithoutCurrentCategoryId(long id){
         Connection connection = null;
@@ -134,7 +138,6 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
             closeConnection(connection);
         }
     }
-    */
 
     @Override
     public List getByCategoryTree(Category category) {
@@ -145,6 +148,5 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         String sql = GET_BY_CATEGORY_TREE + "(-1," + inIds.substring(1, inIds.length() - 1) + ")";
         return super.getAll(sql);
     }
-
 
 }

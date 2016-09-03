@@ -167,30 +167,4 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         }
         return entityList;
     }
-
-    protected List<T> getAllByCondition(String sql, Object value) {
-        List<T> entityList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(sql);
-            preparedStatement.setObject(1, value);
-            System.out.println(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                entityList.add(buildFromResultSet(resultSet));
-            }
-        } catch (Throwable e) {
-            System.out.println("Exception while execute get all with " + sql);
-            e.printStackTrace();
-        } finally {
-            closeConnection(connection);
-        }
-        return entityList;
-    }
-
-
-
-
 }

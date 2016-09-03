@@ -38,12 +38,12 @@ public class FrontPageServiceImpl implements FrontPageService {
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());
-        Product product = null;
+        Product product;
         if (category == null) {
             frontPageData.put("products", productDAO.getAll());
             product = specialSaleOffer.getOffer();
         } else {
-            frontPageData.put("products", productDAO.getAllByCategory(category));
+            frontPageData.put("products", productDAO.getByCategoryTree(category));
             product = specialSaleOffer.getOffer(category.getId());
         }
 
