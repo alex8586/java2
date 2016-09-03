@@ -65,7 +65,7 @@ public class CountUsersDAOImplTest {
         long id = countUser1.getId();
         long userId = countUser1.getUserId();
         long productId = countUser1.getProductId();
-        int counter = countUser1.getCounter();
+        long counter = countUser1.getCounter();
 
         countUser1.setUserId(countUser2.getUserId());
         countUser1.setProductId(countUser2.getProductId());
@@ -116,11 +116,11 @@ public class CountUsersDAOImplTest {
         countUsersDAO.update(countUser2);
         countUser3.setProductId(productId);
         countUsersDAO.update(countUser3);
-        int count1 = countUser1.getCounter();
-        int count2 = countUser2.getCounter();
-        int count3 = countUser3.getCounter();
+        long count1 = countUser1.getCounter();
+        long count2 = countUser2.getCounter();
+        long count3 = countUser3.getCounter();
 
-        int total = count1 + count2 + count3;
+        long total = count1 + count2 + count3;
         assertTrue(total == countUsersDAO.getCountByProductId(productId));
     }
 
@@ -136,11 +136,11 @@ public class CountUsersDAOImplTest {
         countUsersDAO.update(countUser2);
         countUser3.setUserId(userId);
         countUsersDAO.update(countUser3);
-        int count1 = countUser1.getCounter();
-        int count2 = countUser2.getCounter();
-        int count3 = countUser3.getCounter();
+        long count1 = countUser1.getCounter();
+        long count2 = countUser2.getCounter();
+        long count3 = countUser3.getCounter();
 
-        int total = count1 + count2 + count3;
+        long total = count1 + count2 + count3;
         assertTrue(total == countUsersDAO.getCountByUserId(userId));
     }
 
