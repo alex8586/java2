@@ -14,11 +14,11 @@ public interface CountVisitorsDAO {
 
     CountVisitor getById(long id);
 
-    long getCountByProductId(long productId);
+    int getCountByProductId(long productId);
 
-    long getCountByIp(String ip);
+    int getCountByIp(String ip);
 
-    long getSumCountFromAllTable();
+    int getSumCountFromAllTable();
 
     List getAllCount();
 

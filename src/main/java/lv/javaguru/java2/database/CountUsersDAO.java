@@ -14,11 +14,11 @@ public interface CountUsersDAO {
 
     CountUser getById(long id);
 
-    long getCountByProductId(long productId);
+    int getCountByProductId(long productId);
 
-    long getCountByUserId(long userId);
+    int getCountByUserId(long userId);
 
-    long getSumCountFromAllTable();
+    int getSumCountFromAllTable();
 
     List getAllCount();
 

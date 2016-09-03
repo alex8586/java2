@@ -1,8 +1,9 @@
-package lv.javaguru.java2.database.hybernate;
+package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.DatabaseCleaner;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.CountVisitorsDAO;
+import lv.javaguru.java2.database.hybernate.CountClassHelper;
 import lv.javaguru.java2.domain.CountVisitor;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +21,15 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-public class CountVisitorORMDAOImplTest {
+public class CountVisitorsDAOImplTest {
+
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired
     private CountClassHelper countClassHelper;
-    @Qualifier("ORM_CountVisitorsDAO")
+    @Qualifier("JDBC_CountVisitorsDAO")
     @Autowired
-    private CountVisitorsDAO countVisitorsORMDAO;
+    private CountVisitorsDAO countVisitorsDAO;
 
     private Random random = new Random();
 
@@ -45,10 +47,10 @@ public class CountVisitorORMDAOImplTest {
         countVisitor.setIp("111.222.333.444");
         countVisitor.setProductId(productId);
         countVisitor.setCounter(0);
-        long countVisitorId = countVisitorsORMDAO.create(countVisitor);
+        long countVisitorId = countVisitorsDAO.create(countVisitor);
 
         assertTrue(countVisitorId > 0);
-        CountVisitor countVisitorFromDAO = countVisitorsORMDAO.getById(countVisitorId);
+        CountVisitor countVisitorFromDAO = countVisitorsDAO.getById(countVisitorId);
         assertEquals(countVisitor.getIp(), countVisitorFromDAO.getIp());
         assertEquals(countVisitor.getCounter(), countVisitorFromDAO.getCounter());
         assertEquals(countVisitor.getProductId(), countVisitorFromDAO.getProductId());
@@ -56,22 +58,22 @@ public class CountVisitorORMDAOImplTest {
 
     @Test
     public void updateCountUserTest() {
-        List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor = (CountVisitor) list.get(random.nextInt(15));
-        long id = countVisitor.getId();
-        String userIp = countVisitor.getIp();
-        long productId = countVisitor.getProductId();
-        int counter = countVisitor.getCounter();
+        CountVisitor countVisitor1 = createCountVisitor();
+        CountVisitor countVisitor2 = createCountVisitor();
+        long id = countVisitor1.getId();
+        String ip = countVisitor1.getIp();
+        long productId = countVisitor1.getProductId();
+        int counter = countVisitor1.getCounter();
 
-        countVisitor.setIp(((CountVisitor) list.get(random.nextInt(15))).getIp());
-        countVisitor.setProductId(((CountVisitor) list.get(random.nextInt(15))).getProductId());
-        countVisitor.setCounter(7);
-        countVisitorsORMDAO.update(countVisitor);
-        assertTrue(id == countVisitor.getId());
-        assertNotEquals(userIp, countVisitor.getIp());
-        assertTrue(productId != countVisitor.getProductId());
-        assertTrue(countVisitor.getCounter() == 7);
-        assertNotSame(counter, countVisitor.getCounter());
+        countVisitor1.setIp(countVisitor2.getIp());
+        countVisitor1.setProductId(countVisitor2.getProductId());
+        countVisitor1.setCounter(countVisitor2.getCounter());
+
+        countVisitorsDAO.update(countVisitor1);
+        assertTrue(id == countVisitor1.getId());
+        assertNotEquals(ip, countVisitor1.getIp());
+        assertTrue(productId != countVisitor1.getProductId());
+        assertTrue(counter != countVisitor1.getCounter());
     }
 
     @Test
@@ -79,8 +81,8 @@ public class CountVisitorORMDAOImplTest {
         CountVisitor countVisitor = createCountVisitor();
         long id = countVisitor.getId();
 
-        countVisitorsORMDAO.delete(countVisitor);
-        assertNull(countVisitorsORMDAO.getById(id));
+        countVisitorsDAO.delete(countVisitor);
+        assertNull(countVisitorsDAO.getById(id));
     }
 
     @Test
@@ -88,7 +90,7 @@ public class CountVisitorORMDAOImplTest {
         CountVisitor countVisitor = createCountVisitor();
         long id = countVisitor.getId();
 
-        CountVisitor fromDAO = countVisitorsORMDAO.getById(id);
+        CountVisitor fromDAO = countVisitorsDAO.getById(id);
         assertTrue(countVisitor.getId() == fromDAO.getId());
         assertEquals(countVisitor.getIp(),fromDAO.getIp());
         assertTrue(countVisitor.getProductId() == fromDAO.getProductId());
@@ -96,61 +98,64 @@ public class CountVisitorORMDAOImplTest {
 
         CountVisitor other = createCountVisitor();
         long otherId = other.getId();
-        CountVisitor otherFromDAO = countVisitorsORMDAO.getById(otherId);
+        CountVisitor otherFromDAO = countVisitorsDAO.getById(otherId);
         assertTrue(fromDAO.getId() != otherFromDAO.getId());
     }
 
     @Test
     public void getCountByProductIdTest() {
         List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor1= (CountVisitor) list.get(random.nextInt(15));
         CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor3 = (CountVisitor) list.get(random.nextInt(15));
 
+        long productId = countVisitor1.getProductId();
+        countVisitor2.setProductId(productId);
+        countVisitorsDAO.update(countVisitor2);
+        countVisitor3.setProductId(productId);
+        countVisitorsDAO.update(countVisitor3);
         int count1 = countVisitor1.getCounter();
-        long productId1 = countVisitor1.getProductId();
         int count2 = countVisitor2.getCounter();
-        long productId2 = countVisitor2.getProductId();
+        int count3 = countVisitor3.getCounter();
 
-        assertTrue(count1 == countVisitorsORMDAO.getCountByProductId(productId1));
-        assertTrue(count2 == countVisitorsORMDAO.getCountByProductId(productId2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countVisitorsDAO.getCountByProductId(productId));
     }
 
     @Test
     public void getCountByIp() {
         List list = createCountVisitorListWith15Records();
         CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor2= (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor3 = (CountVisitor) list.get(random.nextInt(15));
 
+        String ip = countVisitor1.getIp();
+        countVisitor2.setIp(ip);
+        countVisitorsDAO.update(countVisitor2);
+        countVisitor3.setIp(ip);
+        countVisitorsDAO.update(countVisitor3);
         int count1 = countVisitor1.getCounter();
-        String ip1 = countVisitor1.getIp();
         int count2 = countVisitor2.getCounter();
-        String ip2 = countVisitor2.getIp();
+        int count3 = countVisitor3.getCounter();
 
-        assertEquals(count1,countVisitorsORMDAO.getCountByIp(ip1));
-        assertEquals(count2, countVisitorsORMDAO.getCountByIp(ip2));
+        int total = count1 + count2 + count3;
+        assertTrue(total == countVisitorsDAO.getCountByIp(ip));
     }
 
     @Test
-    public void getCountByProductIdAndIpTest() {
-        List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
-
-        int count1 = countVisitor1.getCounter();
-        long productId1 = countVisitor1.getProductId();
-        String ip1 = countVisitor1.getIp();
-        int count2 = countVisitor2.getCounter();
-        long productId2 = countVisitor2.getProductId();
-        String ip2 = countVisitor2.getIp();
-
-        assertTrue(count1 == countVisitorsORMDAO.getSumCountFromAllTable());
-        assertTrue(count2 == countVisitorsORMDAO.getSumCountFromAllTable());
+    public void getSumCountFromAllTableTest() {
+        List<CountVisitor> list = createCountVisitorListWith15Records();
+        int total = 0;
+        for(CountVisitor countVisitor : list){
+            total += countVisitor.getCounter();
+        }
+        assertTrue(total == countVisitorsDAO.getSumCountFromAllTable());
     }
 
     @Test
     public void getAllCountTest() {
         List list = createCountVisitorListWith15Records();
-        List fromDAO = countVisitorsORMDAO.getAllCount();
+        List fromDAO = countVisitorsDAO.getAllCount();
         assertTrue(list.size() == fromDAO.size());
     }
 
@@ -167,8 +172,8 @@ public class CountVisitorORMDAOImplTest {
         countVisitor.setIp(ip);
         countVisitor.setProductId(productId);
         countVisitor.setCounter(random.nextInt(30000));
-        long countCustomerId = countVisitorsORMDAO.create(countVisitor);
-        return countVisitorsORMDAO.getById(countCustomerId);
+        long countCustomerId = countVisitorsDAO.create(countVisitor);
+        return countVisitorsDAO.getById(countCustomerId);
     }
 
     public List createCountVisitorListWith15Records() {

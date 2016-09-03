@@ -26,7 +26,6 @@ public class CountUserORMDAOImplTest {
     private DatabaseCleaner databaseCleaner;
     @Autowired
     private CountClassHelper countClassHelper;
-
     @Qualifier("ORM_CountUsersDAO")
     @Autowired
     private CountUsersDAO countUsersORMDAO;
@@ -59,22 +58,22 @@ public class CountUserORMDAOImplTest {
 
     @Test
     public void updateCountUserTest() {
-        CountUser countUser1 = createCountUser();
-        CountUser countUser2 = createCountUser();
-        long id = countUser1.getId();
-        long userId = countUser1.getUserId();
-        long productId = countUser1.getProductId();
-        long counter = countUser1.getCounter();
+        List list = createCountUsersListWith15Records();
+        CountUser countUser = (CountUser) list.get(random.nextInt(15));
+        long id = countUser.getId();
+        long userId = countUser.getUserId();
+        long productId = countUser.getProductId();
+        int counter = countUser.getCounter();
 
-        countUser1.setUserId(countUser2.getUserId());
-        countUser1.setProductId(countUser2.getProductId());
-        countUser1.setCounter(countUser2.getCounter());
-
-        countUsersORMDAO.update(countUser1);
-        assertTrue(id == countUser1.getId());
-        assertTrue(userId != countUser1.getUserId());
-        assertTrue(productId != countUser1.getProductId());
-        assertTrue(counter != countUser1.getCounter());
+        countUser.setUserId(((CountUser) list.get(random.nextInt(15))).getUserId());
+        countUser.setProductId(((CountUser) list.get(random.nextInt(15))).getProductId());
+        countUser.setCounter(7);
+        countUsersORMDAO.update(countUser);
+        assertTrue(id == countUser.getId());
+        assertTrue(userId != countUser.getUserId());
+        assertTrue(productId != countUser.getProductId());
+        assertTrue(countUser.getCounter() == 7);
+        assertNotSame(counter, countUser.getCounter());
     }
 
     @Test
@@ -115,42 +114,66 @@ public class CountUserORMDAOImplTest {
         countUsersORMDAO.update(countUser2);
         countUser3.setProductId(productId);
         countUsersORMDAO.update(countUser3);
-        long count1 = countUser1.getCounter();
-        long count2 = countUser2.getCounter();
-        long count3 = countUser3.getCounter();
+        System.out.println("----------------");
+        int count1 = countUser1.getCounter();
+        System.out.println(count1+ "product id = "+countUser1.getProductId());
+        int count2 = countUser2.getCounter();
+        System.out.println(count2+ "product id = "+countUser2.getProductId());
+        int count3 = countUser3.getCounter();
+        System.out.println(count3+ "product id = "+countUser3.getProductId());
 
-        long total = count1 + count2 + count3;
+        int total = count1 + count2 + count3;
+        System.out.println("total " + total);
+        int fromdao = countUsersORMDAO.getCountByProductId(productId);
+        System.out.println("from dao " + fromdao);
         assertTrue(total == countUsersORMDAO.getCountByProductId(productId));
     }
 
     @Test
     public void getCountByUserIdTest() {
-        List list = createCountUsersListWith15Records();
-        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser3 = (CountUser) list.get(random.nextInt(15));
+        long categoryId = countClassHelper.createCategory();
+        System.out.println("category created");
+        long productId = countClassHelper.createProduct(categoryId);
+        System.out.println("product created");
+        long userId = countClassHelper.createUser();
+        System.out.println("user created");
 
-        long userId = countUser1.getUserId();
+        CountUser countUser = new CountUser();
+        countUser.setUserId(userId);
+        countUser.setProductId(productId);
+        countUser.setCounter(random.nextInt(30000));
+
+        long categoryId2 = countClassHelper.createCategory();
+        System.out.println("-------- second category created");
+        long productId2 = countClassHelper.createProduct(categoryId);
+        System.out.println("--------- second product created");
+        CountUser countUser2 = new CountUser();
         countUser2.setUserId(userId);
-        countUsersORMDAO.update(countUser2);
-        countUser3.setUserId(userId);
-        countUsersORMDAO.update(countUser3);
-        long count1 = countUser1.getCounter();
-        long count2 = countUser2.getCounter();
-        long count3 = countUser3.getCounter();
+        countUser.setProductId(productId2);
+        countUser2.setCounter(random.nextInt(30000));
+        countUsersORMDAO.create(countUser2);
 
-        long total = count1 + count2 + count3;
+        int total = countUser.getCounter() + countUser2.getCounter();
         assertTrue(total == countUsersORMDAO.getCountByUserId(userId));
+
     }
 
     @Test
-    public void getSumCountFromAllTableTest() {
-        List<CountUser> list = createCountUsersListWith15Records();
-        int total = 0;
-        for (CountUser countUser : list) {
-            total += countUser.getCounter();
-        }
-        assertTrue(total == countUsersORMDAO.getSumCountFromAllTable());
+    public void getCountByProductIdAndUserIdTest() {
+        List list = createCountUsersListWith15Records();
+        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
+
+
+        int count1 = countUser1.getCounter();
+        long productId1 = countUser1.getProductId();
+        long userId1 = countUser1.getUserId();
+        int count2 = countUser2.getCounter();
+        long productId2 = countUser2.getProductId();
+        long userId2 = countUser2.getUserId();
+
+        assertTrue(count1 == countUsersORMDAO.getSumCountFromAllTable());
+        assertTrue(count2 == countUsersORMDAO.getSumCountFromAllTable());
     }
 
     @Test
@@ -168,7 +191,7 @@ public class CountUserORMDAOImplTest {
         CountUser countUser = new CountUser();
         countUser.setUserId(userId);
         countUser.setProductId(productId);
-        countUser.setCounter(random.nextInt(1000));
+        countUser.setCounter(random.nextInt(30000));
         long countCustomerId = countUsersORMDAO.create(countUser);
         return countUsersORMDAO.getById(countCustomerId);
     }
