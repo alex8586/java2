@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Component
 public class CartServiceImpl implements CartService {
 
@@ -19,46 +16,31 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ProductDAO productDAO;
 
-    public void addToCart(long productId) {
+    @Override
+    public Cart addToCart(long productId) {
         Product product = productDAO.getById(productId);
-        Cart cart;
-        if (cartProvider.isEmpty()) {
-            cart = new Cart();
-            cart.add(product);
-            cartProvider.setCart(cart);
-        } else {
-            cart = cartProvider.getCart();
-            cart.add(product);
-            cartProvider.setCart(cart);
-        }
+        Cart cart = cartProvider.getCart();
+        cart.add(product);
+        cartProvider.setCart(cart);
+        return cart;
     }
 
     @Override
-    public long getPrice(Cart cart) {
-        long result = 0;
-        if (cart == null)
-            return 0;
-        HashMap<Product, Integer> map = cart.getAll();
-        for (Map.Entry<Product, Integer> entry : map.entrySet()) {
-            result += entry.getKey().getPrice() * entry.getValue();
-        }
-        return result;
-    }
-
-    @Override
-    public void addProduct(long id) {
+    public long addProduct(long id) {
         Product product = productDAO.getById(id);
         Cart cart = cartProvider.getCart();
         cart.add(product, 1);
         cartProvider.setCart(cart);
+        return cart.getTotalPrice(cart);
     }
 
     @Override
-    public void deleteProduct(long id) {
+    public long deleteProduct(long id) {
         Product product = productDAO.getById(id);
         Cart cart = cartProvider.getCart();
         cart.remove(product, 1);
         cartProvider.setCart(cart);
+        return cart.getTotalPrice(cart);
     }
 
 

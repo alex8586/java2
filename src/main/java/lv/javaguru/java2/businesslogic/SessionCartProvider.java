@@ -11,15 +11,18 @@ public class SessionCartProvider implements CartProvider {
 
     private Cart cart;
 
+    public SessionCartProvider(){
+        this.cart = new Cart();
+    }
+
+    @Override
     public Cart getCart() {
         return cart;
     }
 
+    @Override
     public void setCart(Cart cart) {
         this.cart = cart;
     }
 
-    public boolean isEmpty() {
-        return (cart == null);
-    }
 }

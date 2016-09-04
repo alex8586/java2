@@ -28,12 +28,6 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
 
-    @Autowired
-    private CartProvider cartProvider;
-
-    @Autowired
-    private CartService cartService;
-
     public Map<String, Object> serve(Category category) {
 
         Map<String, Object> frontPageData = new HashMap<String, Object>();
@@ -47,8 +41,6 @@ public class FrontPageServiceImpl implements FrontPageService {
             frontPageData.put("products", productDAO.getByCategoryTree(category));
             product = specialSaleOffer.getOffer(category.getId());
         }
-        frontPageData.put("cart", cartProvider.getCart());
-        frontPageData.put("cartPrice", cartService.getPrice(cartProvider.getCart()));
         frontPageData.put("saleOffer", product);
         return frontPageData;
     }

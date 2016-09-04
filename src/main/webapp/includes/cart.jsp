@@ -6,8 +6,8 @@
 <div class="center-align">
     <h5 style="color: orange">In your cart :</h5>
 </div>
-    <c:if test="${not empty requestScope.model.cart}">
-        <c:forEach var="cart" items="${requestScope.model.cart.all}">
+    <c:if test="${not empty sessionScope.cart}">
+        <c:forEach var="cart" items="${sessionScope.cart.all}">
     <div class="row">
 
         <div>
@@ -25,7 +25,7 @@
                 <form action="cart" method="post">
                     <div style="display: inline-block">
                         <input type="hidden" name="productId" value="${cart.key.id}">
-                        <input type="submit" name="delete" value="-">
+                        <input type="submit" name="remove" value="-">
                     </div>
                     <div style="display: inline-block">
                         <input type="hidden" name="productId" value="${cart.key.id}">
@@ -45,7 +45,7 @@
         Total :
     </div>
     <div class="col s6 right-align">
-        ${requestScope.model.cartPrice}&#8364
+        ${sessionScope.cartPrice}&#8364
     </div>
 </div>
 
