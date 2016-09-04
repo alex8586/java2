@@ -1,6 +1,5 @@
 package lv.javaguru.java2.businesslogic;
 
-import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -16,22 +15,24 @@ import java.util.Map;
 public class FrontPageServiceImpl implements FrontPageService {
 
     @Autowired
-    UserProvider userProvider;
+    private UserProvider userProvider;
 
     @Autowired
-    @Qualifier("ORM_CategoryDAO")
-    CategoryDAO categoryDAO;
-
-    @Autowired
-    CategoryTree categoryTree;
+    private CategoryTree categoryTree;
 
     @Autowired
     @Qualifier("ORM_ProductDAO")
-    ProductDAO productDAO;
+    private ProductDAO productDAO;
 
     @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
+
+    @Autowired
+    private CartProvider cartProvider;
+
+    @Autowired
+    private CartService cartService;
 
     public Map<String, Object> serve(Category category) {
 
@@ -46,7 +47,8 @@ public class FrontPageServiceImpl implements FrontPageService {
             frontPageData.put("products", productDAO.getByCategoryTree(category));
             product = specialSaleOffer.getOffer(category.getId());
         }
-
+        frontPageData.put("cart", cartProvider.getCart());
+        frontPageData.put("cartPrice", cartService.getPrice(cartProvider.getCart()));
         frontPageData.put("saleOffer", product);
         return frontPageData;
     }

@@ -14,7 +14,8 @@
             Price : ${product.price} &#8364
         </div>
         <div class="card-action center">
-            <a href="<tags:linkTo controller="ProductController" resourceId="${product.id}" />">This is a link</a>
+
+            <a href="<tags:linkTo controller="CartController" resourceId="${product.id}" />">Add to cart</a>
         </div>
     </div>
 </div>

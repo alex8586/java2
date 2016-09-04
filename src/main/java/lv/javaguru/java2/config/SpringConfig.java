@@ -97,4 +97,6 @@ public class SpringConfig {
         return new CategoryTree(categoryDAO.getAll());
     }
 
+
+
 }
