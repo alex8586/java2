@@ -45,7 +45,12 @@
         Total :
     </div>
     <div class="col s6 right-align">
-        ${sessionScope.cartPrice}&#8364
+        <c:if test="${empty sessionScope.cartPrice}">
+            0 &#8364
+        </c:if>
+        <c:if test="${not empty sessionScope.cartPrice}">
+            ${sessionScope.cartPrice}&#8364
+        </c:if>
     </div>
 </div>
 
