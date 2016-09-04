@@ -1,11 +1,8 @@
 package lv.javaguru.java2.businesslogic;
 
-import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.dto.ProductCard;
-import lv.javaguru.java2.dto.builders.ProductCardBuilder;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,21 +16,14 @@ import java.util.Map;
 public class FrontPageServiceImpl implements FrontPageService {
 
     @Autowired
-    UserProvider userProvider;
-
-    @Autowired
     CategoryTree categoryTree;
 
     @Autowired
-    @Qualifier("ORM_ProductDAO")
-    ProductDAO productDAO;
-
+    UserProvider userProvider;
     @Autowired
-    StockDAO stockDAO;
-
+    ProductService productService;
     @Autowired
-    ProductCardBuilder productCardBuilder;
-
+    ProductCardServiceImpl productCardService;
     @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
@@ -44,13 +34,13 @@ public class FrontPageServiceImpl implements FrontPageService {
         List<Product> productList = null;
         Product offer;
         if (category == null) {
-            productList = productDAO.getAll();
+            productList = productService.getAll();
             offer = specialSaleOffer.getOffer();
         } else {
-            productList = productDAO.getByCategoryTree(category);
+            productList = productService.getByCategory(category);
             offer = specialSaleOffer.getOffer(category.getId());
         }
-        List<ProductCard> productCards = productCardBuilder.build(productList);
+        List<ProductCard> productCards = productCardService.forProductList(productList);
 
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());
