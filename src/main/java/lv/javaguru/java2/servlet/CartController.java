@@ -28,7 +28,7 @@ public class CartController extends MVCController {
     public MVCModel executePost(HttpServletRequest request) {
         if (request.getParameter("remove") != null) {
             long productId = Long.parseLong(request.getParameter("productId"));
-            long cartPrice = cartService.deleteProduct(productId);
+            long cartPrice = cartService.removeProduct(productId);
             request.getSession().setAttribute("cartPrice", cartPrice);
             return new MVCModel("/index");
         }

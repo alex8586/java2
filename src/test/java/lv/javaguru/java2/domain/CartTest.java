@@ -11,11 +11,13 @@ public class CartTest {
     private static final String NAME = "name";
 
     private Product product;
+    private Product otherProduct;
     private Cart cart;
 
     @Before
     public void before() {
         product = new Product(NAME);
+        otherProduct = new Product();
         cart = new Cart();
     }
 
@@ -93,5 +95,27 @@ public class CartTest {
         cart.setQuantity(product, 5);
         assertTrue(cart.getQuantity(product) == 5);
     }
+
+    @Test
+    public void getTotalPriceTest() {
+        Product product;
+        for (int i = 0; i < 5; i++) {
+            product = new Product();
+            product.setPrice(5);
+            cart.add(product, i + 1);
+        }
+        assertTrue(cart.getTotalPrice(cart) == 75);
+    }
+
+    @Test
+    public void getTotalPriceTest2(){
+        product.setPrice(12);
+        otherProduct.setPrice(4);
+        cart.add(product, 5);
+        cart.add(otherProduct, 8);
+
+        assertTrue(cart.getTotalPrice(cart) ==92);
+    }
+
 
 }

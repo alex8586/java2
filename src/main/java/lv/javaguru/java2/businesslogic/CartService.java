@@ -8,5 +8,5 @@ public interface CartService {
 
     long addProduct(long id);
 
-    long deleteProduct(long id);
+    long removeProduct(long id);
 }

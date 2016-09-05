@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public long deleteProduct(long id) {
+    public long removeProduct(long id) {
         Product product = productDAO.getById(id);
         Cart cart = cartProvider.getCart();
         cart.remove(product, 1);
