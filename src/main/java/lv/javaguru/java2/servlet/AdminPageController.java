@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.adminka.AdminPageDataService;
 import lv.javaguru.java2.businesslogic.adminka.ProductTableFactory;
 import lv.javaguru.java2.database.hybernate.ProductORMDAOImpl;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
@@ -7,6 +8,7 @@ import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -19,18 +21,24 @@ import java.util.Random;
  */
 
 @Component
-
+@Controller
 public class AdminPageController extends MVCController {
-@Autowired
-    ProductORMDAOImpl productDAO;
+//@Autowired
+//    ProductORMDAOImpl productDAO;
+    @Autowired
+    AdminPageDataService dataService;
+
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
 
-        map.put("tabrows",new ProductTableFactory(productDAO.getAll()).getRows());
+        dataService.init(request);
 
-        return new MVCModel(map, "/admin.jsp");
+//        Map<String, Object> map = new HashMap<>();
+//tableFactory.setList(productDAO.getAll());
+//        map.put("tabrows",tableFactory.getTable());
+
+        return new MVCModel(dataService.getDataAsMap(), "/admin.jsp");
     }
 
 //    @Override

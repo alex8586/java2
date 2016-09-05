@@ -75,15 +75,15 @@ AUTO_INCREMENT = 1;
 DROP TABLE IF EXISTS `java2miska`.`products`;
 CREATE TABLE IF NOT EXISTS `java2miska`.`products`
 (
-  `ProductID`          BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `id`          BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `VendorCode`         VARCHAR(10),
   `VendorName`         VARCHAR(60),
   `VendorDescription`  VARCHAR(300),
   `unit`               VARCHAR(30),
   `price`              INT(11),
-  `DisplayName`        VARCHAR(60),
-  `DisplayDescription` VARCHAR(400),
-  `RemainQTY`          INT(11),
+  `name`        VARCHAR(60),
+  `description` VARCHAR(400),
+  `quantity`          INT(11),
   `catID_FK`           INT(11),
   CONSTRAINT `category_FK` FOREIGN KEY (`catID_FK`) REFERENCES `java2miska`.`categories` (id)
 )
@@ -99,31 +99,31 @@ INSERT INTO categories(id,name) VALUES(DEFAULT ,"Товары для покло�
 INSERT INTO categories (id, name) VALUES (DEFAULT, "Швейная машинка Zinger");
 INSERT INTO categories (id, name) VALUES (DEFAULT, "Деньги, карты, три ствола");
 
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES (DEFAULT, "Морква", "СуперМорква в ящиках по 250 килограмм", 4, 23);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES (DEFAULT, "Норковая шубка", "Только после химчистки", 4, 2349);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES
   (DEFAULT, "Торт ШВАРЦВАЛЬДСКИЙ", "Для любителей очень мягких и сочных тортов мы рекомендуем именно этот торт.", 4, 7);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES (DEFAULT, "YotaPhone 2", " смартфон с полноценной изогнутой сенсорной панелью E-Ink.", 4, 734);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY)
+INSERT INTO products (id, name, description, quantity)
 VALUES (DEFAULT, "AngularJS",
         "JavaScript-фреймворк с открытым исходным кодом. Предназначен для разработки одностраничных приложений.", 4);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES (DEFAULT, "Lexus RX", "Просто хорошая машинка", 4, 22500);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY, price)
+INSERT INTO products (id, name, description, quantity, price)
 VALUES (DEFAULT, "Мелафон",
         "Миелофон (от греч. μυελός «мозг» (обычно костный) и греч. φωνή «звук, голос, шум») — фантастический, реально не существующий",
         4, 321);
 
 
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY)
+INSERT INTO products (id, name, description, quantity)
 VALUES (DEFAULT, "Морква", "СуперМорква в ящиках по 250 килограмм", 4);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY)
+INSERT INTO products (id, name, description, quantity)
 VALUES (DEFAULT, "Морква", "СуперМорква в ящиках по 250 килограмм", 4);
-INSERT INTO products (ProductID, DisplayName, DisplayDescription, RemainQTY)
+INSERT INTO products (id, name, description, quantity)
 VALUES (DEFAULT, "Морква", "СуперМорква в ящиках по 250 килограмм", 4);
 
 SET SQL_MODE=@OLD_SQL_MODE;
