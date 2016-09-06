@@ -9,18 +9,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import static org.junit.Assert.assertEquals;
-
 public class CategoryORMDAOImplTest extends CrudHybernateDAOTest<Category, CategoryORMDAOImpl> {
 
     @Autowired
     ProductORMDAOImpl productDAO;
-
-    @Override
-    protected void compareRecords(Category category1, Category category2) {
-        assertEquals(category1.getId(), category2.getId());
-        assertEquals(category1.getName(), category2.getName());
-    }
 
     @Override
     protected void fillRecordWithData(Category category) {

@@ -5,7 +5,6 @@ import lv.javaguru.java2.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class UserDAOImplTest extends CrudJdbcDAOTest<User, UserDAOImpl> {
@@ -17,14 +16,6 @@ public class UserDAOImplTest extends CrudJdbcDAOTest<User, UserDAOImpl> {
         super.before();
     }
 
-
-    @Override
-    protected void compareRecords(User user1, User user2) {
-        assertEquals(user1.getId(), user2.getId());
-        assertEquals(user1.getFullName(), user2.getFullName());
-        assertEquals(user1.getEmail(), user2.getEmail());
-        assertEquals(user1.getPassword(), user2.getPassword());
-    }
 
     @Override
     protected void fillRecordWithData(User user) {

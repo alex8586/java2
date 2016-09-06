@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class UserORMDAOImplTest extends CrudHybernateDAOTest<User, UserORMDAOImpl> {
@@ -15,15 +14,6 @@ public class UserORMDAOImplTest extends CrudHybernateDAOTest<User, UserORMDAOImp
     public void before() {
         cleaner.cleanDatabase();
         super.before();
-    }
-
-
-    @Override
-    protected void compareRecords(User user1, User user2) {
-        assertEquals(user1.getId(), user2.getId());
-        assertEquals(user1.getFullName(), user2.getFullName());
-        assertEquals(user1.getEmail(), user2.getEmail());
-        assertEquals(user1.getPassword(), user2.getPassword());
     }
 
     @Override

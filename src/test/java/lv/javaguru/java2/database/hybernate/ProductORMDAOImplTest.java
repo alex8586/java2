@@ -30,16 +30,6 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
     private Category anotherCategory = new Category();
     private Random random = new Random();
 
-
-    @Override
-    protected void compareRecords(Product product1, Product product2) {
-        assertEquals(product1.getId(), product2.getId());
-        assertEquals(product1.getName(), product2.getName());
-        assertEquals(product1.getDescription(), product2.getDescription());
-        assertEquals(product1.getPrice(), product2.getPrice());
-        assertEquals(product1.getCategoryId(), product2.getCategoryId());
-    }
-
     @Override
     protected void fillRecordWithData(Product product) {
         product.setName("name" + random.nextInt(100000));

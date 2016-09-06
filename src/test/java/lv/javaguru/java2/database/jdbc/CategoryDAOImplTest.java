@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.assertEquals;
-
 
 public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOImpl> {
 
@@ -17,11 +15,6 @@ public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOIm
     ProductDAOImpl productDAO;
 
 
-    @Override
-    protected void compareRecords(Category category1, Category category2) {
-        assertEquals(category1.getId(), category2.getId());
-        assertEquals(category1.getName(), category2.getName());
-    }
 
     @Override
     protected void fillRecordWithData(Category category) {

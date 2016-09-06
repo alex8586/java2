@@ -33,16 +33,6 @@ public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile,
 
 
     @Override
-    protected void compareRecords(ShippingProfile shippingProfile1, ShippingProfile shippingProfile2) {
-        assertEquals(shippingProfile1.getId(), shippingProfile2.getId());
-        assertEquals(shippingProfile1.getUserId(), shippingProfile2.getUserId());
-        assertEquals(shippingProfile1.getPerson(), shippingProfile2.getPerson());
-        assertEquals(shippingProfile1.getPhone(), shippingProfile2.getPhone());
-        assertEquals(shippingProfile1.getDocument(), shippingProfile2.getDocument());
-        assertEquals(shippingProfile1.getAddress(), shippingProfile2.getAddress());
-    }
-
-    @Override
     protected void fillRecordWithData(ShippingProfile shippingProfile) {
         shippingProfile.setUserId(user.getId());
         shippingProfile.setPhone("12345678-" + random.nextInt(100000));

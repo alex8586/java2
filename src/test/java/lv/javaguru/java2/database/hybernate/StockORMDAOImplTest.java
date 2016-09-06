@@ -66,10 +66,10 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
 
     @Override
     protected void compareRecords(Stock record1, Stock record2) {
+
         assertEquals(record1.getId(), record2.getId());
         assertEquals(record1.getProductId(), record2.getProductId());
         assertEquals(record1.getQuantity(), record2.getQuantity());
-
         assertEquals(DateUtils.truncate(record1.getExpireDate(), Calendar.DATE),
                 DateUtils.truncate(record2.getExpireDate(), Calendar.DATE));
     }

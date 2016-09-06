@@ -90,4 +90,5 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         assertEquals(order1.getPhone(), order2.getPhone());
         assertEquals(order1.getTotal(), order2.getTotal());
     }
+
 }

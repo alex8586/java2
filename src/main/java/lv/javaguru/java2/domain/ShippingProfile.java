@@ -1,5 +1,7 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -89,5 +91,23 @@ public class ShippingProfile implements BaseEntity {
                 ", userId='" + userId + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || this.getClass() != object.getClass()) return false;
+
+        ShippingProfile other = (ShippingProfile) object;
+
+        return new EqualsBuilder()
+                .append(this.getId(), other.getId())
+                .append(this.getAddress(), other.getAddress())
+                .append(this.getPerson(), other.getPerson())
+                .append(this.getDocument(), other.getDocument())
+                .append(this.getPhone(), other.getPhone())
+                .append(this.getUserId(), other.getUserId())
+                .isEquals();
+    }
+
 
 }
