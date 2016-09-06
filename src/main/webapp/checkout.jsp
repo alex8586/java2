@@ -42,7 +42,7 @@
                         </div>
                         <hr style="color: whitesmoke">
                         <div class="row">
-                            <form action="order" method="post">
+                            <form action="checkout" method="post">
                                 <c:if test="${not empty requestScope.model.shippingProfiles}">
                                     <div class="input-field col s12">
                                         <select id="list">

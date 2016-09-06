@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "orders")
 public class Order implements BaseEntity {
+
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
