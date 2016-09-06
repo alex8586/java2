@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class PendingOrderServiceImpl implements PendingOrderService {
+public class CheckoutServiceImpl implements CheckoutService {
 
     @Autowired
     private UserProvider userProvider;
