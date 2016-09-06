@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CartService;
 import lv.javaguru.java2.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 public class CartController extends MVCController {
 
     @Autowired
-    CartService cartService;
+    private CartService cartService;
+    @Autowired
+    private CartProvider cartProvider;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -39,7 +42,11 @@ public class CartController extends MVCController {
             return new MVCModel("/index");
         }
         if (request.getParameter("buy") != null) {
-            return new MVCModel("/index");
+            if(cartProvider.isEmpty()){
+                return new MVCModel("/index");
+            }
+
+            return new MVCModel("/order");
         }
         return new MVCModel("/index");
     }

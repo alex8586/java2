@@ -8,4 +8,5 @@ public interface CartProvider {
 
     void setCart(Cart cart);
 
+    boolean isEmpty();
 }

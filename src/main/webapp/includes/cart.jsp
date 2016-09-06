@@ -55,7 +55,8 @@
 </div>
 
 <hr>
-<button class="btn waves-effect waves-light" type="submit" name="buy">Buy
-    <i class="material-icons right">send</i>
-</button>
-
+<form action="cart" method="post">
+    <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
+        <i class="material-icons right">payment</i>
+    </button>
+</form>

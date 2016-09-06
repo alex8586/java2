@@ -25,4 +25,9 @@ public class SessionCartProvider implements CartProvider {
         this.cart = cart;
     }
 
+    @Override
+    public boolean isEmpty(){
+        return cart.getAll().isEmpty();
+    }
+
 }
