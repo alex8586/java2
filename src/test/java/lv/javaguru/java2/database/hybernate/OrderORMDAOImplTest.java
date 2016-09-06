@@ -7,6 +7,7 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.order.Order;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -81,66 +83,15 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
     @Override
     protected void compareRecords(Order order1, Order order2) {
         assertEquals(order1.getId(), order2.getId());
+        assertEquals(order1.getUserId(), order2.getUserId());
+        assertEquals(order1.getAddress(), order2.getAddress());
+        assertEquals(DateUtils.truncate(order1.getDeliveryDate(), Calendar.DATE),
+                DateUtils.truncate(order2.getDeliveryDate(), Calendar.DATE));
+        assertEquals(DateUtils.truncate(order1.getOrderDate(), Calendar.DATE),
+                DateUtils.truncate(order2.getOrderDate(), Calendar.DATE));
+        assertEquals(order1.getDocument(), order2.getDocument());
+        assertEquals(order1.getPerson(), order2.getPerson());
+        assertEquals(order1.getPhone(), order2.getPhone());
+        assertEquals(order1.getTotal(), order2.getTotal());
     }
-
-
-    /*
-    @Autowired
-    SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("ORM_ProductDAO")
-    ProductDAO productDAO;
-
-    @Qualifier("ORM_CategoryDAO")
-    @Autowired
-    private CategoryDAO categoryDAO;
-
-    @Transactional
-    @Rollback(false)
-    @Test
-    public void test() {
-
-        Category category = new Category();
-        category.setName("name");
-        categoryDAO.create(category);
-
-        Random random = new Random();
-        Product product = new Product();
-        product.setName("name" + random.nextInt(100000));
-        product.setDescription("description" + random.nextInt(100000));
-        product.setPrice(random.nextInt(100000));
-        product.setCategoryId(category.getId());
-        product.setImgUrl("imgpath");
-        productDAO.create(product);
-
-
-        Order order = new Order();
-        order.setAddress("addr");
-        order.setDocument("doc");
-        order.setPerson("pers");
-        order.setPhone("phone");
-        order.setTotal(9001);
-        order.setOrderDate(new Date());
-        order.setDeliveryDate(new Date());
-
-        OrderLine line = new OrderLine();
-        line.setName("line");
-        line.setPrice(123);
-        line.setExpireDate(new Date());
-        line.setProductId(product.getId());
-        line.setDescription("dewc");
-        line.setOrder(order);
-
-        Set<OrderLine> lines = new HashSet<OrderLine>();
-        lines.add(line);
-        order.setOrderLines(lines);
-
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(order);
-        session.flush();
-        System.out.println(order);
-        System.out.println(order.getId());
-    }
-    */
 }

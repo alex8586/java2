@@ -113,7 +113,6 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
         Stock stock = newRecord();
         fillRecordWithData(stock);
         stock.setExpireDate(new Date(dayAfterTomorrow.getTime() - (1000 * 60 * 60 * 196)));
-        System.out.println(stock.getExpireDate());
         dao.create(stock);
         assertEquals(42, dao.countExpiredByProduct(product, today));
         recordFromDAO.setExpireDate(stock.getExpireDate());
