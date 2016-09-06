@@ -13,8 +13,8 @@
                             In your cart:
                             <hr style="color: orange; width: 200px ">
                         </div>
-                        <c:if test="${not empty sessionScope.cart}">
-                        <c:forEach var="cart" items="${sessionScope.cart.all}">
+                <c:if test="${not empty requestScope.checkoutCart}">
+                    <c:forEach var="cart" items="${requestScope.checkoutCart.all}">
                         <div class="row">
                             <div class="col s2">
                                 <img src="${cart.key.imgUrl}" height="50" width="50">
@@ -37,7 +37,7 @@
                                 <b>Total :</b>
                             </div>
                             <div class="col s2 center-align">
-                                <b>${sessionScope.cartPrice}&#8364</b>
+                                <b>${requestScope.checkoutCart.totalPrice}&#8364</b>
                             </div>
                         </div>
                         <hr style="color: whitesmoke">

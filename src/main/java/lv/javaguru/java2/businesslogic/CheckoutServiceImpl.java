@@ -38,7 +38,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             data.put("shippingProfiles", shippingProfiles);
         }
         data.put("user", user);
-        data.put("pendingOrderCart", pendingOrder.getCart());
+        data.put("checkoutCart", pendingOrder.getCart());
         return data;
     }
 }

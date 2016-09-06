@@ -16,7 +16,7 @@ public class CheckoutController extends MVCController {
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         Map<String, Object> data = checkoutService.serve();
-        return new MVCModel(data, "/order.jsp");
+        return new MVCModel(data, "/checkout.jsp");
     }
 
     @Override
