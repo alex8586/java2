@@ -30,18 +30,21 @@ public abstract class CrudDAOTest<RecordClass extends BaseEntity, DAOClass exten
     protected DAOClass dao;
     protected DatabaseCleaner cleaner = new DatabaseCleaner();
 
-    //protected abstract RecordClass newRecord();
     protected abstract void fillRecordWithData(RecordClass record);
     protected abstract void makeChangesInRecord(RecordClass record1);
-    protected abstract void compareRecords(RecordClass record1, RecordClass record2);
+
+    //protected abstract void compareRecords(RecordClass record1, RecordClass record2);
+    protected void compareRecords(RecordClass record1, RecordClass record2) {
+        assertEquals(record1, record2);
+    }
 
     protected final RecordClass newRecord() {
         Class aClass = ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
         try {
             return (RecordClass) aClass.newInstance();
         } catch (Exception e) {
+            throw new RuntimeException();
         }
-        return null;
     }
 
     protected void insertRandomDummyRecords(int count) {
