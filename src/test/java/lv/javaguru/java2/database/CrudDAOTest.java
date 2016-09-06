@@ -30,11 +30,8 @@ public abstract class CrudDAOTest<RecordClass extends BaseEntity, DAOClass exten
     protected DatabaseCleaner cleaner = new DatabaseCleaner();
 
     protected abstract RecordClass newRecord();
-
     protected abstract void fillRecordWithData(RecordClass record);
-
     protected abstract void makeChangesInRecord(RecordClass record1);
-
     protected abstract void compareRecords(RecordClass record1, RecordClass record2);
 
     protected void insertRandomDummyRecords(int count) {

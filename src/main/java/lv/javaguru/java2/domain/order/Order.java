@@ -3,9 +3,9 @@ package lv.javaguru.java2.domain.order;
 import lv.javaguru.java2.domain.BaseEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -42,14 +42,14 @@ public class Order implements BaseEntity {
     @Column(name = "user_id")
     private long userId;
 
-    @OneToMany(targetEntity = OrderLine.class, mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<OrderLine> orderLines = new ArrayList<OrderLine>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrderLine> orderLines = new HashSet<>();
 
-    public List<OrderLine> getOrderLines() {
+    public Set<OrderLine> getOrderLines() {
         return this.orderLines;
     }
 
-    public void setOrderLines(List<OrderLine> orderLines) {
+    public void setOrderLines(Set<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
 

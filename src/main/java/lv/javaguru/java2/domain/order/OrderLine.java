@@ -14,28 +14,31 @@ public class OrderLine implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
-
     @Column(name = "product_id")
     private long productId;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "price")
     private long price;
-
     @Column(name = "quantity")
     private long quantity;
-
     @Column(name = "expire_date")
     @Temporal(TemporalType.DATE)
     private Date expireDate;
+
+    public Order getOrder() {
+        return this.order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public long getId() {
         return id;
