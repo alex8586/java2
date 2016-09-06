@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class OrderServiceImpl implements OrderService {
+public class PendingOrderServiceImpl implements PendingOrderService {
 
     @Autowired
     private UserProvider userProvider;
@@ -22,20 +22,23 @@ public class OrderServiceImpl implements OrderService {
     private ShippingProfileDAO shippingProfileDAO;
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
+    @Autowired
+    private PendingOrder pendingOrder;
 
     @Override
-    public Map<String, Object> getOrder() {
-        Map<String, Object> orderService = new HashMap<>();
+    public Map<String, Object> serve() {
+        Map<String, Object> data = new HashMap<>();
 
         Product product = specialSaleOffer.getOffer();
-        orderService.put("saleOffer", product);
+        data.put("saleOffer", product);
 
         User user = userProvider.getUser();
         if (user != null) {
             List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
-            orderService.put("shippingProfiles", shippingProfiles);
+            data.put("shippingProfiles", shippingProfiles);
         }
-        orderService.put("user", user);
-        return orderService;
+        data.put("user", user);
+        data.put("pendingOrderCart", pendingOrder.getCart());
+        return data;
     }
 }

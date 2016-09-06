@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.OrderService;
+import lv.javaguru.java2.businesslogic.PendingOrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +11,12 @@ import java.util.Map;
 public class OrderController extends MVCController {
 
     @Autowired
-    private OrderService orderService;
+    private PendingOrderServiceImpl orderService;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> orderData = orderService.getOrder();
-        return new MVCModel(orderData, "/order.jsp");
+        Map<String, Object> data = orderService.serve();
+        return new MVCModel(data, "/order.jsp");
     }
 
     @Override
