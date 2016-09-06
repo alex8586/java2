@@ -49,7 +49,7 @@ public class CartController extends MVCController {
                 return new MVCModel("/index");
             }
             pendingOrder.setCart(cartProvider.getCart());
-            return new MVCModel("/order");
+            return new MVCModel("/checkout");
         }
         return new MVCModel("/index");
     }

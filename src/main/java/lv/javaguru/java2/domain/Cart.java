@@ -29,6 +29,10 @@ public class Cart {
         return result;
     }
 
+    public long getTotalPrice() {
+        return getTotalPrice(this);
+    }
+
     public void add(Product product) {
         add(product, 1);
     }
