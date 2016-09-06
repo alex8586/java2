@@ -46,12 +46,12 @@
                                 <c:if test="${not empty requestScope.model.shippingProfiles}">
                                     <div class="input-field col s12">
                                         <select id="list">
-                                            <option value="empty">select profile to edit</option>
+                                            <option value="empty">select profile</option>
                                             <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
                                                 <option value="${shippingProfile.id}">${shippingProfile.address} ${shippingProfile.person}</option>
                                             </c:forEach>
                                         </select>
-                                        <label>Enter new shipping profile , or add </label>
+                                        <label>choose from existing shipping profiles </label>
                                     </div>
                                     <script>
 
