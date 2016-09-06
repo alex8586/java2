@@ -53,10 +53,6 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         super.before();
     }
 
-    @Override
-    protected Order newRecord() {
-        return new Order();
-    }
 
     @Override
     protected void fillRecordWithData(Order order) {

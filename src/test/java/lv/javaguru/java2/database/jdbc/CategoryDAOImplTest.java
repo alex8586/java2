@@ -16,10 +16,6 @@ public class CategoryDAOImplTest extends CrudJdbcDAOTest<Category, CategoryDAOIm
     @Autowired
     ProductDAOImpl productDAO;
 
-    @Override
-    protected Category newRecord() {
-        return new Category();
-    }
 
     @Override
     protected void compareRecords(Category category1, Category category2) {

@@ -49,10 +49,6 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
         super.before();
     }
 
-    @Override
-    protected Stock newRecord() {
-        return new Stock();
-    }
 
     @Override
     protected void fillRecordWithData(Stock record) {

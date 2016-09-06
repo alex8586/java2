@@ -17,11 +17,6 @@ public class CategoryORMDAOImplTest extends CrudHybernateDAOTest<Category, Categ
     ProductORMDAOImpl productDAO;
 
     @Override
-    protected Category newRecord() {
-        return new Category();
-    }
-
-    @Override
     protected void compareRecords(Category category1, Category category2) {
         assertEquals(category1.getId(), category2.getId());
         assertEquals(category1.getName(), category2.getName());

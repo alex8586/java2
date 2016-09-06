@@ -30,10 +30,6 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
     private Category anotherCategory = new Category();
     private Random random = new Random();
 
-    @Override
-    protected Product newRecord() {
-        return new Product();
-    }
 
     @Override
     protected void compareRecords(Product product1, Product product2) {

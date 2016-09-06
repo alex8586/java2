@@ -17,10 +17,6 @@ public class UserDAOImplTest extends CrudJdbcDAOTest<User, UserDAOImpl> {
         super.before();
     }
 
-    @Override
-    protected User newRecord() {
-        return new User();
-    }
 
     @Override
     protected void compareRecords(User user1, User user2) {

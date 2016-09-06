@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Random;
 
@@ -29,10 +30,19 @@ public abstract class CrudDAOTest<RecordClass extends BaseEntity, DAOClass exten
     protected DAOClass dao;
     protected DatabaseCleaner cleaner = new DatabaseCleaner();
 
-    protected abstract RecordClass newRecord();
+    //protected abstract RecordClass newRecord();
     protected abstract void fillRecordWithData(RecordClass record);
     protected abstract void makeChangesInRecord(RecordClass record1);
     protected abstract void compareRecords(RecordClass record1, RecordClass record2);
+
+    protected final RecordClass newRecord() {
+        Class aClass = ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+        try {
+            return (RecordClass) aClass.newInstance();
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
     protected void insertRandomDummyRecords(int count) {
         for (int i = 0; i < count; i++) {

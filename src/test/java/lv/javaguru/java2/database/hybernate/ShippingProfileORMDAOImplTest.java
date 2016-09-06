@@ -32,10 +32,6 @@ public class ShippingProfileORMDAOImplTest extends CrudHybernateDAOTest<Shipping
         super.before();
     }
 
-    @Override
-    protected ShippingProfile newRecord() {
-        return new ShippingProfile();
-    }
 
     @Override
     protected void compareRecords(ShippingProfile shippingProfile1, ShippingProfile shippingProfile2) {

@@ -19,11 +19,6 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
     private Category anotherCategory = new Category();
 
     @Override
-    protected Product newRecord() {
-        return new Product();
-    }
-
-    @Override
     protected void compareRecords(Product product1, Product product2) {
         assertEquals(product1.getId(), product2.getId());
         assertEquals(product1.getName(), product2.getName());
