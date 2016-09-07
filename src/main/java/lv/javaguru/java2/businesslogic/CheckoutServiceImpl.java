@@ -1,30 +1,51 @@
-package lv.javaguru.java2.businesslogic.order;
+package lv.javaguru.java2.businesslogic;
 
-import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.database.OrderDAO;
+import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
+import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.domain.order.OrderLine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
-public class OrderServiceImpl implements OrderService {
+public class CheckoutServiceImpl implements CheckoutService {
 
     @Autowired
-    UserProvider userProvider;
+    private UserProvider userProvider;
+    @Autowired
+    private CartProvider cartProvider;
+    @Qualifier("ORM_ShippingProfileDAO")
+    @Autowired
+    private ShippingProfileDAO shippingProfileDAO;
+    @Autowired
+    private SpecialSaleOffer specialSaleOffer;
 
     @Autowired
-    OrderDAO orderDAO;
+    private OrderDAO orderDAO;
 
-    public Order create(Cart cart, ShippingProfile shippingProfile) {
+    @Override
+    public Map<String, Object> serve() {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("saleOffer", specialSaleOffer.getOffer());
+        User user = userProvider.getUser();
+        if (user != null) {
+            List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
+            data.put("shippingProfiles", shippingProfiles);
+        }
+        data.put("user", user);
+        data.put("checkoutCart", cartProvider.getCart());
+        return data;
+    }
+
+    public Order createOrder(Cart cart, ShippingProfile shippingProfile) {
         Order order = new Order();
         order.setPhone(shippingProfile.getPhone());
         order.setAddress(shippingProfile.getAddress());

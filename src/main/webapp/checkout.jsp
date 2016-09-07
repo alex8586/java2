@@ -42,9 +42,7 @@
                         </div>
                         <hr style="color: whitesmoke">
                         <div class="row">
-                            <form action="checkout" method="post">
-                                <input id="hashcode" type="hidden" name="hashcode"
-                                       value="${requestScope.model.checkoutCart.hashCode}">
+                            <form action="<tags:linkTo controller="Checkout"/>" method="post">
                                 <c:if test="${not empty requestScope.model.shippingProfiles}">
                                     <div class="input-field col s12">
                                         <select id="list">
@@ -88,6 +86,8 @@
                                     </script>
                                 </c:if>
                                 <div class="row">
+                                    <input id="hashcode" type="hidden" name="hashcode"
+                                           value="${requestScope.model.checkoutCart.hashCode}">
                                     <input id="profileId" type="hidden" class="validate" name="profileId">
                                     <div class="input-field col s12">
                                         <input id="address" type="text" class="validate" name="address">

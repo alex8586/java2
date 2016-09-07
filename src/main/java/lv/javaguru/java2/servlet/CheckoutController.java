@@ -1,9 +1,9 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.CartProvider;
-import lv.javaguru.java2.businesslogic.order.CheckoutService;
-import lv.javaguru.java2.businesslogic.order.OrderService;
-import lv.javaguru.java2.businesslogic.order.PendingOrder;
+import lv.javaguru.java2.businesslogic.CheckoutService;
+import lv.javaguru.java2.businesslogic.ShippingProfileService;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailFormatValidationService;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.order.Order;
@@ -16,19 +16,12 @@ import java.util.Map;
 @Component
 public class CheckoutController extends MVCController {
     private final String EMPTY_FIELDS = "All fields must be filled";
-
-
     @Autowired
-    private CartProvider cartProvider;
+    ShippingProfileService shippingProfileService;
     @Autowired
     private CheckoutService checkoutService;
-
     @Autowired
-    private PendingOrder pendingOrder;
-
-    @Autowired
-    private OrderService orderService;
-
+    private CartProvider cartProvider;
     @Autowired
     private ShippingDetailFormatValidationService shippingDetailFormatValidationService;
 
@@ -41,7 +34,7 @@ public class CheckoutController extends MVCController {
     @Override
     public MVCModel executePost(HttpServletRequest request) {
 
-        if (pendingOrder.getCart().hashCode() != Long.valueOf(request.getParameter("hashcode")))
+        if (cartProvider.getCart().hashCode() != Long.valueOf(request.getParameter("hashcode")))
             return redirectTo(CheckoutController.class);
 
         ShippingProfile shippingProfile = new ShippingProfile();
@@ -49,6 +42,15 @@ public class CheckoutController extends MVCController {
         shippingProfile.setPerson(request.getParameter("person"));
         shippingProfile.setDocument(request.getParameter("document"));
         shippingProfile.setPhone(request.getParameter("phone"));
+        if (request.getParameter("profileId") != null) {
+            try {
+                long profileId = Long.valueOf(request.getParameter("profileId"));
+                if (profileId > 0)
+                    shippingProfile.setId(profileId);
+            } catch (NumberFormatException e) {
+
+            }
+        }
 
         try {
             shippingDetailFormatValidationService.validate(shippingProfile);
@@ -56,9 +58,18 @@ public class CheckoutController extends MVCController {
             request.getSession().setAttribute("profileError", EMPTY_FIELDS);
             return redirectTo(CheckoutController.class);
         }
-        Order order = orderService.create(cartProvider.getCart(), shippingProfile);
+
+        Order order = checkoutService.createOrder(cartProvider.getCart(), shippingProfile);
+        cartProvider.empty();
+        request.getSession().removeAttribute("cart");
+        request.getSession().removeAttribute("cartPrice");
+
+        try {
+            if (shippingProfile.getId() == 0)
+                shippingProfileService.save(shippingProfile);
+        } catch (ServiceException e) {
+
+        }
         return redirectTo(ProfileHistoryController.class);
     }
-
-
 }

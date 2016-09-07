@@ -30,4 +30,9 @@ public class SessionCartProvider implements CartProvider {
         return cart.getAll().isEmpty();
     }
 
+    @Override
+    public void empty() {
+        this.cart = null;
+    }
+
 }

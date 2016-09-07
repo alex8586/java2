@@ -2,7 +2,6 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CartService;
-import lv.javaguru.java2.businesslogic.order.PendingOrder;
 import lv.javaguru.java2.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,6 @@ public class CartController extends MVCController {
     private CartService cartService;
     @Autowired
     private CartProvider cartProvider;
-    @Autowired
-    private PendingOrder pendingOrder;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -48,7 +45,6 @@ public class CartController extends MVCController {
             if(cartProvider.isEmpty()){
                 return new MVCModel("/index");
             }
-            pendingOrder.setCart(cartProvider.getCart());
             return new MVCModel("/checkout");
         }
         return new MVCModel("/index");

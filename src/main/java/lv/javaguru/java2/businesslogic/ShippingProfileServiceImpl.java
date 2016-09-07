@@ -42,6 +42,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
+        System.out.println(shippingDetailFormatValidationService);
         if (!shippingDetailFormatValidationService.validate(shippingProfile)) {
             throw new IllegalStateException();
         }
