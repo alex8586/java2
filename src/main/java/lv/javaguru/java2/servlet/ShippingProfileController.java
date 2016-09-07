@@ -1,12 +1,11 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.ShippingProfileService;
+import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.businesslogic.serviceexception.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
-import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,13 @@ import java.util.Map;
 public class ShippingProfileController extends MVCController {
 
     @Autowired
-    private ShippingProfileDAOImpl shippingProfileDAO;
-    @Autowired
-    private SpecialSaleOffer specialSaleOffer;
     ShippingProfileService shippingProfileService;
-
     @Autowired
     Error error;
-
     @Autowired
     UserProvider userProvider;
+    @Autowired
+    private SpecialSaleOffer specialSaleOffer;
 
     public MVCModel executeGet(HttpServletRequest request) {
         List<ShippingProfile> shippingProfiles = null;
