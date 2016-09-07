@@ -1,5 +1,7 @@
 package lv.javaguru.java2.config;
 
+import lv.javaguru.java2.database.CategoryDAO;
+import lv.javaguru.java2.helpers.CategoryTree;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -88,5 +90,13 @@ public class SpringConfig {
     public PlatformTransactionManager transactionManager(SessionFactory sessionFactory) {
         return new HibernateTransactionManager(sessionFactory);
     }
+
+
+    @Bean
+    public CategoryTree categoryTree(@Qualifier("ORM_CategoryDAO") CategoryDAO categoryDAO) {
+        return new CategoryTree(categoryDAO.getAll());
+    }
+
+
 
 }

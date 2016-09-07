@@ -28,6 +28,7 @@ public class Router implements Filter {
         }
         pathResolver = springContext.getBean(PathResolver.class);
 
+        addController("/cart", CartController.class);
         addController("/index", FrontPageController.class);
         addController("/index/category", CategoryChooseController.class);
         addController("/register", RegistrationController.class);

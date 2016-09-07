@@ -1,6 +1,8 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.database.jdbc.ShippingProfileDAOImpl;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class ShippingProfileController extends MVCController {
 
     @Autowired
     private ShippingProfileDAOImpl shippingProfileDAO;
+    @Autowired
+    private SpecialSaleOffer specialSaleOffer;
 
     public MVCModel executeGet(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -28,6 +32,8 @@ public class ShippingProfileController extends MVCController {
         ShippingProfile profile = new ShippingProfile();
         map.put("shippingProfiles", shippingProfiles);
 
+        Product product = specialSaleOffer.getOffer();
+        map.put("saleOffer", product);
         map.put("user", user);
         return new MVCModel(map, "/shippingProfiles.jsp");
     }

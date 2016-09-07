@@ -1,10 +1,60 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<h4> Hello, user !</h4>
-<h5>In your cart:</h5>
-<h6>Водолазная маска 3.75 &#8364</h6>
-<h6>Чайный сервиз 21.16 &#8364</h6>
-<h6><b>Total sum: 24.91 &#8364</b></h6>
+
+<div class="center-align">
+    <h5 style="color: orange">In your cart :</h5>
+</div>
+    <c:if test="${not empty sessionScope.cart}">
+        <c:forEach var="cart" items="${sessionScope.cart.all}">
+    <div class="row">
+
+        <div>
+            <div class="col s8 left">
+                    ${cart.key.name}
+            </div>
+            <div class="col s4 right-align">
+                    ${cart.key.price}&#8364
+            </div>
+        </div>
+   </div>
+
+        <div class="row">
+            <div class="col s6 left">
+                <form action="cart" method="post">
+                    <div style="display: inline-block">
+                        <input type="hidden" name="productId" value="${cart.key.id}">
+                        <input type="submit" name="remove" value="-">
+                    </div>
+                    <div style="display: inline-block">
+                        <input type="hidden" name="productId" value="${cart.key.id}">
+                        <input type="submit" name="add" value="+">
+                    </div>
+                </form>
+            </div>
+            <div class="col s6 right-align">
+                    ${cart.value}
+                <small>items</small>
+            </div>
+        </div>
+        </c:forEach>
+</c:if>
+<div class="row">
+    <div class="col s6 left-align">
+        Total :
+    </div>
+    <div class="col s6 right-align">
+        <c:if test="${empty sessionScope.cartPrice}">
+            0 &#8364
+        </c:if>
+        <c:if test="${not empty sessionScope.cartPrice}">
+            ${sessionScope.cartPrice}&#8364
+        </c:if>
+    </div>
+</div>
+
+<hr>
 <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
     <i class="material-icons right">send</i>
 </button>

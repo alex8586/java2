@@ -1,11 +1,33 @@
 package lv.javaguru.java2.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class Cart {
 
-    private HashMap<Product, Integer> items = new HashMap<>();
+    private HashMap<Product, Integer> items;
+
+    public Cart(){
+        this.items = new HashMap<>();
+    }
+
+    public HashMap<Product, Integer> getAll(){
+        return items;
+    }
+
+    public long getTotalPrice(Cart cart) {
+        long result = 0;
+        if (cart == null)
+            return 0;
+        HashMap<Product, Integer> map = cart.getAll();
+        for (Map.Entry<Product, Integer> entry : map.entrySet()) {
+            result += entry.getKey().getPrice() * entry.getValue();
+        }
+        return result;
+    }
 
     public void add(Product product) {
         add(product, 1);

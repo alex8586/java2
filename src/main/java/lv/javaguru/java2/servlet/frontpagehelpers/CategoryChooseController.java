@@ -23,6 +23,8 @@ public class CategoryChooseController extends MVCController {
         long categoryId = Long.valueOf(request.getParameter("id"));
         Category category = categoryDAO.getById(categoryId);
         if (category != null) {
+            if (category.getFather_id() == 0)
+                request.getSession().removeAttribute("currentCategory");
             request.getSession().setAttribute("currentCategory", category);
         }
         return redirectTo(FrontPageController.class);

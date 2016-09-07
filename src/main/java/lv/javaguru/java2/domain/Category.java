@@ -50,7 +50,7 @@ public class Category implements BaseEntity {
 
     @Override
     public String toString() {
-        return "Category{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "Category{" + "id=" + id + ", name='" + name + "',fid= " + father_id + '}';
     }
 
     @Override

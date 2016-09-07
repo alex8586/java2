@@ -51,4 +51,5 @@ public class CategoryORMDAOImpl implements CategoryDAO {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Category.class).list();
     }
+
 }

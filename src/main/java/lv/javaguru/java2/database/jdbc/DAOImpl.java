@@ -167,8 +167,4 @@ public abstract class DAOImpl<T extends BaseEntity> extends JdbcConnector {
         }
         return entityList;
     }
-
-
-
-
 }

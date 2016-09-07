@@ -1,24 +1,20 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Component
 public class ProfileHistoryController extends MVCController {
 
     @Autowired
-    @Qualifier("JDBC_ProductDAO")
-    private ProductDAO productDAO;
+    private SpecialSaleOffer specialSaleOffer;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -29,18 +25,8 @@ public class ProfileHistoryController extends MVCController {
         User user = (User) request.getSession().getAttribute("user");
         Map<String, Object> map = new HashMap<String, Object>();
 
-        String imgPath;
-        int bannerId;
-        List<Product> productList = productDAO.getAll();
-        if (productList.size() == 0) {
-            imgPath = "miskaweb/img/default.jpg";
-        } else {
-            Random random = new Random();
-            bannerId = random.nextInt(productList.size());
-            imgPath = productList.get(bannerId).getImgUrl();
-        }
-
-        map.put("imgPath", imgPath);
+        Product product = specialSaleOffer.getOffer();
+        map.put("saleOffer", product);
         map.put("user", user);
 
         return new MVCModel(map, "/profile_history.jsp");

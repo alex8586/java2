@@ -2,13 +2,18 @@ package lv.javaguru.java2.database.jdbc;
 
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.helpers.CategoryTree;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl> {
+
+    @Mock
+    CategoryTree categoryTree;
 
     private Category category = new Category();
     private Category anotherCategory = new Category();
@@ -24,6 +29,7 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
         assertEquals(product1.getName(), product2.getName());
         assertEquals(product1.getDescription(), product2.getDescription());
         assertEquals(product1.getPrice(), product2.getPrice());
+        assertEquals(product1.getImgUrl(), product2.getImgUrl());
         assertEquals(product1.getCategoryId(), product2.getCategoryId());
     }
 
@@ -32,6 +38,7 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
         product.setName("name" + random.nextInt(100000));
         product.setDescription("description" + random.nextInt(100000));
         product.setPrice(random.nextInt(100000));
+        product.setImgUrl("pic");
         product.setCategoryId(category.getId());
     }
 
@@ -41,6 +48,7 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
         product.setName(product.getName() + "prim");
         product.setDescription("booz" + product.getDescription());
         product.setCategoryId(anotherCategory.getId());
+        product.setImgUrl("img");
     }
 
     @Before
@@ -66,4 +74,11 @@ public class ProductDAOImplTest extends CrudJdbcDAOTest<Product, ProductDAOImpl>
         dao.create(anotherProduct);
         assertEquals(2, dao.getAllByCategory(category).size());
     }
+
+    @Test
+    public void getRandomProduct() {
+        Product product = dao.getRandomProduct();
+        assertEquals(product, recordFromDAO);
+    }
+
 }
