@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-/**
- * Created by algis on 16.7.9.
- */
+
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Component
 public class PendingOrderImpl implements PendingOrder {
@@ -27,7 +25,9 @@ public class PendingOrderImpl implements PendingOrder {
         }
     }
 
+
     public boolean isPending() {
         return this.cart != null;
     }
+
 }

@@ -41,6 +41,10 @@ public class CheckoutController extends MVCController {
 
     @Override
     public MVCModel executePost(HttpServletRequest request) {
+
+        if (pendingOrder.getCart().hashCode() != Long.valueOf(request.getParameter("hashcode")))
+            return redirectTo(CheckoutController.class);
+
         ShippingProfile shippingProfile = buildShippingProfileFromRequest(request);
         if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
                 shippingProfile.getPhone().isEmpty() || shippingProfile.getDocument().isEmpty()) {

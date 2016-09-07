@@ -43,6 +43,8 @@
                         <hr style="color: whitesmoke">
                         <div class="row">
                             <form action="checkout" method="post">
+                                <input id="hashcode" type="hidden" name="hashcode"
+                                       value="${requestScope.model.checkoutCart.hashCode}">
                                 <c:if test="${not empty requestScope.model.shippingProfiles}">
                                     <div class="input-field col s12">
                                         <select id="list">

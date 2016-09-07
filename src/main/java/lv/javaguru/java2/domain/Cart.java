@@ -88,4 +88,10 @@ public class Cart {
         }
     }
 
+    public long getHashCode() {
+        return this.hashCode();
+    }
+
+
+
 }
