@@ -74,6 +74,13 @@ public class StockORMDAOImpl implements StockDAO {
         return countProductWithCriteria(product, expression);
     }
 
+    public List<Stock> expiredByDateRange(Date start, Date end){
+        Session session = sessionFactory.getCurrentSession();
+        return (List<Stock>)session.createCriteria(Stock.class)
+                .add(Restrictions.ge("expireDate", start))
+                .add(Restrictions.le("expireDate", end)).list();
+    }
+
     private long countProductWithCriteria(Product product, SimpleExpression expression) {
         if (expression.getValue() == null)
             throw new NullPointerException("date = null");

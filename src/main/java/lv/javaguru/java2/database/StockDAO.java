@@ -13,4 +13,5 @@ public interface StockDAO extends CrudDAO<Stock> {
 
     long countExpiredByProduct(Product product, Date date);
 
+    List<Stock> expiredByDateRange(Date start, Date end);
 }

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAOImpl> {
@@ -76,7 +78,6 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
 
     @Test
     public void testCountOnUnexistingProductReturnsZero() {
-        Product bad = new Product();
         product.setId(-1);
         assertEquals(0, dao.countExpiredByProduct(product, today));
         assertEquals(0, dao.countFreshByProduct(product, today));
@@ -116,6 +117,37 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
         dao.update(recordFromDAO);
         assertEquals(51, dao.countExpiredByProduct(product, today));
         assertEquals(0, dao.countFreshByProduct(product, today));
+    }
+
+    @Test
+    public void expiredByDateRangeTest(){
+        Stock stock = newRecord();
+        fillRecordWithData(stock);
+
+        Stock yesterday = new Stock();
+        yesterday.setProductId(otherProduct.getId());
+        yesterday.setQuantity(32);
+        Date yesterdayDate = new Date(today.getTime() - (1000 * 60 * 60 * 24));
+        yesterday.setExpireDate(yesterdayDate);
+        dao.create(yesterday);
+        long yesterdayId = yesterday.getId();
+
+        Stock thirdStock = new Stock();
+        thirdStock.setProductId(otherProduct.getId());
+        thirdStock.setQuantity(87);
+        Date tomorrow = new Date(today.getTime() + 1000 * 60 * 60 *24);
+        thirdStock.setExpireDate(tomorrow);
+        dao.create(thirdStock);
+
+        Date from = new Date(today.getTime());
+        Date till = new Date(today.getTime() + (1000 * 60 * 60 * 72));
+        List<Stock> list = dao.expiredByDateRange(from, till);
+
+        assertTrue(list.size() == 2);
+        for(Stock stock1 : list){
+            assertTrue(stock1.getId() != yesterdayId);
+        }
+
     }
 
 }
