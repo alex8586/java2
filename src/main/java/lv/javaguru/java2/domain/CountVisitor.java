@@ -15,7 +15,7 @@ public class CountVisitor implements BaseEntity{
     private long productId;
 
     @Column(name="counter")
-    private long counter;
+    private int counter;
 
     @Column(name = "ip")
     private String ip;
@@ -42,11 +42,11 @@ public class CountVisitor implements BaseEntity{
         this.productId = productId;
     }
 
-    public long getCounter() {
+    public int getCounter() {
         return counter;
     }
 
-    public void setCounter(long counter) {
+    public void setCounter(int counter) {
         this.counter = counter;
     }
 
