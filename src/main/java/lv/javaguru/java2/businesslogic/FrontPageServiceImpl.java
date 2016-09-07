@@ -16,9 +16,6 @@ import java.util.Map;
 public class FrontPageServiceImpl implements FrontPageService {
 
     @Autowired
-    CategoryTree categoryTree;
-
-    @Autowired
     UserProvider userProvider;
     @Autowired
     ProductService productService;
@@ -27,12 +24,15 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
+    @Autowired
+    private CategoryTree categoryTree;
 
     public Map<String, Object> serve(Category category) {
 
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         List<Product> productList = null;
         Product offer;
+
         if (category == null) {
             productList = productService.getAll();
             offer = specialSaleOffer.getOffer();

@@ -6,7 +6,8 @@
             ${productCard.productName}
         </div>
         <div class="card-image">
-            <a href="product?id=${productCard.id}"><img src="${productCard.imgUrl}" height="130" width="130"></a>
+            <a href="<tags:linkTo controller="ProductController" />"><img src="${productCard.productImgUrl}"
+                                                                          height="130" width="130"></a>
         </div>
         <div class="card-content left-align">
             <p>${productCard.productDescription}</p>
@@ -18,8 +19,7 @@
             Stock: ${productCard.stockQuantity}
         </div>
         <div class="card-action center">
-            <a href="<tags:linkTo controller="ProductController" resourceId="${productCard.productId}" />">This is a
-                link</a>
+            <a href="<tags:linkTo controller="CartController" resourceId="${productCard.productId}" />">Add to cart</a>
         </div>
     </div>
 </div>

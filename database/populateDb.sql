@@ -27,8 +27,6 @@ INSERT INTO categories (id, name, father_id) VALUES (default, 'Sausages', 10);
 INSERT INTO products (id, name, description, imgurl, price, category_id)
 VALUES (default, 'Small Green apples', '', 'img/products/fruits/01/', 1.29, 2);
 
-INSERT INTO stock (id, product_id, quantity, expire_date) VALUES (DEFAULT, 1, 123, '2017-01-20');
-
 INSERT INTO products (id, name, description, imgurl, price, category_id)
 VALUES (default, 'Large Green Apples', '', 'img/products/fruits/02/', 1.11, 2);
 INSERT INTO products (id, name, description, imgurl, price, category_id)
@@ -127,3 +125,16 @@ UPDATE products
 SET products.description = CONCAT('desc for ', products.name);
 UPDATE products
 SET products.imgurl = "img/products/image_coming_soon.png";
+
+INSERT INTO stock (product_id, quantity, expire_date)
+
+  SELECT
+    products.id,
+    products.id * 10,
+    '2017-01-20'
+  FROM products;
+
+
+
+
+
