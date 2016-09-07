@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CartService;
-import lv.javaguru.java2.businesslogic.PendingOrder;
+import lv.javaguru.java2.businesslogic.order.PendingOrder;
 import lv.javaguru.java2.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

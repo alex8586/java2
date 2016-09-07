@@ -1,5 +1,7 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.order;
 
+import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
