@@ -2,6 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
+import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -28,6 +29,9 @@ public class CheckoutServiceImpl implements CheckoutService {
     private SpecialSaleOffer specialSaleOffer;
 
     @Autowired
+    private StockDAO stockDAO;
+
+    @Autowired
     private OrderDAO orderDAO;
 
     @Override
@@ -44,6 +48,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         data.put("checkoutCart", cartProvider.getCart());
         return data;
     }
+
 
     public Order createOrder(Cart cart, ShippingProfile shippingProfile) {
         Order order = new Order();
@@ -67,8 +72,10 @@ public class CheckoutServiceImpl implements CheckoutService {
             orderLine.setQuantity(cartLine.getValue());
             orderLine.setExpireDate(new Date());
             orderLine.setOrder(order);
+            //stockService.writeoff(cartLine.getKey,cartLine.getValue);
         }
         order.setOrderLines(orderLines);
+
         orderDAO.create(order);
         return order;
     }

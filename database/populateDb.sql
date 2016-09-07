@@ -127,7 +127,6 @@ UPDATE products
 SET products.imgurl = "img/products/image_coming_soon.png";
 
 INSERT INTO stock (product_id, quantity, expire_date)
-
   SELECT
     products.id,
     products.id * 10,
