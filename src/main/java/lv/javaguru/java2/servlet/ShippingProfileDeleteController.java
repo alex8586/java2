@@ -1,7 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.ShippingProfileService;
-import lv.javaguru.java2.businesslogic.serviceexception.Error;
+import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.domain.ShippingProfile;
 import org.springframework.beans.factory.annotation.Autowired;

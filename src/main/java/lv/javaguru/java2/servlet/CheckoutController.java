@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.CheckoutService;
 import lv.javaguru.java2.businesslogic.PendingOrder;
 import lv.javaguru.java2.businesslogic.UserProvider;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailFormatValidationService;
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -33,6 +34,9 @@ public class CheckoutController extends MVCController {
     @Autowired
     private UserProvider userProvider;
 
+    @Autowired
+    private ShippingDetailFormatValidationService shippingDetailFormatValidationService;
+
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         Map<String, Object> data = checkoutService.serve();
@@ -44,6 +48,7 @@ public class CheckoutController extends MVCController {
 
         if (pendingOrder.getCart().hashCode() != Long.valueOf(request.getParameter("hashcode")))
             return redirectTo(CheckoutController.class);
+
 
         ShippingProfile shippingProfile = buildShippingProfileFromRequest(request);
         if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||

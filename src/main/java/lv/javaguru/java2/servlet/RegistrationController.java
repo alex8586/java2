@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.UserRegistrationService;
-import lv.javaguru.java2.businesslogic.serviceexception.Error;
+import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;

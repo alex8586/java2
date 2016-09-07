@@ -1,4 +1,4 @@
-package lv.javaguru.java2.businesslogic.serviceexception;
+package lv.javaguru.java2.businesslogic.error;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;

@@ -1,4 +1,4 @@
-package lv.javaguru.java2.businesslogic.serviceexception;
+package lv.javaguru.java2.businesslogic.error;
 
 public interface Error {
     boolean isError();

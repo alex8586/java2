@@ -3,6 +3,7 @@ package lv.javaguru.java2.businesslogic;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
+import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.config.SpringConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

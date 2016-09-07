@@ -3,7 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.UserProvider;
-import lv.javaguru.java2.businesslogic.serviceexception.Error;
+import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.domain.Product;

@@ -3,7 +3,7 @@ package lv.javaguru.java2.businesslogic;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailFormatValidationService;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     @Qualifier("ORM_ShippingProfileDAO")
     ShippingProfileDAO shippingProfileDAO;
 
+    @Autowired
+    ShippingDetailFormatValidationService shippingDetailFormatValidationService;
+
     @Override
     public List<ShippingProfile> list() throws ServiceException {
         if (!userProvider.authorized())
@@ -39,14 +42,8 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
-        if (shippingProfile.getAddress() == null || shippingProfile.getPerson() == null ||
-                shippingProfile.getPhone() == null || shippingProfile.getDocument() == null) {
-            throw new NullPointerException();
-        }
-
-        if (shippingProfile.getAddress().isEmpty() || shippingProfile.getPerson().isEmpty() ||
-                shippingProfile.getPhone().isEmpty() || shippingProfile.getDocument().isEmpty()) {
-            throw new WrongFieldFormatException(EMPTY_FIELDS);
+        if (!shippingDetailFormatValidationService.validate(shippingProfile)) {
+            throw new IllegalStateException();
         }
 
         if (shippingProfile.getId() > 0) {
@@ -66,7 +63,6 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     public void delete(ShippingProfile shippingProfile) throws ServiceException {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
-
 
         ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
         if (oldProfile == null)
