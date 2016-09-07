@@ -87,7 +87,7 @@ public class ProductORMDAOImpl implements ProductDAO {
         Session session = sessionFactory.getCurrentSession();
         return (Product) session.createCriteria(Product.class)
                 .add(Restrictions.ne("categoryId", id))
-                .add(Restrictions.sqlRestriction("1=1 order by rand()"))
+                .add(Restrictions.sqlRestriction("1=1 ORDER by rand()"))
                 .setMaxResults(1).uniqueResult();
     }
 }
