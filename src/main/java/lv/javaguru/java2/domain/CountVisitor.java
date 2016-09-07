@@ -1,20 +1,53 @@
 package lv.javaguru.java2.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "visitors_counter")
-public class CountVisitor extends CountBaseEntity {
+public class CountVisitor implements BaseEntity{
 
-    private static final long serialVersionUID = 1L;
+    @Column(name="id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(name="product_id")
+    private long productId;
+
+    @Column(name="counter")
+    private long counter;
 
     @Column(name = "ip")
     private String ip;
 
     public CountVisitor(){
-        super();
+
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public long getCounter() {
+        return counter;
+    }
+
+    public void setCounter(long counter) {
+        this.counter = counter;
     }
 
     public String getIp() {
@@ -24,5 +57,4 @@ public class CountVisitor extends CountBaseEntity {
     public void setIp(String ip) {
         this.ip = ip;
     }
-
 }
