@@ -7,6 +7,9 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailFormatValidationService;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.order.Order;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.profilepages.ProfileHistoryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

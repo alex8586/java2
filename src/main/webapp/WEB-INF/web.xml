@@ -28,7 +28,7 @@
 
     <filter>
         <filter-name>MVCFilter</filter-name>
-        <filter-class>lv.javaguru.java2.servlet.Router</filter-class>
+        <filter-class>lv.javaguru.java2.servlet.mvc.Router</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>MVCFilter</filter-name>

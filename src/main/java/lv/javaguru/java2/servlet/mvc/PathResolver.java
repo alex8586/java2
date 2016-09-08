@@ -1,4 +1,4 @@
-package lv.javaguru.java2.servlet;
+package lv.javaguru.java2.servlet.mvc;
 
 import lv.javaguru.java2.domain.BaseEntity;
 import org.springframework.stereotype.Component;

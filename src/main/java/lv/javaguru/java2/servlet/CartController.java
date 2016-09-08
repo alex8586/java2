@@ -3,6 +3,8 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CartService;
 import lv.javaguru.java2.domain.Cart;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

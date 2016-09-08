@@ -25,7 +25,6 @@ public class CategoryTree implements Iterable<Category> {
         }
         registerNodeParents();
         registerNodeChildren();
-
         buildOrderedList();
     }
 

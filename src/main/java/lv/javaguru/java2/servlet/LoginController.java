@@ -7,6 +7,9 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.profilepages.ProfileController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -16,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class LoginController extends MVCController{
+public class LoginController extends MVCController {
 
     @Autowired
     private UserLoginService userLoginService;

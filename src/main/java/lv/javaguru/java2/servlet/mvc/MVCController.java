@@ -1,4 +1,4 @@
-package lv.javaguru.java2.servlet;
+package lv.javaguru.java2.servlet.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

@@ -4,6 +4,8 @@ import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -16,11 +18,10 @@ import java.util.Map;
 public class ContactController extends MVCController {
 
     @Autowired
+    SpecialSaleOffer specialSaleOffer;
+    @Autowired
     @Qualifier("JDBC_CategoryDAO")
     private CategoryDAO categoryDAO;
-
-    @Autowired
-    SpecialSaleOffer specialSaleOffer;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {

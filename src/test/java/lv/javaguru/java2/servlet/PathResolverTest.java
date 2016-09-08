@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
+import lv.javaguru.java2.servlet.mvc.PathResolver;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

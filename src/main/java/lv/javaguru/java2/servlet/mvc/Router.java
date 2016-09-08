@@ -1,10 +1,12 @@
-package lv.javaguru.java2.servlet;
+package lv.javaguru.java2.servlet.mvc;
 
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.servlet.*;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryResetController;
+import lv.javaguru.java2.servlet.profilepages.*;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 

@@ -1,4 +1,4 @@
-package lv.javaguru.java2.servlet;
+package lv.javaguru.java2.servlet.mvc;
 
 import java.util.Map;
 
