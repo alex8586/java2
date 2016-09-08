@@ -7,6 +7,7 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.order.Order;
+import lv.javaguru.java2.domain.order.OrderLine;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -15,9 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -63,6 +62,19 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         order.setTotal(9001);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setDescription("desc");
+        orderLine.setExpireDate(new Date());
+        orderLine.setQuantity(123);
+        orderLine.setPrice(123);
+        orderLine.setName("name");
+        orderLine.setProductId(product.getId());
+        orderLine.setOrder(order);
+        Set<OrderLine> lines = new HashSet<>();
+        lines.add(orderLine);
+        order.setOrderLines(lines);
+
     }
 
     @Override
