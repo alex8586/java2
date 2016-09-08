@@ -4,7 +4,7 @@
     <nav>
             <div class="row">
                 <div class="col s3">
-                <a href="<tags:linkTo controller="FrontPageController" />" class="brand-logo">
+                    <a href="<tags:linkTo controller="CategoryResetController" />" class="brand-logo">
                     <i class="material-icons">all_inclusive</i>
                     MISKA
                 </a>

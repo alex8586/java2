@@ -4,6 +4,7 @@ import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.frontpagehelpers.CategoryChooseController;
+import lv.javaguru.java2.servlet.frontpagehelpers.CategoryResetController;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
@@ -32,6 +33,7 @@ public class Router implements Filter {
         addController("/cart", CartController.class);
         addController("/index", FrontPageController.class);
         addController("/index/category", CategoryChooseController.class);
+        addController("/index/all", CategoryResetController.class);
         addController("/register", RegistrationController.class);
         addController("/login", LoginController.class);
         addController("/logout", LogoutController.class);
