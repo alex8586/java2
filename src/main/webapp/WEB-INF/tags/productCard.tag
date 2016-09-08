@@ -6,7 +6,7 @@
             ${productCard.productName}
         </div>
         <div class="card-image">
-            <a href="<tags:linkTo controller="ProductController" />"><img src="${productCard.productImgUrl}"
+            <a href="<tags:linkTo controller="ProductController" />?id=${productCard.productId}"><img src="${productCard.productImgUrl}"
                                                                           height="130" width="130"></a>
         </div>
         <div class="card-content left-align">
