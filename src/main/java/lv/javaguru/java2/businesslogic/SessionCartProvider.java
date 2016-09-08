@@ -32,7 +32,7 @@ public class SessionCartProvider implements CartProvider {
 
     @Override
     public void empty() {
-        this.cart = null;
+        this.cart = new Cart();
     }
 
 }
