@@ -32,7 +32,7 @@ public class ShippingProfileDeleteController extends MVCController {
 
         String param = request.getParameter("profileId");
         if (param != null && !param.isEmpty()) {
-            shippingProfile.setUserId(Long.valueOf(param));
+            shippingProfile.setId(Long.valueOf(param));
         }
         shippingProfile.setAddress(request.getParameter("address"));
         shippingProfile.setPerson(request.getParameter("person"));

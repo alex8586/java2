@@ -42,7 +42,6 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
-        System.out.println(shippingDetailFormatValidationService);
         if (!shippingDetailFormatValidationService.validate(shippingProfile)) {
             throw new IllegalStateException();
         }
@@ -62,6 +61,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
 
     @Override
     public void delete(ShippingProfile shippingProfile) throws ServiceException {
+
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
@@ -73,5 +73,6 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
             throw new IllegalRequestException();
 
         shippingProfileDAO.delete(shippingProfile);
+
     }
 }

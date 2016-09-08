@@ -84,7 +84,8 @@ public class ShippingProfile implements BaseEntity {
     @Override
     public String toString() {
         return "ShippingProfile{" +
-                "person='" + person + '\'' +
+                "id=" + id + '\'' +
+                ",person='" + person + '\'' +
                 ", document='" + document + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
