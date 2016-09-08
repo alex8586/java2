@@ -3,7 +3,7 @@ package lv.javaguru.java2.servlet.profilepages;
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
-import lv.javaguru.java2.servlet.FrontPageController;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;

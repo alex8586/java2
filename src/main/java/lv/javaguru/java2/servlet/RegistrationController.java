@@ -6,6 +6,7 @@ import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;

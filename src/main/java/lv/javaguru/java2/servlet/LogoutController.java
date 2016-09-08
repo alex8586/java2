@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.UserLogoutService;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package lv.javaguru.java2.servlet;
+package lv.javaguru.java2.servlet.frontpage;
 
 import lv.javaguru.java2.businesslogic.FrontPageService;
 import lv.javaguru.java2.domain.Category;

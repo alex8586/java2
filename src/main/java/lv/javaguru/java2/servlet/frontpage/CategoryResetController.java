@@ -1,7 +1,6 @@
-package lv.javaguru.java2.servlet.frontpagehelpers;
+package lv.javaguru.java2.servlet.frontpage;
 
 import lv.javaguru.java2.database.CategoryDAO;
-import lv.javaguru.java2.servlet.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
