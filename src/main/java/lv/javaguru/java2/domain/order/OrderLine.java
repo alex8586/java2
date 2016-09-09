@@ -14,8 +14,6 @@ public class OrderLine implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id")
     @Column(name = "order_id")
     private long orderId;
     @Column(name = "product_id")

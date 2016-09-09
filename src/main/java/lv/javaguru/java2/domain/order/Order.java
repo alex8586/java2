@@ -41,17 +41,6 @@ public class Order implements BaseEntity {
     @Column(name = "user_id")
     private long userId;
 
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
-//    private Set<OrderLine> orderLines = new HashSet<>();
-//
-//    public Set<OrderLine> getOrderLines() {
-//        return this.orderLines;
-//    }
-//
-//    public void setOrderLines(Set<OrderLine> orderLines) {
-//        this.orderLines = orderLines;
-//    }
-
     public long getId() {
         return id;
     }
