@@ -4,8 +4,6 @@ import lv.javaguru.java2.domain.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -43,16 +41,16 @@ public class Order implements BaseEntity {
     @Column(name = "user_id")
     private long userId;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderLine> orderLines = new HashSet<>();
-
-    public Set<OrderLine> getOrderLines() {
-        return this.orderLines;
-    }
-
-    public void setOrderLines(Set<OrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
+//    private Set<OrderLine> orderLines = new HashSet<>();
+//
+//    public Set<OrderLine> getOrderLines() {
+//        return this.orderLines;
+//    }
+//
+//    public void setOrderLines(Set<OrderLine> orderLines) {
+//        this.orderLines = orderLines;
+//    }
 
     public long getId() {
         return id;

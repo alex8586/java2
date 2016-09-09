@@ -1,8 +1,8 @@
 package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.database.OrderDAO;
+import lv.javaguru.java2.database.OrderLineDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
-import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class CheckoutServiceImpl implements CheckoutService {
@@ -29,7 +32,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     private SpecialSaleOffer specialSaleOffer;
 
     @Autowired
-    private StockDAO stockDAO;
+    private OrderLineDAO orderLineDAO;
 
     @Autowired
     private OrderDAO orderDAO;
@@ -62,7 +65,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (userProvider.authorized())
             order.setUserId(userProvider.getUser().getId());
 
-        Set<OrderLine> orderLines = new HashSet<OrderLine>();
         for (Map.Entry<Product, Integer> cartLine : cart.getAll().entrySet()) {
             OrderLine orderLine = new OrderLine();
             orderLine.setDescription(cartLine.getKey().getDescription());
@@ -71,10 +73,9 @@ public class CheckoutServiceImpl implements CheckoutService {
             orderLine.setProductId(cartLine.getKey().getId());
             orderLine.setQuantity(cartLine.getValue());
             orderLine.setExpireDate(new Date());
-            orderLine.setOrder(order);
-            orderLines.add(orderLine);
+            orderLine.setOrderId(order.getId());
+            orderLineDAO.create(orderLine);
         }
-        order.setOrderLines(orderLines);
 
         orderDAO.create(order);
         return order;

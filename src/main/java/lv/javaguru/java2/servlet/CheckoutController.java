@@ -61,7 +61,7 @@ public class CheckoutController extends MVCController {
             return redirectTo(CheckoutController.class);
         }
 
-        Order order = checkoutService.createOrder(cartProvider.getCart(), shippingProfile);
+        checkoutService.createOrder(cartProvider.getCart(), shippingProfile);
         cartProvider.empty();
         request.getSession().removeAttribute("cart");
         request.getSession().removeAttribute("cartPrice");
