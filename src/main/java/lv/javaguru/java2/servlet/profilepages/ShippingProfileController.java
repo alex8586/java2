@@ -59,7 +59,6 @@ public class ShippingProfileController extends MVCController {
         return redirectTo(ShippingProfileController.class);
     }
 
-
     private ShippingProfile buildShippingProfileFromRequest(HttpServletRequest request) {
         ShippingProfile shippingProfile = new ShippingProfile();
 

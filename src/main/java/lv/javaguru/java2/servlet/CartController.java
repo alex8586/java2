@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CartService;
 import lv.javaguru.java2.domain.Cart;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class CartController extends MVCController {
 
         request.getSession().setAttribute("cart", cart);
         request.getSession().setAttribute("cartPrice", cartPrice);
-        return new MVCModel("/index");
+        return redirectTo(FrontPageController.class);
     }
 
     @Override
@@ -35,20 +36,20 @@ public class CartController extends MVCController {
             long productId = Long.parseLong(request.getParameter("productId"));
             long cartPrice = cartService.removeProduct(productId);
             request.getSession().setAttribute("cartPrice", cartPrice);
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
         if (request.getParameter("add") != null) {
             long productId = Long.parseLong(request.getParameter("productId"));
             long cartPrice = cartService.addProduct(productId);
             request.getSession().setAttribute("cartPrice", cartPrice);
-            return new MVCModel("/index");
+            return redirectTo(FrontPageController.class);
         }
         if (request.getParameter("buy") != null) {
             if(cartProvider.isEmpty()){
-                return new MVCModel("/index");
+                return redirectTo(FrontPageController.class);
             }
-            return new MVCModel("/checkout");
+            return redirectTo(CheckoutController.class);
         }
-        return new MVCModel("/index");
+        return redirectTo(FrontPageController.class);
     }
 }
