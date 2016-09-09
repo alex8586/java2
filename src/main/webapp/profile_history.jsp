@@ -36,28 +36,36 @@
 
                     </div>
                 </div>
-                <c:forEach items="${requestScope.model.orderList}" var="list">
+                <c:forEach items="${requestScope.model.orderList}" var="order">
                     <div class="row">
                         <div class="col s1 center-align">
-                            ${list.id}
+                                ${order.id}
                         </div>
                         <div class="col s2 center-align">
-                            ${list.person}
+                                ${order.person}
                         </div>
                         <div class="col s3 left-align">
-                            ${list.address}
+                                ${order.address}
                         </div>
                         <div class="col s2 center-align">
-                            ${list.orderDate}
+                                ${order.orderDate}
                         </div>
                         <div class="col s2 center-align">
-                            ${list.total} &#8364
+                                ${order.total} &#8364
                         </div>
                         <div class="col s2 center-align">
                             <a href="<tags:linkTo controller="ProfileOrderController"/>?id=${list.id}">Details</a>
                         </div>
                     </div>
+                    <div class="row">
 
+                        order: ${order}
+                        orderLines: ${order.orderLines}
+
+                        <c:forEach items="${order.orderLines}" var="line">
+                            line:${line}
+                        </c:forEach>
+                    </div>
                 </c:forEach>
          </c:if>
         </div>

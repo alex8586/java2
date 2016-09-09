@@ -2,6 +2,7 @@ package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.domain.order.Order;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -58,6 +59,7 @@ public class OrderORMDAOImpl implements OrderDAO {
         Session session = sessionFactory.getCurrentSession();
         return (List<Order>) session.createCriteria(Order.class)
                 .add(Restrictions.eq("userId", id))
-                .addOrder(org.hibernate.criterion.Order.asc("orderDate")).list();
+                .addOrder(org.hibernate.criterion.Order.asc("orderDate"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 }

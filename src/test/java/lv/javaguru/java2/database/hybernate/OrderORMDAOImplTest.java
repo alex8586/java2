@@ -4,12 +4,15 @@ import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.CrudDAOTest;
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.domain.order.OrderLine;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,13 +29,18 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = {SpringConfig.class})
 public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
 
+
     @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
+    @Autowired
+    @Qualifier("ORM_UserDAO")
+    UserDAO userDAO;
     private Random random = new Random();
     private Category category;
     private Product product;
     private Product product2;
+    private User user;
     @Qualifier("ORM_CategoryDAO")
     @Autowired
     private CategoryDAO categoryDAO;
@@ -60,6 +68,13 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         product2.setImgUrl("imgpath");
         productDAO.create(product2);
 
+        user = new User();
+        user.setEmail("mail@mail");
+        user.setPassword("pass");
+        user.setFullName("name");
+        userDAO.create(user);
+
+
         super.before();
     }
 
@@ -72,6 +87,7 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         order.setTotal(9001);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
+        order.setUserId(user.getId());
 
         OrderLine orderLine = new OrderLine();
         orderLine.setDescription("desc");
@@ -133,7 +149,35 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
 
         assertEquals(order1.getOrderLines().size(), order2.getOrderLines().size());
         assertTrue(order1.getOrderLines().containsAll(order2.getOrderLines()));
-
     }
 
+    @Test
+    public void testGetOrderByUser() {
+        List<Order> orderByUser = dao.getByUserId(user.getId());
+        assertEquals(1, orderByUser.size());
+        Order order = orderByUser.get(0);
+
+        assertEquals(recordFromDAO.getId(), order.getId());
+        assertEquals(recordFromDAO.getOrderLines().size(), order.getOrderLines().size());
+    }
+
+    @Test
+    public void getMultipleOrdersByUsers() {
+        Order secondOrder = newRecord();
+        fillRecordWithData(secondOrder);
+        makeChangesInRecord(secondOrder);
+        dao.create(secondOrder);
+
+        List<Order> ordersByUser = dao.getByUserId(user.getId());
+        for (Order order : ordersByUser) {
+            System.out.println(order + " " + order.getId());
+            for (OrderLine orderLine : order.getOrderLines()) {
+                System.out.println(orderLine.getId() + " " + orderLine.getOrder().getId());
+            }
+
+        }
+
+        System.out.println(ordersByUser);
+
+    }
 }

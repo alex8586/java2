@@ -72,6 +72,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             orderLine.setQuantity(cartLine.getValue());
             orderLine.setExpireDate(new Date());
             orderLine.setOrder(order);
+            orderLines.add(orderLine);
             //stockService.writeoff(cartLine.getKey,cartLine.getValue);
         }
         order.setOrderLines(orderLines);
