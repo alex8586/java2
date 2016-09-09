@@ -1,15 +1,15 @@
 package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.config.SpringConfig;
-import lv.javaguru.java2.database.*;
+import lv.javaguru.java2.database.CategoryDAO;
+import lv.javaguru.java2.database.CrudDAOTest;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.domain.order.OrderLine;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.*;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,14 +32,10 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
     private Random random = new Random();
     private Category category;
     private Product product;
+    private Product product2;
     @Qualifier("ORM_CategoryDAO")
     @Autowired
     private CategoryDAO categoryDAO;
-    @Qualifier("ORM_UserDAO")
-    @Autowired
-    private UserDAO userDAO;
-    @Autowired
-    private OrderDAO orderDAO;
 
     @Before
     public void before() {
@@ -55,9 +51,17 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         product.setCategoryId(category.getId());
         product.setImgUrl("imgpath");
         productDAO.create(product);
+
+        product2 = new Product();
+        product2.setName("name" + random.nextInt(100000));
+        product2.setDescription("description" + random.nextInt(100000));
+        product2.setPrice(random.nextInt(100000));
+        product2.setCategoryId(category.getId());
+        product2.setImgUrl("imgpath");
+        productDAO.create(product2);
+
         super.before();
     }
-
 
     @Override
     protected void fillRecordWithData(Order order) {
@@ -76,7 +80,10 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         orderLine.setPrice(123);
         orderLine.setName("name");
         orderLine.setProductId(product.getId());
-        orderLine.setOrderId(order.getId());
+        orderLine.setOrder(order);
+        List<OrderLine> lines = new ArrayList<>();
+        lines.add(orderLine);
+        order.setOrderLines(lines);
     }
 
     @Override
@@ -88,6 +95,26 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         order.setTotal(9002);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setDescription("desc2");
+        orderLine.setExpireDate(new Date());
+        orderLine.setQuantity(124);
+        orderLine.setPrice(124);
+        orderLine.setName("name2");
+        orderLine.setProductId(product2.getId());
+        orderLine.setOrder(order);
+
+        orderLine = new OrderLine();
+        orderLine.setDescription("desc3");
+        orderLine.setExpireDate(new Date());
+        orderLine.setQuantity(125);
+        orderLine.setPrice(125);
+        orderLine.setName("name3");
+        orderLine.setProductId(product2.getId());
+        orderLine.setOrder(order);
+
+        order.getOrderLines().add(orderLine);
     }
 
     @Override
@@ -103,61 +130,10 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         assertEquals(order1.getPerson(), order2.getPerson());
         assertEquals(order1.getPhone(), order2.getPhone());
         assertEquals(order1.getTotal(), order2.getTotal());
-    }
 
-    @Test
-    public void getByUserIdTest(){
-        User first = getUser();
-        long firstId = first.getId();
-        User second = getAnotherUser();
-
-        createManyOrders(first);
-        createManyOrders(second);
-
-        List<Order> listOrders = orderDAO.getByUserId(firstId);
-
-        for(Order order : listOrders){
-            assertEquals(first.getFullName(), order.getPerson());
-            assertNotEquals(second.getFullName(), order.getPerson());
-        }
+        assertEquals(order1.getOrderLines().size(), order2.getOrderLines().size());
+        assertTrue(order1.getOrderLines().containsAll(order2.getOrderLines()));
 
     }
-
-    private User getUser(){
-        User user = new User();
-        user.setFullName("name");
-        user.setEmail("email@mail.com");
-        user.setPassword("password");
-        userDAO.create(user);
-        return user;
-    }
-
-    private User getAnotherUser(){
-        User user = new User();
-        user.setFullName("userName");
-        user.setEmail("userEmail@mail.com");
-        user.setPassword("userPassword");
-        userDAO.create(user);
-        return user;
-    }
-
-    private void createManyOrders(User user){
-        Date date = new Date();
-        Date deliveryDate = new Date(date.getTime() + (1000 * 60 * 60 * 24));
-        Order order;
-        for(int i = 0; i < 6; i++){
-            order = new Order();
-            order.setPerson(user.getFullName());
-            order.setDocument("Nr.64532-wre" + i);
-            order.setAddress("some street 3-" + i);
-            order.setPhone("65342145" + i);
-            order.setOrderDate(new Date(date.getTime()));
-            order.setDeliveryDate(deliveryDate);
-            order.setTotal(6543 + i);
-            order.setUserId(user.getId());
-            orderDAO.create(order);
-        }
-    }
-
 
 }
