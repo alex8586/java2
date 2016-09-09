@@ -1,9 +1,11 @@
 package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.database.OrderDAO;
+import lv.javaguru.java2.database.OrderLineDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
+import lv.javaguru.java2.domain.order.OrderLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class OrderServiceImpl implements OrderService{
+public class ProfileOrderServiceImpl implements ProfileOrderService {
 
+    @Autowired
+    private OrderLineDAO orderLineDAO;
     @Autowired
     private OrderDAO orderDAO;
     @Autowired
@@ -22,11 +26,13 @@ public class OrderServiceImpl implements OrderService{
     private UserProvider userProvider;
 
     @Override
-    public Map<String, Object> getOrder(long id){
+    public Map<String, Object> getOrder(long id) {
         Map<String, Object> orderData = new HashMap<>();
 
+        List<OrderLine> orderLines = orderLineDAO.getAllByOrderId(id);
+        orderData.put("orderLines", orderLines);
         Order order = orderDAO.getById(id);
-        orderData.put("order",order);
+        orderData.put("order", order);
         Product saleOffer = specialSaleOffer.getOffer();
         orderData.put("saleOffer", saleOffer);
         User user = userProvider.getUser();
@@ -35,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Map<String, Object> getHistoryOrders(){
+    public Map<String, Object> getHistoryOrders() {
 
         Map<String, Object> historyOrders = new HashMap<String, Object>();
         User user = userProvider.getUser();

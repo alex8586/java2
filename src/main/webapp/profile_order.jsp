@@ -22,51 +22,101 @@
                          Person :
                      </div>
                      <div class="col s9">
-                         ${requestScope.model.order.person}
+                             ${requestScope.model.order.person}
                      </div>
                      <div class="col s3">
                          Document :
                      </div>
                      <div class="col s9">
-                         ${requestScope.model.order.document}
+                             ${requestScope.model.order.document}
                      </div>
                      <div class="col s3">
-                        Address :
+                         Address :
                      </div>
                      <div class="col s9">
-                        ${requestScope.model.order.address}
+                             ${requestScope.model.order.address}
                      </div>
                      <div class="col s3">
-                        Phone :
+                         Phone :
                      </div>
                      <div class="col s9">
-                        ${requestScope.model.order.phone}
+                             ${requestScope.model.order.phone}
                      </div>
                      <div class="col s3">
-                        Order date :
+                         Order date :
                      </div>
                      <div class="col s9">
-                        ${requestScope.model.order.orderDate}
+                             ${requestScope.model.order.orderDate}
                      </div>
                      <div class="col s3">
-                        Delivery date :
+                         Delivery date :
                      </div>
                      <div class="col s9">
-                        ${requestScope.model.order.deliveryDate}
-                     </div>
-                     <div class="col s3">
-                        Total sum :
-                     </div>
-                     <div class="col s9">
-                             ${requestScope.model.order.total} &#8364
+                             ${requestScope.model.order.deliveryDate}
                      </div>
                  </div>
                  <div class="row">
-                     <div class="col s9">
+                     <div class="col s12">
+                         In your order next products :
+                     </div>
+                 </div>
+                    <div class="row">
+                        <div class="col s2 center-align">
+                            Product name :
+                        </div>
+                        <div class="col s4 center-align">
+                            Description :
+                        </div>
+                        <div class="col s2 center-align">
+                            ExpireDate :
+                        </div>
+                        <div class="col s2 center-align">
+                            Quantity :
+                        </div>
+                        <div class="col s2 center-align">
+                            Price :
+                        </div>
+                    </div>
+                 <c:if test="${not empty requestScope.model.orderLines}">
+                     <c:forEach items="${requestScope.model.orderLines}" var="product">
+                      <div class="row">
+                          <div class="col s2">
+                                ${product.name}
+                          </div>
+                          <div class="col s4">
+                                ${product.description}
+                          </div>
+                          <div class="col s2 center-align">
+                                ${product.expireDate}
+                          </div>
+                          <div class="col s2 center-align">
+                                ${product.quantity}
+                          </div>
+                          <div class="col s2 center-align">
+                                ${product.price}
+                          </div>
+                      </div>
+                     </c:forEach>
+                     <div class="row">
+                         <div class="col s8">
+
+                         </div>
+                         <div class="col s2 center-align">
+                             <b>Total sum :</b>
+                         </div>
+                         <div class="col s2 center-align">
+                                 <b>${requestScope.model.order.total} &#8364</b>
+                         </div>
+                     </div>
+                 </c:if>
+
+                 <div class="row">
+                     <div class="col s8">
 
                      </div>
-                     <div class="col s3">
-                         <a href="<tags:linkTo controller="ProfileHistoryOrdersController"/>"><h5>Back</h5></a>
+                     <div class="col s4">
+                         <a href="<tags:linkTo controller="ProfileHistoryOrdersController"/>"><h5>Back to history</h5>
+                         </a>
                      </div>
                  </div>
              </c:if>

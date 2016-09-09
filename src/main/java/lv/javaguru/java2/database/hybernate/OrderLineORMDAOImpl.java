@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.OrderLineDAO;
 import lv.javaguru.java2.domain.order.OrderLine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -49,6 +50,13 @@ public class OrderLineORMDAOImpl implements OrderLineDAO{
     public List<OrderLine> getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(OrderLine.class).list();
+    }
+
+    @Override
+    public List<OrderLine> getAllByOrderId(long id){
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(OrderLine.class)
+                .add(Restrictions.eq("orderId", id)).list();
     }
 
 

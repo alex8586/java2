@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Component
-public class ProfileOrderController extends MVCController {
+public class ProfileHistoryOrdersController extends MVCController {
 
     @Autowired
     private ProfileOrderService profileOrderService;
@@ -18,9 +18,14 @@ public class ProfileOrderController extends MVCController {
         if (request.getSession().getAttribute("user") == null) {
             return redirectTo(FrontPageController.class);
         }
+        Map<String, Object> map = profileOrderService.getHistoryOrders();
 
-        Map<String, Object> map = profileOrderService.getOrder(Long.parseLong(request.getParameter("id")));
-
-        return new MVCModel(map, "/profile_order.jsp");
+        return new MVCModel(map, "/profile_history.jsp");
     }
+
+    @Override
+    public MVCModel executePost(HttpServletRequest request) {
+        return redirectTo(FrontPageController.class);
+    }
+
 }

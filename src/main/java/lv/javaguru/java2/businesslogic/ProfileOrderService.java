@@ -2,7 +2,7 @@ package lv.javaguru.java2.businesslogic;
 
 import java.util.Map;
 
-public interface OrderService {
+public interface ProfileOrderService {
 
     Map<String, Object> getHistoryOrders();
 

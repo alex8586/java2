@@ -64,6 +64,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setTotal(cart.getTotalPrice());
         if (userProvider.authorized())
             order.setUserId(userProvider.getUser().getId());
+        orderDAO.create(order);
 
         for (Map.Entry<Product, Integer> cartLine : cart.getAll().entrySet()) {
             OrderLine orderLine = new OrderLine();
@@ -77,7 +78,6 @@ public class CheckoutServiceImpl implements CheckoutService {
             orderLineDAO.create(orderLine);
         }
 
-        orderDAO.create(order);
         return order;
     }
 }
