@@ -2,6 +2,13 @@ USE java2miska;
 
 DELETE FROM products;
 DELETE FROM categories;
+DELETE FROM users;
+DELETE FROM order_lines;
+DELETE FROM orders;
+DELETE FROM shipping_profiles;
+DELETE FROM users_counter;
+DELETE FROM visitors_counter;
+
 ALTER TABLE categories
   AUTO_INCREMENT = 1;
 ALTER TABLE products

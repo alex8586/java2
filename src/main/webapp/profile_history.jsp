@@ -58,12 +58,8 @@
                         </div>
                     </div>
                     <div class="row">
-
-                        order: ${order}
-                        orderLines: ${order.orderLines}
-
                         <c:forEach items="${order.orderLines}" var="line">
-                            line:${line}
+                            line:${line}<br>
                         </c:forEach>
                     </div>
                 </c:forEach>
