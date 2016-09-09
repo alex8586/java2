@@ -1,6 +1,8 @@
 package lv.javaguru.java2.domain.order;
 
 import lv.javaguru.java2.domain.BaseEntity;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -111,5 +113,41 @@ public class Order implements BaseEntity {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        return new EqualsBuilder()
+                .append(id, order.id)
+                .append(total, order.total)
+                .append(userId, order.userId)
+                .append(person, order.person)
+                .append(document, order.document)
+                .append(address, order.address)
+                .append(phone, order.phone)
+                .append(orderDate, order.orderDate)
+                .append(deliveryDate, order.deliveryDate)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(person)
+                .append(document)
+                .append(address)
+                .append(phone)
+                .append(orderDate)
+                .append(deliveryDate)
+                .append(total)
+                .append(userId)
+                .toHashCode();
     }
 }

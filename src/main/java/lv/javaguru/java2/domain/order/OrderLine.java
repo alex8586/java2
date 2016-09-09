@@ -1,6 +1,8 @@
 package lv.javaguru.java2.domain.order;
 
 import lv.javaguru.java2.domain.BaseEntity;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -92,5 +94,39 @@ public class OrderLine implements BaseEntity {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderLine orderLine = (OrderLine) o;
+
+        return new EqualsBuilder()
+                .append(id, orderLine.id)
+                .append(orderId, orderLine.orderId)
+                .append(productId, orderLine.productId)
+                .append(price, orderLine.price)
+                .append(quantity, orderLine.quantity)
+                .append(name, orderLine.name)
+                .append(description, orderLine.description)
+                .append(expireDate, orderLine.expireDate)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(orderId)
+                .append(productId)
+                .append(name)
+                .append(description)
+                .append(price)
+                .append(quantity)
+                .append(expireDate)
+                .toHashCode();
     }
 }
