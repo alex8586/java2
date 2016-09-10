@@ -54,10 +54,7 @@
 </div>
 <hr>
 
-<tags:linkTo controller="CheckoutController"/>
-<tags:linkTo controller="CheckoutController"/>
-<tags:linkTo controller="CartController"/>
-<a href="<tags:linkTo controller="CartController"/>">
+<a href="<tags:linkTo controller="CheckoutController"/>">
     <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>

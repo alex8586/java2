@@ -15,8 +15,7 @@ public class PathResolver {
 
     public void registerPath(String path, MVCController controller) {
         straightRoutes.put(path, controller);
-        reversedRoutes.put(controller.getClass().getSimpleName(), path);
-        System.out.println(reversedRoutes);
+        reversedRoutes.put(getOriginalClassName(controller), path);
     }
 
     public void setAlias(Class alias, Class of) {
@@ -49,5 +48,13 @@ public class PathResolver {
 
     public String linkTo(BaseEntity entity) {
         return linkTo(entity.getClass(), entity.getId());
+    }
+
+    private String getOriginalClassName(MVCController controller) {
+        String name = controller.getClass().getSimpleName();
+        if (name.contains("$$")) {
+            name = name.substring(0, name.indexOf("$"));
+        }
+        return name;
     }
 }

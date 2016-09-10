@@ -9,6 +9,7 @@ import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import lv.javaguru.java2.servlet.profilepages.ProfileHistoryController;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @Component
 public class CheckoutController extends MVCController {
+
     @Autowired
     ShippingProfileService shippingProfileService;
     @Autowired
@@ -34,6 +36,9 @@ public class CheckoutController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
+        if (cartProvider.getCart().getAll().size() == 0)
+            return redirectTo(FrontPageController.class);
+        
         Map<String, Object> data = checkoutService.serve();
         return new MVCModel(data, "/checkout.jsp");
     }
