@@ -7,7 +7,7 @@
          <form action="<tags:linkTo controller="ProfileUpdateController" />" method="post">
              <tags:userProfileForm/>
              <button class="btn waves-effect waves-light" type="submit" name="update">Change
-                 <i class="material-icons right">Save</i>
+                 <i class="material-icons right">send</i>
              </button>
          </form>
     </jsp:attribute>

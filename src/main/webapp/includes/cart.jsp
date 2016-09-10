@@ -2,23 +2,21 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
 <div class="center-align">
     <h5 style="color: orange">In your cart :</h5>
 </div>
-    <c:if test="${not empty sessionScope.cart}">
-        <c:forEach var="cart" items="${sessionScope.cart.all}">
-    <div class="row">
-
-        <div>
-            <div class="col s8 left">
-                    ${cart.key.name}
-            </div>
-            <div class="col s4 right-align">
-                    ${cart.key.price}&#8364
+<c:if test="${not empty sessionScope.cart}">
+    <c:forEach var="cart" items="${sessionScope.cart.all}">
+        <div class="row">
+            <div>
+                <div class="col s8 left">
+                        ${cart.key.name}
+                </div>
+                <div class="col s4 right-align">
+                        ${cart.key.price}&#8364
+                </div>
             </div>
         </div>
-   </div>
 
         <div class="row">
             <div class="col s6 left">
@@ -38,8 +36,9 @@
                 <small>items</small>
             </div>
         </div>
-        </c:forEach>
+    </c:forEach>
 </c:if>
+
 <div class="row">
     <div class="col s6 left-align">
         Total :
@@ -53,10 +52,13 @@
         </c:if>
     </div>
 </div>
-
 <hr>
-<form action="cart" method="post">
+
+<tags:linkTo controller="CheckoutController"/>
+<tags:linkTo controller="CheckoutController"/>
+<tags:linkTo controller="CartController"/>
+<a href="<tags:linkTo controller="CartController"/>">
     <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>
-</form>
+</a>

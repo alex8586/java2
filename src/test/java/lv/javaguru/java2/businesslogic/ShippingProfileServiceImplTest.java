@@ -164,10 +164,8 @@ public class ShippingProfileServiceImplTest {
         shippingProfileService.delete(123L);
     }
 
-
     @Test
     public void deleteDeletesWhenEverythingFine() throws ServiceException {
-
         Mockito.doReturn(true).when(userProvider).authorized();
         Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
         Mockito.doReturn(41L).when(shippingProfile).getUserId();
