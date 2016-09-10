@@ -31,7 +31,8 @@ public class AdminPageController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-
+      request.setAttribute("productScene","product_edit.jsp");
+        
         dataService.init(request);
 
 //        Map<String, Object> map = new HashMap<>();

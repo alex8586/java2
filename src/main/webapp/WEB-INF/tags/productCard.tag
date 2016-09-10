@@ -6,7 +6,7 @@
             ${product.name}
         </div>
         <div class="card-image">
-            <a href="product?=${product.id}"><img src="${product.imgUrl}" height="130" width="130"></a>
+            <a href="product?id=${product.id}"><img src="${product.imgUrl}" height="130" width="130"></a>
         </div>
         <div class="card-content left-align">
             <p>${product.description}</p>

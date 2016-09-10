@@ -14,7 +14,8 @@
                 <li class="tab col s3"><a href="#test4">Test 4</a></li>
             </ul>
             <div id="products" class="col s12">
-param is - ${requestScope.model.productAspect}
+                <jsp:include page="/adminko/${requestScope.productScene}"/>
+param is - ${requestScope.productScene}
 <c:if test="${requestScope.model.productAspect =='table'}">
 <table class="highlight bordered responsive-table ">
     <form action=""  method="get">

@@ -30,9 +30,8 @@ public class Product implements BaseEntity {
     @Column(name = "imgurl")
     private String imgUrl;
 
-    @Column(name = "quantity")
-
-    private float qty;
+//    @Column(name = "quantity")
+//    private float qty;
 
 
 
@@ -96,13 +95,13 @@ public class Product implements BaseEntity {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-    public float getQty() {
-        return qty;
-    }
-
-    public void setQty(float qty) {
-        this.qty = qty;
-    }
+//    public float getQty() {
+//        return qty;
+//    }
+//
+//    public void setQty(float qty) {
+//        this.qty = qty;
+//    }
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

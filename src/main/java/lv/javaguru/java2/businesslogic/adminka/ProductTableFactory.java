@@ -55,7 +55,7 @@ public class ProductTableFactory {
         row.put(ID_COLUMN_NAME,String.valueOf(product.getId()));
         row.put(NAME_COLUMN_NAME,product.getName());
         row.put(DESCRIPTION_COLUMN_NAME,product.getDescription());
-        row.put(REMAINS_COLUMN_NAME,String.valueOf(product.getQty()));
+        row.put(REMAINS_COLUMN_NAME,String.valueOf(product.getName()));
         row.put("price",String.valueOf(product.getPrice()));
 
         System.out.println(product.getName());

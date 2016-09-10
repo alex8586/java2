@@ -51,6 +51,8 @@ aspect=request.getParameter("productAspect");}
         productTableFactory.setList(productDAO.getAll());
         dataMap.put(PRODUCT_TABLE_ROWS,productTableFactory.getTable());
         dataMap.put(PRODUCT_PAGE_ASPECT,aspect);
+
+
         return dataMap;
     }
 }
