@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @Table(name = "products")
@@ -28,6 +29,11 @@ public class Product implements BaseEntity {
 
     @Column(name = "imgurl")
     private String imgUrl;
+
+//    @Column(name = "quantity")
+//    private float qty;
+
+
 
     public Product() {
     }
@@ -89,7 +95,13 @@ public class Product implements BaseEntity {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
+//    public float getQty() {
+//        return qty;
+//    }
+//
+//    public void setQty(float qty) {
+//        this.qty = qty;
+//    }
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

@@ -1,8 +1,8 @@
 CREATE TABLE products (
-  id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id          BIGINT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name        VARCHAR(255) NOT NULL,
   description VARCHAR(1024),
-  price       BIGINT       NOT NULL DEFAULT 0
+  price       BIGINT
 )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;

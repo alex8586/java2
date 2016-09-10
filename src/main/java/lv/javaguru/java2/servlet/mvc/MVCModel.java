@@ -8,6 +8,8 @@ public class MVCModel {
     private final String viewName;
     private final boolean isRedirect;
 
+
+
     public MVCModel(Map data, String viewName) {
         this.data = data;
         this.viewName = viewName;

@@ -17,12 +17,16 @@
     <jsp:doBody/>
 </main>
 <%@include file="/includes/footer.jsp" %>
-<!--Import jQuery before materialize.js-->
+
 <c:url var="js" value="/miskaweb/js/materialize.min.js"/>
 <script type="text/javascript" src="${js}"></script>
 <script>
     $(document).ready(function () {
         $('select').material_select();
+    });
+    $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal-trigger').leanModal();
     });
 </script>
 

@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.database.hybernate.ProductORMDAOImpl;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.mvc.MVCController;
@@ -23,8 +24,8 @@ public class ProductController extends MVCController {
     private static final String WRONG_PRODUCT_ID = "Error. No item with such id";
 
     @Autowired
-    @Qualifier("JDBC_ProductDAO")
-    ProductDAOImpl productDAO;
+//    @Qualifier("JDBC_ProductDAO")
+    ProductORMDAOImpl productDAO;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
