@@ -5,6 +5,7 @@ import lv.javaguru.java2.database.OrderLineDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
+import lv.javaguru.java2.domain.order.OrderLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +26,19 @@ public class ProfileOrderServiceImpl implements ProfileOrderService {
     private UserProvider userProvider;
 
     @Override
-    public Map<String, Object> getOrder(long id) {
+    public Map<String, Object> getOrder(long orderId) {
         Map<String, Object> orderData = new HashMap<>();
 
-        Order order = orderDAO.getById(id);
+        List<Order> orderLineList = orderDAO.getAllOrderLinesByOrderId(orderId);
+        for (Order order : orderLineList) {
+            System.out.println(order);
+            order.getOrderLines().size();
+            for (OrderLine orderLine : order.getOrderLines()) {
+                System.out.println(orderLine);
+            }
+        }
+        orderData.put("orderLine", orderLineList);
+        Order order = orderDAO.getById(orderId);
         orderData.put("order", order);
         Product saleOffer = specialSaleOffer.getOffer();
         orderData.put("saleOffer", saleOffer);

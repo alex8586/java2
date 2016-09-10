@@ -77,8 +77,8 @@
                             Price :
                         </div>
                     </div>
-                 <c:if test="${not empty requestScope.model.orderLines}">
-                     <c:forEach items="${requestScope.model.orderLines}" var="product">
+                 <c:if test="${not empty requestScope.model.order}">
+                     <c:forEach items="${requestScope.model.order.orderLines}" var="product">
                       <div class="row">
                           <div class="col s2">
                                 ${product.name}

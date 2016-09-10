@@ -62,4 +62,11 @@ public class OrderORMDAOImpl implements OrderDAO {
                 .addOrder(org.hibernate.criterion.Order.asc("orderDate"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
+
+    @Override
+    public List<Order> getAllOrderLinesByOrderId(long id){
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Order.class)
+                .add(Restrictions.eq("id",id)).list();
+    }
 }
