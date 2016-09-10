@@ -12,6 +12,7 @@ public class UserProfileUtil {
             throw new NullPointerException();
         UserProfile userProfile = new UserProfile();
         userProfile.setFullName(fullName);
+        userProfile.setEmail(email);
         userProfile.setPassword(password);
         userProfile.setRepeatPassword(repeatPassword);
         return userProfile;

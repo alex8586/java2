@@ -39,6 +39,7 @@ public class ProfileUpdateServiceImplTest {
         MockitoAnnotations.initMocks(this);
         userProfile = userProfileUtil.build(goodName, goodMail, goodPass, goodPass);
         user = userProfileUtil.buildUser(userProfile);
+        Mockito.reset(userProfileUtil);
     }
 
     @Test(expected = IllegalRequestException.class)
@@ -48,7 +49,7 @@ public class ProfileUpdateServiceImplTest {
     }
 
     @Test(expected = WrongFieldFormatException.class)
-    public void forwardFieldValidaionException() throws ServiceException {
+    public void forwardFieldValidationException() throws ServiceException {
         Mockito.doReturn(true).when(userProvider).authorized();
         WrongFieldFormatException exception = new WrongFieldFormatException("error");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(userProfile);
@@ -57,7 +58,6 @@ public class ProfileUpdateServiceImplTest {
 
     @Test(expected = ServiceException.class)
     public void failsWhenNewEmailIsBusy() throws ServiceException {
-        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(userProfile);
         userProfile.setEmail("another@mail");
         Mockito.doReturn(Mockito.mock(User.class)).when(userDAO).getByEmail(userProfile.getEmail());
         profileUpdateService.update(userProfile, user);
@@ -65,7 +65,6 @@ public class ProfileUpdateServiceImplTest {
 
     @Test
     public void processCorrectData() throws ServiceException {
-        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(userProfile);
         profileUpdateService.update(userProfile, user);
         Mockito.verify(userProfileUtil, times(1)).updateUser(userProfile, user);
         Mockito.verify(userDAO, times(1)).update(user);
@@ -76,7 +75,6 @@ public class ProfileUpdateServiceImplTest {
         userProfile.setEmail("another@mail");
         Mockito.doReturn(true).when(userProvider).authorized();
         Mockito.doReturn(user).when(userProvider).getUser();
-        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(userProfile);
         Mockito.doReturn(null).when(userDAO).getByEmail(userProfile.getEmail());
 
         profileUpdateService.update(userProfile);

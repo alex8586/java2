@@ -19,7 +19,7 @@ public class UserProfileFormatValidationServiceImpl implements UserProfileFormat
         }
         if (userProfile.getPassword().equals(userProfile.getFullName()))
             throw new WrongFieldFormatException(BAD_PASSWORD);
-        if (userProfile.getPassword().equals(userProfile.getRepeatPassword()))
+        if (!userProfile.getPassword().equals(userProfile.getRepeatPassword()))
             throw new WrongFieldFormatException(PASSWORDS_NOT_MATCH);
     }
 }
