@@ -61,11 +61,11 @@ public class RegistrationController extends MVCController {
             User user = userRegistrationService.register(userProfile);
         } catch (NullPointerException e) {
             return new MVCModel("/error");
+        } catch (DBException e) {
+            return new MVCModel("/error");
         } catch (ServiceException e) {
             error.setError(e.getMessage());
             return redirectTo(RegistrationController.class);
-        } catch (DBException e) {
-            return new MVCModel("/error");
         }
         return redirectTo(FrontPageController.class);
     }

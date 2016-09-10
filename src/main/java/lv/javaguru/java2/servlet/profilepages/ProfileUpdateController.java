@@ -62,7 +62,6 @@ public class ProfileUpdateController extends MVCController {
 
     @Override
     protected MVCModel executePost(HttpServletRequest request) {
-
         try {
             UserProfile userProfile = userProfileUtil
                     .build(request.getParameter("fullName"),
@@ -72,11 +71,10 @@ public class ProfileUpdateController extends MVCController {
             profileUpdateService.update(userProfile);
         } catch (NullPointerException e) {
             return new MVCModel("/error");
-        } catch (ServiceException e) {
-            error.setError(e.getMessage());
-            return redirectTo(ProfileUpdateController.class);
         } catch (DBException e) {
             return new MVCModel("/error");
+        } catch (ServiceException e) {
+            error.setError(e.getMessage());
         }
         return redirectTo(ProfileUpdateController.class);
     }

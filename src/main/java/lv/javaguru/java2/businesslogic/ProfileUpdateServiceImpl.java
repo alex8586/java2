@@ -27,7 +27,7 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
 
     public void update(UserProfile userProfile, User user) throws ServiceException {
         userProfileFormatValidationService.validate(userProfile);
-        if (user.getEmail().equals(userProfile.getEmail())) {
+        if (!user.getEmail().equals(userProfile.getEmail())) {
             User alreadyExists = userDAO.getByEmail(userProfile.getEmail());
             if (alreadyExists != null) {
                 throw new ServiceException(USER_ALREADY_EXISTS);
