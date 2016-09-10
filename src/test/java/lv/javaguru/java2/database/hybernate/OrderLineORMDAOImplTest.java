@@ -116,7 +116,7 @@ public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORM
 
     @Override
     protected void fillRecordWithData(OrderLine orderLine) {
-        orderLine.setOrderId(order.getId());
+        orderLine.setOrder(order);
         orderLine.setProductId(product.getId());
         orderLine.setName("name");
         orderLine.setDescription("desc");
@@ -127,7 +127,7 @@ public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORM
 
     @Override
     protected void makeChangesInRecord(OrderLine orderLine) {
-        orderLine.setOrderId(order.getId());
+        orderLine.setOrder(anotherOrder);
         orderLine.setProductId(anotherProduct.getId());
         orderLine.setName("changedName");
         orderLine.setDescription("changes");
@@ -136,32 +136,4 @@ public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORM
         orderLine.setExpireDate(new Date(date.getTime()));
     }
 
-    @Test
-    public void getAllByOrderIdTest(){
-        long id = order.getId();
-        createManyOrderLines(id);
-        long otherId = anotherOrder.getId();
-        createManyOrderLines(otherId);
-
-        List<OrderLine> orderLineList = orderLineDAO.getAllByOrderId(id);
-        for(OrderLine orderLine : orderLineList){
-            assertTrue(orderLine.getOrderId() == id);
-            assertFalse(orderLine.getOrderId() == otherId);
-        }
-    }
-
-    private void createManyOrderLines(long id){
-        OrderLine orderLine;
-        for(int i = 0; i < 5; i++){
-            orderLine = new OrderLine();
-            orderLine.setOrderId(id);
-            orderLine.setProductId(product.getId());
-            orderLine.setName("changedName");
-            orderLine.setDescription("changes");
-            orderLine.setPrice(456);
-            orderLine.setQuantity(456);
-            orderLine.setExpireDate(new Date(date.getTime()));
-            orderLineDAO.create(orderLine);
-        }
-    }
 }
