@@ -54,13 +54,8 @@
                                 ${order.total} &#8364
                         </div>
                         <div class="col s2 center-align">
-                            <a href="<tags:linkTo controller="ProfileOrderController"/>?id=${list.id}">Details</a>
+                            <a href="<tags:linkTo controller="ProfileOrderController"/>?id=${order.id}">Details</a>
                         </div>
-                    </div>
-                    <div class="row">
-                        <c:forEach items="${order.orderLines}" var="line">
-                            line:${line}<br>
-                        </c:forEach>
                     </div>
                 </c:forEach>
          </c:if>
