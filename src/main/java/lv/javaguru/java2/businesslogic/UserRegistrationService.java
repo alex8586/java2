@@ -2,8 +2,10 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.UserProfile;
 
 public interface UserRegistrationService {
     boolean allowRegistration();
-    User register(String name, String email, String password) throws ServiceException;
+
+    User register(UserProfile userProfile) throws ServiceException;
 }

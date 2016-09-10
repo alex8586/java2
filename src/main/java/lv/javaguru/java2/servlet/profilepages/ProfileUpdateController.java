@@ -1,14 +1,18 @@
 package lv.javaguru.java2.servlet.profilepages;
 
+import lv.javaguru.java2.businesslogic.ProfileUpdateService;
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
-import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.UserProfile;
+import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +22,14 @@ import java.util.Map;
 @Component
 public class ProfileUpdateController extends MVCController {
 
-    private final String EMPTY_FIELDS = "All fields must be filled";
-    private final String USER_ALREADY_EXISTS = "User with this email already exists";
-    private final String UNEXPECTED_ERROR = "Oops, something went wrong";
-    private final String USER_UPDATED = "Information succesfully updated !";
+    @Autowired
+    UserProfileUtil userProfileUtil;
 
     @Autowired
-    @Qualifier("JDBC_UserDAO")
-    private UserDAO userDAO;
+    ProfileUpdateService profileUpdateService;
+
+    @Autowired
+    Error error;
 
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
@@ -59,40 +63,21 @@ public class ProfileUpdateController extends MVCController {
     @Override
     protected MVCModel executePost(HttpServletRequest request) {
 
-        String name = request.getParameter("fullName");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            request.getSession().setAttribute("profileError", EMPTY_FIELDS);
-            return redirectTo(ProfileUpdateController.class);
-        }
-
         try {
-            User userCheckedByEmail = userDAO.getByEmail(email);
-            User fromSession = (User) request.getSession().getAttribute("user");
-
-            if(userCheckedByEmail == null || email.equals(fromSession.getEmail())){
-                User user = (User) request.getSession().getAttribute("user");
-                user.setFullName(name);
-                user.setEmail(email);
-                user.setPassword(password);
-                userDAO.update(user);
-
-                Map<String, Object> map = new HashMap<>();
-                map.put("user", user);
-                map.put("profileError", USER_UPDATED);
-                return new MVCModel(map, "/profile_update.jsp");
-
-            }else if(userCheckedByEmail != null) {
-                request.getSession().setAttribute("profileError", USER_ALREADY_EXISTS);
-                return redirectTo(ProfileUpdateController.class);
-            }
-
-        } catch (Throwable e) {
-            e.printStackTrace();
+            UserProfile userProfile = userProfileUtil
+                    .build(request.getParameter("fullName"),
+                            request.getParameter("email"),
+                            request.getParameter("password"),
+                            request.getParameter("repeatPassword"));
+            profileUpdateService.update(userProfile);
+        } catch (NullPointerException e) {
+            return new MVCModel("/error");
+        } catch (ServiceException e) {
+            error.setError(e.getMessage());
+            return redirectTo(ProfileUpdateController.class);
+        } catch (DBException e) {
+            return new MVCModel("/error");
         }
-        request.getSession().setAttribute("profileError", UNEXPECTED_ERROR);
         return redirectTo(ProfileUpdateController.class);
     }
 }

@@ -6,6 +6,9 @@ import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.UserProfile;
+import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
@@ -21,7 +24,10 @@ import java.util.Map;
 public class RegistrationController extends MVCController {
 
     @Autowired
+    UserProfileUtil userProfileUtil;
+    @Autowired
     UserRegistrationService userRegistrationService;
+
     @Autowired
     Error error;
     @Autowired
@@ -46,18 +52,21 @@ public class RegistrationController extends MVCController {
 
     @Override
     protected MVCModel executePost(HttpServletRequest request) {
-
-        String name = request.getParameter("fullName");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
         try {
-            userRegistrationService.register(name, email, password);
-            return redirectTo(LoginController.class);
+            UserProfile userProfile = userProfileUtil
+                    .build(request.getParameter("fullName"),
+                            request.getParameter("email"),
+                            request.getParameter("password"),
+                            request.getParameter("repeatPassword"));
+            User user = userRegistrationService.register(userProfile);
+        } catch (NullPointerException e) {
+            return new MVCModel("/error");
         } catch (ServiceException e) {
             error.setError(e.getMessage());
             return redirectTo(RegistrationController.class);
         } catch (DBException e) {
             return new MVCModel("/error");
         }
+        return redirectTo(FrontPageController.class);
     }
 }
