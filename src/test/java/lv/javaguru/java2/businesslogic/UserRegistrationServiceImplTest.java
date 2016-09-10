@@ -26,7 +26,6 @@ public class UserRegistrationServiceImplTest {
     private static String goodPass = "SomePass123";
 
     private UserProfile userProfile;
-    private User user;
 
     @Mock
     private UserDAO userDAO;
@@ -44,7 +43,6 @@ public class UserRegistrationServiceImplTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
         userProfile = userProfileUtil.build(goodName, goodMail, goodPass, goodPass);
-        user = userProfileUtil.buildUser(userProfile);
     }
 
     @Test
