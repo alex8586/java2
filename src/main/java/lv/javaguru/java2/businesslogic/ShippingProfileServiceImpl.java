@@ -18,7 +18,6 @@ import java.util.Map;
 
 @Component
 public class ShippingProfileServiceImpl implements ShippingProfileService {
-    private final String EMPTY_FIELDS = "All fields must be filled";
 
     @Autowired
     UserProvider userProvider;
@@ -66,19 +65,22 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     }
 
     @Override
-    public void delete(ShippingProfile shippingProfile) throws ServiceException {
-
+    public void delete(Long id) throws ServiceException {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
 
-        ShippingProfile oldProfile = shippingProfileDAO.getById(shippingProfile.getId());
+        ShippingProfile oldProfile = shippingProfileDAO.getById(id);
         if (oldProfile == null)
             throw new RecordIsNotAvailable();
 
         if (!userProvider.isCurrent(oldProfile.getUserId()))
             throw new IllegalRequestException();
 
-        shippingProfileDAO.delete(shippingProfile);
+        shippingProfileDAO.delete(oldProfile);
+    }
 
+    @Override
+    public void delete(ShippingProfile shippingProfile) throws ServiceException {
+        delete(shippingProfile.getId());
     }
 }

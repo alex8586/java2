@@ -2,7 +2,6 @@ package lv.javaguru.java2.businesslogic.validators;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
-import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.dto.ShippingDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +15,4 @@ public class ShippingDetailsFormatValidationServiceImpl implements ShippingDetai
             throw new WrongFieldFormatException(EMPTY_FIELDS);
         }
     }
-
-    public boolean validate(ShippingProfile shippingProfile) throws ServiceException {
-        return validate(shippingProfile.getAddress(),
-                shippingProfile.getPerson(),
-                shippingProfile.getPhone(),
-                shippingProfile.getDocument());
-    }
-
 }

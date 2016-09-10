@@ -11,5 +11,6 @@ public interface ShippingProfileService {
 
     ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException;
 
+    void delete(Long id) throws ServiceException;
     void delete(ShippingProfile shippingProfile) throws ServiceException;
 }

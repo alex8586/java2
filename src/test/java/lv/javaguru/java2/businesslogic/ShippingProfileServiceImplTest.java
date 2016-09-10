@@ -3,18 +3,17 @@ package lv.javaguru.java2.businesslogic;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.ShippingDetails;
+import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,9 +30,21 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 public class ShippingProfileServiceImplTest {
 
     @Mock
+    ShippingDetails shippingDetails;
+    @Mock
+    ShippingProfile shippingProfile;
+    @Mock
+    User user;
+
+    @Mock
     private ShippingProfileDAO shippingProfileDAO;
     @Mock
     private UserProvider userProvider;
+    @Mock
+    private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
+    @Spy
+    private ShippingDetailsUtil shippingDetailsUtil;
+
     @InjectMocks
     @Autowired
     private ShippingProfileServiceImpl shippingProfileService;
@@ -51,8 +62,6 @@ public class ShippingProfileServiceImplTest {
 
     @Test
     public void emptyListWhenUserHaveNoProfiles() throws ServiceException {
-        User user = new User();
-        user.setId(42);
         Mockito.doReturn(true).when(userProvider).authorized();
         Mockito.doReturn(user).when(userProvider).getUser();
         assertEquals(0, shippingProfileService.list().size());
@@ -61,11 +70,9 @@ public class ShippingProfileServiceImplTest {
     @Test
     public void providedByDAOListWhenFine() throws ServiceException {
         List<ShippingProfile> profiles = new ArrayList<ShippingProfile>();
-        profiles.add(Mockito.mock(ShippingProfile.class));
-        profiles.add(Mockito.mock(ShippingProfile.class));
+        profiles.add(shippingProfile);
+        profiles.add(shippingProfile);
 
-        User user = new User();
-        user.setId(42);
         Mockito.doReturn(true).when(userProvider).authorized();
         Mockito.doReturn(user).when(userProvider).getUser();
         Mockito.doReturn(profiles).when(shippingProfileDAO).getAllByUser(user);
@@ -76,122 +83,96 @@ public class ShippingProfileServiceImplTest {
     @Test(expected = IllegalRequestException.class)
     public void saveFailsWhenNoLoggedUser() throws ServiceException {
         Mockito.doReturn(false).when(userProvider).authorized();
-        shippingProfileService.save(null);
+        shippingProfileService.save(shippingDetails);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void saveFailsWhenFieldsContainsNulls() throws ServiceException {
-        ShippingProfile shippingProfile = new ShippingProfile();
+    @Test(expected = IllegalMonitorStateException.class)
+    public void saveFailForwardExceptionFromValidator() throws ServiceException {
+        Exception exception = Mockito.mock(IllegalMonitorStateException.class);
         Mockito.doReturn(true).when(userProvider).authorized();
-        shippingProfileService.save(shippingProfile);
-    }
-
-    @Test(expected = WrongFieldFormatException.class)
-    public void saveFailsWhenFieldsAreEmpty() throws ServiceException {
-        ShippingProfile shippingProfile = record("", 0);
-        Mockito.doReturn(true).when(userProvider).authorized();
-        shippingProfileService.save(shippingProfile);
+        Mockito.doThrow(exception).when(shippingDetailsFormatValidationService).validate(shippingDetails);
+        shippingProfileService.save(shippingDetails);
     }
 
     @Test
     public void saveCreateWhenFineRecordWithoutIdSupplied() throws ServiceException {
-        ShippingProfile shippingProfile = record("data", 0);
-        setupUserProviderMockWithUser(42);
-        Mockito.doReturn(null).when(shippingProfileDAO).getById(shippingProfile.getId());
-        shippingProfileService.save(shippingProfile);
-
-        assertEquals(42, shippingProfile.getUserId());
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(user).when(userProvider).getUser();
+        Mockito.doReturn(0L).when(shippingDetails).getId();
+        Mockito.doReturn(shippingProfile).when(shippingDetailsUtil).buildShippingProfile(shippingDetails);
+        assertEquals(shippingProfile, shippingProfileService.save(shippingDetails));
         verify(shippingProfileDAO, times(1)).create(shippingProfile);
     }
 
 
     @Test(expected = RecordIsNotAvailable.class)
     public void saveFailsWhenNothingToUpdate() throws ServiceException {
-        ShippingProfile shippingProfile = record("data", 1234);
-        setupUserProviderMockWithUser(42);
-        Mockito.doReturn(null).when(shippingProfileDAO).getById(shippingProfile.getId());
-
-        shippingProfileService.save(shippingProfile);
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(123L).when(shippingDetails).getId();
+        Mockito.doReturn(null).when(shippingProfileDAO).getById(123L);
+        shippingProfileService.save(shippingDetails);
     }
+
 
     @Test(expected = IllegalRequestException.class)
     public void saveFailsWhenRecordUnderUpdateBelongsToOtherUser() throws ServiceException {
-        ShippingProfile oldProfile = Mockito.mock(ShippingProfile.class);
-        ShippingProfile shippingProfile = record("data", 1234);
-        setupUserProviderMockWithUser(42);
-        Mockito.doReturn(oldProfile).when(shippingProfileDAO).getById(shippingProfile.getId());
-        Mockito.doReturn(41L).when(oldProfile).getUserId();
-        shippingProfileService.save(shippingProfile);
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(123L).when(shippingDetails).getId();
+
+        Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
+        Mockito.doReturn(41L).when(shippingProfile).getUserId();
+        Mockito.doReturn(false).when(userProvider).isCurrent(41L);
+        shippingProfileService.save(shippingDetails);
     }
+
 
     @Test
     public void saveUpdateWhenFineRecordWithIdSupplied() throws ServiceException {
-        ShippingProfile oldProfile = Mockito.mock(ShippingProfile.class);
-        ShippingProfile shippingProfile = record("data", 1234);
-        setupUserProviderMockWithUser(42);
-        Mockito.doReturn(oldProfile).when(shippingProfileDAO).getById(1234);
-        Mockito.doReturn(42L).when(oldProfile).getUserId();
-        shippingProfileService.save(shippingProfile);
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(true).when(userProvider).isCurrent(41L);
+        Mockito.doReturn(user).when(userProvider).getUser();
+        Mockito.doReturn(41L).when(user).getId();
 
+        Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
+        Mockito.doReturn(123L).when(shippingDetails).getId();
+        Mockito.doReturn(41L).when(shippingProfile).getUserId();
+
+        shippingProfileService.save(shippingDetails);
         verify(shippingProfileDAO, times(1)).update(shippingProfile);
+        verify(shippingDetailsUtil, times(1)).updateShippingProfile(shippingDetails, shippingProfile);
     }
 
     @Test(expected = IllegalRequestException.class)
     public void deleteFailsWhenNoLoggedUser() throws ServiceException {
         Mockito.doReturn(false).when(userProvider).authorized();
-        shippingProfileService.delete(null);
+        shippingProfileService.delete(123L);
     }
 
     @Test(expected = RecordIsNotAvailable.class)
     public void deleteFailsWhenNoRecordFound() throws ServiceException {
-        ShippingProfile shippingProfile = record("stuff", -1);
         Mockito.doReturn(true).when(userProvider).authorized();
         Mockito.doReturn(null).when(shippingProfileDAO).getById(-1);
-        shippingProfileService.delete(shippingProfile);
+        shippingProfileService.delete(123L);
     }
 
     @Test(expected = IllegalRequestException.class)
     public void deleteFailsWhenRecordBelongsToOtherUser() throws ServiceException {
-        ShippingProfile oldProfile = record("stuff", 123);
-        oldProfile.setUserId(41);
-        ShippingProfile shippingProfile = record("stuff", 123);
         Mockito.doReturn(true).when(userProvider).authorized();
-        Mockito.doReturn(oldProfile).when(shippingProfileDAO).getById(123);
-        setupUserProviderMockWithUser(42);
-        shippingProfileService.delete(shippingProfile);
+        Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
+        Mockito.doReturn(41L).when(shippingProfile).getUserId();
+        Mockito.doReturn(false).when(userProvider).isCurrent(41L);
+        shippingProfileService.delete(123L);
     }
+
 
     @Test
     public void deleteDeletesWhenEverythingFine() throws ServiceException {
-        ShippingProfile oldProfile = record("stuff", 123);
-        oldProfile.setUserId(42);
-        ShippingProfile shippingProfile = record("stuff", 123);
-        Mockito.doReturn(true).when(userProvider).authorized();
-        Mockito.doReturn(oldProfile).when(shippingProfileDAO).getById(123);
-        setupUserProviderMockWithUser(42);
-        shippingProfileService.delete(shippingProfile);
 
-        verify(shippingProfileDAO, times(1)).getById(123L);
+        Mockito.doReturn(true).when(userProvider).authorized();
+        Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
+        Mockito.doReturn(41L).when(shippingProfile).getUserId();
+        Mockito.doReturn(true).when(userProvider).isCurrent(41L);
+        shippingProfileService.delete(123L);
         verify(shippingProfileDAO, times(1)).delete(shippingProfile);
     }
-
-    public void setupUserProviderMockWithUser(long id) {
-        User user = new User();
-        user.setId(id);
-        Mockito.doReturn(true).when(userProvider).authorized();
-        Mockito.doReturn(user).when(userProvider).getUser();
-        Mockito.doReturn(true).when(userProvider).isCurrent(user.getId());
-    }
-
-    public ShippingProfile record(String data, long id) {
-        ShippingProfile shippingProfile = new ShippingProfile();
-        shippingProfile.setDocument(data);
-        shippingProfile.setPerson(data);
-        shippingProfile.setPhone(data);
-        shippingProfile.setAddress(data);
-        shippingProfile.setId(id);
-        return shippingProfile;
-    }
-
-
 }

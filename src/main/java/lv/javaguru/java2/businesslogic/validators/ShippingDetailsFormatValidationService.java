@@ -7,5 +7,5 @@ import lv.javaguru.java2.dto.ShippingDetails;
  * Created by algis on 16.7.9.
  */
 public interface ShippingDetailsFormatValidationService {
-    boolean validate(ShippingDetails shippingDetails) throws ServiceException;
+    void validate(ShippingDetails shippingDetails) throws ServiceException;
 }
