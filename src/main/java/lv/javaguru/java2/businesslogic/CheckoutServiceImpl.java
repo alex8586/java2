@@ -1,9 +1,9 @@
 package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
-import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -32,12 +32,10 @@ public class CheckoutServiceImpl implements CheckoutService {
     private ShippingProfileDAO shippingProfileDAO;
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
-
-    @Autowired
-    private StockDAO stockDAO;
-
     @Autowired
     private ShippingDetailsUtil shippingDetailsUtil;
+    @Autowired
+    private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
 
 
     @Autowired
@@ -62,6 +60,8 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (!hashcode.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTANT_HAS_CHANGED);
         }
+
+        shippingDetailsFormatValidationService.validate(shippingDetails);
 
         Order order = new Order();
         if (userProvider.authorized())
