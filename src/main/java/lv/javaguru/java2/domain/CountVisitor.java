@@ -1,5 +1,8 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -56,5 +59,31 @@ public class CountVisitor implements BaseEntity{
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CountVisitor that = (CountVisitor) o;
+
+        return new EqualsBuilder()
+                .append(id, that.id)
+                .append(productId, that.productId)
+                .append(counter, that.counter)
+                .append(ip, that.ip)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(productId)
+                .append(counter)
+                .append(ip)
+                .toHashCode();
     }
 }

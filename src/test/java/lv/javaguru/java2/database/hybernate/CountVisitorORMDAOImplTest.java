@@ -24,7 +24,7 @@ public class CountVisitorORMDAOImplTest {
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired
-    private CountClassHelper countClassHelper;
+    private ObjectCreator objectCreator;
     @Qualifier("ORM_CountVisitorsDAO")
     @Autowired
     private CountVisitorsDAO countVisitorsORMDAO;
@@ -38,8 +38,8 @@ public class CountVisitorORMDAOImplTest {
 
     @Test
     public void createCountUserTest() {
-        long categoryId = countClassHelper.createCategory();
-        long productId = countClassHelper.createProduct(categoryId);
+        long categoryId = objectCreator.createCategory();
+        long productId = objectCreator.createProduct(categoryId);
 
         CountVisitor countVisitor = new CountVisitor();
         countVisitor.setIp("111.222.333.444");
@@ -158,9 +158,20 @@ public class CountVisitorORMDAOImplTest {
         assertTrue(list.size() == fromDAO.size());
     }
 
+    @Test
+    public void getCountUserByUserIpProductIdTest(){
+        CountVisitor countVisitor = createCountVisitor();
+        String ip = countVisitor.getIp();
+        long productId = countVisitor.getProductId();
+
+        CountVisitor fromDAO = countVisitorsORMDAO.getCountUserByUserIpProductId(ip, productId);
+        assertNotNull(fromDAO);
+        assertEquals(countVisitor, fromDAO);
+    }
+
     public CountVisitor createCountVisitor() {
-        long categoryId = countClassHelper.createCategory();
-        long productId = countClassHelper.createProduct(categoryId);
+        long categoryId = objectCreator.createCategory();
+        long productId = objectCreator.createProduct(categoryId);
         String ip1 = String.valueOf(random.nextInt(1000));
         String ip2 = String.valueOf(random.nextInt(1000));
         String ip3 = String.valueOf(random.nextInt(1000));

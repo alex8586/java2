@@ -25,7 +25,7 @@ public class CountUserORMDAOImplTest {
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired
-    private CountClassHelper countClassHelper;
+    private ObjectCreator objectCreator;
 
     @Qualifier("ORM_CountUsersDAO")
     @Autowired
@@ -40,9 +40,9 @@ public class CountUserORMDAOImplTest {
 
     @Test
     public void createCountUserTest() {
-        long categoryId = countClassHelper.createCategory();
-        long productId = countClassHelper.createProduct(categoryId);
-        long userId = countClassHelper.createUser();
+        long categoryId = objectCreator.createCategory();
+        long productId = objectCreator.createProduct(categoryId);
+        long userId = objectCreator.createUser();
 
         CountUser countUser = new CountUser();
         countUser.setUserId(userId);
@@ -105,10 +105,9 @@ public class CountUserORMDAOImplTest {
 
     @Test
     public void getCountByProductIdTest() {
-        List list = createCountUsersListWith15Records();
-        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser3 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser1 = createCountUser();
+        CountUser countUser2 = createCountUser();
+        CountUser countUser3 = createCountUser();
 
         long productId = countUser1.getProductId();
         countUser2.setProductId(productId);
@@ -120,15 +119,14 @@ public class CountUserORMDAOImplTest {
         long count3 = countUser3.getCounter();
 
         long total = count1 + count2 + count3;
-        assertTrue(total == countUsersORMDAO.getCountByProductId(productId));
+        assertEquals(total, countUsersORMDAO.getCountByProductId(productId));
     }
 
     @Test
     public void getCountByUserIdTest() {
-        List list = createCountUsersListWith15Records();
-        CountUser countUser1 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser2 = (CountUser) list.get(random.nextInt(15));
-        CountUser countUser3 = (CountUser) list.get(random.nextInt(15));
+        CountUser countUser1 = createCountUser();
+        CountUser countUser2 = createCountUser();
+        CountUser countUser3 = createCountUser();
 
         long userId = countUser1.getUserId();
         countUser2.setUserId(userId);
@@ -140,7 +138,7 @@ public class CountUserORMDAOImplTest {
         long count3 = countUser3.getCounter();
 
         long total = count1 + count2 + count3;
-        assertTrue(total == countUsersORMDAO.getCountByUserId(userId));
+        assertEquals(total, countUsersORMDAO.getCountByUserId(userId));
     }
 
     @Test
@@ -160,17 +158,28 @@ public class CountUserORMDAOImplTest {
         assertTrue(list.size() == fromDAO.size());
     }
 
+    @Test
+    public void getCountUserByUserIdProductIdTest() {
+        CountUser countUser = createCountUser();
+        long userId = countUser.getUserId();
+        long productId = countUser.getProductId();
+
+        CountUser fromDAO = countUsersORMDAO.getCountUserByUserIdProductId(userId, productId);
+        assertNotNull(fromDAO);
+        assertEquals(countUser, fromDAO);
+    }
+
     public CountUser createCountUser() {
-        long categoryId = countClassHelper.createCategory();
-        long productId = countClassHelper.createProduct(categoryId);
-        long userId = countClassHelper.createUser();
+        long categoryId = objectCreator.createCategory();
+        long productId = objectCreator.createProduct(categoryId);
+        long userId = objectCreator.createUser();
 
         CountUser countUser = new CountUser();
         countUser.setUserId(userId);
         countUser.setProductId(productId);
         countUser.setCounter(random.nextInt(1000));
-        long countCustomerId = countUsersORMDAO.create(countUser);
-        return countUsersORMDAO.getById(countCustomerId);
+        long countUserId = countUsersORMDAO.create(countUser);
+        return countUsersORMDAO.getById(countUserId);
     }
 
     public List createCountUsersListWith15Records() {

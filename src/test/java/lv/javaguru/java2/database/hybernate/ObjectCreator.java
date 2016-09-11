@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-public class CountClassHelper {
+public class ObjectCreator {
 
     @Qualifier("ORM_ProductDAO")
     @Autowired
@@ -29,13 +29,13 @@ public class CountClassHelper {
 
     private Random random = new Random();
 
-    public long createCategory(){
+    long createCategory(){
         Category category = new Category();
         category.setName("category");
         return categoryDAO.create(category);
     }
 
-    public long createProduct(long categoryId){
+    long createProduct(long categoryId){
         Product product = new Product();
         product.setCategoryId(categoryId);
         product.setName("product");
@@ -44,11 +44,11 @@ public class CountClassHelper {
         return productDAO.create(product);
     }
 
-    public long createUser(){
+    long createUser(){
         User user = new User();
-        user.setEmail("a@b" + random.nextInt(100000) + ".com");
+        user.setEmail("name@server" + random.nextInt(100000) + ".com");
         user.setFullName("Name Surname " + random.nextInt(100000));
-        user.setPassword("pass" + random.nextInt(100000));
+        user.setPassword("password" + random.nextInt(100000));
         return userDAO.create(user);
     }
 }
