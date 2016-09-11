@@ -13,7 +13,7 @@ import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
-import lv.javaguru.java2.servlet.profilepages.ProfileHistoryController;
+import lv.javaguru.java2.servlet.profilepages.ProfileHistoryOrdersController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +80,7 @@ public class CheckoutController extends MVCController {
             error.setError(e.getMessage());
             return redirectTo(CheckoutController.class);
         }
-        return redirectTo(ProfileHistoryController.class);
+        System.out.println("successfully leaving checkout after making order");
+        return redirectTo(ProfileHistoryOrdersController.class);
     }
 }

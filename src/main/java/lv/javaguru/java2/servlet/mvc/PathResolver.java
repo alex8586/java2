@@ -15,6 +15,7 @@ public class PathResolver {
 
     public void registerPath(String path, MVCController controller) {
         straightRoutes.put(path, controller);
+        System.out.println(controller + " " + getOriginalClassName(controller));
         reversedRoutes.put(getOriginalClassName(controller), path);
     }
 
