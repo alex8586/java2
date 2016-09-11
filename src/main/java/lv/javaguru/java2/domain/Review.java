@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "reviews")
-public class Review {
+public class Review implements BaseEntity {
 
     @Column(name = "id")
     @Id
