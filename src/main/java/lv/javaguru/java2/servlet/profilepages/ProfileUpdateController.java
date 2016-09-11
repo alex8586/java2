@@ -1,4 +1,4 @@
-package lv.javaguru.java2.servlet.profilepages;
+package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.database.UserDAO;

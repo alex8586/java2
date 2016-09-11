@@ -57,7 +57,7 @@
                  </div>
                  <div class="row">
                      <div class="col s12">
-                         In your order next products :
+                         IYour order contains :
                      </div>
                  </div>
                     <div class="row">
