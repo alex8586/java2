@@ -61,7 +61,7 @@ public class CountVisitServiceImpl implements CountVisitService {
             return;
         }
         visitedProduct.add(product.getId());
-        CountVisitor countVisitor = countVisitorsDAO.getCountUserByUserIdProductId(ip, product.getId());
+        CountVisitor countVisitor = countVisitorsDAO.getCountUserByUserIpProductId(ip, product.getId());
         if(countVisitor != null){
             countVisitor.setCounter(countVisitor.getCounter() + 1);
             countVisitorsDAO.update(countVisitor);

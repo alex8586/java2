@@ -1,5 +1,8 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -54,5 +57,31 @@ public class CountUser {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CountUser countUser = (CountUser) o;
+
+        return new EqualsBuilder()
+                .append(id, countUser.id)
+                .append(userId, countUser.userId)
+                .append(productId, countUser.productId)
+                .append(counter, countUser.counter)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(userId)
+                .append(productId)
+                .append(counter)
+                .toHashCode();
     }
 }

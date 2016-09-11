@@ -22,6 +22,6 @@ public interface CountVisitorsDAO {
 
     List getAllCount();
 
-    CountVisitor getCountUserByUserIdProductId(String ip, long productId);
+    CountVisitor getCountUserByUserIpProductId(String ip, long productId);
 
 }
