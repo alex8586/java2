@@ -123,9 +123,12 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
 
     @Test
     public void testStockEagerLoading() {
+        Date today = new Date();
+        Date dayAfterTomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 48));
+
         Stock stock = new Stock();
         stock.setQuantity(1);
-        stock.setExpireDate(new Date());
+        stock.setExpireDate(dayAfterTomorrow);
         stock.setProductId(recordFromDAO.getId());
         stockDAO.create(stock);
         Product productWithStock = dao.getById(recordFromDAO.getId());

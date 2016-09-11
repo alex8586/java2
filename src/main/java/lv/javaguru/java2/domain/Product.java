@@ -2,7 +2,6 @@ package lv.javaguru.java2.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.hibernate.annotations.Filter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,9 +30,8 @@ public class Product implements BaseEntity {
     @Column(name = "imgurl")
     private String imgUrl;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Stock.class)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    @Filter(name = "fresh")
     private List<Stock> stockList;
 
     public Product() {

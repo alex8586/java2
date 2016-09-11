@@ -2,14 +2,17 @@ package lv.javaguru.java2.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "stock")
-@FilterDef(name = "fresh", defaultCondition = "expireDate >= today")
+@FilterDef(name = "fresh", parameters = @ParamDef(name = "freshDate", type = "date"))
+@Filter(name = "fresh", condition = "expireDate >< :freshDate")
 public class Stock implements BaseEntity {
     @Column(name = "id")
     @Id
