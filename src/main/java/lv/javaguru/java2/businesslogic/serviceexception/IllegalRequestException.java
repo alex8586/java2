@@ -6,5 +6,6 @@ public class IllegalRequestException extends ServiceException {
 
     public IllegalRequestException() {
         super(error);
+        this.printStackTrace();
     }
 }

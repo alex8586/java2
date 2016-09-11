@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.CartProvider;
 import lv.javaguru.java2.businesslogic.CheckoutService;
 import lv.javaguru.java2.businesslogic.ShippingProfileService;
+import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
@@ -33,6 +34,8 @@ public class CheckoutController extends MVCController {
     private CartProvider cartProvider;
     @Autowired
     private Error error;
+    @Autowired
+    private UserProvider userProvider;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -55,14 +58,19 @@ public class CheckoutController extends MVCController {
                             request.getParameter("phone"),
                             request.getParameter("document"));
             String hashcode = request.getParameter("hashcode");
-
             Order order = checkoutService.createOrder(cartProvider.getCart(), hashcode, shippingDetails);
+
+
             //stockService.substract(cartprovide.getCart());
             cartProvider.empty();
             request.getSession().removeAttribute("cart");
             request.getSession().removeAttribute("cartPrice");
-            if (shippingDetails.getId() == 0) {
-                shippingProfileService.save(shippingDetails);
+            if (shippingDetails.getId() == 0 && userProvider.authorized()) {
+                try {
+                    shippingProfileService.save(shippingDetails);
+                } catch (Exception e) {
+
+                }
             }
         } catch (NullPointerException e) {
             return new MVCModel("/error");

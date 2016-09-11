@@ -47,4 +47,15 @@ public class ShippingDetails {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "ShippingDetails{" +
+                "id=" + id +
+                ", person='" + person + '\'' +
+                ", document='" + document + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

@@ -59,9 +59,10 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     public Order createOrder(Cart cart, String hashcode, ShippingDetails shippingDetails) throws ServiceException {
-        if (hashcode != (new Long(cart.getHashCode()).toString())) {
+        if (!hashcode.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTANT_HAS_CHANGED);
         }
+
         Order order = new Order();
         if (userProvider.authorized())
             order.setUserId(userProvider.getUser().getId());
@@ -88,6 +89,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             order.getOrderLines().add(orderLine);
         }
         orderDAO.create(order);
+        System.out.println("order has been created !!!");
         return order;
     }
 }

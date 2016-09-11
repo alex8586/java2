@@ -11,7 +11,7 @@ public class ShippingDetailsFormatValidationServiceImpl implements ShippingDetai
 
     public void validate(ShippingDetails shippingDetails) throws ServiceException {
         if (shippingDetails.getPerson().isEmpty() || shippingDetails.getAddress().isEmpty() ||
-                shippingDetails.getPhone().isEmpty() || shippingDetails.getAddress().isEmpty()) {
+                shippingDetails.getPhone().isEmpty() || shippingDetails.getDocument().isEmpty()) {
             throw new WrongFieldFormatException(EMPTY_FIELDS);
         }
     }

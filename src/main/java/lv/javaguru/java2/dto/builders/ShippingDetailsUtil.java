@@ -13,8 +13,12 @@ public class ShippingDetailsUtil {
             throw new NullPointerException();
         ShippingDetails shippingDetails = new ShippingDetails();
         if (resourceId != null) {
-            long id = Long.valueOf(resourceId);
-            shippingDetails.setId(id);
+            try {
+                long id = Long.valueOf(resourceId);
+                shippingDetails.setId(id);
+            } catch (Exception e) {
+
+            }
         }
         shippingDetails.setAddress(address);
         shippingDetails.setDocument(document);
@@ -37,7 +41,7 @@ public class ShippingDetailsUtil {
         shippingProfile.setAddress(shippingDetails.getAddress());
         shippingProfile.setPerson(shippingDetails.getPerson());
         shippingProfile.setPhone(shippingDetails.getPhone());
-        shippingDetails.setDocument(shippingDetails.getDocument());
+        shippingProfile.setDocument(shippingDetails.getDocument());
     }
 
     public void updateOrder(ShippingDetails shippingDetails, Order order) {
