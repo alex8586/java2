@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.VisitCountService;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.mvc.MVCController;
@@ -25,6 +26,8 @@ public class ProductController extends MVCController {
     @Autowired
     @Qualifier("JDBC_ProductDAO")
     ProductDAOImpl productDAO;
+    @Autowired
+    private VisitCountService visitCountService;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
@@ -42,6 +45,7 @@ public class ProductController extends MVCController {
             map.put("error", WRONG_PRODUCT_ID);
             return new MVCModel(map, "/product.jsp");
         }
+        visitCountService.countVisit(product);
         map.put("product", product);
         return new MVCModel(map, "/product.jsp");
     }

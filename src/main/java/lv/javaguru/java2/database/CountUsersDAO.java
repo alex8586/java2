@@ -22,4 +22,6 @@ public interface CountUsersDAO {
 
     List getAllCount();
 
+    CountUser getCountUserByUserIdProductId(long userId, long productId);
+
 }

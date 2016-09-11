@@ -76,4 +76,13 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
         return session.createCriteria(CountUser.class).list();
     }
 
+    @Override
+    public CountUser getCountUserByUserIdProductId(long userId, long productId){
+        Session session = sessionFactory.getCurrentSession();
+        return (CountUser) session.createCriteria(CountUser.class)
+                .add(Restrictions.eq("userId", userId))
+                .add(Restrictions.eq("productId", productId))
+                .setMaxResults(1).uniqueResult();
+    }
+
 }
