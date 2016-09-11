@@ -9,7 +9,6 @@ import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
-import lv.javaguru.java2.servlet.profilepages.ProfileHistoryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -73,6 +72,6 @@ public class CheckoutController extends MVCController {
         } catch (ServiceException e) {
 
         }
-        return redirectTo(ProfileHistoryController.class);
+        return redirectTo(ProfileHistoryOrdersController.class);
     }
 }
