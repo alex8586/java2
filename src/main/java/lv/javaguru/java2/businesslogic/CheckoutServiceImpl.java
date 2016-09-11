@@ -72,7 +72,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setDeliveryDate(new Date());
         order.setTotal(cart.getTotalPrice());
 
-        order.setOrderLines(new HashSet<OrderLine>());
+        order.setOrderLines(new ArrayList<>());
         for (Map.Entry<Product, Integer> cartLine : cart.getAll().entrySet()) {
             Product product = cartLine.getKey();
             OrderLine orderLine = new OrderLine();
