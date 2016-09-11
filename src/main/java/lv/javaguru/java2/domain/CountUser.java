@@ -11,24 +11,22 @@ public class CountUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "user_id")
+    private long userId;
+
     @Column(name="product_id")
     private long productId;
 
     @Column(name="counter")
     private int counter;
 
-    @Column(name = "user_id")
-    private long userId;
-
     public CountUser(){
 
     }
 
-
     public long getId() {
         return id;
     }
-
 
     public void setId(long id) {
         this.id = id;
