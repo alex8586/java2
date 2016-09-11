@@ -32,6 +32,7 @@ public class Product implements BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    //@Filter(name = "fqty", condition = "quantity > :qty")
     private List<Stock> stockList;
 
     public Product() {

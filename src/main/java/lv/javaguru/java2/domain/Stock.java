@@ -11,8 +11,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "stock")
-@FilterDef(name = "fresh", parameters = @ParamDef(name = "freshDate", type = "date"))
-@Filter(name = "fresh", condition = "expireDate >< :freshDate")
+@FilterDef(name = "fqty", parameters = @ParamDef(name = "qty", type = "int"))
+@Filter(name = "fqty", condition = "quantity > :qty")
 public class Stock implements BaseEntity {
     @Column(name = "id")
     @Id

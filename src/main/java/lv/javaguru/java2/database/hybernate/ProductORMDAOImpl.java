@@ -14,7 +14,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,8 +51,8 @@ public class ProductORMDAOImpl implements ProductDAO {
     @Override
     public Product getById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Filter filter = session.enableFilter("fresh");
-        filter.setParameter("freshDate", new Date());
+        Filter filter = session.enableFilter("fqty");
+        filter.setParameter("qty", 123);
         return (Product) session.get(Product.class, id);
     }
 
