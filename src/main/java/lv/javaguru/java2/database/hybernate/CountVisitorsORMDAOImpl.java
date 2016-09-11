@@ -78,4 +78,13 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
         return session.createCriteria(CountVisitor.class).list();
     }
 
+    @Override
+    public CountVisitor getCountUserByUserIdProductId(String ip, long productId){
+        Session session = sessionFactory.getCurrentSession();
+        return (CountVisitor) session.createCriteria(CountVisitor.class)
+                .add(Restrictions.eq("ip", ip))
+                .add(Restrictions.eq("productId", productId))
+                .setMaxResults(1).uniqueResult();
+    }
+
 }
