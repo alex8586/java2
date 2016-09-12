@@ -41,7 +41,7 @@ CREATE TABLE visitors_counter(
   id BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   ip VARCHAR(30) NOT NULL,
   product_id BIGINT(11),
-  counter INT NOT NULL,
+  counter BIGINT(11) NOT NULL,
   CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
     ON DELETE SET NULL
 );
@@ -50,9 +50,25 @@ CREATE TABLE users_counter(
   id BIGINT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_id BIGINT(11),
   product_id BIGINT(11),
-  counter INT NOT NULL,
+  counter BIGINT(11) NOT NULL,
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES users (id)
     ON DELETE CASCADE,
   CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
     ON DELETE SET NULL
 );
+
+-- clean and truncate -----------
+SET FOREIGN_KEY_CHECKS=0;
+DELETE FROM categories;
+DELETE FROM products;
+DELETE FROM shipping_profiles;
+DELETE FROM users;
+DELETE FROM users_counter;
+DELETE FROM visitors_counter;
+TRUNCATE TABLE categories;
+TRUNCATE TABLE products;
+TRUNCATE TABLE shipping_profiles;
+TRUNCATE TABLE users;
+TRUNCATE TABLE users_counter;
+TRUNCATE TABLE visitors_counter;
+SET FOREIGN_KEY_CHECKS=1;
