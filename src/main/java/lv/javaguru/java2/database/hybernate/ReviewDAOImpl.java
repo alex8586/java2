@@ -15,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by algis on 16.11.9.
- */
-
-@Component("ORM_ProductDAO")
+@Component("ORM_ReviewDAO")
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ReviewDAOImpl implements ReviewDAO {

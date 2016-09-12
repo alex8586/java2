@@ -1,15 +1,21 @@
 package lv.javaguru.java2.helpers;
 
 import lv.javaguru.java2.domain.Category;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class CategoryTree implements Iterable<Category> {
 
     Map<Long, TreeNode<Category>> nodesById = new HashMap<Long, TreeNode<Category>>();
     Map<Long, List<TreeNode<Category>>> nodesByParentId = new HashMap<>();
     List<Category> asCategoryList;
+
+    public CategoryTree(){
+
+    }
 
     public CategoryTree(List<Category> categories) {
         for (Category category : categories) {
