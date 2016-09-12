@@ -4,7 +4,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "products")
@@ -47,6 +49,16 @@ public class Product implements BaseEntity {
         this.stockList = stockList;
     }
 
+    public List<Stock> getFresh() {
+        Date today = new Date();
+        List<Stock> fresh = stockList.stream()
+                .filter(stock -> stock.getExpireDate()
+                        .compareTo(today) >= 0)
+                .sorted((stock1, stock2) -> stock1.getExpireDate().compareTo(stock2.getExpireDate()))
+                .collect(Collectors.toList());
+        return fresh;
+    }
+    
     @Override
     public long getId() {
         return id;
