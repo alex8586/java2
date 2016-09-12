@@ -15,8 +15,8 @@
                         profile</h6></a>
                     <a class="collection-item" href="<tags:linkTo controller="ProfileCartController"/>"><h6>Show
                         cart</h6></a>
-                    <a class="collection-item" href="<tags:linkTo controller="ProfileHistoryController"/>"><h6>Show
-                        history</h6></a>
+                    <a class="collection-item" href="<tags:linkTo controller="ProfileHistoryOrdersController"/>"><h6>Show
+                        history of orders</h6></a>
                     <a class="collection-item" href="<tags:linkTo controller="ShippingProfileController"/>"><h6>Shipping
                         profiles</h6></a>
                 </div>

@@ -6,8 +6,11 @@ import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
+import lv.javaguru.java2.dto.ShippingDetails;
+import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import lv.javaguru.java2.servlet.LoginController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
@@ -29,7 +32,10 @@ public class ShippingProfileController extends MVCController {
     @Autowired
     UserProvider userProvider;
     @Autowired
+    private ShippingDetailsUtil shippingDetailsUtil;
+    @Autowired
     private SpecialSaleOffer specialSaleOffer;
+
 
     public MVCModel executeGet(HttpServletRequest request) {
         List<ShippingProfile> shippingProfiles = null;
@@ -50,27 +56,24 @@ public class ShippingProfileController extends MVCController {
     }
 
     public MVCModel executePost(HttpServletRequest request) {
-        ShippingProfile shippingProfile = buildShippingProfileFromRequest(request);
         try {
-            shippingProfileService.save(shippingProfile);
-        } catch (Exception e) {
+            ShippingDetails shippingDetails =
+                    shippingDetailsUtil.build(
+                            request.getParameter("profileId"),
+                            request.getParameter("person"),
+                            request.getParameter("address"),
+                            request.getParameter("phone"),
+                            request.getParameter("document"));
+            ShippingProfile shippingProfile = shippingProfileService.save(shippingDetails);
+        } catch (NullPointerException e) {
+            return new MVCModel("/error");
+        } catch (DBException e) {
+            return new MVCModel("/error");
+        } catch (ServiceException e) {
             error.setError(e.getMessage());
         }
         return redirectTo(ShippingProfileController.class);
     }
 
-    private ShippingProfile buildShippingProfileFromRequest(HttpServletRequest request) {
-        ShippingProfile shippingProfile = new ShippingProfile();
-
-        String param = request.getParameter("profileId");
-        if (param != null && !param.isEmpty()) {
-            shippingProfile.setId(Long.valueOf(param));
-        }
-        shippingProfile.setAddress(request.getParameter("address"));
-        shippingProfile.setPerson(request.getParameter("person"));
-        shippingProfile.setPhone(request.getParameter("phone"));
-        shippingProfile.setDocument(request.getParameter("document"));
-        return shippingProfile;
-    }
 }
 

@@ -3,9 +3,9 @@ package lv.javaguru.java2.domain.order;
 import lv.javaguru.java2.domain.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -44,13 +44,13 @@ public class Order implements BaseEntity {
     private long userId;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderLine> orderLines = new HashSet<>();
+    private List<OrderLine> orderLines = new ArrayList<>();
 
-    public Set<OrderLine> getOrderLines() {
+    public List<OrderLine> getOrderLines() {
         return this.orderLines;
     }
 
-    public void setOrderLines(Set<OrderLine> orderLines) {
+    public void setOrderLines(List<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
 
@@ -125,4 +125,5 @@ public class Order implements BaseEntity {
     public void setUserId(long userId) {
         this.userId = userId;
     }
+
 }

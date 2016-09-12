@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 public class Router implements Filter {
 
     PathResolver pathResolver;
@@ -42,7 +41,8 @@ public class Router implements Filter {
         addController("/logout", LogoutController.class);
         addController("/profile", ProfileController.class);
         addController("/profile/cart", ProfileCartController.class);
-        addController("/profile/history", ProfileHistoryController.class);
+        addController("/profile/order", ProfileOrderController.class);
+        addController("/profile/history_orders", ProfileHistoryOrdersController.class);
         addController("/profile/update", ProfileUpdateController.class);
         addController("/product", ProductController.class);
         addController("/contacts", ContactController.class);

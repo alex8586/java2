@@ -1,9 +1,12 @@
 package lv.javaguru.java2.businesslogic;
 
+import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.UserProfile;
+import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -18,31 +21,31 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private UserDAO userDAO;
 
     @Autowired
-    private UserProvider currentUser;
+    private UserProvider userProvider;
 
     @Autowired
     private UserProfileFormatValidationService userProfileFormatValidationService;
 
+    @Autowired
+    private UserProfileUtil userProfileUtil;
+
     @Override
     public boolean allowRegistration() {
-        return !currentUser.authorized();
+        return !userProvider.authorized();
     }
 
     @Override
-    public User register(String name, String email, String password) throws ServiceException {
+    public User register(UserProfile userProfile) throws ServiceException {
+        if (userProvider.authorized())
+            throw new IllegalRequestException();
 
-        if (!userProfileFormatValidationService.validate(name, email, password))
-            throw new IllegalStateException();
-
-        User user = userDAO.getByEmail(email);
-        if (user != null) {
+        userProfileFormatValidationService.validate(userProfile);
+        User alreadyExists = userDAO.getByEmail(userProfile.getEmail());
+        if (alreadyExists != null) {
             throw new ServiceException(USER_ALREADY_EXISTS);
         }
-        user = new User();
-        user.setFullName(name);
-        user.setEmail(email);
-        user.setPassword(password);
-        userDAO.create(user);
-        return user;
+        User newUser = userProfileUtil.buildUser(userProfile);
+        userDAO.create(newUser);
+        return newUser;
     }
 }

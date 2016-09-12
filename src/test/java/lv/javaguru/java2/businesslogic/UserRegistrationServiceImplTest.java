@@ -1,16 +1,16 @@
 package lv.javaguru.java2.businesslogic;
 
+import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.dto.UserProfile;
+import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -24,12 +24,17 @@ public class UserRegistrationServiceImplTest {
     private static String goodName = "NameSurname";
     private static String goodMail = "name@host.domain";
     private static String goodPass = "SomePass123";
+
+    private UserProfile userProfile;
+
     @Mock
     private UserDAO userDAO;
     @Mock
-    private UserProvider currentUser;
+    private UserProvider userProvider;
     @Mock
     private UserProfileFormatValidationService userProfileFormatValidationService;
+    @Spy
+    private UserProfileUtil userProfileUtil;
 
     @InjectMocks
     private UserRegistrationServiceImpl userRegistrationService;
@@ -37,45 +42,49 @@ public class UserRegistrationServiceImplTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
+        userProfile = userProfileUtil.build(goodName, goodMail, goodPass, goodPass);
     }
 
     @Test
-    public void testRegistrationAllowedWhenNoCurrentUser() {
-        Mockito.doReturn(false).when(currentUser).authorized();
+    public void registrationAllowedWhenNoCurrentUser() {
+        Mockito.doReturn(false).when(userProvider).authorized();
         assertTrue(userRegistrationService.allowRegistration());
     }
 
     @Test
-    public void testRegistrationDisallowedWhenNoCurrentUser() {
-        Mockito.doReturn(true).when(currentUser).authorized();
+    public void registrationDisallowedWhenNoCurrentUser() {
+        Mockito.doReturn(true).when(userProvider).authorized();
         assertFalse(userRegistrationService.allowRegistration());
+    }
+
+    @Test(expected = IllegalRequestException.class)
+    public void registrationRecheckIfUserAuthorized() throws ServiceException {
+        Mockito.doReturn(true).when(userProvider).authorized();
+        userRegistrationService.register(userProfile);
     }
 
     @Test(expected = WrongFieldFormatException.class)
     public void testFailsWithSameException() throws ServiceException {
         WrongFieldFormatException exception = new WrongFieldFormatException("error");
-        Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(any(), any(), any());
-        userRegistrationService.register(goodName, goodMail, goodName);
+        Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(userProfile);
+        userRegistrationService.register(userProfile);
     }
 
 
     @Test(expected = ServiceException.class)
-    public void testRegisterAttemptFailsWhenEmailAlreadyBusy() throws ServiceException {
+    public void registerAttemptFailsWhenEmailAlreadyBusy() throws ServiceException {
         User dummy = new User();
         Mockito.doReturn(dummy).when(userDAO).getByEmail(goodMail);
-        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(any(), any(), any());
-        userRegistrationService.register(goodName, goodMail, goodPass);
+        userRegistrationService.register(userProfile);
     }
 
     @Test
-    public void testReturnNewUserWhenEverythingRight() throws ServiceException {
+    public void returnNewUserWhenEverythingRight() throws ServiceException {
         Mockito.doReturn(null).when(userDAO).getByEmail(goodMail);
-        Mockito.doReturn(true).when(userProfileFormatValidationService).validate(any(), any(), any());
-        User user = userRegistrationService.register(goodName, goodMail, goodPass);
+        User user = userRegistrationService.register(userProfile);
         assertEquals(goodName, user.getFullName());
         assertEquals(goodMail, user.getEmail());
         assertEquals(goodPass, user.getPassword());
-
         verify(userDAO, times(1)).getByEmail(goodMail);
         verify(userDAO, times(1)).create(any());
     }
