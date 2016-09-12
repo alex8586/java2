@@ -96,7 +96,4 @@ public class SpringConfig {
     public CategoryTree categoryTree(@Qualifier("ORM_CategoryDAO") CategoryDAO categoryDAO) {
         return new CategoryTree(categoryDAO.getAll());
     }
-
-
-
 }
