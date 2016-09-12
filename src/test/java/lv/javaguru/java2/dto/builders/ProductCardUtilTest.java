@@ -1,15 +1,11 @@
 package lv.javaguru.java2.dto.builders;
 
-import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -21,30 +17,12 @@ import static org.junit.Assert.assertEquals;
 
 public class ProductCardUtilTest {
 
-    private static Product product1;
     private static Date today = new Date();
+    private Product product1;
     private ProductCard productCard;
-
-    @Mock
-    private StockDAO stockDAO;
 
     @InjectMocks
     private ProductCardUtil productCardBuilder = new ProductCardUtil();
-
-    @BeforeClass
-    public static void beforeClass() {
-        product1 = newProduct(1);
-    }
-
-    public static Product newProduct(int id) {
-        Product product = new Product();
-        product.setId(id);
-        product.setName("name" + id);
-        product.setDescription("desc" + id);
-        product.setPrice(id);
-        product.setCategoryId(id);
-        return product;
-    }
 
     public static Stock newStock(int quantity, int days) {
         Stock stock = new Stock();
@@ -57,8 +35,19 @@ public class ProductCardUtilTest {
         return new Date(today.getTime() + (1000 * 60 * 60 * 24 * days));
     }
 
+    public Product newProduct(int id) {
+        Product product = new Product();
+        product.setId(id);
+        product.setName("name" + id);
+        product.setDescription("desc" + id);
+        product.setPrice(id);
+        product.setCategoryId(id);
+        return product;
+    }
+
     @Before
     public void before() {
+        product1 = newProduct(123);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -66,7 +55,7 @@ public class ProductCardUtilTest {
     public void testWithSingleStock() {
         List<Stock> allStock = new ArrayList<Stock>();
         allStock.add(newStock(3, 3));
-        Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
+        product1.setStockList(allStock);
         productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 3, addDays(3), productCard);
     }
@@ -76,7 +65,7 @@ public class ProductCardUtilTest {
         List<Stock> allStock = new ArrayList<Stock>();
         allStock.add(newStock(3, 3));
         allStock.add(newStock(5, 2));
-        Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
+        product1.setStockList(allStock);
         productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 8, addDays(2), productCard);
     }
@@ -88,15 +77,14 @@ public class ProductCardUtilTest {
         allStock.add(newStock(6, 4));
         allStock.add(newStock(1, 6));
         allStock.add(newStock(0, 2));
-        Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
+        product1.setStockList(allStock);
         productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 10, addDays(4), productCard);
     }
 
     @Test
     public void testNoStock() {
-        List<Stock> allStock = new ArrayList<Stock>();
-        Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
+        product1.setStockList(new ArrayList<Stock>());
         productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 0, null, productCard);
     }

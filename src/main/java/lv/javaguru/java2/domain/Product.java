@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +35,8 @@ public class Product implements BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<Stock> stockList;
-    
+    private List<Stock> stockList = new ArrayList<>();
+
     public List<Stock> getStockList() {
         return stockList;
     }
@@ -45,6 +46,7 @@ public class Product implements BaseEntity {
 
     public List<Stock> getFresh() {
         Date today = new Date();
+        System.out.println(stockList);
         List<Stock> fresh = stockList.stream()
                 .filter(stock -> stock.getExpireDate()
                         .compareTo(today) >= 0)

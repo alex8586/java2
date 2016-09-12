@@ -4,7 +4,6 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.helpers.CategoryTree;
-import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -51,8 +50,6 @@ public class ProductORMDAOImpl implements ProductDAO {
     @Override
     public Product getById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Filter filter = session.enableFilter("fqty");
-        filter.setParameter("qty", 123);
         return (Product) session.get(Product.class, id);
     }
 
