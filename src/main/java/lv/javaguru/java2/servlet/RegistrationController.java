@@ -6,7 +6,6 @@ import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
@@ -58,7 +57,7 @@ public class RegistrationController extends MVCController {
                             request.getParameter("email"),
                             request.getParameter("password"),
                             request.getParameter("repeatPassword"));
-            User user = userRegistrationService.register(userProfile);
+            userRegistrationService.register(userProfile);
         } catch (NullPointerException e) {
             return new MVCModel("/error");
         } catch (DBException e) {
@@ -67,6 +66,6 @@ public class RegistrationController extends MVCController {
             error.setError(e.getMessage());
             return redirectTo(RegistrationController.class);
         }
-        return redirectTo(FrontPageController.class);
+        return redirectTo(LoginController.class);
     }
 }
