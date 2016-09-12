@@ -24,10 +24,8 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Autowired
     ProductService productService;
 
-
     @Autowired
     ProductCardUtil productCardUtil;
-
 
     @Autowired
     @Qualifier("randomSaleOffer")
@@ -48,7 +46,7 @@ public class FrontPageServiceImpl implements FrontPageService {
             productList = productService.getByCategory(category);
             offer = specialSaleOffer.getOffer(category.getId());
         }
-        List<ProductCard> productCards = productCardUtil.forProductList(productList);
+        List<ProductCard> productCards = productCardUtil.build(productList);
 
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());

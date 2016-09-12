@@ -35,13 +35,7 @@ public class Product implements BaseEntity {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<Stock> stockList;
-
-    public Product() {
-    }
-    public Product(String name) {
-        this.name = name;
-    }
-
+    
     public List<Stock> getStockList() {
         return stockList;
     }

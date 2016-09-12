@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
-public class ProductCardBuilderTest {
+public class ProductCardUtilTest {
 
     private static Product product1;
     private static Date today = new Date();
@@ -67,7 +67,7 @@ public class ProductCardBuilderTest {
         List<Stock> allStock = new ArrayList<Stock>();
         allStock.add(newStock(3, 3));
         Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
-        productCard = productCardBuilder.forProduct(product1);
+        productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 3, addDays(3), productCard);
     }
 
@@ -77,7 +77,7 @@ public class ProductCardBuilderTest {
         allStock.add(newStock(3, 3));
         allStock.add(newStock(5, 2));
         Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
-        productCard = productCardBuilder.forProduct(product1);
+        productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 8, addDays(2), productCard);
     }
 
@@ -89,7 +89,7 @@ public class ProductCardBuilderTest {
         allStock.add(newStock(1, 6));
         allStock.add(newStock(0, 2));
         Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
-        productCard = productCardBuilder.forProduct(product1);
+        productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 10, addDays(4), productCard);
     }
 
@@ -97,7 +97,7 @@ public class ProductCardBuilderTest {
     public void testNoStock() {
         List<Stock> allStock = new ArrayList<Stock>();
         Mockito.doReturn(allStock).when(stockDAO).allByProduct(product1);
-        productCard = productCardBuilder.forProduct(product1);
+        productCard = productCardBuilder.build(product1);
         assertDesiredResult(product1, 0, null, productCard);
     }
 
