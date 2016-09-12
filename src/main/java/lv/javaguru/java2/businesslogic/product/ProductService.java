@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public interface ProductService {
 
-    Map<String, Object> getById(long id) throws ServiceException;
+    Map<String, Object> getById(long id, String ip) throws ServiceException;
     List<Product> getAll();
     List<Product> getByCategory(Category category);
 

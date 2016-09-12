@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Component
 public class ProductServiceImpl implements ProductService {
-    
+
     @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
@@ -31,16 +31,14 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CountVisitService countVisitService;
 
-    public Map<String, Object> getById(long id) throws ServiceException {
+    public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
         Product product = productDAO.getById(id);
         if (product == null)
             throw new RecordIsNotAvailable();
-
         if (userProvider.authorized())
             countVisitService.countVisit(product);
         else {
-            String ip = "ip"; //request.getRemoteAddr();
             countVisitService.countVisit(product, ip);
         }
         map.put("product", product);

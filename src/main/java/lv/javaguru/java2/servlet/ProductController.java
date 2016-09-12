@@ -44,7 +44,7 @@ public class ProductController extends MVCController {
         }
         try {
             Long id = Long.valueOf(param);
-            map = productService.getById(id);
+            map = productService.getById(id, request.getRemoteAddr());
         } catch (ServiceException e) {
             map.put("error", e.getMessage());
         } catch (NumberFormatException e) {
