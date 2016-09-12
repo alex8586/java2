@@ -1,7 +1,7 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;

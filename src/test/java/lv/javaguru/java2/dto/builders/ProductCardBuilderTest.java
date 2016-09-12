@@ -1,6 +1,6 @@
 package lv.javaguru.java2.dto.builders;
 
-import lv.javaguru.java2.businesslogic.ProductCardServiceImpl;
+import lv.javaguru.java2.businesslogic.product.ProductCardServiceImpl;
 import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;

@@ -1,8 +1,10 @@
 package lv.javaguru.java2.businesslogic;
 
+import lv.javaguru.java2.businesslogic.profilepages.ProfileUpdateServiceImpl;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
+import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;

@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.ProfileOrderService;
+import lv.javaguru.java2.businesslogic.profilepages.ProfileOrderService;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;

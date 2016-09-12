@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet.frontpage;
 
-import lv.javaguru.java2.businesslogic.FrontPageService;
+import lv.javaguru.java2.businesslogic.frontpage.FrontPageService;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;

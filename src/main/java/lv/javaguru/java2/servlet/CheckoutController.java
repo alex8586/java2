@@ -1,11 +1,11 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.CartProvider;
-import lv.javaguru.java2.businesslogic.CheckoutService;
-import lv.javaguru.java2.businesslogic.ShippingProfileService;
-import lv.javaguru.java2.businesslogic.UserProvider;
+import lv.javaguru.java2.businesslogic.checkout.CartProvider;
+import lv.javaguru.java2.businesslogic.checkout.CheckoutService;
 import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;

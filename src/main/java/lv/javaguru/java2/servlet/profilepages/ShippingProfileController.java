@@ -1,11 +1,11 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.ShippingProfileService;
-import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
-import lv.javaguru.java2.businesslogic.UserProvider;
 import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;

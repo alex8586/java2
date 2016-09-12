@@ -1,8 +1,8 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.ProfileUpdateService;
-import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.profilepages.ProfileUpdateService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.Product;

@@ -1,7 +1,7 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.CartProvider;
-import lv.javaguru.java2.businesslogic.CartService;
+import lv.javaguru.java2.businesslogic.checkout.CartProvider;
+import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;

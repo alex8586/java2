@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.CountVisitService;
+import lv.javaguru.java2.businesslogic.product.CountVisitService;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.servlet.mvc.MVCController;

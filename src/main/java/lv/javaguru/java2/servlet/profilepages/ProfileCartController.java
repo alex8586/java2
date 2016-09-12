@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
