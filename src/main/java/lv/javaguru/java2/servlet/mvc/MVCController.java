@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet.mvc;
 
+import lv.javaguru.java2.dto.builders.RequestedEntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class MVCController {
 
+    @Autowired
+    protected RequestedEntityUtil requestedEntityUtil;
     @Autowired
     private PathResolver pathResolver;
 

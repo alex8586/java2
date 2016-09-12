@@ -22,34 +22,24 @@ public class CartController extends MVCController {
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter("id"));
-        Cart cart = cartService.addToCart(id);
+        Cart cart = cartProvider.getCart();
+        cartService.addProduct(cart, id);
         long cartPrice = cart.getTotalPrice(cart);
-
         request.getSession().setAttribute("cart", cart);
-        request.getSession().setAttribute("cartPrice", cartPrice);
         return redirectTo(FrontPageController.class);
     }
 
     @Override
     public MVCModel executePost(HttpServletRequest request) {
+
+        long productId = Long.parseLong(request.getParameter("productId"));
+        Cart cart = cartProvider.getCart();
         if (request.getParameter("remove") != null) {
-            long productId = Long.parseLong(request.getParameter("productId"));
-            long cartPrice = cartService.removeProduct(productId);
-            request.getSession().setAttribute("cartPrice", cartPrice);
-            return redirectTo(FrontPageController.class);
+            cartService.removeProduct(cart, productId);
+        } else if (request.getParameter("add") != null) {
+            cartService.addProduct(cart, productId);
         }
-        if (request.getParameter("add") != null) {
-            long productId = Long.parseLong(request.getParameter("productId"));
-            long cartPrice = cartService.addProduct(productId);
-            request.getSession().setAttribute("cartPrice", cartPrice);
-            return redirectTo(FrontPageController.class);
-        }
-        if (request.getParameter("buy") != null) {
-            if(cartProvider.isEmpty()){
-                return redirectTo(FrontPageController.class);
-            }
-            return redirectTo(CheckoutController.class);
-        }
+        request.getSession().setAttribute("cart", cart);
         return redirectTo(FrontPageController.class);
     }
 }

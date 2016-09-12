@@ -1,7 +1,9 @@
 package lv.javaguru.java2.dto.builders;
 
 import lv.javaguru.java2.dto.RequestedEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RequestedEntityUtil {
     public RequestedEntity build(String requestId) {
         if (requestId == null)
