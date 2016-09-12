@@ -46,7 +46,6 @@ public class Product implements BaseEntity {
 
     public List<Stock> getFresh() {
         Date today = new Date();
-        System.out.println(stockList);
         List<Stock> fresh = stockList.stream()
                 .filter(stock -> stock.getExpireDate()
                         .compareTo(today) >= 0)
