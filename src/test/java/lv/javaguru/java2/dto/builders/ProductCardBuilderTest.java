@@ -1,6 +1,5 @@
 package lv.javaguru.java2.dto.builders;
 
-import lv.javaguru.java2.businesslogic.product.ProductCardServiceImpl;
 import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
@@ -30,7 +29,7 @@ public class ProductCardBuilderTest {
     private StockDAO stockDAO;
 
     @InjectMocks
-    private ProductCardServiceImpl productCardBuilder = new ProductCardServiceImpl();
+    private ProductCardUtil productCardBuilder = new ProductCardUtil();
 
     @BeforeClass
     public static void beforeClass() {
