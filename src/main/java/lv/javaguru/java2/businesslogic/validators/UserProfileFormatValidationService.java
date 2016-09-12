@@ -2,7 +2,8 @@ package lv.javaguru.java2.businesslogic.validators;
 
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.dto.UserProfile;
 
 public interface UserProfileFormatValidationService {
-    boolean validate(String name, String email, String password) throws ServiceException;
+    void validate(UserProfile userProfile) throws ServiceException;
 }

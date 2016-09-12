@@ -10,12 +10,13 @@ import java.util.Map;
 public class PathResolver {
 
     private static String DEFAULT_PATH = "error.jsp";
-    private Map<String, Object> strightRoutes = new HashMap<>();
+    private Map<String, Object> straightRoutes = new HashMap<>();
     private Map<String, String> reversedRoutes = new HashMap<>();
 
     public void registerPath(String path, MVCController controller) {
-        strightRoutes.put(path, controller);
-        reversedRoutes.put(controller.getClass().getSimpleName(), path);
+        straightRoutes.put(path, controller);
+        System.out.println(controller + " " + getOriginalClassName(controller));
+        reversedRoutes.put(getOriginalClassName(controller), path);
     }
 
     public void setAlias(Class alias, Class of) {
@@ -24,7 +25,7 @@ public class PathResolver {
     }
 
     public MVCController getPathFor(String path) {
-        return (MVCController) strightRoutes.get(path);
+        return (MVCController) straightRoutes.get(path);
     }
 
     public String linkTo(String controller) {
@@ -48,5 +49,13 @@ public class PathResolver {
 
     public String linkTo(BaseEntity entity) {
         return linkTo(entity.getClass(), entity.getId());
+    }
+
+    private String getOriginalClassName(MVCController controller) {
+        String name = controller.getClass().getSimpleName();
+        if (name.contains("$$")) {
+            name = name.substring(0, name.indexOf("$"));
+        }
+        return name;
     }
 }
