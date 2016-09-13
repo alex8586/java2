@@ -5,8 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +12,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "products")
 public class Product implements BaseEntity {
-
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -33,7 +30,6 @@ public class Product implements BaseEntity {
     private long price;
     @Column(name = "imgurl")
     private String imgUrl;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<Stock> stockList = new ArrayList<>();
@@ -41,6 +37,7 @@ public class Product implements BaseEntity {
     public List<Stock> getStockList() {
         return stockList;
     }
+
     public void setStockList(List<Stock> stockList) {
         this.stockList = stockList;
     }
@@ -54,7 +51,6 @@ public class Product implements BaseEntity {
                 .collect(Collectors.toList());
         return fresh;
     }
-
 
     public List<Review> getReviews() {
         return reviews;
