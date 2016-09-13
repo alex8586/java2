@@ -6,6 +6,7 @@ import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +15,9 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final String EMPTY_FIELDS = "All fields must be filled";
     private final String WRONG_EMAIL = "user with such email not found";
     private final String WRONG_PASSWORD = "wrong password";
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     @Qualifier("ORM_UserDAO")
@@ -41,7 +45,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         User user = userDAO.getByEmail(email);
         if (user == null) {
             throw new ServiceException(WRONG_EMAIL);
-        } else if (!user.getPassword().equals(password)) {
+        } else if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new ServiceException(WRONG_PASSWORD);
         }
         return user;
