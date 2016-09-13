@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,23 +15,22 @@ import java.util.stream.Collectors;
 @Table(name = "products")
 public class Product implements BaseEntity {
 
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    List<Review> reviews = new ArrayList<>();
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     @Column(name = "category_id")
     private long categoryId;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "price")
     private long price;
-
     @Column(name = "imgurl")
     private String imgUrl;
 
@@ -53,7 +54,15 @@ public class Product implements BaseEntity {
                 .collect(Collectors.toList());
         return fresh;
     }
-    
+
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public long getId() {
         return id;
