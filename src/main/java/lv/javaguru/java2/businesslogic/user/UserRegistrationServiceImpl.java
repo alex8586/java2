@@ -9,23 +9,22 @@ import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final String USER_ALREADY_EXISTS = "User already exists";
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
-
     @Autowired
     private UserProvider userProvider;
-
     @Autowired
     private UserProfileFormatValidationService userProfileFormatValidationService;
-
     @Autowired
     private UserProfileUtil userProfileUtil;
 
@@ -40,11 +39,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
             throw new IllegalRequestException();
 
         userProfileFormatValidationService.validate(userProfile);
+
         User alreadyExists = userDAO.getByEmail(userProfile.getEmail());
         if (alreadyExists != null) {
             throw new ServiceException(USER_ALREADY_EXISTS);
         }
         User newUser = userProfileUtil.buildUser(userProfile);
+        newUser.setPassword(passwordEncoder.encode(userProfile.getPassword()));
         userDAO.create(newUser);
         return newUser;
     }

@@ -27,6 +27,5 @@ public class UserProfileUtil {
     public void updateUser(UserProfile userProfile, User user) {
         user.setFullName(userProfile.getFullName());
         user.setEmail(userProfile.getEmail());
-        user.setPassword(userProfile.getPassword());
     }
 }
