@@ -12,10 +12,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ProductProvider productProvider;
-
     @Autowired
     private UserProvider userProvider;
-
     @Autowired
     private ReviewDAO reviewDAO;
 

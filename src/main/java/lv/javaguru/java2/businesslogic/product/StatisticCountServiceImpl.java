@@ -10,7 +10,6 @@ public class StatisticCountServiceImpl implements StatisticCountService {
 
     @Autowired
     private CountVisitorsDAO countVisitorsDAO;
-
     @Autowired
     private CountUsersDAO countUsersDAO;
 

@@ -25,29 +25,21 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
-
     @Autowired
     UserProvider userProvider;
-
     @Autowired
     CategoryTree categoryTree;
-
     @Autowired
     private CountVisitService countVisitService;
-
     @Autowired
     private ProductCardService productCardService;
-
     @Autowired
     private ReviewDAO reviewDAO;
-
     @Qualifier("ORM_CategoryDAO")
     @Autowired
     private CategoryDAO categoryDAO;
-
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
-
     @Autowired
     private StatisticCountService statisticCountService;
 

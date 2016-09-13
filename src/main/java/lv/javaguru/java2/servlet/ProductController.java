@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.StockValidationService;
+import lv.javaguru.java2.businesslogic.validators.StockValidationService;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.product.ProductProvider;
@@ -34,25 +34,18 @@ public class ProductController extends MVCController {
     @Autowired
     @Qualifier("JDBC_ProductDAO")
     ProductDAOImpl productDAO;
-
     @Autowired
     ProductService productService;
-
     @Autowired
     Error error;
-
     @Autowired
     private CartService cartService;
-
     @Autowired
     private UserProvider userProvider;
-
     @Autowired
     private ReviewService reviewService;
-
     @Autowired
     private ProductProvider productProvider;
-
     @Autowired
     private StockValidationService stockValidationService;
 
