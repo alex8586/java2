@@ -74,6 +74,7 @@ public class StockORMDAOImpl implements StockDAO {
         return countProductWithCriteria(product, expression);
     }
 
+    @Override
     public List<Stock> expiredByDateRange(Date start, Date end){
         Session session = sessionFactory.getCurrentSession();
         return (List<Stock>)session.createCriteria(Stock.class)

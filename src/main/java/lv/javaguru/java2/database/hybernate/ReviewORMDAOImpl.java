@@ -18,7 +18,7 @@ import java.util.List;
 @Component("ORM_ReviewDAO")
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class ReviewDAOImpl implements ReviewDAO {
+public class ReviewORMDAOImpl implements ReviewDAO {
 
     @Autowired
     SessionFactory sessionFactory;

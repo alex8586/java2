@@ -15,7 +15,7 @@ public class Product implements BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,8 +1,5 @@
 package lv.javaguru.java2.businesslogic.product;
 
-/**
- * Created by algis on 16.13.9.
- */
 public interface ReviewService {
     /*
     can make review if
@@ -10,5 +7,6 @@ public interface ReviewService {
         - purchased it before , at least 5 days ago
         -
     */
+    void addComment(String comment);
 
 }

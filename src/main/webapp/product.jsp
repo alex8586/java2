@@ -18,22 +18,22 @@
                         <div class="row">
                             <div class="col s12 center-align" >
                                 <br>
-                                <h5>${requestScope.model.product.name}</h5>
+                                <h5>${requestScope.model.productCard.productName}</h5>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s3 center-align" >
                                 <div class="row">
-                                    <i>Rating</i> 567
+                                    <i>Views</i> ${requestScope.model.views}
                                 </div>
                                 <div class="row">
-                                    <img src="${requestScope.model.product.imgUrl}" width="219" height="219">
+                                    <img src="${requestScope.model.productCard.productImgUrl}" width="219" height="219">
                                 </div>
                             </div>
                             <div class="col s9">
                                 <div class="row">
                                 <p style="margin-left: 40px;">
-                                        ${requestScope.model.product.description}
+                                        ${requestScope.model.productCard.productDescription}
                                     and more description and more description and more description and more description
                                     and more description and more description and more description and more description
                                     and more description and more description and more description and more description
@@ -42,30 +42,63 @@
                                 </p>
                                 <p style="margin-left: 40px;">
                                     <br>
-                                    price - <b style="color: red">${requestScope.model.product.price} &#8364</b>
+                                    price - <b style="color: red">${requestScope.model.productCard.productPrice} &#8364</b>
                                 </p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-                            <form action="" method="post">
                                 <div class="col s6" style="display: inline-block;">
 
                                 </div>
                                 <div class="col s2 center-align" style="display: inline-block;">
-                                    Stock - 34
+                                    Stock - ${requestScope.model.productCard.stockQuantity}
                                 </div>
+                            <form action="<tags:linkTo controller="ProductController"/>" method="post">
                                 <div class="col s1" style="display: inline-block;">
                                     <input type="text" placeholder="0" name="quantity">
+                                    <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
                                 </div>
-                                <div class="col s3" style="display: inline-block;">
+                                <div class="col s3 right-align" style="display: inline-block;">
                                     <button class="btn waves-effect waves-light" type="submit" name="addToCart">Add to cart
                                         <i class="material-icons">add_shopping_cart</i>
                                     </button>
                                 </div>
                             </form>
                         </div>
+                        <c:if test="${not empty sessionScope.user}">
+                            <div class="row">
+                                <div class="col s12">
+                                    Add comment :
+                                </div>
+                                <form action="<tags:linkTo controller="ProductController"/>" method="post">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">mode_edit</i>
+                                        <textarea id="icon_prefix2" class="materialize-textarea" length="1000" name="comment"></textarea>
+                                        <label for="icon_prefix2">Comment here</label>
+                                        <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
+                                    </div>
+                                    <div class="col s12 right-align">
+                                        <button class="btn waves-effect waves-light" type="submit" name="comment">Comment !
+                                            <i class="material-icons">add_shopping_cart</i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty requestScope.model.reviews}">
+                            <div class="row">
+
+                                <ul class="collection with-header">
+                                    <li class="collection-header"><h5>Comments :</h5></li>
+                                    <c:forEach items="${requestScope.model.reviews}" var="reviews">
+                                    <li class="collection-item">${reviews.comment}</li>
+
+                                </c:forEach>
+                                </ul>
+                            </div>
+                        </c:if>
+
                     </div>
                 </c:if>
             </div>
