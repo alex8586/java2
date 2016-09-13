@@ -13,6 +13,7 @@ import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -37,6 +38,8 @@ public class UserRegistrationServiceImplTest {
     private UserProfileFormatValidationService userProfileFormatValidationService;
     @Spy
     private UserProfileUtil userProfileUtil;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserRegistrationServiceImpl userRegistrationService;
@@ -86,7 +89,7 @@ public class UserRegistrationServiceImplTest {
         User user = userRegistrationService.register(userProfile);
         assertEquals(goodName, user.getFullName());
         assertEquals(goodMail, user.getEmail());
-        assertEquals(goodPass, user.getPassword());
+        verify(passwordEncoder, times(1)).encode(userProfile.getPassword());
         verify(userDAO, times(1)).getByEmail(goodMail);
         verify(userDAO, times(1)).create(any());
     }

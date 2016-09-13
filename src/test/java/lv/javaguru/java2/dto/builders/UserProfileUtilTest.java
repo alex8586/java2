@@ -42,7 +42,6 @@ public class UserProfileUtilTest {
         User user = userProfileUtil.buildUser(userProfile);
         assertEquals(goodName, user.getFullName());
         assertEquals(goodMail, user.getEmail());
-        assertEquals(goodPass, user.getPassword());
     }
 
     @Test
@@ -55,6 +54,5 @@ public class UserProfileUtilTest {
         userProfileUtil.updateUser(userProfile, user);
         assertEquals(goodName, user.getFullName());
         assertEquals(goodMail, user.getEmail());
-        assertEquals(goodPass, user.getPassword());
     }
 }

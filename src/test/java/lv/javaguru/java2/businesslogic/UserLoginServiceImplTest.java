@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -28,6 +29,8 @@ public class UserLoginServiceImplTest {
     private UserDAO userDAO;
     @Mock
     private UserProvider userProvider;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
     @InjectMocks
     private UserLoginServiceImpl userLoginService;
 
@@ -82,8 +85,9 @@ public class UserLoginServiceImplTest {
     @Test
     public void testReturnUserWhenEverythingRight() throws ServiceException {
         User user = new User();
-        user.setPassword(goodPass);
+        user.setPassword("encripted" + goodPass);
         Mockito.doReturn(user).when(userDAO).getByEmail(goodMail);
+        Mockito.doReturn(true).when(passwordEncoder).matches(goodPass, user.getPassword());
         User authenticated = userLoginService.authenticate(goodMail, goodPass);
         assertEquals(user, authenticated);
         verify(userDAO, times(1)).getByEmail(goodMail);
