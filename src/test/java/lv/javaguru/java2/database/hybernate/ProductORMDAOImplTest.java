@@ -2,13 +2,16 @@ package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Stock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -25,6 +28,10 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
     @Qualifier("ORM_ProductDAO")
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    @Qualifier("ORM_StockDAO")
+    private StockDAO stockDAO;
 
     private Category category = new Category();
     private Category anotherCategory = new Category();
@@ -112,6 +119,25 @@ public class ProductORMDAOImplTest extends CrudHybernateDAOTest<Product, Product
             productList.add(productDAO.getById(id));
         }
         return productList;
+    }
+
+    @Test
+    public void testStockEagerLoading() {
+        Date today = new Date();
+        Date dayAfterTomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 48));
+
+        Stock stock = new Stock();
+        stock.setQuantity(1);
+        stock.setExpireDate(dayAfterTomorrow);
+        stock.setProductId(recordFromDAO.getId());
+        stockDAO.create(stock);
+        Product productWithStock = dao.getById(recordFromDAO.getId());
+        assertEquals(1, productWithStock.getStockList().size());
+        stock.setId(0);
+        stock.setQuantity(2);
+        stockDAO.create(stock);
+        productWithStock = dao.getById(recordFromDAO.getId());
+        assertEquals(2, productWithStock.getStockList().size());
     }
 
 }

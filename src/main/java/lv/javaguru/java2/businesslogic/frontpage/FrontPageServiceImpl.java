@@ -1,12 +1,12 @@
 package lv.javaguru.java2.businesslogic.frontpage;
 
-import lv.javaguru.java2.businesslogic.product.ProductCardServiceImpl;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.dto.ProductCard;
+import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,8 +23,10 @@ public class FrontPageServiceImpl implements FrontPageService {
     UserProvider userProvider;
     @Autowired
     ProductService productService;
+
     @Autowired
-    ProductCardServiceImpl productCardService;
+    ProductCardUtil productCardUtil;
+
     @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
@@ -44,7 +46,7 @@ public class FrontPageServiceImpl implements FrontPageService {
             productList = productService.getByCategory(category);
             offer = specialSaleOffer.getOffer(category.getId());
         }
-        List<ProductCard> productCards = productCardService.forProductList(productList);
+        List<ProductCard> productCards = productCardUtil.build(productList);
 
         frontPageData.put("user", userProvider.getUser());
         frontPageData.put("categories", categoryTree.asOrderedList());

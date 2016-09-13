@@ -1,28 +1,23 @@
-package lv.javaguru.java2.businesslogic.product;
+package lv.javaguru.java2.dto.builders;
 
-import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class ProductCardServiceImpl {
-
-    @Autowired
-    StockDAO stockDAO;
-
-    public ProductCard forProduct(Product product) {
-        List<Stock> allStock = stockDAO.allByProduct(product);
-        return forProduct(product, allStock);
+public class ProductCardUtil {
+    
+    public ProductCard build(Product product) {
+        List<Stock> allStock = product.getFresh();
+        return build(product, allStock);
     }
 
-    public ProductCard forProduct(Product product, List<Stock> allStock) {
+    public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
 
         productCard.setProductId(product.getId());
@@ -48,12 +43,11 @@ public class ProductCardServiceImpl {
         return productCard;
     }
 
-    public List<ProductCard> forProductList(List<Product> products) {
-        List<ProductCard> productCards = new ArrayList<>();
-        for (Product product : products) {
-            productCards.add(forProduct(product));
-        }
-        return productCards;
+    public List<ProductCard> build(List<Product> products) {
+        return products.stream()
+                .map(product -> build(product))
+                .collect(Collectors.toList());
+
     }
 
 
