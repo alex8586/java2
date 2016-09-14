@@ -1,6 +1,8 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.OrderLineDAO;
@@ -50,19 +52,22 @@ public class ProfileOrderServiceImpl implements ProfileOrderService {
     }
 
     @Override
-    public Map<String, Object> getHistoryOrders() {
+    public Map<String, Object> model() throws ServiceException {
+        if (!userProvider.authorized()) {
+            throw new UnauthorizedAccessException();
+        }
+        return model(userProvider.getUser());
+    }
 
-        Map<String, Object> historyOrders = new HashMap<String, Object>();
-        User user = userProvider.getUser();
-        historyOrders.put("user", user);
+    @Override
+    public Map<String, Object> model(User user) throws ServiceException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("user", user);
 
         List<Order> orderList = orderDAO.getByUserId(user.getId());
-        historyOrders.put("orderList", orderList);
-
-        Product product = specialSaleOffer.getOffer();
-        historyOrders.put("saleOffer", product);
-
-        return historyOrders;
+        map.put("orderList", orderList);
+        map.put("saleOffer", specialSaleOffer.getOffer());
+        return map;
     }
 
 

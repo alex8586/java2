@@ -2,8 +2,8 @@ package lv.javaguru.java2.servlet.profilepages;
 
 import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
-import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.dto.ShippingDetails;
@@ -33,7 +33,7 @@ public class ShippingProfileController extends MVCController {
         try {
             Map<String, Object> map = shippingProfileService.model();
             return new MVCModel(map, "/shippingProfiles.jsp");
-        } catch (IllegalRequestException e) {
+        } catch (UnauthorizedAccessException e) {
             return redirectTo(LoginController.class);
         } catch (ServiceException e) {
             error.setError(e.getMessage());

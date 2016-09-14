@@ -9,10 +9,11 @@ import java.util.Map;
 
 public interface ShippingProfileService {
     Map<String, Object> model() throws ServiceException;
-
     Map<String, Object> model(User user) throws ServiceException;
 
     ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException;
+
+    ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException;
 
     void delete(Long id) throws ServiceException;
     void delete(ShippingProfile shippingProfile) throws ServiceException;

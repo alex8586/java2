@@ -1,7 +1,10 @@
 package lv.javaguru.java2.servlet.profilepages;
 
+import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.profilepages.ProfileOrderService;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
+import lv.javaguru.java2.servlet.LoginController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +19,19 @@ public class ProfileHistoryOrdersController extends MVCController {
     @Autowired
     private ProfileOrderService profileOrderService;
 
+    @Autowired
+    private Error error;
+
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
-            return redirectTo(FrontPageController.class);
+        try {
+            Map<String, Object> map = profileOrderService.model();
+            return new MVCModel(map, "/profile_history.jsp");
+        } catch (UnauthorizedAccessException e) {
+            return redirectTo(LoginController.class);
+        } catch (ServiceException e) {
+            error.isError();
+            return redirectTo(ProfileHistoryOrdersController.class);
         }
-        Map<String, Object> map = profileOrderService.getHistoryOrders();
-
-        return new MVCModel(map, "/profile_history.jsp");
     }
-
-    @Override
-    public MVCModel executePost(HttpServletRequest request) {
-        return redirectTo(FrontPageController.class);
-    }
-
 }

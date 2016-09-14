@@ -22,6 +22,7 @@ public class ProfileOrderController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
+
         if (request.getSession().getAttribute("user") == null) {
             return redirectTo(FrontPageController.class);
         }
@@ -30,9 +31,7 @@ public class ProfileOrderController extends MVCController {
         if(!profileOrderValidationService.isValid(orderId, user.getId())){
             return redirectTo(FrontPageController.class);
         }
-
         Map<String, Object> map = profileOrderService.getById(orderId);
-
         return new MVCModel(map, "/profile_order.jsp");
     }
 }

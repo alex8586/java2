@@ -1,14 +1,14 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
-import lv.javaguru.java2.database.UserDAO;
-import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.profilepages.ProfileService;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.domain.User;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
+import lv.javaguru.java2.servlet.LoginController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,25 +24,22 @@ public class ProfileController extends MVCController {
     private final String USER_UPDATED = "Information succesfully updated !";
 
     @Autowired
-    @Qualifier("JDBC_UserDAO")
-    private UserDAO userDAO;
+    ProfileService profileService;
+
     @Autowired
-    private SpecialSaleOffer specialSaleOffer;
+    Error error;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
-            return redirectTo(FrontPageController.class);
+        try {
+            Map<String, Object> map = profileService.model();
+            return new MVCModel(map, "/profile.jsp");
+        } catch (UnauthorizedAccessException e) {
+            return redirectTo(LoginController.class);
+        } catch (ServiceException e) {
+            error.isError();
+            return redirectTo(ProfileService.class);
         }
-
-        User user = (User) request.getSession().getAttribute("user");
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        Product product = specialSaleOffer.getOffer();
-        map.put("saleOffer", product);
-        map.put("user", user);
-
-        return new MVCModel(map, "/profile.jsp");
     }
 
     @Override

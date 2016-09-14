@@ -4,6 +4,7 @@ import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.ShippingProfileDAO;
@@ -34,9 +35,6 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     ShippingDetailsUtil shippingDetailsUtil;
 
     @Autowired
-    ShippingProfileService shippingProfileService;
-
-    @Autowired
     ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
 
     @Autowired
@@ -45,7 +43,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     @Override
     public Map<String, Object> model() throws ServiceException {
         if (!userProvider.authorized())
-            throw new IllegalRequestException();
+            throw new UnauthorizedAccessException();
         return model(userProvider.getUser());
     }
 
@@ -63,21 +61,25 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     @Override
     public ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException {
         if (!userProvider.authorized())
-            throw new IllegalRequestException();
-        shippingDetailsFormatValidationService.validate(shippingDetails);
+            throw new UnauthorizedAccessException();
+        return save(shippingDetails, userProvider.getUser());
+    }
 
+    @Override
+    public ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException {
+        shippingDetailsFormatValidationService.validate(shippingDetails);
         if (shippingDetails.getId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingDetails.getId());
             if (oldProfile == null)
                 throw new RecordIsNotAvailable();
-            if (!userProvider.isCurrent(oldProfile.getUserId()))
+            if (user.getId() != oldProfile.getUserId())
                 throw new IllegalRequestException();
             shippingDetailsUtil.updateShippingProfile(shippingDetails, oldProfile);
             shippingProfileDAO.update(oldProfile);
             return oldProfile;
         } else {
             ShippingProfile shippingProfile = shippingDetailsUtil.buildShippingProfile(shippingDetails);
-            shippingProfile.setUserId(userProvider.getUser().getId());
+            shippingProfile.setUserId(user.getId());
             shippingProfileDAO.create(shippingProfile);
             return shippingProfile;
         }

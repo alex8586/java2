@@ -1,7 +1,9 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
-import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
+import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.database.UserDAO;
@@ -12,10 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class ProfileUpdateServiceImpl implements ProfileUpdateService {
     private final String USER_ALREADY_EXISTS = "User already exists";
-
+    @Autowired
+    Error error;
     @Autowired
     @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
@@ -25,6 +31,23 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
     private UserProfileFormatValidationService userProfileFormatValidationService;
     @Autowired
     private UserProfileUtil userProfileUtil;
+    @Autowired
+    private SpecialSaleOffer specialSaleOffer;
+
+    public Map<String, Object> model() throws ServiceException {
+        if (!userProvider.authorized())
+            throw new UnauthorizedAccessException();
+        return model(userProvider.getUser());
+    }
+
+    public Map<String, Object> model(User user) throws ServiceException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (error.isError())
+            map.put("profileError", error.getError());
+        map.put("saleOffer", specialSaleOffer.getOffer());
+        map.put("user", user);
+        return map;
+    }
 
     public void update(UserProfile userProfile, User user) throws ServiceException {
         userProfileFormatValidationService.validate(userProfile);
@@ -40,7 +63,7 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
 
     public void update(UserProfile userProfile) throws ServiceException {
         if (!userProvider.authorized())
-            throw new IllegalRequestException();
+            throw new UnauthorizedAccessException();
         User currentUser = userProvider.getUser();
         update(userProfile, currentUser);
     }
