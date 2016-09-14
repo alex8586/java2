@@ -7,6 +7,8 @@ import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class ReviewServiceImpl implements ReviewService {
 
@@ -21,11 +23,15 @@ public class ReviewServiceImpl implements ReviewService {
     public void addComment(String comment){
         User user = userProvider.getUser();
         long productId = productProvider.getProductId();
+        Date date = new Date();
+
         Review review = new Review();
         review.setUserId(user.getId());
         review.setProductId(productId);
         review.setRate(1);
         review.setComment(comment);
+        review.setDate(date);
+        review.setUserName(user.getFullName());
         reviewDAO.create(review);
     }
 }

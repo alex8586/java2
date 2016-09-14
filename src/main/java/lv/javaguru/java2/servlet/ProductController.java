@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.validators.ReviewValidationService;
 import lv.javaguru.java2.businesslogic.validators.StockValidationService;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.error.Error;
@@ -30,6 +31,7 @@ public class ProductController extends MVCController {
     private static final String NO_PERMISSION_TO_COMMENT = "You have no permission to comment";
     private static final String EMPTY_COMMENT = "Comment can't be empty";
     private static final String QUANTITY_MORE_THAN_STOCK = "Quantity can't be more than stock";
+    private static final String CAN_NOT_COMMENT_TODAY = "Not allowed to comment twice per day";
 
     @Autowired
     @Qualifier("JDBC_ProductDAO")
@@ -48,6 +50,8 @@ public class ProductController extends MVCController {
     private ProductProvider productProvider;
     @Autowired
     private StockValidationService stockValidationService;
+    @Autowired
+    private ReviewValidationService reviewValidationService;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
@@ -110,6 +114,10 @@ public class ProductController extends MVCController {
             long productId = Long.parseLong(request.getParameter("productId"));
             productProvider.setProductId(productId);
             request.getSession().setAttribute("productId", productId);
+            if(!reviewValidationService.canComment(user, productId)){
+                map.put("error", CAN_NOT_COMMENT_TODAY);
+                return new MVCModel(map, "/product.jsp");
+            }
             reviewService.addComment(comment);
         }
 

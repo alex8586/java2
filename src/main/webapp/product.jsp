@@ -32,28 +32,28 @@
                             </div>
                             <div class="col s9">
                                 <div class="row">
-                                <p style="margin-left: 40px;">
-                                        ${requestScope.model.productCard.productDescription}
-                                    and more description and more description and more description and more description
-                                    and more description and more description and more description and more description
-                                    and more description and more description and more description and more description
-                                    and more description and more description and more description and more description
+                                    <p style="margin-left: 40px;">
+                                            ${requestScope.model.productCard.productDescription}
+                                        and more description and more description and more description and more description
+                                        and more description and more description and more description and more description
+                                        and more description and more description and more description and more description
+                                        and more description and more description and more description and more description
 
-                                </p>
-                                <p style="margin-left: 40px;">
-                                    <br>
-                                    price - <b style="color: red">${requestScope.model.productCard.productPrice} &#8364</b>
-                                </p>
+                                    </p>
+                                    <p style="margin-left: 40px;">
+                                        <br>
+                                        price - <b style="color: red">${requestScope.model.productCard.productPrice} &#8364</b>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                                <div class="col s6" style="display: inline-block;">
+                            <div class="col s6" style="display: inline-block;">
 
-                                </div>
-                                <div class="col s2 center-align" style="display: inline-block;">
-                                    Stock - ${requestScope.model.productCard.stockQuantity}
-                                </div>
+                            </div>
+                            <div class="col s2 center-align" style="display: inline-block;">
+                                Stock - ${requestScope.model.productCard.stockQuantity}
+                            </div>
                             <form action="<tags:linkTo controller="ProductController"/>" method="post">
                                 <div class="col s1" style="display: inline-block;">
                                     <input type="text" placeholder="0" name="quantity">
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col s3 right-align" style="display: inline-block;">
                                     <button class="btn waves-effect waves-light" type="submit" name="addToCart">Add to cart
-                                        <i class="material-icons">add_shopping_cart</i>
+                                        <i class="material-icons right">add_shopping_cart</i>
                                     </button>
                                 </div>
                             </form>
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="col s12 right-align">
                                         <button class="btn waves-effect waves-light" type="submit" name="comment">Comment !
-                                            <i class="material-icons">add_shopping_cart</i>
+                                            <i class="material-icons right">list</i>
                                         </button>
                                     </div>
                                 </form>
@@ -92,9 +92,9 @@
                                 <ul class="collection with-header">
                                     <li class="collection-header"><h5>Comments :</h5></li>
                                     <c:forEach items="${requestScope.model.reviews}" var="reviews">
-                                    <li class="collection-item">${reviews.comment}</li>
-
-                                </c:forEach>
+                                        <li class="collection-item" style="background-color: lightgray">${reviews.userName}, ${reviews.date}</li>
+                                        <li class="collection-item">${reviews.comment}</li>
+                                    </c:forEach>
                                 </ul>
                             </div>
                         </c:if>

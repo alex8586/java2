@@ -1,6 +1,7 @@
 package lv.javaguru.java2.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
@@ -23,6 +24,12 @@ public class Review implements BaseEntity {
     @Column(name = "comment")
     public String comment;
 
+    @Column(name = "user_name")
+    public String userName;
+
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    public Date date;
 
     public long getId() {
         return id;
@@ -64,6 +71,22 @@ public class Review implements BaseEntity {
         this.comment = comment;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "Review{" +
@@ -72,6 +95,7 @@ public class Review implements BaseEntity {
                 ", productId=" + productId +
                 ", rate=" + rate +
                 ", comment='" + comment + '\'' +
+                ", date=" + date +
                 '}';
     }
 }

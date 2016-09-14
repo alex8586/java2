@@ -1,0 +1,2 @@
+ALTER TABLE reviews ADD user_name VARCHAR(45) NOT NULL;
+ALTER TABLE reviews ADD date DATE NOT NULL;
