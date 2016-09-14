@@ -1,14 +1,19 @@
 package lv.javaguru.java2.businesslogic.user;
+
+import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -28,16 +33,30 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private UserProvider currentUser;
 
+    @Autowired
+    private Error error;
+
+    @Autowired
+    @Qualifier("randomSaleOffer")
+    private SpecialSaleOffer specialSaleOffer;
+
     @Override
     public boolean allowLogin() {
         return !currentUser.authorized();
     }
 
     @Override
-    public Map<String, Object> model() {
-
+    public Map<String, Object> model() throws ServiceException {
+        if (!allowLogin()) {
+            throw new IllegalRequestException();
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (error.isError())
+            map.put("loginError", error.getError());
+        Product product = specialSaleOffer.getOffer();
+        map.put("saleOffer", product);
+        return map;
     }
-
 
     @Override
     public User authenticate(String email, String password) throws ServiceException {
@@ -64,8 +83,4 @@ public class UserLoginServiceImpl implements UserLoginService {
         currentUser.setUser(user);
     }
 
-    @Override
-    public void logout() {
-        currentUser.setUser(null);
-    }
 }
