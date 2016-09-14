@@ -6,6 +6,8 @@ import lv.javaguru.java2.database.hybernate.ProductORMDAOImpl;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -23,21 +25,15 @@ import java.util.Random;
 @Component
 @Controller
 public class AdminPageController extends MVCController {
-//@Autowired
-//    ProductORMDAOImpl productDAO;
+
     @Autowired
     AdminPageDataService dataService;
 
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-      request.setAttribute("productScene","product_edit.jsp");
-        
-        dataService.init(request);
 
-//        Map<String, Object> map = new HashMap<>();
-//tableFactory.setList(productDAO.getAll());
-//        map.put("tabrows",tableFactory.getTable());
+        dataService.init(request);
 
         return new MVCModel(dataService.getDataAsMap(), "/admin.jsp");
     }

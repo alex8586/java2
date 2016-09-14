@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <h1>product edit</h1>
 
-<form action="adminaa?aspect=single" method="get">
+<form action="admin" method="get">
 
     <label>Name</label>
 <input type="text" name="name" value="${requestScope.model.productname}"/>

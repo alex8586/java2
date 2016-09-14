@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -30,10 +31,11 @@ public class Product implements BaseEntity {
     @Column(name = "imgurl")
     private String imgUrl;
 
-//    @Column(name = "quantity")
-//    private float qty;
 
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @Column(name = "stock")
+    private List<Stock> stockList;
 
     public Product() {
     }
@@ -95,13 +97,14 @@ public class Product implements BaseEntity {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-//    public float getQty() {
-//        return qty;
-//    }
-//
-//    public void setQty(float qty) {
-//        this.qty = qty;
-//    }
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

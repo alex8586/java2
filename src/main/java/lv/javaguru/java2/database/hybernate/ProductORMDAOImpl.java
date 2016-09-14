@@ -3,6 +3,7 @@ package lv.javaguru.java2.database.hybernate;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -89,5 +90,14 @@ public class ProductORMDAOImpl implements ProductDAO {
                 .add(Restrictions.ne("categoryId", id))
                 .add(Restrictions.sqlRestriction("1=1 ORDER by rand()"))
                 .setMaxResults(1).uniqueResult();
+    }
+
+    @Override
+    public List<Stock> getStock(long id) {
+
+        Session session = sessionFactory.getCurrentSession();
+       Product product = (Product) session.get(Product.class,id);
+
+        return product.getStockList();
     }
 }

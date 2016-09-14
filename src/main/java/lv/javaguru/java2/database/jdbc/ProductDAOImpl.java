@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -117,6 +118,11 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         } finally {
             closeConnection(connection);
         }
+    }
+
+    @Override
+    public List<Stock> getStock(long id) {
+        return null;
     }
 
     @Override
