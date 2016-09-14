@@ -1,12 +1,15 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
+import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.ShippingProfileDAO;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
+import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +34,30 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     ShippingDetailsUtil shippingDetailsUtil;
 
     @Autowired
+    ShippingProfileService shippingProfileService;
+
+    @Autowired
     ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
 
+    @Autowired
+    SpecialSaleOffer specialSaleOffer;
+
     @Override
-    public List<ShippingProfile> list() throws ServiceException {
+    public Map<String, Object> model() throws ServiceException {
         if (!userProvider.authorized())
             throw new IllegalRequestException();
+        return model(userProvider.getUser());
+    }
+
+    @Override
+    public Map<String, Object> model(User user) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(userProvider.getUser());
-        return shippingProfiles;
+        List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
+        map.put("shippingProfiles", shippingProfiles);
+        Product product = specialSaleOffer.getOffer();
+        map.put("saleOffer", product);
+        map.put("user", userProvider.getUser());
+        return map;
     }
 
     @Override

@@ -2,12 +2,15 @@ package lv.javaguru.java2.businesslogic.profilepages;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.domain.ShippingProfile;
+import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.dto.ShippingDetails;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ShippingProfileService {
-    List<ShippingProfile> list() throws ServiceException;
+    Map<String, Object> model() throws ServiceException;
+
+    Map<String, Object> model(User user) throws ServiceException;
 
     ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException;
 
