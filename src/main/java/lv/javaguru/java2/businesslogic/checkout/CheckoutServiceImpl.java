@@ -23,7 +23,7 @@ import java.util.*;
 @Component
 public class CheckoutServiceImpl implements CheckoutService {
 
-    private static final String CART_CONTANT_HAS_CHANGED = "Cart content changed";
+    private static final String CART_CONTENT_HAS_CHANGED = "Cart content changed";
 
     @Autowired
     private UserProvider userProvider;
@@ -47,12 +47,12 @@ public class CheckoutServiceImpl implements CheckoutService {
     public Map<String, Object> model() {
         Map<String, Object> data = new HashMap<>();
 
-        data.put("saleOffer", specialSaleOffer.getOffer());
         User user = userProvider.getUser();
         if (user != null) {
             List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
             data.put("shippingProfiles", shippingProfiles);
         }
+        data.put("saleOffer", specialSaleOffer.getOffer());
         data.put("user", user);
         data.put("checkoutCart", cartProvider.getCart());
         return data;
@@ -60,7 +60,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     public Order createOrder(Cart cart, String hashcode, ShippingDetails shippingDetails) throws ServiceException {
         if (!hashcode.equals(new Long(cart.getHashCode()).toString())) {
-            throw new ServiceException(CART_CONTANT_HAS_CHANGED);
+            throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
 
         shippingDetailsFormatValidationService.validate(shippingDetails);

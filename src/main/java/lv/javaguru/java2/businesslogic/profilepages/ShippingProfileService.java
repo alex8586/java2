@@ -12,7 +12,6 @@ public interface ShippingProfileService {
     Map<String, Object> model(User user) throws ServiceException;
 
     ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException;
-
     ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException;
 
     void delete(Long id) throws ServiceException;

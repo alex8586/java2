@@ -4,6 +4,7 @@ import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileServiceImpl;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.config.SpringConfig;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -56,17 +58,17 @@ public class ShippingProfileServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = IllegalRequestException.class)
+    @Test(expected = UnauthorizedAccessException.class)
     public void listFailsWhenUserNotAuthorized() throws ServiceException {
         Mockito.doReturn(false).when(userProvider).authorized();
-        shippingProfileService.list();
+        shippingProfileService.model();
     }
 
     @Test
     public void emptyListWhenUserHaveNoProfiles() throws ServiceException {
-        Mockito.doReturn(true).when(userProvider).authorized();
-        Mockito.doReturn(user).when(userProvider).getUser();
-        assertEquals(0, shippingProfileService.list().size());
+        Map<String, Object> map = shippingProfileService.model(user);
+        List<ShippingProfile> profiles = (List<ShippingProfile>) map.get("shippingProfiles");
+        assertEquals(0, profiles.size());
     }
 
     @Test
@@ -74,11 +76,13 @@ public class ShippingProfileServiceImplTest {
         List<ShippingProfile> profiles = new ArrayList<ShippingProfile>();
         profiles.add(shippingProfile);
         profiles.add(shippingProfile);
-
-        Mockito.doReturn(true).when(userProvider).authorized();
-        Mockito.doReturn(user).when(userProvider).getUser();
         Mockito.doReturn(profiles).when(shippingProfileDAO).getAllByUser(user);
-        assertEquals(profiles, shippingProfileService.list());
+        assertEquals(profiles, shippingProfileService.model(user).get("shippingProfiles"));
+    }
+
+    @Test
+    public void returnAnotherModelData() throws ServiceException {
+
     }
 
 
@@ -124,7 +128,7 @@ public class ShippingProfileServiceImplTest {
         Mockito.doReturn(shippingProfile).when(shippingProfileDAO).getById(123L);
         Mockito.doReturn(41L).when(shippingProfile).getUserId();
         Mockito.doReturn(false).when(userProvider).isCurrent(41L);
-        shippingProfileService.save(shippingDetails);
+        shippingProfileService.save(shippingDetails, user);
     }
 
 

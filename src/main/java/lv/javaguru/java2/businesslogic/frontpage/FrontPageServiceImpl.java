@@ -36,7 +36,7 @@ public class FrontPageServiceImpl implements FrontPageService {
     public Map<String, Object> model(Category category) {
 
         Map<String, Object> frontPageData = new HashMap<String, Object>();
-        List<Product> productList = null;
+        List<Product> productList;
         Product offer;
 
         if (category == null) {
