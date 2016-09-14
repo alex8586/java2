@@ -44,7 +44,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     private OrderDAO orderDAO;
 
     @Override
-    public Map<String, Object> serve() {
+    public Map<String, Object> model() {
         Map<String, Object> data = new HashMap<>();
 
         data.put("saleOffer", specialSaleOffer.getOffer());

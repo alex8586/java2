@@ -6,5 +6,5 @@ public interface ProfileOrderService {
 
     Map<String, Object> getHistoryOrders();
 
-    Map<String, Object> getOrder(long id);
+    Map<String, Object> getById(long id);
 }

@@ -18,7 +18,7 @@ public class FrontPageController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> frontPageData = frontPageService.serve((Category) request.getSession().getAttribute("currentCategory"));
+        Map<String, Object> frontPageData = frontPageService.model((Category) request.getSession().getAttribute("currentCategory"));
         return new MVCModel(frontPageData, "/frontpage.jsp");
     }
 }

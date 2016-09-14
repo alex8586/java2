@@ -41,8 +41,8 @@ public class CheckoutController extends MVCController {
     public MVCModel executeGet(HttpServletRequest request) {
         if (cartProvider.getCart().getAll().size() == 0)
             return redirectTo(FrontPageController.class);
-        
-        Map<String, Object> data = checkoutService.serve();
+
+        Map<String, Object> data = checkoutService.model();
         return new MVCModel(data, "/checkout.jsp");
     }
 
@@ -59,7 +59,6 @@ public class CheckoutController extends MVCController {
                             request.getParameter("document"));
             String hashcode = request.getParameter("hashcode");
             Order order = checkoutService.createOrder(cartProvider.getCart(), hashcode, shippingDetails);
-
 
             //stockService.substract(cartprovide.getCart());
             cartProvider.empty();

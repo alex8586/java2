@@ -28,7 +28,7 @@ public class ProfileOrderServiceImpl implements ProfileOrderService {
     private UserProvider userProvider;
 
     @Override
-    public Map<String, Object> getOrder(long orderId) {
+    public Map<String, Object> getById(long orderId) {
         Map<String, Object> orderData = new HashMap<>();
 
         List<Order> orderLineList = orderDAO.getAllOrderLinesByOrderId(orderId);

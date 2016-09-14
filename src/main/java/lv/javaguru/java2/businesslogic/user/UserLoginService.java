@@ -7,6 +7,5 @@ public interface UserLoginService {
     boolean allowLogin();
     User authenticate(String email, String password) throws ServiceException;
     void login(User user);
-
     void logout();
 }

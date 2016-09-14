@@ -33,7 +33,7 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Autowired
     private CategoryTree categoryTree;
 
-    public Map<String, Object> serve(Category category) {
+    public Map<String, Object> model(Category category) {
 
         Map<String, Object> frontPageData = new HashMap<String, Object>();
         List<Product> productList = null;

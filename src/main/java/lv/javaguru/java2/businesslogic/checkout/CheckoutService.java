@@ -8,7 +8,7 @@ import lv.javaguru.java2.dto.ShippingDetails;
 import java.util.Map;
 
 public interface CheckoutService {
-    Map<String, Object> serve();
+    Map<String, Object> model();
 
     Order createOrder(Cart cart, String hashcode, ShippingDetails shippingDetails) throws ServiceException;
 }

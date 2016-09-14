@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class UserLoginServiceImpl implements UserLoginService {
 
@@ -30,6 +32,12 @@ public class UserLoginServiceImpl implements UserLoginService {
     public boolean allowLogin() {
         return !currentUser.authorized();
     }
+
+    @Override
+    public Map<String, Object> model() {
+
+    }
+
 
     @Override
     public User authenticate(String email, String password) throws ServiceException {

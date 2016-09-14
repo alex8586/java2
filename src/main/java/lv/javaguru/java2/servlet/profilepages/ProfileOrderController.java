@@ -31,7 +31,7 @@ public class ProfileOrderController extends MVCController {
             return redirectTo(FrontPageController.class);
         }
 
-        Map<String, Object> map = profileOrderService.getOrder(orderId);
+        Map<String, Object> map = profileOrderService.getById(orderId);
 
         return new MVCModel(map, "/profile_order.jsp");
     }
