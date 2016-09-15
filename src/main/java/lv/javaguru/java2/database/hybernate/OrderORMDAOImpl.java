@@ -51,7 +51,9 @@ public class OrderORMDAOImpl implements OrderDAO {
     @Override
     public List<Order> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Order.class).list();
+        return session.createCriteria(Order.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     @Override

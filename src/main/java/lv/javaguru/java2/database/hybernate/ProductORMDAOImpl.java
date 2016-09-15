@@ -4,6 +4,7 @@ import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.helpers.CategoryTree;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -56,13 +57,18 @@ public class ProductORMDAOImpl implements ProductDAO {
     @Override
     public List getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Product.class).list();
+        return session.createCriteria(Product.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     @Override
     public List getAllByCategory(Category category) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Product.class).add(Restrictions.eq("categoryId", category.getId())).list();
+        return session.createCriteria(Product.class)
+                .add(Restrictions.eq("categoryId", category.getId()))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     @Override
@@ -71,7 +77,10 @@ public class ProductORMDAOImpl implements ProductDAO {
         List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
         ids.add(category.getId());
         Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Product.class).add(Restrictions.in("categoryId", ids)).list();
+        return session.createCriteria(Product.class)
+                .add(Restrictions.in("categoryId", ids))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     @Override
