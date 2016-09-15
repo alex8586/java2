@@ -3,10 +3,12 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CheckoutService;
 import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.product.StockService;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
+import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
@@ -36,6 +38,10 @@ public class CheckoutController extends MVCController {
     private Error error;
     @Autowired
     private UserProvider userProvider;
+    @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
+    private StockService stockService;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -59,12 +65,12 @@ public class CheckoutController extends MVCController {
                             request.getParameter("phone"),
                             request.getParameter("document"));
             String hashcode = request.getParameter("hashcode");
-            Order order = checkoutService.createOrder(cartProvider.getCart(), hashcode, shippingDetails);
 
-            //stockService.substract(cartprovide.getCart());
+            Order order = checkoutService.composeOrder(hashcode, cartProvider.getCart(), shippingDetails);
+            stockService.supply(cartProvider.getCart());
+
+            orderDAO.create(order);
             cartProvider.empty();
-            request.getSession().removeAttribute("cart");
-            request.getSession().removeAttribute("cartPrice");
             if (shippingDetails.getId() == 0 && userProvider.authorized()) {
                 try {
                     shippingProfileService.save(shippingDetails);

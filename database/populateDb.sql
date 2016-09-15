@@ -133,11 +133,26 @@ SET products.description = CONCAT('desc for ', products.name);
 UPDATE products
 SET products.imgurl = "img/products/image_coming_soon.png";
 
+
+INSERT INTO stock (product_id, quantity, expire_date)
+  SELECT
+    products.id,
+    products.id * 5,
+    '2017-01-20'
+  FROM products;
+
 INSERT INTO stock (product_id, quantity, expire_date)
   SELECT
     products.id,
     products.id * 10,
-    '2017-01-20'
+    '2017-01-25'
+  FROM products;
+
+INSERT INTO stock (product_id, quantity, expire_date)
+  SELECT
+    products.id,
+    products.id * 1,
+    '2017-01-22'
   FROM products;
 
 

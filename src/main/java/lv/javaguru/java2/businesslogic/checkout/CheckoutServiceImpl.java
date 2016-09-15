@@ -4,7 +4,6 @@ import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
-import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -12,7 +11,6 @@ import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.OrderUtil;
-import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -39,13 +37,10 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Autowired
     private SpecialSaleOffer specialSaleOffer;
     @Autowired
-    private ShippingDetailsUtil shippingDetailsUtil;
-    @Autowired
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
     @Autowired
     private CartService cartService;
-    @Autowired
-    private OrderDAO orderDAO;
+
 
     @Override
     public Map<String, Object> model() throws ServiceException {

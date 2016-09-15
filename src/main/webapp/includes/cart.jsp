@@ -37,7 +37,6 @@
             </div>
         </div>
     </c:forEach>
-    bla
 </c:if>
 
 <div class="row">
