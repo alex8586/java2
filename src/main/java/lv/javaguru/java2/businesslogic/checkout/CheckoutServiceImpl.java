@@ -69,19 +69,19 @@ public class CheckoutServiceImpl implements CheckoutService {
         return data;
     }
 
-    public Order createOrder(Cart cart, String hashcode, ShippingDetails shippingDetails) throws ServiceException {
-        if (!hashcode.equals(new Long(cart.getHashCode()).toString())) {
+    public Order composeOrder(String checkSum, Cart cart, ShippingDetails shippingDetails) throws ServiceException {
+        if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
         shippingDetailsFormatValidationService.validate(shippingDetails);
-
         Order order = new Order();
+
+        /*prepared for Builder pattern*/
         orderUtil.build(userProvider.getUser(), order);
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
-        orderDAO.create(order);
         return order;
     }
 }

@@ -13,5 +13,5 @@ public interface CheckoutService {
 
     Map<String, Object> model(Cart cart, User user) throws ServiceException;
 
-    Order createOrder(Cart cart, String hashcode, ShippingDetails shippingDetails) throws ServiceException;
+    Order composeOrder(String checkSum, Cart cart, ShippingDetails shippingDetails) throws ServiceException;
 }
