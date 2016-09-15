@@ -47,7 +47,6 @@ public class ProductCardUtil {
         return products.stream()
                 .map(product -> build(product))
                 .collect(Collectors.toList());
-
     }
 
 
