@@ -1,7 +1,6 @@
 package lv.javaguru.java2.dto.builders;
 
 import lv.javaguru.java2.domain.ShippingProfile;
-import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +41,5 @@ public class ShippingDetailsUtil {
         shippingProfile.setPerson(shippingDetails.getPerson());
         shippingProfile.setPhone(shippingDetails.getPhone());
         shippingProfile.setDocument(shippingDetails.getDocument());
-    }
-
-    public void updateOrder(ShippingDetails shippingDetails, Order order) {
-        order.setPhone(shippingDetails.getPhone());
-        order.setAddress(shippingDetails.getAddress());
-        order.setDocument(shippingDetails.getDocument());
-        order.setPerson(shippingDetails.getPerson());
     }
 }

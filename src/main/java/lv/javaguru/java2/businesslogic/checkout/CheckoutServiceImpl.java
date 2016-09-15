@@ -7,24 +7,28 @@ import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidatio
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.Cart;
-import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
-import lv.javaguru.java2.domain.order.OrderLine;
 import lv.javaguru.java2.dto.ShippingDetails;
+import lv.javaguru.java2.dto.builders.OrderUtil;
 import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class CheckoutServiceImpl implements CheckoutService {
 
     private static final String CART_CONTENT_HAS_CHANGED = "Cart content changed";
     private static final String EMPTY_CART = "Cart is empty";
+    @Autowired
+    OrderUtil orderUtil;
     @Autowired
     private UserProvider userProvider;
     @Autowired
@@ -72,32 +76,12 @@ public class CheckoutServiceImpl implements CheckoutService {
         shippingDetailsFormatValidationService.validate(shippingDetails);
 
         Order order = new Order();
-        if (userProvider.authorized())
-            order.setUserId(userProvider.getUser().getId());
-
-        shippingDetailsUtil.updateOrder(shippingDetails, order);
-
+        orderUtil.build(userProvider.getUser(), order);
+        orderUtil.build(shippingDetails, order);
+        orderUtil.build(cart, order);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
-        order.setTotal(cart.getTotalPrice());
-
-        order.setOrderLines(new ArrayList<>());
-        for (Map.Entry<Product, Integer> cartLine : cart.getAll().entrySet()) {
-            Product product = cartLine.getKey();
-            OrderLine orderLine = new OrderLine();
-
-            orderLine.setDescription(product.getDescription());
-            orderLine.setName(product.getName());
-            orderLine.setPrice(product.getPrice());
-            orderLine.setProductId(product.getId());
-
-            orderLine.setQuantity(cartLine.getValue());
-            orderLine.setExpireDate(new Date());
-            orderLine.setOrder(order);
-            order.getOrderLines().add(orderLine);
-        }
         orderDAO.create(order);
-        System.out.println("order has been created !!!");
         return order;
     }
 }
