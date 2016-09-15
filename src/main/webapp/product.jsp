@@ -33,7 +33,7 @@
                                 <c:if test="${not empty sessionScope.user}">
                                     <c:if test="${empty requestScope.model.cantRate}">
                                         <div class="row center">
-                                            <form action="<tags:linkTo controller="ProductController"/>" method="post">
+                                            <form action="<tags:linkTo controller="RateController"/>" method="post">
                                                 Rate
                                                 <input type="submit" value="1" name="rate1"  style="background-color: #e3f2fd">
                                                 <input type="submit" value="2" name="rate2"  style="background-color: #bbdefb">
@@ -91,7 +91,7 @@
                                 <div class="col s12">
                                     Add comment :
                                 </div>
-                                <form action="<tags:linkTo controller="ProductController"/>" method="post">
+                                <form action="<tags:linkTo controller="CommentController"/>" method="post">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">mode_edit</i>
                                         <textarea id="icon_prefix2" class="materialize-textarea" name="comment"></textarea>

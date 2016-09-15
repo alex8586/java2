@@ -47,8 +47,6 @@ public class ProductServiceImpl implements ProductService {
     private RateService rateService;
     @Autowired
     private RateValidationService rateValidationService;
-    @Autowired
-    private ProductProvider productProvider;
 
     private static final String CANT_RATE = "allready rated";
 

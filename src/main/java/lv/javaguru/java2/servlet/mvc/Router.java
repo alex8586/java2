@@ -48,6 +48,8 @@ public class Router implements Filter {
         addController("/contacts", ContactController.class);
         addController("/profile/shippingProfiles", ShippingProfileController.class);
         addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
+        addController("/rate", RateController.class);
+        addController("/comment", CommentController.class);
 
         pathResolver.setAlias(Product.class, ProductController.class);
         pathResolver.setAlias(Category.class, CategoryChooseController.class);
