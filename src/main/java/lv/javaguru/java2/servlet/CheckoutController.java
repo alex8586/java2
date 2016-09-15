@@ -53,7 +53,7 @@ public class CheckoutController extends MVCController {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = ServiceException.class)
     public MVCModel executePost(HttpServletRequest request) {
         try {
             ShippingDetails shippingDetails =
@@ -67,11 +67,11 @@ public class CheckoutController extends MVCController {
 
             Order order = checkoutService.composeOrder(hashcode, cartProvider.getCart(), shippingDetails);
             stockService.supply(cartProvider.getCart());
-
             orderDAO.create(order);
             cartProvider.empty();
             if (shippingDetails.getId() == 0 && userProvider.authorized())
                 shippingProfileService.save(shippingDetails);
+            System.out.println("E");
             return redirectTo(order);
 
         } catch (NullPointerException e) {
