@@ -14,4 +14,6 @@ public interface ProductDAO extends CrudDAO<Product> {
     Product getRandomProduct();
 
     Product getRandomProductWithoutCurrentCategoryId(long id);
+
+    void merge(Product product);
 }

@@ -30,7 +30,7 @@ public class Product implements BaseEntity {
     private long price;
     @Column(name = "imgurl")
     private String imgUrl;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "product_id")
     private List<Stock> stockList = new ArrayList<>();
 

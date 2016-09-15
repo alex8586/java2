@@ -25,20 +25,20 @@ public class StockServiceImpl implements StockService {
         HashMap<Product, Integer> cartLines = cart.getAll();
         for (Map.Entry<Product, Integer> cartLine : cartLines.entrySet()) {
             Product product = supply(cartLine.getKey().getId(), cartLine.getValue());
-            System.out.println("Updating" + product);
-            productDAO.update(product);
+            productDAO.merge(product);
         }
     }
 
     private Product supply(long id, Integer quantity) throws ServiceException {
         Product product = productDAO.getById(id);
         for (Stock stock : product.getFresh()) {
-            if (quantity <= stock.getQuantity()) {
+            if (quantity < stock.getQuantity()) {
                 stock.substractQuantity(quantity);
                 quantity = 0;
             } else {
                 quantity -= stock.getQuantity();
                 stock.setQuantity(0);
+                //product.getStockList().remove(stock);
             }
 
         }

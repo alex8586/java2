@@ -1,6 +1,5 @@
 package lv.javaguru.java2.database.jdbc;
 
-import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -8,7 +7,6 @@ import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,7 +83,6 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         return product;
     }
 
-    /*
     @Override
     public Product getRandomProduct(){
         return (Product) super.getByCondition(GET_RANDOM_PRODUCT, 1);
@@ -94,49 +91,6 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
     @Override
     public Product getRandomProductWithoutCurrentCategoryId(long id) {
         return (Product) super.getByCondition(GET_RANDOM_PRODUCT_WITHOUT_CURRENT_CATEGORY_ID, id);
-    }
-    */
-
-
-    @Override
-    public Product getRandomProductWithoutCurrentCategoryId(long id){
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    (GET_RANDOM_PRODUCT_WITHOUT_CURRENT_CATEGORY_ID);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-                return buildFromResultSet(resultSet);
-            else
-                return null;
-        } catch (Throwable e) {
-            System.out.println("Exception while execute getRandomProduct");
-            throw new DBException(e);
-        } finally {
-            closeConnection(connection);
-        }
-    }
-
-    @Override
-    public Product getRandomProduct(){
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_RANDOM_PRODUCT);
-            preparedStatement.setLong(1, 1);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-                return buildFromResultSet(resultSet);
-            else
-                return null;
-        } catch (Throwable e) {
-            System.out.println("Exception while execute getRandomProduct");
-            throw new DBException(e);
-        } finally {
-            closeConnection(connection);
-        }
     }
 
     @Override
@@ -147,6 +101,11 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
         String inIds = ids.toString();
         String sql = GET_BY_CATEGORY_TREE + "(-1," + inIds.substring(1, inIds.length() - 1) + ")";
         return super.getAll(sql);
+    }
+
+    @Override
+    public void merge(Product product) {
+        throw new UnsupportedOperationException();
     }
 
 }

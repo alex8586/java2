@@ -42,6 +42,11 @@ public class ProductORMDAOImpl implements ProductDAO {
         session.update(product);
     }
 
+    public void merge(Product product) {
+        Session session = sessionFactory.getCurrentSession();
+        session.merge(product);
+    }
+
     @Override
     public void delete(Product product) {
         Session session = sessionFactory.getCurrentSession();
