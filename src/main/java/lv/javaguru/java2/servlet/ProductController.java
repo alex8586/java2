@@ -1,5 +1,7 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.product.RateService;
+import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.businesslogic.validators.ReviewValidationService;
 import lv.javaguru.java2.businesslogic.validators.StockValidationService;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
@@ -32,6 +34,7 @@ public class ProductController extends MVCController {
     private static final String EMPTY_COMMENT = "Comment can't be empty";
     private static final String QUANTITY_MORE_THAN_STOCK = "Quantity can't be more than stock";
     private static final String CAN_NOT_COMMENT_TODAY = "Not allowed to comment twice per day";
+    private static final String CAN_NOT_RATE = "You can rate one time per product";
 
     @Autowired
     @Qualifier("JDBC_ProductDAO")
@@ -52,6 +55,10 @@ public class ProductController extends MVCController {
     private StockValidationService stockValidationService;
     @Autowired
     private ReviewValidationService reviewValidationService;
+    @Autowired
+    private RateService rateService;
+    @Autowired
+    private RateValidationService rateValidationService;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
@@ -121,6 +128,52 @@ public class ProductController extends MVCController {
             reviewService.addComment(comment);
         }
 
+        if(request.getParameter("rate1") != null){
+            long productId = Long.parseLong(request.getParameter("productId"));
+            productProvider.setProductId(productId);
+            request.getSession().setAttribute("productId", productId);
+            if(!rateValidationService.canRate(user, productId)){
+                map.put("error", CAN_NOT_RATE);
+                return new MVCModel(map, "/product.jsp");
+            }
+            rateService.rate(Integer.parseInt(request.getParameter("rate1")));
+        }if(request.getParameter("rate2") != null){
+            long productId = Long.parseLong(request.getParameter("productId"));
+            productProvider.setProductId(productId);
+            request.getSession().setAttribute("productId", productId);
+            if(!rateValidationService.canRate(user, productId)){
+                map.put("error", CAN_NOT_RATE);
+                return new MVCModel(map, "/product.jsp");
+            }
+            rateService.rate(Integer.parseInt(request.getParameter("rate2")));
+        }if(request.getParameter("rate3") != null) {
+            long productId = Long.parseLong(request.getParameter("productId"));
+            productProvider.setProductId(productId);
+            request.getSession().setAttribute("productId", productId);
+            if(!rateValidationService.canRate(user, productId)){
+                map.put("error", CAN_NOT_RATE);
+                return new MVCModel(map, "/product.jsp");
+            }
+            rateService.rate(Integer.parseInt(request.getParameter("rate3")));
+        }if(request.getParameter("rate4") != null){
+            long productId = Long.parseLong(request.getParameter("productId"));
+            productProvider.setProductId(productId);
+            request.getSession().setAttribute("productId", productId);
+            if(!rateValidationService.canRate(user, productId)){
+                map.put("error", CAN_NOT_RATE);
+                return new MVCModel(map, "/product.jsp");
+            }
+            rateService.rate(Integer.parseInt(request.getParameter("rate4")));
+        }if(request.getParameter("rate5") != null){
+            long productId = Long.parseLong(request.getParameter("productId"));
+            productProvider.setProductId(productId);
+            request.getSession().setAttribute("productId", productId);
+            if(!rateValidationService.canRate(user, productId)){
+                map.put("error", CAN_NOT_RATE);
+                return new MVCModel(map, "/product.jsp");
+            }
+            rateService.rate(Integer.parseInt(request.getParameter("rate5")));
+        }
         return redirectTo(ProductController.class);
     }
 }

@@ -19,6 +19,7 @@
                             <div class="col s12 center-align" >
                                 <br>
                                 <h5>${requestScope.model.productCard.productName}</h5>
+                                <b style="background-color: ${requestScope.model.rateColor}">&ensp;  Rating &ensp; ${requestScope.model.averageRate}&ensp;</b>
                             </div>
                         </div>
                         <div class="row">
@@ -29,6 +30,26 @@
                                 <div class="row">
                                     <img src="${requestScope.model.productCard.productImgUrl}" width="219" height="219">
                                 </div>
+                                <c:if test="${not empty sessionScope.user}">
+                                    <c:if test="${empty requestScope.model.cantRate}">
+                                        <div class="row center">
+                                            <form action="<tags:linkTo controller="ProductController"/>" method="post">
+                                                Rate
+                                                <input type="submit" value="1" name="rate1"  style="background-color: #e3f2fd">
+                                                <input type="submit" value="2" name="rate2"  style="background-color: #bbdefb">
+                                                <input type="submit" value="3" name="rate3"  style="background-color: #90caf9">
+                                                <input type="submit" value="4" name="rate4"  style="background-color: #64b5f6">
+                                                <input type="submit" value="5" name="rate5"  style="background-color: #42a5f5">
+                                                <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
+                                            </form>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${not empty requestScope.model.cantRate}">
+                                        <div class="row">
+                                            ${requestScope.model.cantRate}
+                                        </div>
+                                    </c:if>
+                                </c:if>
                             </div>
                             <div class="col s9">
                                 <div class="row">
@@ -38,7 +59,6 @@
                                         and more description and more description and more description and more description
                                         and more description and more description and more description and more description
                                         and more description and more description and more description and more description
-
                                     </p>
                                     <p style="margin-left: 40px;">
                                         <br>
@@ -74,7 +94,7 @@
                                 <form action="<tags:linkTo controller="ProductController"/>" method="post">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">mode_edit</i>
-                                        <textarea id="icon_prefix2" class="materialize-textarea" length="1000" name="comment"></textarea>
+                                        <textarea id="icon_prefix2" class="materialize-textarea" name="comment"></textarea>
                                         <label for="icon_prefix2">Comment here</label>
                                         <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
                                     </div>
@@ -88,7 +108,6 @@
                         </c:if>
                         <c:if test="${not empty requestScope.model.reviews}">
                             <div class="row">
-
                                 <ul class="collection with-header">
                                     <li class="collection-header"><h5>Comments :</h5></li>
                                     <c:forEach items="${requestScope.model.reviews}" var="reviews">
@@ -98,17 +117,13 @@
                                 </ul>
                             </div>
                         </c:if>
-
                     </div>
                 </c:if>
-            </div>
+                </div>
             <div class="col s2">
                 <%@include file="includes/cart.jsp" %>
                 <%@include file="includes/product_banner.jsp" %>
             </div>
-        </div>
-        <div class="row">
-
         </div>
     </jsp:body>
 </tags:pageTemplate>

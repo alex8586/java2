@@ -18,9 +18,6 @@ public class Review implements BaseEntity {
     @Column(name = "product_id")
     public long productId;
 
-    @Column(name = "rate")
-    public int rate;
-
     @Column(name = "comment")
     public String comment;
 
@@ -55,14 +52,6 @@ public class Review implements BaseEntity {
         this.productId = productId;
     }
 
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -93,7 +82,6 @@ public class Review implements BaseEntity {
                 "id=" + id +
                 ", userId=" + userId +
                 ", productId=" + productId +
-                ", rate=" + rate +
                 ", comment='" + comment + '\'' +
                 ", date=" + date +
                 '}';

@@ -28,7 +28,6 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = new Review();
         review.setUserId(user.getId());
         review.setProductId(productId);
-        review.setRate(1);
         review.setComment(comment);
         review.setDate(date);
         review.setUserName(user.getFullName());

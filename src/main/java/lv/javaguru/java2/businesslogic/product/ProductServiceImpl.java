@@ -3,6 +3,7 @@ package lv.javaguru.java2.businesslogic.product;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
+import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.database.ReviewDAO;
@@ -42,10 +43,14 @@ public class ProductServiceImpl implements ProductService {
     private SpecialSaleOffer specialSaleOffer;
     @Autowired
     private StatisticCountService statisticCountService;
+    @Autowired
+    private RateService rateService;
+    @Autowired
+    private RateValidationService rateValidationService;
+    @Autowired
+    private ProductProvider productProvider;
 
-    private boolean userCanCommentOnProduct(/*params*/) {
-        return userProvider.authorized();
-    }
+    private static final String CANT_RATE = "allready rated";
 
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -57,8 +62,14 @@ public class ProductServiceImpl implements ProductService {
         else {
             countVisitService.countVisit(product, ip);
         }
-        //add @Transactional over Service
 
+        if(!rateValidationService.canRate(userProvider.getUser(), id)){
+            map.put("cantRate",CANT_RATE);
+        }
+        double averageRate = rateService.getAverageRate(id);
+        map.put("averageRate", averageRate);
+        String rateColor = rateService.getRateColor(averageRate);
+        map.put("rateColor", rateColor);
         long views = statisticCountService.getProductViews(id);
         map.put("views", views);
         List<Review> reviews = reviewDAO.getByProduct(product);
