@@ -39,11 +39,12 @@ public class CheckoutController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        if (cartProvider.getCart().getAll().size() == 0)
+        try {
+            Map<String, Object> data = checkoutService.model();
+            return new MVCModel(data, "/checkout.jsp");
+        } catch (ServiceException e) {
             return redirectTo(FrontPageController.class);
-
-        Map<String, Object> data = checkoutService.model();
-        return new MVCModel(data, "/checkout.jsp");
+        }
     }
 
     @Override

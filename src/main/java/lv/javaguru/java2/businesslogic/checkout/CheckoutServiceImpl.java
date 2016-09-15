@@ -24,7 +24,7 @@ import java.util.*;
 public class CheckoutServiceImpl implements CheckoutService {
 
     private static final String CART_CONTENT_HAS_CHANGED = "Cart content changed";
-
+    private static final String EMPTY_CART = "Cart is empty";
     @Autowired
     private UserProvider userProvider;
     @Autowired
@@ -38,23 +38,30 @@ public class CheckoutServiceImpl implements CheckoutService {
     private ShippingDetailsUtil shippingDetailsUtil;
     @Autowired
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
-
-
+    @Autowired
+    private CartService cartService;
     @Autowired
     private OrderDAO orderDAO;
 
     @Override
-    public Map<String, Object> model() {
-        Map<String, Object> data = new HashMap<>();
-
+    public Map<String, Object> model() throws ServiceException {
         User user = userProvider.getUser();
+        Cart cart = cartProvider.getCart();
+        return model(cart, user);
+    }
+    @Override
+    public Map<String, Object> model(Cart cart, User user) throws ServiceException {
+        if (cart.getAll().size() == 0) {
+            throw new ServiceException(EMPTY_CART);
+        }
+        Map<String, Object> data = new HashMap<>();
         if (user != null) {
             List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
             data.put("shippingProfiles", shippingProfiles);
         }
         data.put("saleOffer", specialSaleOffer.getOffer());
         data.put("user", user);
-        data.put("checkoutCart", cartProvider.getCart());
+        data.putAll(cartService.model(cart));
         return data;
     }
 
@@ -62,7 +69,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (!hashcode.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-
         shippingDetailsFormatValidationService.validate(shippingDetails);
 
         Order order = new Order();
