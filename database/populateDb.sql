@@ -137,21 +137,21 @@ SET products.imgurl = "img/products/image_coming_soon.png";
 INSERT INTO stock (product_id, quantity, expire_date)
   SELECT
     products.id,
-    products.id * 1,
+    1,
     '2017-01-20'
   FROM products;
 
 INSERT INTO stock (product_id, quantity, expire_date)
   SELECT
     products.id,
-    products.id * 3,
+    3,
     '2017-01-25'
   FROM products;
 
 INSERT INTO stock (product_id, quantity, expire_date)
   SELECT
     products.id,
-    products.id * 2,
+    2,
     '2017-01-22'
   FROM products;
 

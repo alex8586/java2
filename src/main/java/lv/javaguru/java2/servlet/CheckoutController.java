@@ -70,15 +70,10 @@ public class CheckoutController extends MVCController {
 
             orderDAO.create(order);
             cartProvider.empty();
-            if (shippingDetails.getId() == 0 && userProvider.authorized()) {
-                try {
-                    shippingProfileService.save(shippingDetails);
-                } catch (Exception e) {
-
-                }
-            }
+            if (shippingDetails.getId() == 0 && userProvider.authorized())
+                shippingProfileService.save(shippingDetails);
             return redirectTo(order);
-            
+
         } catch (NullPointerException e) {
             return new MVCModel("/error");
         } catch (DBException e) {
