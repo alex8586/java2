@@ -93,7 +93,7 @@
                         </c:if>
                         <div class="row">
                             <input id="hashcode" type="hidden" name="hashcode"
-                                   value="${requestScope.model.checkoutCart.hashCode}">
+                                   value="${requestScope.model.cart.cartCheckSum}">
                             <input id="profileId" type="hidden" class="validate" name="profileId">
                             <div class="input-field col s12">
                                 <input id="address" type="text" class="validate" name="address">

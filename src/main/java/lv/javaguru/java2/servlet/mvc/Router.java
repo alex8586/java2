@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet.mvc;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.servlet.*;
 import lv.javaguru.java2.servlet.frontpage.CategoryChooseController;
 import lv.javaguru.java2.servlet.frontpage.CategoryResetController;
@@ -53,6 +54,7 @@ public class Router implements Filter {
 
         pathResolver.setAlias(Product.class, ProductController.class);
         pathResolver.setAlias(Category.class, CategoryChooseController.class);
+        pathResolver.setAlias(Order.class, ProfileOrderController.class);
         filterConfig.getServletContext().setAttribute("reverseRouter", pathResolver);
 
     }

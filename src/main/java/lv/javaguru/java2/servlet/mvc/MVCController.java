@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet.mvc;
 
+import lv.javaguru.java2.domain.BaseEntity;
 import lv.javaguru.java2.dto.builders.RequestedEntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -35,6 +36,10 @@ public abstract class MVCController {
 
     protected MVCModel redirectTo(Class targetController) {
         return new MVCModel(pathResolver.linkTo(targetController));
+    }
+
+    protected MVCModel redirectTo(BaseEntity targetEntity) {
+        return new MVCModel(pathResolver.linkTo(targetEntity));
     }
     
 }
