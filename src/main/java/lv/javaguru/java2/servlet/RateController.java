@@ -32,11 +32,12 @@ public class RateController extends MVCController{
     protected MVCModel executePost(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         User user = userProvider.getUser();
-        long productId = productProvider.getProductId();
+        long productId = Long.parseLong(request.getParameter("productId"));
+        productProvider.setProductId(productId);
+        request.getSession().setAttribute("productId", productId);
 
         if(request.getParameter("rate1") != null){
             int param = Integer.parseInt(request.getParameter("rate1"));
-            rateHelper(request);
             if(!rateValidationService.canRate(user, productId)){
                 map.put("error", CAN_NOT_RATE);
                 return new MVCModel(map, "/product.jsp");
@@ -45,7 +46,6 @@ public class RateController extends MVCController{
         }
         if(request.getParameter("rate2") != null){
             int param = Integer.parseInt(request.getParameter("rate2"));
-            rateHelper(request);
             if(!rateValidationService.canRate(user, productId)){
                 map.put("error", CAN_NOT_RATE);
                 return new MVCModel(map, "/product.jsp");
@@ -54,7 +54,6 @@ public class RateController extends MVCController{
         }
         if(request.getParameter("rate3") != null) {
             int param = Integer.parseInt(request.getParameter("rate3"));
-            rateHelper(request);
             if(!rateValidationService.canRate(user, productId)){
                 map.put("error", CAN_NOT_RATE);
                 return new MVCModel(map, "/product.jsp");
@@ -63,7 +62,6 @@ public class RateController extends MVCController{
         }
         if(request.getParameter("rate4") != null){
             int param = Integer.parseInt(request.getParameter("rate4"));
-            rateHelper(request);
             if(!rateValidationService.canRate(user, productId)){
                 map.put("error", CAN_NOT_RATE);
                 return new MVCModel(map, "/product.jsp");
@@ -72,7 +70,6 @@ public class RateController extends MVCController{
         }
         if(request.getParameter("rate5") != null){
             int param = Integer.parseInt(request.getParameter("rate5"));
-            rateHelper(request);
             if(!rateValidationService.canRate(user, productId)){
                 map.put("error", CAN_NOT_RATE);
                 return new MVCModel(map, "/product.jsp");
@@ -82,9 +79,4 @@ public class RateController extends MVCController{
         return redirectTo(ProductController.class);
     }
 
-    private void rateHelper(HttpServletRequest request){
-        long productId = Long.parseLong(request.getParameter("productId"));
-        productProvider.setProductId(productId);
-        request.getSession().setAttribute("productId", productId);
-    }
 }
