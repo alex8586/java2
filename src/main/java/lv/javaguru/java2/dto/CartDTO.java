@@ -1,27 +1,27 @@
 package lv.javaguru.java2.dto;
 
-import java.util.HashMap;
+import java.util.List;
 
 
 public class CartDTO {
-    private HashMap<ProductCard, Integer> productCards;
-    private long cartTotalPrice;
+    private List<ProductCard> productCards;
+    private long totalPrice;
     private long cartCheckSum;
 
-    public HashMap<ProductCard, Integer> getProductCards() {
+    public List<ProductCard> getProductCards() {
         return productCards;
     }
 
-    public void setProductCards(HashMap<ProductCard, Integer> productCards) {
+    public void setProductCards(List<ProductCard> productCards) {
         this.productCards = productCards;
     }
 
-    public long getCartTotalPrice() {
-        return cartTotalPrice;
+    public long getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setCartTotalPrice(long cartTotalPrice) {
-        this.cartTotalPrice = cartTotalPrice;
+    public void setTotalPrice(long cartTotalPrice) {
+        this.totalPrice = cartTotalPrice;
     }
 
     public long getCartCheckSum() {

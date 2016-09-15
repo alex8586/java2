@@ -14,19 +14,19 @@
                             <hr style="color: orange; width: 200px ">
                         </div>
                 <c:if test="${not empty requestScope.model.checkoutCart}">
-                    <c:forEach var="cart" items="${requestScope.model.checkoutCart.all}">
+                    <c:forEach var="cartLine" items="${requestScope.model.checkoutCart.all}">
                         <div class="row">
                             <div class="col s2">
-                                <img src="${cart.key.imgUrl}" height="50" width="50">
+                                <img src="${cartLine.key.imgUrl}" height="50" width="50">
                             </div>
                             <div class="col s6 left-align">
-                                ${cart.key.name}
+                                    ${cartLine.key.name}
                             </div>
                             <div class="col s2 center-align">
-                                    ${cart.value} items
+                                    ${cartLine.value} items
                             </div>
                             <div class="col s2 center-align">
-                                    ${cart.key.price} &#8364
+                                    ${cartLine.key.price} &#8364
                             </div>
                         </div>
                         </c:forEach>

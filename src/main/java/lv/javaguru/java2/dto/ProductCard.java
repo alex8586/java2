@@ -11,6 +11,7 @@ public class ProductCard {
     private String productImgUrl;
     private int stockQuantity;
     private Date stockExpireDate;
+    private long quantity;
 
     public long getProductId() {
         return productId;
@@ -66,5 +67,13 @@ public class ProductCard {
 
     public void setStockExpireDate(Date stockExpireDate) {
         this.stockExpireDate = stockExpireDate;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 }

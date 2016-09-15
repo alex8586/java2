@@ -5,15 +5,15 @@
 <div class="center-align">
     <h5 style="color: orange">In your cart :</h5>
 </div>
-<c:if test="${not empty sessionScope.cart}">
-    <c:forEach var="cart" items="${sessionScope.cart.all}">
+<c:if test="${not empty requestScope.model.cart}">
+    <c:forEach var="cartLine" items="${requestScope.model.cart.productCards}">
         <div class="row">
             <div>
                 <div class="col s8 left">
-                        ${cart.key.name}
+                        ${cartLine.productName}
                 </div>
                 <div class="col s4 right-align">
-                        ${cart.key.price}&#8364
+                        ${cartLine.productPrice}&#8364
                 </div>
             </div>
         </div>
@@ -22,21 +22,22 @@
             <div class="col s6 left">
                 <form action="cart" method="post">
                     <div style="display: inline-block">
-                        <input type="hidden" name="productId" value="${cart.key.id}">
+                        <input type="hidden" name="productId" value="${cartLine.productId}">
                         <input type="submit" name="remove" value="-">
                     </div>
                     <div style="display: inline-block">
-                        <input type="hidden" name="productId" value="${cart.key.id}">
+                        <input type="hidden" name="productId" value="${cartLine.productId}">
                         <input type="submit" name="add" value="+">
                     </div>
                 </form>
             </div>
             <div class="col s6 right-align">
-                    ${cart.value}
+                    ${cartLine.quantity}
                 <small>items</small>
             </div>
         </div>
     </c:forEach>
+    bla
 </c:if>
 
 <div class="row">
@@ -44,11 +45,11 @@
         Total :
     </div>
     <div class="col s6 right-align">
-        <c:if test="${empty sessionScope.cart.totalPrice}">
+        <c:if test="${empty requestScope.model.cart.totalPrice}">
             0 &#8364
         </c:if>
-        <c:if test="${not empty sessionScope.cart.totalPrice}">
-            ${sessionScope.cart.totalPrice}&#8364
+        <c:if test="${not empty requestScope.model.cart.totalPrice}">
+            ${requestScope.model.cart.totalPrice}&#8364
         </c:if>
     </div>
 </div>

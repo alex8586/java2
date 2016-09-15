@@ -11,7 +11,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProductCardUtil {
-    
+
+    public ProductCard build(Product product, Integer quantity) {
+        ProductCard productCard = build(product);
+        productCard.setQuantity(quantity);
+        return productCard;
+    }
+
     public ProductCard build(Product product) {
         List<Stock> allStock = product.getFresh();
         return build(product, allStock);

@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic.frontpage;
 
+import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
@@ -26,12 +27,13 @@ public class FrontPageServiceImpl implements FrontPageService {
 
     @Autowired
     ProductCardUtil productCardUtil;
-
     @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
     @Autowired
     private CategoryTree categoryTree;
+    @Autowired
+    private CartService cartService;
 
     public Map<String, Object> model(Category category) {
 
@@ -52,6 +54,7 @@ public class FrontPageServiceImpl implements FrontPageService {
         frontPageData.put("categories", categoryTree.asOrderedList());
         frontPageData.put("productCards", productCards);
         frontPageData.put("saleOffer", offer);
+        frontPageData.putAll(cartService.model());
         return frontPageData;
     }
 }

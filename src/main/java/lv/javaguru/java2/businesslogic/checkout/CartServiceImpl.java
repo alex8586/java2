@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService {
     public Map<String, Object> model() {
         return model(cartProvider.getCart());
     }
-    
+
     @Override
     public Map<String, Object> model(Cart cart) {
         Map<String, Object> map = new HashMap<String, Object>();

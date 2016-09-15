@@ -7,7 +7,8 @@ import lv.javaguru.java2.dto.ProductCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -18,13 +19,13 @@ public class CartDTOUtil {
 
     public CartDTO build(Cart cart) {
         CartDTO cartDTO = new CartDTO();
-        HashMap<ProductCard, Integer> productCards = new HashMap<ProductCard, Integer>();
+        List<ProductCard> productCards = new ArrayList<>();
         for (Map.Entry<Product, Integer> cartLine : cart.getAll().entrySet()) {
-            productCards.put(productCardUtil.build(cartLine.getKey()), cartLine.getValue());
+            productCards.add(productCardUtil.build(cartLine.getKey(), cartLine.getValue()));
         }
         cartDTO.setProductCards(productCards);
         cartDTO.setCartCheckSum(cart.getHashCode());
-        cartDTO.setCartTotalPrice(cart.getTotalPrice());
+        cartDTO.setTotalPrice(cart.getTotalPrice());
         return cartDTO;
     }
 }
