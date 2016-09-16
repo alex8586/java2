@@ -35,11 +35,11 @@ public class CategoryTree implements Iterable<Category> {
         return node == null ? null : node.getChildren();
     }
 
-    public List<Category> getAncestors(Category category) {
+    public List<Category> getDescendants(Category category) {
         if (category == null)
             return null;
         TreeNode<Category> node = nodesById.get(category.getId());
-        return node == null ? null : node.getAncestors();
+        return node == null ? null : node.getDescendants();
     }
 
     public Category getParent(Category category) {

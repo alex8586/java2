@@ -33,7 +33,7 @@ public class StockServiceImpl implements StockService {
         Product product = productDAO.getById(id);
         if (product.getFreshStockQuantity() < quantity)
             throw new InsufficientSupplyException(product);
-        
+
         for (Stock stock : product.getFresh()) {
             if (quantity < stock.getQuantity()) {
                 stock.substractQuantity(quantity);
@@ -43,7 +43,6 @@ public class StockServiceImpl implements StockService {
                 stock.setQuantity(0);
                 //product.getStockList().remove(stock);
             }
-
         }
         if (quantity > 0) {
             throw new InsufficientSupplyException(product);

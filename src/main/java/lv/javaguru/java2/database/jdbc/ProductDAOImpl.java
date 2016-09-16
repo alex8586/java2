@@ -95,7 +95,7 @@ public class ProductDAOImpl extends DAOImpl<Product> implements ProductDAO {
 
     @Override
     public List getByCategoryTree(Category category) {
-        List<Category> categories = categoryTree.getAncestors(category);
+        List<Category> categories = categoryTree.getDescendants(category);
         List<Long> ids = categories.stream().map(cat -> cat.getId()).collect(Collectors.toList());
         ids.add(category.getId());
         String inIds = ids.toString();

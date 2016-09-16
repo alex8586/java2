@@ -8,17 +8,17 @@ class TreeNode<Type> {
     private final Type instance;
     private TreeNode<Type> parent = null;
     private List<TreeNode<Type>> children = null;
-    private List<TreeNode<Type>> ancestors = null;
+    private List<TreeNode<Type>> descendants = null;
 
     public TreeNode(Type self) {
-        this.ancestors = new ArrayList<TreeNode<Type>>();
+        this.descendants = new ArrayList<TreeNode<Type>>();
         this.instance = self;
     }
 
-    public void addAncestors(List<TreeNode<Type>> ancestors) {
-        this.ancestors.addAll(ancestors);
+    public void addDescendants(List<TreeNode<Type>> descendants) {
+        this.descendants.addAll(descendants);
         if (this.parent != null)
-            this.parent.addAncestors(ancestors);
+            this.parent.addDescendants(descendants);
     }
 
     public Type getParent() {
@@ -48,15 +48,15 @@ class TreeNode<Type> {
 
     public void setChildren(List<TreeNode<Type>> children) {
         this.children = children;
-        addAncestors(children);
+        addDescendants(children);
     }
 
     public List<TreeNode<Type>> getChildrenNodes() {
         return this.children;
     }
 
-    public List<Type> getAncestors() {
-        return extractInstances(this.ancestors);
+    public List<Type> getDescendants() {
+        return extractInstances(this.descendants);
     }
 
     public String toString() {
