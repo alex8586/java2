@@ -36,45 +36,17 @@ public class RateController extends MVCController{
         productProvider.setProductId(productId);
         request.getSession().setAttribute("productId", productId);
 
-        if(request.getParameter("rate1") != null){
-            int param = Integer.parseInt(request.getParameter("rate1"));
-            if(!rateValidationService.canRate(user, productId)){
-                map.put("error", CAN_NOT_RATE);
-                return new MVCModel(map, "/product.jsp");
-            }
-            rateService.rate(param);
+        if(!rateValidationService.canRate(user, productId)){
+            map.put("error", CAN_NOT_RATE);
+            return new MVCModel(map, "/product.jsp");
         }
-        if(request.getParameter("rate2") != null){
-            int param = Integer.parseInt(request.getParameter("rate2"));
-            if(!rateValidationService.canRate(user, productId)){
-                map.put("error", CAN_NOT_RATE);
+        if(request.getParameter("rate") != null){
+            int param = Integer.parseInt(request.getParameter("rate"));
+            try {
+                rateService.rate(param);
+            }catch (IllegalArgumentException e){
                 return new MVCModel(map, "/product.jsp");
             }
-            rateService.rate(param);
-        }
-        if(request.getParameter("rate3") != null) {
-            int param = Integer.parseInt(request.getParameter("rate3"));
-            if(!rateValidationService.canRate(user, productId)){
-                map.put("error", CAN_NOT_RATE);
-                return new MVCModel(map, "/product.jsp");
-            }
-            rateService.rate(param);
-        }
-        if(request.getParameter("rate4") != null){
-            int param = Integer.parseInt(request.getParameter("rate4"));
-            if(!rateValidationService.canRate(user, productId)){
-                map.put("error", CAN_NOT_RATE);
-                return new MVCModel(map, "/product.jsp");
-            }
-            rateService.rate(param);
-        }
-        if(request.getParameter("rate5") != null){
-            int param = Integer.parseInt(request.getParameter("rate5"));
-            if(!rateValidationService.canRate(user, productId)){
-                map.put("error", CAN_NOT_RATE);
-                return new MVCModel(map, "/product.jsp");
-            }
-            rateService.rate(param);
         }
         return redirectTo(ProductController.class);
     }

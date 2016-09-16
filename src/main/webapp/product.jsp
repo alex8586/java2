@@ -35,11 +35,11 @@
                                         <div class="row center">
                                             <form action="<tags:linkTo controller="RateController"/>" method="post">
                                                 Rate
-                                                <input type="submit" value="1" name="rate1"  style="background-color: #e3f2fd">
-                                                <input type="submit" value="2" name="rate2"  style="background-color: #bbdefb">
-                                                <input type="submit" value="3" name="rate3"  style="background-color: #90caf9">
-                                                <input type="submit" value="4" name="rate4"  style="background-color: #64b5f6">
-                                                <input type="submit" value="5" name="rate5"  style="background-color: #42a5f5">
+                                                <input type="submit" value="1" name="rate"  style="background-color: #e3f2fd">
+                                                <input type="submit" value="2" name="rate"  style="background-color: #bbdefb">
+                                                <input type="submit" value="3" name="rate"  style="background-color: #90caf9">
+                                                <input type="submit" value="4" name="rate"  style="background-color: #64b5f6">
+                                                <input type="submit" value="5" name="rate"  style="background-color: #42a5f5">
                                                 <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
                                             </form>
                                         </div>

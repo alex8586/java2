@@ -26,6 +26,7 @@ public class ProductController extends MVCController {
     private static final String UNABLE_TO_PROCESS_REQUEST = "Error. Unable to find product";
     private static final String NOT_CORRECT_QUANTITY = "Not correct quantity";
     private static final String QUANTITY_MORE_THAN_STOCK = "Quantity can't be more than stock";
+    private static final String QUANTITY_MUST_BE_NUMBERS = "Quantity must be numbers";
 
     @Autowired
     @Qualifier("JDBC_ProductDAO")
@@ -47,9 +48,9 @@ public class ProductController extends MVCController {
     protected MVCModel executeGet(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         String param = request.getParameter("id");
-        if(param == null || param.isEmpty()){
+        if (param == null || param.isEmpty()) {
             param = String.valueOf(productProvider.getProductId());
-        }else if(param == null){
+        } else if (param == null) {
             map.put("error", UNABLE_TO_PROCESS_REQUEST);
             return new MVCModel(map, "/product.jsp");
         }
@@ -75,11 +76,17 @@ public class ProductController extends MVCController {
             productProvider.setProductId(productId);
             request.getSession().setAttribute("productId", productId);
 
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            int quantity;
+            try {
+                quantity = Integer.parseInt(request.getParameter("quantity"));
+            } catch (NumberFormatException e) {
+                map.put("error", QUANTITY_MUST_BE_NUMBERS);
+                return new MVCModel(map, "/product.jsp");
+            }
             if (!stockValidationService.isValid(quantity, productId)) {
                 map.put("error", QUANTITY_MORE_THAN_STOCK);
                 return new MVCModel(map, "/product.jsp");
-            }else if(quantity <= 0){
+            } else if (quantity <= 0) {
                 map.put("error", NOT_CORRECT_QUANTITY);
                 return new MVCModel(map, "/product.jsp");
             }

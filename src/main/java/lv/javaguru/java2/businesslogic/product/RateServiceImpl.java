@@ -18,7 +18,10 @@ public class RateServiceImpl implements RateService {
     private ProductProvider productProvider;
 
     @Override
-    public void rate(int number) {
+    public void rate(int number) throws IllegalArgumentException{
+        if(number < 1 || number > 5){
+            throw new IllegalArgumentException();
+        }
         User user = userProvider.getUser();
         Rate rate = new Rate();
         rate.setUserId(user.getId());
