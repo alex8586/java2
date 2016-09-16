@@ -11,6 +11,7 @@ import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Review;
 import lv.javaguru.java2.dto.ProductCard;
+import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import java.util.Map;
 @Component
 public class ProductServiceImpl implements ProductService {
 
+    private static final String CANT_RATE = "allready rated";
     @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
@@ -33,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CountVisitService countVisitService;
     @Autowired
-    private ProductCardService productCardService;
+    private ProductCardUtil productCardUtil;
     @Autowired
     private ReviewDAO reviewDAO;
     @Qualifier("ORM_CategoryDAO")
@@ -47,8 +49,6 @@ public class ProductServiceImpl implements ProductService {
     private RateService rateService;
     @Autowired
     private RateValidationService rateValidationService;
-
-    private static final String CANT_RATE = "allready rated";
 
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
         map.put("categories", categoryList);
         Product offer = specialSaleOffer.getOffer();
         map.put("saleOffer", offer);
-        ProductCard productCard = productCardService.forProduct(product);
+        ProductCard productCard = productCardUtil.build(product);
         map.put("productCard", productCard);
 
         return map;

@@ -16,9 +16,11 @@ public class Category implements BaseEntity {
     private long id;
 
     @Column(name = "name")
+
     private String name;
 
     @Column(name = "father_id")
+
     private long father_id;
 
     public Category() {

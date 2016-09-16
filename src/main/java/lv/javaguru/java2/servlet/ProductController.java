@@ -1,5 +1,6 @@
 package lv.javaguru.java2.servlet;
 
+import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.product.ProductProvider;
@@ -39,6 +40,8 @@ public class ProductController extends MVCController {
     private ProductProvider productProvider;
     @Autowired
     private StockValidationService stockValidationService;
+    @Autowired
+    private CartProvider cartProvider;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
@@ -80,7 +83,9 @@ public class ProductController extends MVCController {
                 map.put("error", NOT_CORRECT_QUANTITY);
                 return new MVCModel(map, "/product.jsp");
             }
-            Cart cart = cartService.addToCart(productId, quantity);
+
+            Cart cart = cartProvider.getCart();
+            cartService.addProducts(cart, productId, quantity);
             long cartPrice = cart.getTotalPrice(cart);
             request.getSession().setAttribute("cart", cart);
             request.getSession().setAttribute("cartPrice", cartPrice);

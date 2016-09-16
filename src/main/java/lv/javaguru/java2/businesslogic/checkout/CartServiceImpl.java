@@ -16,16 +16,26 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProduct(Cart cart, long id) {
-        Product product = productDAO.getById(id);
-        if (product != null)
-            cart.add(product);
+        addProducts(cart, id, 1);
     }
 
     @Override
     public void removeProduct(Cart cart, long id) {
+        removeProducts(cart, id, 1);
+    }
+
+    @Override
+    public void addProducts(Cart cart, long id, int quantity) {
         Product product = productDAO.getById(id);
         if (product != null)
-            cart.remove(product, 1);
+            cart.add(product, quantity);
+    }
+
+    @Override
+    public void removeProducts(Cart cart, long id, int quantity) {
+        Product product = productDAO.getById(id);
+        if (product != null)
+            cart.remove(product, quantity);
     }
 
 }
