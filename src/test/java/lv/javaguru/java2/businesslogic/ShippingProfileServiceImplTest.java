@@ -39,6 +39,8 @@ public class ShippingProfileServiceImplTest {
     ShippingProfile shippingProfile;
     @Mock
     User user;
+    @Mock
+    TemplateService templateService;
 
     @Mock
     private ShippingProfileDAO shippingProfileDAO;

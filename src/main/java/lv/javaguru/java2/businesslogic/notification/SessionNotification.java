@@ -1,6 +1,5 @@
 package lv.javaguru.java2.businesslogic.notification;
 
-import lv.javaguru.java2.businesslogic.error.Notification;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;

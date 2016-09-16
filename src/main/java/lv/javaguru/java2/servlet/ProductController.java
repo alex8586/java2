@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
-import lv.javaguru.java2.businesslogic.error.Notification;
+import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;

@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.error.Notification;
+import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserRegistrationService;
 import lv.javaguru.java2.database.DBException;

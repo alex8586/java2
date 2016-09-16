@@ -1,6 +1,6 @@
 package lv.javaguru.java2.businesslogic;
 
-import lv.javaguru.java2.businesslogic.error.Notification;
+import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.domain.User;

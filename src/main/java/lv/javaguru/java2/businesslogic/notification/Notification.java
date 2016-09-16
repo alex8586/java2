@@ -1,4 +1,4 @@
-package lv.javaguru.java2.businesslogic.error;
+package lv.javaguru.java2.businesslogic.notification;
 
 
 public interface Notification {

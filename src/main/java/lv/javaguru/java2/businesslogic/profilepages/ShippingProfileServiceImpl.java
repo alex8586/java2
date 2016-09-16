@@ -25,14 +25,11 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
 
     @Autowired
     UserProvider userProvider;
-
     @Autowired
     @Qualifier("ORM_ShippingProfileDAO")
     ShippingProfileDAO shippingProfileDAO;
-
     @Autowired
     ShippingDetailsUtil shippingDetailsUtil;
-
     @Autowired
     ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
     @Autowired
