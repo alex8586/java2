@@ -60,8 +60,8 @@ public class CategoryTreeTest {
 
     @Test
     public void testAncestorsReturnNullWhenWrongCategorySupplied() {
-        assertEquals(null, emptyCategoryTree.getAncestors(badCategory));
-        assertEquals(null, emptyCategoryTree.getAncestors(null));
+        assertEquals(null, emptyCategoryTree.getDescendants(badCategory));
+        assertEquals(null, emptyCategoryTree.getDescendants(null));
     }
 
     @Test
@@ -140,22 +140,22 @@ public class CategoryTreeTest {
 
         assertEquals(711, categoryTree.getParent(son2ofson1ofRootsChild1).getId());
         assertEquals(1, categoryTree.getChildren(son2ofson1ofRootsChild1).size());
-        assertEquals(1, categoryTree.getAncestors(son2ofson1ofRootsChild1).size());
+        assertEquals(1, categoryTree.getDescendants(son2ofson1ofRootsChild1).size());
         assertEquals(71121, categoryTree.getChildren(son2ofson1ofRootsChild1).get(0).getId());
-        assertEquals(71121, categoryTree.getAncestors(son2ofson1ofRootsChild1).get(0).getId());
+        assertEquals(71121, categoryTree.getDescendants(son2ofson1ofRootsChild1).get(0).getId());
 
         assertEquals(71, categoryTree.getParent(son1ofRootsChild1).getId());
         assertEquals(2, categoryTree.getChildren(son1ofRootsChild1).size());
-        assertEquals(3, categoryTree.getAncestors(son1ofRootsChild1).size());
+        assertEquals(3, categoryTree.getDescendants(son1ofRootsChild1).size());
 
         assertEquals(2, categoryTree.getChildren(rootCategory).size());
-        assertEquals(8, categoryTree.getAncestors(rootCategory).size());
+        assertEquals(8, categoryTree.getDescendants(rootCategory).size());
 
         assertEquals(1, categoryTree.getChildren(rootsChild2).size());
-        assertEquals(1, categoryTree.getAncestors(rootsChild2).size());
+        assertEquals(1, categoryTree.getDescendants(rootsChild2).size());
 
         assertEquals(2, categoryTree.getChildren(rootsChild1).size());
-        assertEquals(5, categoryTree.getAncestors(rootsChild1).size());
+        assertEquals(5, categoryTree.getDescendants(rootsChild1).size());
 
         Iterator<Category> iterator = categoryTree.iterator();
         assertEquals(rootCategory, iterator.next());
