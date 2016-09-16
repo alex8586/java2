@@ -52,6 +52,14 @@ public class Product implements BaseEntity {
         return fresh;
     }
 
+    public int getFreshStockQuantity() {
+        int quantity = 0;
+        for (Stock stock : getFresh()) {
+            quantity += stock.getQuantity();
+        }
+        return quantity;
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }

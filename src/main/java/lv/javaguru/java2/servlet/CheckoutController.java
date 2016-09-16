@@ -3,12 +3,9 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CheckoutService;
 import lv.javaguru.java2.businesslogic.error.Error;
-import lv.javaguru.java2.businesslogic.product.StockService;
-import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
-import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
@@ -17,7 +14,6 @@ import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -25,22 +21,17 @@ import java.util.Map;
 @Component
 public class CheckoutController extends MVCController {
 
+
     @Autowired
-    ShippingProfileService shippingProfileService;
+    CheckoutService checkoutService;
     @Autowired
-    private CheckoutService checkoutService;
+    UserProvider userProvider;
     @Autowired
     private ShippingDetailsUtil shippingDetailsUtil;
     @Autowired
     private CartProvider cartProvider;
     @Autowired
     private Error error;
-    @Autowired
-    private UserProvider userProvider;
-    @Autowired
-    private OrderDAO orderDAO;
-    @Autowired
-    private StockService stockService;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -53,7 +44,6 @@ public class CheckoutController extends MVCController {
     }
 
     @Override
-    @Transactional(rollbackFor = ServiceException.class)
     public MVCModel executePost(HttpServletRequest request) {
         try {
             ShippingDetails shippingDetails =
@@ -65,13 +55,8 @@ public class CheckoutController extends MVCController {
                             request.getParameter("document"));
             String hashcode = request.getParameter("hashcode");
 
-            Order order = checkoutService.composeOrder(hashcode, cartProvider.getCart(), shippingDetails);
-            stockService.supply(cartProvider.getCart());
-            orderDAO.create(order);
-            cartProvider.empty();
-            if (shippingDetails.getId() == 0 && userProvider.authorized())
-                shippingProfileService.save(shippingDetails);
-            System.out.println("E");
+            Order order = checkoutService.checkout(hashcode, userProvider.getUser(),
+                    cartProvider.getCart(), shippingDetails);
             return redirectTo(order);
 
         } catch (NullPointerException e) {

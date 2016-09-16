@@ -1,9 +1,12 @@
 package lv.javaguru.java2.businesslogic.checkout;
 
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.product.StockService;
+import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
+import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -14,6 +17,7 @@ import lv.javaguru.java2.dto.builders.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,19 +32,24 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Autowired
     OrderUtil orderUtil;
     @Autowired
+    ShippingProfileService shippingProfileService;
+    @Autowired
     private UserProvider userProvider;
     @Autowired
+    private SpecialSaleOffer specialSaleOffer;
+    @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
     private CartProvider cartProvider;
+    @Autowired
+    private CartService cartService;
     @Qualifier("ORM_ShippingProfileDAO")
     @Autowired
     private ShippingProfileDAO shippingProfileDAO;
     @Autowired
-    private SpecialSaleOffer specialSaleOffer;
-    @Autowired
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
     @Autowired
-    private CartService cartService;
-
+    private StockService stockService;
 
     @Override
     public Map<String, Object> model() throws ServiceException {
@@ -64,19 +73,26 @@ public class CheckoutServiceImpl implements CheckoutService {
         return data;
     }
 
-    public Order composeOrder(String checkSum, Cart cart, ShippingDetails shippingDetails) throws ServiceException {
+    @Transactional(rollbackFor = ServiceException.class)
+    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails) throws ServiceException {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
+        stockService.supply(cart);
+
         shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();
-
-        /*prepared for Builder pattern*/
         orderUtil.build(userProvider.getUser(), order);
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
+        orderDAO.create(order);
+
+        cartProvider.empty();
+        if (shippingDetails.getId() == 0 && userProvider.authorized())
+            shippingProfileService.save(shippingDetails);
+
         return order;
     }
 }
