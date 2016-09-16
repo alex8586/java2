@@ -12,12 +12,6 @@
          </form>
     </jsp:attribute>
     <jsp:attribute name="rightBar">
-        <c:if test="${not empty requestScope.profileError}">
-            <div class="red-text"><br>
-                <h4>${requestScope.profileError}</h4>
-                <hr>
-            </div>
-        </c:if>
         <hr>
         <c:if test="${not empty sessionScope.user}">
             Your name : ${sessionScope.user.fullName}<br>

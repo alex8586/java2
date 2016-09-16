@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic.checkout;
 
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.product.StockService;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
@@ -50,6 +51,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
     @Autowired
     private StockService stockService;
+    @Autowired
+    private TemplateService templateService;
 
     @Override
     public Map<String, Object> model() throws ServiceException {
@@ -62,15 +65,14 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (cart.getAll().size() == 0) {
             throw new ServiceException(EMPTY_CART);
         }
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        map.putAll(templateService.model(user));
+        map.putAll(cartService.model(cart));
         if (user != null) {
             List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
-            data.put("shippingProfiles", shippingProfiles);
+            map.put("shippingProfiles", shippingProfiles);
         }
-        data.put("saleOffer", specialSaleOffer.getOffer());
-        data.put("user", user);
-        data.putAll(cartService.model(cart));
-        return data;
+        return map;
     }
 
     @Transactional(rollbackFor = ServiceException.class)

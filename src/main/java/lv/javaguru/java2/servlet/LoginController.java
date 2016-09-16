@@ -1,10 +1,14 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserLoginService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.profilepages.ProfileController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +27,7 @@ public class LoginController {
     private UserLoginService userLoginService;
 
     @Autowired
-    private Error error;
+    private Notification notification;
 
     @RequestMapping( method = RequestMethod.GET)
     public ModelAndView executeGet(HttpServletRequest request) {
@@ -31,8 +35,9 @@ public class LoginController {
         try {
             return model.addAllObjects(userLoginService.model());
         } catch (Exception e) {
-            error.setError(e.getMessage());
-            return new ModelAndView("/index");
+            notification.setError(e.getMessage());
+            //return redirectTo(FrontPageController.class);
+            return new ModelAndView("/index");//redir
         }
     }
 
@@ -46,7 +51,7 @@ public class LoginController {
             request.getSession().setAttribute("user", user);
             return "redirect:profile";
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
             return "redirect:login";
         } catch (DBException e) {
             return "redirect:error";

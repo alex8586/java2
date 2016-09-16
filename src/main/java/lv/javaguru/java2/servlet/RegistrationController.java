@@ -1,11 +1,14 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserRegistrationService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +23,13 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
+    private static final String SUCCESS_MESSAGE = "Congrats. Registration was successfull. Now you can login";
     @Autowired
     UserProfileUtil userProfileUtil;
     @Autowired
     UserRegistrationService userRegistrationService;
     @Autowired
-    Error error;
+    Notification notification;
 
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView executeGet(HttpServletRequest request) {
@@ -34,8 +38,8 @@ public class RegistrationController {
             model.addAllObjects(userRegistrationService.model());
             return model;
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
-            return new ModelAndView("/index");
+            notification.setError(e.getMessage());
+            return redirectTo(FrontPageController.class);
         }
     }
 
@@ -48,15 +52,17 @@ public class RegistrationController {
                             param.get("password"),
                             param.get("repeatPassword"));
             userRegistrationService.register(userProfile);
+            notification.setMessage(SUCCESS_MESSAGE);
+
         } catch (NullPointerException e) {
             return "redirect:error";
         } catch (DBException e) {
             return "redirect:error";
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
             return "redirect:registration";
         }
-        return "redirect:login";
+        return redirectTo(LoginController.class);
     }
 
 

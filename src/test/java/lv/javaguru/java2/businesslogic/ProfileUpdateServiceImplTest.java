@@ -53,7 +53,7 @@ public class ProfileUpdateServiceImplTest {
     @Test(expected = WrongFieldFormatException.class)
     public void forwardFieldValidationException() throws ServiceException {
         Mockito.doReturn(true).when(userProvider).authorized();
-        WrongFieldFormatException exception = new WrongFieldFormatException("error");
+        WrongFieldFormatException exception = new WrongFieldFormatException("notification");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(userProfile);
         profileUpdateService.update(userProfile);
     }

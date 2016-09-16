@@ -1,12 +1,11 @@
 package lv.javaguru.java2.businesslogic.user;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
 import lv.javaguru.java2.database.UserDAO;
-import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,11 +33,11 @@ public class UserLoginServiceImpl implements UserLoginService {
     private UserProvider currentUser;
 
     @Autowired
-    private Error error;
-
-    @Autowired
     @Qualifier("randomSaleOffer")
     private SpecialSaleOffer specialSaleOffer;
+
+    @Autowired
+    private TemplateService templateService;
 
     @Override
     public boolean allowLogin() {
@@ -51,10 +50,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             throw new IllegalRequestException();
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        if (error.isError())
-            map.put("loginError", error.getError());
-        Product product = specialSaleOffer.getOffer();
-        map.put("saleOffer", product);
+        map.putAll(templateService.model());
         return map;
     }
 

@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
@@ -30,11 +30,11 @@ public class ProductController extends MVCController {
 
     @Autowired
     @Qualifier("JDBC_ProductDAO")
-    ProductDAOImpl productDAO;
+    private ProductDAOImpl productDAO;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
     @Autowired
-    Error error;
+    private Notification notification;
     @Autowired
     private CartService cartService;
     @Autowired
@@ -52,17 +52,18 @@ public class ProductController extends MVCController {
             param = String.valueOf(productProvider.getProductId());
         } else if (param == null) {
             map.put("error", UNABLE_TO_PROCESS_REQUEST);
+            notification.setError(UNABLE_TO_PROCESS_REQUEST);
             return new MVCModel(map, "/product.jsp");
         }
         try {
             Long id = Long.valueOf(param);
             map = productService.getById(id, request.getRemoteAddr());
         } catch (ServiceException e) {
-            map.put("error", e.getMessage());
+            notification.setError(e.getMessage());
         } catch (NumberFormatException e) {
-            map.put("error", UNABLE_TO_PROCESS_REQUEST);
+            notification.setError(UNABLE_TO_PROCESS_REQUEST);
         } catch (DBException e) {
-            map.put("error", e.getMessage());
+            notification.setError(e.getMessage());
         }
         return new MVCModel(map, "/product.jsp");
     }

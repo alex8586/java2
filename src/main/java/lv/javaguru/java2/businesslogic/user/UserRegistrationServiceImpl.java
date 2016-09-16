@@ -1,7 +1,6 @@
 package lv.javaguru.java2.businesslogic.user;
 
-import lv.javaguru.java2.businesslogic.error.Error;
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
@@ -21,9 +20,7 @@ import java.util.Map;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final String USER_ALREADY_EXISTS = "User already exists";
-    private final String USER_ALREADY_LOGGED = "User already logged in";
-    @Autowired
-    Error error;
+
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -38,9 +35,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Autowired
     private UserProfileUtil userProfileUtil;
+
     @Autowired
-    @Qualifier("randomSaleOffer")
-    private SpecialSaleOffer specialSaleOffer;
+    private TemplateService templateService;
+
 
     @Override
     public boolean allowRegistration() {
@@ -53,9 +51,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
             throw new IllegalRequestException();
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        if (error.isError())
-            map.put("registrationError", error.getError());
-        map.put("saleOffer", specialSaleOffer.getOffer());
+        map.putAll(templateService.model());
         return map;
     }
 

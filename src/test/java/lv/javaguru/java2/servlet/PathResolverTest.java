@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PathResolverTest {
 
-    private static String DEFAULT_PATH = "error.jsp";
+    private static String DEFAULT_PATH = "notification.jsp";
 
     private static PathResolver pathResolver;
 

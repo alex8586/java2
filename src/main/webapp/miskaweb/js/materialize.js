@@ -6165,7 +6165,7 @@ function ariaAttr(attribute, data) {
     return data
 }
 
-// IE8 bug throws an error for activeElements within iframes.
+// IE8 bug throws an notification for activeElements within iframes.
 function getActiveElement() {
     try {
         return document.activeElement
@@ -6720,8 +6720,8 @@ DatePicker.prototype.validate = function( type, dateObject, options ) {
 
     // Return the date object settled on.
     return dateObject
-};
-    ; //DatePicker.prototype.validate
+};;
+     //DatePicker.prototype.validate
     /**
  * Check if a date is disabled.
  */

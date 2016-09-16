@@ -9,7 +9,7 @@ import java.util.Map;
 @Component
 public class PathResolver {
 
-    private static String DEFAULT_PATH = "error.jsp";
+    private static String DEFAULT_PATH = "notification.jsp";
     private Map<String, Object> straightRoutes = new HashMap<>();
     private Map<String, String> reversedRoutes = new HashMap<>();
 

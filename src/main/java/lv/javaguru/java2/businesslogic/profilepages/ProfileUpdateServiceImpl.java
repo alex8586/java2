@@ -1,7 +1,6 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
-import lv.javaguru.java2.businesslogic.error.Error;
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
@@ -20,8 +19,7 @@ import java.util.Map;
 @Component
 public class ProfileUpdateServiceImpl implements ProfileUpdateService {
     private final String USER_ALREADY_EXISTS = "User already exists";
-    @Autowired
-    Error error;
+
     @Autowired
     @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
@@ -32,7 +30,7 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
     @Autowired
     private UserProfileUtil userProfileUtil;
     @Autowired
-    private SpecialSaleOffer specialSaleOffer;
+    private TemplateService templateService;
 
     public Map<String, Object> model() throws ServiceException {
         if (!userProvider.authorized())
@@ -42,10 +40,7 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
 
     public Map<String, Object> model(User user) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (error.isError())
-            map.put("profileError", error.getError());
-        map.put("saleOffer", specialSaleOffer.getOffer());
-        map.put("user", user);
+        map.putAll(templateService.model(user));
         return map;
     }
 

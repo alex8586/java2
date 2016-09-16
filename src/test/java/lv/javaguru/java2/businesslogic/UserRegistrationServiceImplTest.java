@@ -70,7 +70,7 @@ public class UserRegistrationServiceImplTest {
 
     @Test(expected = WrongFieldFormatException.class)
     public void testFailsWithSameException() throws ServiceException {
-        WrongFieldFormatException exception = new WrongFieldFormatException("error");
+        WrongFieldFormatException exception = new WrongFieldFormatException("notification");
         Mockito.doThrow(exception).when(userProfileFormatValidationService).validate(userProfile);
         userRegistrationService.register(userProfile);
     }

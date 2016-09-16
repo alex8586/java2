@@ -1,9 +1,12 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.profilepages.ProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
+import lv.javaguru.java2.servlet.LoginController;
+import lv.javaguru.java2.servlet.mvc.MVCController;
+import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,7 @@ public class ProfileController {
     ProfileService profileService;
 
     @Autowired
-    Error error;
+    Notification notification;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView executeGet(HttpServletRequest request) {
@@ -28,9 +31,11 @@ public class ProfileController {
             model.addAllObjects(profileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
+            //return redirectTo(LoginController.class);
             return new ModelAndView("/login");
         } catch (ServiceException e) {
-            error.isError();
+            notification.setError(e.getMessage());
+            //return redirectTo(ProfileService.class);
             return new ModelAndView("/profile");
         }
     }

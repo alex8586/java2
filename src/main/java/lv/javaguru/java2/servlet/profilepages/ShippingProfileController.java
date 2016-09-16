@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class ShippingProfileController {
 
     @Autowired
-    Error error;
+    Notification notification;
 
     @Autowired
     private ShippingDetailsUtil shippingDetailsUtil;
@@ -36,9 +36,11 @@ public class ShippingProfileController {
             model.addAllObjects(shippingProfileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
-            return new ModelAndView("/login");
+            return redirectTo(LoginController.class);
+            //return new ModelAndView("/login");
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
+            //return redirectTo(ShippingProfileController.class);
             return new ModelAndView("/shippingProfiles");
         }
     }
@@ -55,11 +57,11 @@ public class ShippingProfileController {
                             param.get("document"));
             shippingProfileService.save(shippingDetails);
         } catch (NullPointerException e) {
-            return "redirect:error";
+            return new MVCModel("/notification");
         } catch (DBException e) {
-            return "redirect:error";
+            return new MVCModel("/notification");
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
         }
         return "redirect:shippingProfiles";
     }

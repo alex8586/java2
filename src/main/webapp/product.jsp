@@ -8,11 +8,6 @@
                 <%@include file="includes/category.jsp" %>
             </div>
             <div class="col s8">
-                <c:if test="${not empty requestScope.model.error}">
-                    <div class="row center-align">
-                        <h5 style="color: red">${requestScope.model.error}</h5>
-                    </div>
-                </c:if>
                 <c:if test="${empty requestScope.model.error}">
                     <div class="row">
                         <div class="row">

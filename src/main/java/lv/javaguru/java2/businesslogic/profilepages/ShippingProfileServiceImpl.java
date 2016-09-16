@@ -1,6 +1,6 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
@@ -8,7 +8,6 @@ import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessExcept
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.ShippingProfileDAO;
-import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.dto.ShippingDetails;
@@ -36,9 +35,8 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
 
     @Autowired
     ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
-
     @Autowired
-    SpecialSaleOffer specialSaleOffer;
+    TemplateService templateService;
 
     @Override
     public Map<String, Object> model() throws ServiceException {
@@ -52,9 +50,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
         Map<String, Object> map = new HashMap<String, Object>();
         List<ShippingProfile> shippingProfiles = shippingProfileDAO.getAllByUser(user);
         map.put("shippingProfiles", shippingProfiles);
-        Product product = specialSaleOffer.getOffer();
-        map.put("saleOffer", product);
-        map.put("user", userProvider.getUser());
+        map.putAll(templateService.model(user));
         return map;
     }
 

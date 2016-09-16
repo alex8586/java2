@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CheckoutService;
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
@@ -31,7 +31,7 @@ public class CheckoutController extends MVCController {
     @Autowired
     private CartProvider cartProvider;
     @Autowired
-    private Error error;
+    private Notification notification;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
@@ -60,11 +60,11 @@ public class CheckoutController extends MVCController {
             return redirectTo(order);
 
         } catch (NullPointerException e) {
-            return new MVCModel("/error");
+            return new MVCModel("/notification");
         } catch (DBException e) {
-            return new MVCModel("/error");
+            return new MVCModel("/notification");
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
             return redirectTo(CheckoutController.class);
         }
     }

@@ -1,10 +1,9 @@
 package lv.javaguru.java2.businesslogic.profilepages;
 
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
-import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ public class ProfileServiceImpl implements ProfileService {
     UserProvider userProvider;
 
     @Autowired
-    SpecialSaleOffer specialSaleOffer;
+    TemplateService templateService;
 
     @Override
     public Map<String, Object> model() throws ServiceException {
@@ -33,9 +32,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Map<String, Object> model(User user) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
-        Product product = specialSaleOffer.getOffer();
-        map.put("saleOffer", product);
-        map.put("user", user);
+        map.putAll(templateService.model(user));
         return map;
     }
 }

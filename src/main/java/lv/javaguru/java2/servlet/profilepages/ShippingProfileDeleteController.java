@@ -1,6 +1,6 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.error.Error;
+import lv.javaguru.java2.businesslogic.error.Notification;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.servlet.mvc.MVCController;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ShippingProfileDeleteController extends MVCController {
 
     @Autowired
-    Error error;
+    Notification notification;
     @Autowired
     private ShippingProfileService shippingProfileService;
 
@@ -26,7 +26,7 @@ public class ShippingProfileDeleteController extends MVCController {
                 shippingProfileService.delete(id);
             }
         } catch (ServiceException e) {
-            error.setError(e.getMessage());
+            notification.setError(e.getMessage());
         }
         return redirectTo(ShippingProfileController.class);
     }
