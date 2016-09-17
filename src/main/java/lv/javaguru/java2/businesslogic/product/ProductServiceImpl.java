@@ -8,12 +8,15 @@ import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Rate;
+import lv.javaguru.java2.domain.Review;
 import lv.javaguru.java2.dto.ProductCard;
 import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,39 +37,44 @@ public class ProductServiceImpl implements ProductService {
     private CountVisitService countVisitService;
     @Autowired
     private ProductCardUtil productCardUtil;
-
     @Autowired
     private StatisticCountService statisticCountService;
-
     @Autowired
     private RateValidationService rateValidationService;
     @Autowired
     private TemplateService templateService;
 
-
+    @Transactional
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
         Product product = productDAO.getById(id);
         if (product == null)
             throw new RecordIsNotAvailable();
+
         if (userProvider.authorized())
             countVisitService.countVisit(product);
         else {
             countVisitService.countVisit(product, ip);
         }
-
         if(!rateValidationService.canRate(userProvider.getUser(), id)){
             map.put("cantRate",CANT_RATE);
         }
-
         ProductCard productCard = productCardUtil.build(product);
+        List<Rate> rates = product.getRates();
+        rates.size();
         productCardUtil.build(productCard, product.getRates());
+
         productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
-        map.put("reviews", product.getReviews());
+        List<Review> reviews = product.getReviews();
+        reviews.size();
+        map.put("reviews", reviews);
         map.put("categories", categoryTree.asOrderedList());
         map.putAll(templateService.model(userProvider.getUser()));
+
+        System.out.println(map);
+
         return map;
     }
 

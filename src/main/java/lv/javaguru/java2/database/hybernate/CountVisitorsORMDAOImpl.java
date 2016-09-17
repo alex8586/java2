@@ -51,9 +51,13 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     @Override
     public long getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
-        return (long) session.createCriteria(CountVisitor.class)
+        Object result = session.createCriteria(CountVisitor.class)
                 .add(Restrictions.eq("productId", productId))
                 .setProjection(Projections.sum("counter")).uniqueResult();
+        if (result == null)
+            return 0;
+        else
+            return (long) result;
     }
 
     @Override

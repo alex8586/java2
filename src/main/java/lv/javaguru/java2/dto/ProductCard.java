@@ -10,12 +10,12 @@ public class ProductCard {
     private long productPrice;
     private String productImgUrl;
 
+    private long quantity;
+
     private int stockQuantity;
     private Date stockExpireDate;
 
-    private long quantity;
-
-    private double avarageRate;
+    private double averageRate;
     private String rateColorCode;
 
     private long viewCount;
@@ -76,12 +76,12 @@ public class ProductCard {
         this.quantity = quantity;
     }
 
-    public double getAvarageRate() {
-        return avarageRate;
+    public double getAverageRate() {
+        return averageRate;
     }
 
-    public void setAvarageRate(double avarageRate) {
-        this.avarageRate = avarageRate;
+    public void setAverageRate(double averageRate) {
+        this.averageRate = averageRate;
     }
 
     public String getRateColorCode() {

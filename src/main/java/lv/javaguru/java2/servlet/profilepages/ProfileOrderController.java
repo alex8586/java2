@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet.profilepages;
 
 import lv.javaguru.java2.businesslogic.profilepages.ProfileOrderService;
+import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ProfileOrderValidationService;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
@@ -19,15 +20,16 @@ public class ProfileOrderController extends MVCController {
     private ProfileOrderService profileOrderService;
     @Autowired
     private ProfileOrderValidationService profileOrderValidationService;
+    @Autowired
+    private UserProvider userProvider;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-
-        if (request.getSession().getAttribute("user") == null) {
+        if (!userProvider.authorized())
             return redirectTo(FrontPageController.class);
-        }
-        long orderId = Long.parseLong(request.getParameter("id"));
-        User user = (User) request.getSession().getAttribute("user");
+
+        long orderId = idFrom(request.getParameter("id"));
+        User user = userProvider.getUser();
         if(!profileOrderValidationService.isValid(orderId, user.getId())){
             return redirectTo(FrontPageController.class);
         }

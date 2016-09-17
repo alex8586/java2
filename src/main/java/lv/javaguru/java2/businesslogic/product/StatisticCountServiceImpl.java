@@ -18,17 +18,8 @@ public class StatisticCountServiceImpl implements StatisticCountService {
         long viewsVisitors;
         long viewsUsers;
 
-        try {
-            viewsVisitors = countVisitorsDAO.getCountByProductId(productId);
-        } catch (NullPointerException e) {
-            viewsVisitors = 0;
-        }
-        try {
-            viewsUsers = countUsersDAO.getCountByProductId(productId);
-        } catch (NullPointerException e) {
-            viewsUsers = 0;
-        }
-
+        viewsVisitors = countVisitorsDAO.getCountByProductId(productId);
+        viewsUsers = countUsersDAO.getCountByProductId(productId);
         return viewsUsers + viewsVisitors;
     }
 }

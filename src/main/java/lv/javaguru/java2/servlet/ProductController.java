@@ -1,7 +1,5 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.checkout.CartProvider;
-import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.ProductService;
@@ -12,7 +10,6 @@ import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -26,13 +23,8 @@ public class ProductController extends MVCController {
     private ProductService productService;
     @Autowired
     private Notification notification;
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private CartProvider cartProvider;
 
     @Override
-    @Transactional
     protected MVCModel executeGet(HttpServletRequest request) {
         try {
             Long id = idFrom(request.getParameter("id"));

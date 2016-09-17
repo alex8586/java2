@@ -3,7 +3,6 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.RateService;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
-import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
@@ -19,8 +18,6 @@ import java.util.Map;
 @Component
 public class RateController extends MVCController{
 
-    @Autowired
-    private RateValidationService rateValidationService;
     @Autowired
     private RateService rateService;
     @Autowired

@@ -1,7 +1,7 @@
 package lv.javaguru.java2.servlet.profilepages;
 
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
-import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.businesslogic.TemplateService;
+import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
@@ -17,21 +17,18 @@ import java.util.Map;
 public class ProfileCartController extends MVCController {
 
     @Autowired
-    private SpecialSaleOffer specialSaleOffer;
+    UserProvider userProvider;
+    @Autowired
+    TemplateService templateService;
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
+        if (!userProvider.authorized())
             return redirectTo(FrontPageController.class);
-        }
 
-        User user = (User) request.getSession().getAttribute("user");
         Map<String, Object> map = new HashMap<String, Object>();
-        Product product = specialSaleOffer.getOffer();
-
-        map.put("saleOffer", product);
-        map.put("user", user);
-
+        User user = userProvider.getUser();
+        map.putAll(templateService.model(user));
         return new MVCModel(map, "/profile_cart.jsp");
     }
 

@@ -53,7 +53,7 @@ public class ProductCardUtil {
     public void build(ProductCard productCard, List<Rate> rates) {
         double averageRate = rateService.getAverageRate(rates);
         String rateColor = rateService.getRateColor(averageRate);
-        productCard.setAvarageRate(averageRate);
+        productCard.setAverageRate(averageRate);
         productCard.setRateColorCode(rateColor);
     }
 

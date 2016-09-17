@@ -20,11 +20,8 @@ public class ShippingProfileDeleteController extends MVCController {
 
     public MVCModel executePost(HttpServletRequest request) {
         try {
-            String resourceId = request.getParameter("profileId");
-            if (resourceId != null) {
-                Long id = Long.valueOf(resourceId);
-                shippingProfileService.delete(id);
-            }
+            long id = idFrom(request.getParameter("profileId"));
+            shippingProfileService.delete(id);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
