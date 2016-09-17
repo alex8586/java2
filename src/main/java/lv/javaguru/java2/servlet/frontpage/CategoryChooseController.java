@@ -19,7 +19,7 @@ public class CategoryChooseController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        long categoryId = Long.valueOf(request.getParameter("id"));
+        long categoryId = idFrom(request.getParameter("id"));
         Category category = categoryDAO.getById(categoryId);
         if (category != null) {
             if (category.getFather_id() == 0)

@@ -4,6 +4,7 @@ import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.RateService;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
+import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
@@ -32,23 +33,19 @@ public class RateController extends MVCController{
     protected MVCModel executePost(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         User user = userProvider.getUser();
-        long productId = Long.parseLong(request.getParameter("productId"));
+        long productId = idFrom(request.getParameter("productId"));
         productProvider.setProductId(productId);
         request.getSession().setAttribute("productId", productId);
 
-        if(!rateValidationService.canRate(user, productId)){
+        if (!rateValidationService.canRate(user, productId)) {
             map.put("error", CAN_NOT_RATE);
             return new MVCModel(map, "/product.jsp");
         }
-        if(request.getParameter("rate") != null){
-            int param = Integer.parseInt(request.getParameter("rate"));
-            try {
-                rateService.rate(param);
-            }catch (IllegalArgumentException e){
-                return new MVCModel(map, "/product.jsp");
-            }
+        if (request.getParameter("rate") != null) {
+            int rate = (int) idFrom(request.getParameter("rate"));
+            rateService.rate(rate);
         }
-        return redirectTo(ProductController.class);
+        return redirectTo(Product.class, productId);
     }
 
 }

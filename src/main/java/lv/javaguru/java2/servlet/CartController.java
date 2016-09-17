@@ -21,7 +21,7 @@ public class CartController extends MVCController {
 
     @Override
     public MVCModel executeGet(HttpServletRequest request) {
-        long id = Long.parseLong(request.getParameter("id"));
+        long id = idFrom(request.getParameter("id"));
         Cart cart = cartProvider.getCart();
         cartService.addProduct(cart, id);
         long cartPrice = cart.getTotalPrice(cart);

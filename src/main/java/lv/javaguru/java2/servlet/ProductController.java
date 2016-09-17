@@ -48,9 +48,9 @@ public class ProductController extends MVCController {
     protected MVCModel executeGet(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         String param = request.getParameter("id");
-        if (param == null || param.isEmpty()) {
+        if(param == null || param.isEmpty()){
             param = String.valueOf(productProvider.getProductId());
-        } else if (param == null) {
+        }else if(param == null){
             map.put("error", UNABLE_TO_PROCESS_REQUEST);
             notification.setError(UNABLE_TO_PROCESS_REQUEST);
             return new MVCModel(map, "/product.jsp");
@@ -73,7 +73,7 @@ public class ProductController extends MVCController {
         Map<String, Object> map = new HashMap<String, Object>();
 
         if (request.getParameter("addToCart") != null) {
-            long productId = Long.parseLong(request.getParameter("productId"));
+            long productId = idFrom(request.getParameter("productId"));
             productProvider.setProductId(productId);
             request.getSession().setAttribute("productId", productId);
 
@@ -87,7 +87,7 @@ public class ProductController extends MVCController {
             if (!stockValidationService.isValid(quantity, productId)) {
                 map.put("error", QUANTITY_MORE_THAN_STOCK);
                 return new MVCModel(map, "/product.jsp");
-            } else if (quantity <= 0) {
+            }else if(quantity <= 0){
                 map.put("error", NOT_CORRECT_QUANTITY);
                 return new MVCModel(map, "/product.jsp");
             }

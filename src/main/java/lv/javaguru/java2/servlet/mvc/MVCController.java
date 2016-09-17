@@ -1,7 +1,6 @@
 package lv.javaguru.java2.servlet.mvc;
 
 import lv.javaguru.java2.domain.BaseEntity;
-import lv.javaguru.java2.dto.builders.RequestedEntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -9,8 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class MVCController {
 
-    @Autowired
-    protected RequestedEntityUtil requestedEntityUtil;
+
     @Autowired
     private PathResolver pathResolver;
 
@@ -37,9 +35,25 @@ public abstract class MVCController {
     protected MVCModel redirectTo(Class targetController) {
         return new MVCModel(pathResolver.linkTo(targetController));
     }
-
     protected MVCModel redirectTo(BaseEntity targetEntity) {
         return new MVCModel(pathResolver.linkTo(targetEntity));
     }
+
+    protected MVCModel redirectTo(Class targetEntity, long id) {
+        return new MVCModel(pathResolver.linkTo(targetEntity, id));
+    }
+
+
+    protected long idFrom(String sid) {
+        if (sid == null)
+            throw new NullPointerException();
+        long id = 0;
+        try {
+            id = Long.valueOf(sid);
+        } catch (NumberFormatException e) {
+        }
+        return id;
+    }
+
     
 }

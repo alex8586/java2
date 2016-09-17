@@ -36,8 +36,7 @@ public class LoginController {
             return model.addAllObjects(userLoginService.model());
         } catch (Exception e) {
             notification.setError(e.getMessage());
-            //return redirectTo(FrontPageController.class);
-            return new ModelAndView("/index");//redir
+            return redirectTo(FrontPageController.class);
         }
     }
 
@@ -48,13 +47,12 @@ public class LoginController {
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
-            request.getSession().setAttribute("user", user);
-            return "redirect:profile";
+            return redirectTo(ProfileController.class);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return "redirect:login";
+            return redirectTo(LoginController.class);
         } catch (DBException e) {
-            return "redirect:error";
+            return new MVCModel("/notification");
         }
     }
 }
