@@ -10,6 +10,7 @@ import lv.javaguru.java2.businesslogic.validators.StockValidationService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.jdbc.ProductDAOImpl;
 import lv.javaguru.java2.domain.Cart;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,34 +39,27 @@ public class ProductController extends MVCController {
     @Autowired
     private CartService cartService;
     @Autowired
-    private ProductProvider productProvider;
-    @Autowired
     private StockValidationService stockValidationService;
     @Autowired
     private CartProvider cartProvider;
 
     @Override
     protected MVCModel executeGet(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        String param = request.getParameter("id");
-        if(param == null || param.isEmpty()){
-            param = String.valueOf(productProvider.getProductId());
-        }else if(param == null){
-            map.put("error", UNABLE_TO_PROCESS_REQUEST);
-            notification.setError(UNABLE_TO_PROCESS_REQUEST);
-            return new MVCModel(map, "/product.jsp");
-        }
         try {
-            Long id = Long.valueOf(param);
+            Long id = idFrom(request.getParameter("id"));
+            Map<String, Object> map;
             map = productService.getById(id, request.getRemoteAddr());
+            return new MVCModel(map, "/product.jsp");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         } catch (NumberFormatException e) {
             notification.setError(UNABLE_TO_PROCESS_REQUEST);
+        } catch (NullPointerException e) {
+            notification.setError(UNABLE_TO_PROCESS_REQUEST);
         } catch (DBException e) {
             notification.setError(e.getMessage());
         }
-        return new MVCModel(map, "/product.jsp");
+        return redirectTo(FrontPageController.class);
     }
 
     @Override
@@ -74,8 +68,6 @@ public class ProductController extends MVCController {
 
         if (request.getParameter("addToCart") != null) {
             long productId = idFrom(request.getParameter("productId"));
-            productProvider.setProductId(productId);
-            request.getSession().setAttribute("productId", productId);
 
             int quantity;
             try {
@@ -94,9 +86,6 @@ public class ProductController extends MVCController {
 
             Cart cart = cartProvider.getCart();
             cartService.addProducts(cart, productId, quantity);
-            long cartPrice = cart.getTotalPrice(cart);
-            request.getSession().setAttribute("cart", cart);
-            request.getSession().setAttribute("cartPrice", cartPrice);
         }
         return redirectTo(ProductController.class);
     }

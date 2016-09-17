@@ -1,6 +1,5 @@
 package lv.javaguru.java2.servlet;
 
-import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.RateService;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
@@ -21,8 +20,6 @@ public class RateController extends MVCController{
     private static final String CAN_NOT_RATE = "You can rate one time per product";
 
     @Autowired
-    private ProductProvider productProvider;
-    @Autowired
     private RateValidationService rateValidationService;
     @Autowired
     private RateService rateService;
@@ -34,9 +31,6 @@ public class RateController extends MVCController{
         Map<String, Object> map = new HashMap<String, Object>();
         User user = userProvider.getUser();
         long productId = idFrom(request.getParameter("productId"));
-        productProvider.setProductId(productId);
-        request.getSession().setAttribute("productId", productId);
-
         if (!rateValidationService.canRate(user, productId)) {
             map.put("error", CAN_NOT_RATE);
             return new MVCModel(map, "/product.jsp");

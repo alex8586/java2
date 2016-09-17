@@ -1,7 +1,6 @@
 package lv.javaguru.java2.businesslogic.user;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
@@ -33,20 +32,11 @@ public class UserLoginServiceImpl implements UserLoginService {
     private UserProvider currentUser;
 
     @Autowired
-    @Qualifier("randomSaleOffer")
-    private SpecialSaleOffer specialSaleOffer;
-
-    @Autowired
     private TemplateService templateService;
 
     @Override
-    public boolean allowLogin() {
-        return !currentUser.authorized();
-    }
-
-    @Override
     public Map<String, Object> model() throws ServiceException {
-        if (!allowLogin()) {
+        if (currentUser.authorized()) {
             throw new IllegalRequestException();
         }
         Map<String, Object> map = new HashMap<String, Object>();
@@ -56,7 +46,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public User authenticate(String email, String password) throws ServiceException {
-        if (!allowLogin())
+        if (currentUser.authorized())
             throw new IllegalRequestException();
 
         if (email == null || password == null)

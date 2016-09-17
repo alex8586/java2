@@ -61,7 +61,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
             throw new IllegalRequestException();
 
         userProfileFormatValidationService.validate(userProfile);
-
         User alreadyExists = userDAO.getByEmail(userProfile.getEmail());
         if (alreadyExists != null) {
             throw new ServiceException(USER_ALREADY_EXISTS);
