@@ -37,7 +37,6 @@ public class UserLoginServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test(expected = IllegalRequestException.class)
     public void testLoginFailsWhenAlreadyLoggedIn() throws ServiceException {
         Mockito.doReturn(true).when(userProvider).authorized();

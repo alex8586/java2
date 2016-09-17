@@ -46,11 +46,12 @@ public class Router implements Filter {
         addController("/profile/history_orders", ProfileHistoryOrdersController.class);
         addController("/profile/update", ProfileUpdateController.class);
         addController("/product", ProductController.class);
+        addController("/product/rate", RateController.class);
+        addController("/product/comment", CommentController.class);
         addController("/contacts", ContactController.class);
         addController("/profile/shippingProfiles", ShippingProfileController.class);
         addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
-        addController("/rate", RateController.class);
-        addController("/comment", CommentController.class);
+
 
         pathResolver.setAlias(Product.class, ProductController.class);
         pathResolver.setAlias(Category.class, CategoryChooseController.class);
