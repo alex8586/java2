@@ -10,7 +10,9 @@
         <div class="row">
             <div>
                 <div class="col s8 left">
+                    <a href="<tags:linkTo controller="ProductController" resourceId="${cartLine.productId}" />">
                         ${cartLine.productName}
+                    </a>
                 </div>
                 <div class="col s4 right-align">
                         ${cartLine.productPrice}&#8364

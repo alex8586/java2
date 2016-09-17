@@ -57,7 +57,9 @@ public class CartServiceImpl implements CartService {
         Product product = productDAO.getById(id);
         if (product == null)
             return;
-        if (!stockService.isValid(quantity, product))
+
+        int inCart = cart.getAll().getOrDefault(product, 0);
+        if (!stockService.isValid(quantity + inCart, product))
             return;
         cart.add(product, quantity);
     }
