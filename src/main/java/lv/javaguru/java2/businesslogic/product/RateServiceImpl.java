@@ -1,6 +1,5 @@
 package lv.javaguru.java2.businesslogic.product;
 
-import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.RateDAO;
 import lv.javaguru.java2.domain.Rate;
 import lv.javaguru.java2.domain.User;
@@ -12,20 +11,16 @@ public class RateServiceImpl implements RateService {
 
     @Autowired
     private RateDAO rateDAO;
-    @Autowired
-    private UserProvider userProvider;
-    @Autowired
-    private ProductProvider productProvider;
 
     @Override
-    public void rate(int number) throws IllegalArgumentException{
+    public void rate(long productId, User user, int number) {
         if(number < 1 || number > 5){
             throw new IllegalArgumentException();
         }
         User user = userProvider.getUser();
         Rate rate = new Rate();
         rate.setUserId(user.getId());
-        rate.setProductId(productProvider.getProductId());
+        rate.setProductId(productId);
         rate.setRate(number);
         rateDAO.create(rate);
     }

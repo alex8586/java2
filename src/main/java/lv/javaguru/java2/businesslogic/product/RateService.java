@@ -1,8 +1,10 @@
 package lv.javaguru.java2.businesslogic.product;
 
+import lv.javaguru.java2.domain.User;
+
 public interface RateService {
 
-    void rate(int number) throws IllegalArgumentException;
+    void rate(long productId, User user, int number);
 
     double getAverageRate(long productId);
 

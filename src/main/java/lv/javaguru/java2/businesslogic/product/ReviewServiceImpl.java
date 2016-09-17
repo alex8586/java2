@@ -1,6 +1,5 @@
 package lv.javaguru.java2.businesslogic.product;
 
-import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.ReviewDAO;
 import lv.javaguru.java2.domain.Review;
 import lv.javaguru.java2.domain.User;
@@ -13,18 +12,11 @@ import java.util.Date;
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
-    private ProductProvider productProvider;
-    @Autowired
-    private UserProvider userProvider;
-    @Autowired
     private ReviewDAO reviewDAO;
 
     @Override
-    public void addComment(String comment){
-        User user = userProvider.getUser();
-        long productId = productProvider.getProductId();
+    public void addComment(long productId, User user, String comment) {
         Date date = new Date();
-
         Review review = new Review();
         review.setUserId(user.getId());
         review.setProductId(productId);
