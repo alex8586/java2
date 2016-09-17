@@ -53,7 +53,7 @@ public class CommentController extends MVCController {
             notification.setError(CAN_NOT_COMMENT_TODAY);
             return redirectTo(Product.class, productId);
         }
-        reviewService.addComment(comment);
+        reviewService.addComment(productId, user, comment);
         return redirectTo(ProductController.class, productId);
     }
 }

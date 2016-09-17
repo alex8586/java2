@@ -8,23 +8,26 @@
                 <%@include file="includes/category.jsp" %>
             </div>
             <div class="col s8">
+                <c:param name="productCard" value="${requestScope.model.productCard}"/>
                 <c:if test="${empty requestScope.model.error}">
                     <div class="row">
                         <div class="row">
                             <div class="col s12 center-align" >
                                 <br>
-                                <h5>${requestScope.model.productCard.productName}</h5>
-                                <b style="background-color: ${requestScope.model.rateColor}">&ensp;  Rating &ensp; ${requestScope.model.averageRate}&ensp;</b>
+                                <h5>${productCard.productName}</h5>
+                                <b style="background-color: ${productCard.rateColorCode}">&ensp;
+                                    Rating &ensp; ${requestScope.model.averageRate}&ensp;</b>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s3 center-align" >
                                 <div class="row">
-                                    <i>Views</i> ${requestScope.model.views}
+                                    <i>Views</i> ${productCard.viewCount}
                                 </div>
                                 <div class="row">
-                                    <img src="${requestScope.model.productCard.productImgUrl}" width="219" height="219">
+                                    <img src="${productCard.productImgUrl}" width="219" height="219">
                                 </div>
+
                                 <c:if test="${not empty sessionScope.user}">
                                     <c:if test="${empty requestScope.model.cantRate}">
                                         <div class="row center">
@@ -49,7 +52,7 @@
                             <div class="col s9">
                                 <div class="row">
                                     <p style="margin-left: 40px;">
-                                            ${requestScope.model.productCard.productDescription}
+                                            ${productCard.productDescription}
                                         and more description and more description and more description and more description
                                         and more description and more description and more description and more description
                                         and more description and more description and more description and more description
@@ -57,7 +60,7 @@
                                     </p>
                                     <p style="margin-left: 40px;">
                                         <br>
-                                        price - <b style="color: red">${requestScope.model.productCard.productPrice} &#8364</b>
+                                        price - <b style="color: red">${productCard.productPrice} &#8364</b>
                                     </p>
                                 </div>
                             </div>
@@ -67,12 +70,12 @@
 
                             </div>
                             <div class="col s2 center-align" style="display: inline-block;">
-                                Stock - ${requestScope.model.productCard.stockQuantity}
+                                    ${productCard.available}
                             </div>
-                            <form action="<tags:linkTo controller="ProductController"/>" method="post">
+                            <form action="<tags:linkTo controller="CartController"/>" method="post">
                                 <div class="col s1" style="display: inline-block;">
                                     <input type="text" placeholder="0" name="quantity">
-                                    <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
+                                    <input type="hidden" value="${productCard.productId}" name="productId">
                                 </div>
                                 <div class="col s3 right-align" style="display: inline-block;">
                                     <button class="btn waves-effect waves-light" type="submit" name="addToCart">Add to cart
@@ -91,7 +94,7 @@
                                         <i class="material-icons prefix">mode_edit</i>
                                         <textarea id="icon_prefix2" class="materialize-textarea" name="comment"></textarea>
                                         <label for="icon_prefix2">Comment here</label>
-                                        <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
+                                        <input type="hidden" value="${productCard.productId}" name="productId">
                                     </div>
                                     <div class="col s12 right-align">
                                         <button class="btn waves-effect waves-light" type="submit" name="comment">Comment !
@@ -105,9 +108,10 @@
                             <div class="row">
                                 <ul class="collection with-header">
                                     <li class="collection-header"><h5>Comments :</h5></li>
-                                    <c:forEach items="${requestScope.model.reviews}" var="reviews">
-                                        <li class="collection-item" style="background-color: lightgray">${reviews.userName}, ${reviews.date}</li>
-                                        <li class="collection-item">${reviews.comment}</li>
+                                    <c:forEach items="${requestScope.model.reviews}" var="review">
+                                        <li class="collection-item"
+                                            style="background-color: lightgray">${review.userName}, ${review.date}</li>
+                                        <li class="collection-item">${review.comment}</li>
                                     </c:forEach>
                                 </ul>
                             </div>

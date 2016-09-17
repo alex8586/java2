@@ -65,6 +65,14 @@ public class RateORMDAOImpl implements RateDAO{
     }
 
     @Override
+    public List<Rate> getByProductId(long productId) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Rate.class)
+                .add(Restrictions.eq("productId", productId))
+                .list();
+    }
+
+    @Override
     public double getAverageRate(long productId){
         Session session = sessionFactory.getCurrentSession();
         return (double) session.createCriteria(Rate.class)

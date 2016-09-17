@@ -53,4 +53,9 @@ public class StockServiceImpl implements StockService {
         return product;
     }
 
+    @Override
+    public boolean isValid(int quantity, Product product) {
+        return product.getFreshStockQuantity() >= quantity;
+    }
+
 }

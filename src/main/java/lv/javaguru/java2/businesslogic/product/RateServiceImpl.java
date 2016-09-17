@@ -1,23 +1,29 @@
 package lv.javaguru.java2.businesslogic.product;
 
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.database.RateDAO;
 import lv.javaguru.java2.domain.Rate;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RateServiceImpl implements RateService {
-
+    private static final String CAN_NOT_RATE = "You can rate one time per product";
+    private static final String[] RATE_COLOR_CODES = new String[]{"white", "#e3f2fd", "#bbdefb", "#90caf9", "#64b5f6", "#42a5f5"};
     @Autowired
     private RateDAO rateDAO;
+    @Autowired
+    private RateValidationService rateValidationService;
 
     @Override
-    public void rate(long productId, User user, int number) {
-        if(number < 1 || number > 5){
-            throw new IllegalArgumentException();
-        }
-        User user = userProvider.getUser();
+    public void rate(long productId, User user, int number) throws ServiceException {
+        if (!rateValidationService.canRate(user, productId))
+            throw new ServiceException(CAN_NOT_RATE);
+
         Rate rate = new Rate();
         rate.setUserId(user.getId());
         rate.setProductId(productId);
@@ -26,37 +32,21 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public double getAverageRate(long productId) {
-        Double average ;
-        try {
-            average = rateDAO.getAverageRate(productId);
-        } catch (NullPointerException e) {
-            average = 0d;
+    public double getAverageRate(List<Rate> rateList) {
+        double sum = 0;
+        for (Rate rate : rateList) {
+            sum += rate.getRate();
         }
-        return Math.round(average*100.0)/100.0;
+        return Math.round(sum * 100.0 / rateList.size()) / 100.0;
     }
 
     @Override
     public String getRateColor(double number){
-        String color = "";
-        if((int)Math.round(number) == 0){
-            color = "white";
+        int rate = (int) Math.round(number);
+        try {
+            return RATE_COLOR_CODES[rate];
+        } catch (Exception e) {
+            return "";
         }
-        if((int)Math.round(number) == 1){
-            color = "#e3f2fd";
-        }
-        if((int)Math.round(number) == 2){
-            color = "#bbdefb";
-        }
-        if((int)Math.round(number) == 3){
-            color = "#90caf9";
-        }
-        if((int)Math.round(number) == 4){
-            color = "#64b5f6";
-        }
-        if((int)Math.round(number) == 5){
-            color = "#42a5f5";
-        }
-        return color;
     }
 }

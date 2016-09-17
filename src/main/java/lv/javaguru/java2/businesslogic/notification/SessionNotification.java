@@ -33,6 +33,10 @@ public class SessionNotification implements Notification {
         return error;
     }
 
+    public void setError(Exception e) {
+        setError(e.getMessage());
+    }
+
     public void setError(String error) {
         isError = true;
         isMessage = false;
@@ -53,4 +57,5 @@ public class SessionNotification implements Notification {
         this.message = message;
         this.error = "";
     }
+
 }

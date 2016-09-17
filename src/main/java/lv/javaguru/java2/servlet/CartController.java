@@ -31,15 +31,17 @@ public class CartController extends MVCController {
 
     @Override
     public MVCModel executePost(HttpServletRequest request) {
-
-        long productId = Long.parseLong(request.getParameter("productId"));
         Cart cart = cartProvider.getCart();
+        long productId = Long.parseLong(request.getParameter("productId"));
+        int quantity = 1;
+        if (request.getParameter("quantity") != null) {
+            quantity = Integer.parseInt(request.getParameter("quantity"));
+        }
         if (request.getParameter("remove") != null) {
             cartService.removeProduct(cart, productId);
         } else if (request.getParameter("add") != null) {
-            cartService.addProduct(cart, productId);
+            cartService.addProducts(cart, productId, quantity);
         }
-        request.getSession().setAttribute("cart", cart);
         return redirectTo(FrontPageController.class);
     }
 }

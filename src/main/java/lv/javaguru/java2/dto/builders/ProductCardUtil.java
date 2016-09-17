@@ -1,8 +1,11 @@
 package lv.javaguru.java2.dto.builders;
 
+import lv.javaguru.java2.businesslogic.product.RateService;
 import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Rate;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,16 +15,8 @@ import java.util.stream.Collectors;
 @Component
 public class ProductCardUtil {
 
-    public ProductCard build(Product product, Integer quantity) {
-        ProductCard productCard = build(product);
-        productCard.setQuantity(quantity);
-        return productCard;
-    }
-
-    public ProductCard build(Product product) {
-        List<Stock> allStock = product.getFresh();
-        return build(product, allStock);
-    }
+    @Autowired
+    RateService rateService;
 
     public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
@@ -47,6 +42,25 @@ public class ProductCardUtil {
         productCard.setStockQuantity(quantity);
         productCard.setStockExpireDate(expireDate);
         return productCard;
+    }
+
+    public ProductCard build(Product product, Integer quantity) {
+        ProductCard productCard = build(product);
+        productCard.setQuantity(quantity);
+        return productCard;
+    }
+
+    public void build(ProductCard productCard, List<Rate> rates) {
+        double averageRate = rateService.getAverageRate(rates);
+        String rateColor = rateService.getRateColor(averageRate);
+        productCard.setAvarageRate(averageRate);
+        productCard.setRateColorCode(rateColor);
+    }
+
+
+    public ProductCard build(Product product) {
+        List<Stock> allStock = product.getFresh();
+        return build(product, allStock);
     }
 
     public List<ProductCard> build(List<Product> products) {

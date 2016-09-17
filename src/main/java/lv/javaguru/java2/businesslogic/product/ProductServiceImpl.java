@@ -1,15 +1,13 @@
 package lv.javaguru.java2.businesslogic.product;
 
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
-import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.database.ReviewDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.Review;
 import lv.javaguru.java2.dto.ProductCard;
 import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
@@ -36,19 +34,15 @@ public class ProductServiceImpl implements ProductService {
     private CountVisitService countVisitService;
     @Autowired
     private ProductCardUtil productCardUtil;
-    @Autowired
-    private ReviewDAO reviewDAO;
-    @Qualifier("ORM_CategoryDAO")
-    @Autowired
-    private CategoryDAO categoryDAO;
-    @Autowired
-    private SpecialSaleOffer specialSaleOffer;
+
     @Autowired
     private StatisticCountService statisticCountService;
-    @Autowired
-    private RateService rateService;
+
     @Autowired
     private RateValidationService rateValidationService;
+    @Autowired
+    private TemplateService templateService;
+
 
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -64,21 +58,15 @@ public class ProductServiceImpl implements ProductService {
         if(!rateValidationService.canRate(userProvider.getUser(), id)){
             map.put("cantRate",CANT_RATE);
         }
-        double averageRate = rateService.getAverageRate(id);
-        map.put("averageRate", averageRate);
-        String rateColor = rateService.getRateColor(averageRate);
-        map.put("rateColor", rateColor);
-        long views = statisticCountService.getProductViews(id);
-        map.put("views", views);
-        List<Review> reviews = reviewDAO.getByProduct(product);
-        map.put("reviews", reviews);
-        List<Category> categoryList = categoryDAO.getAll();
-        map.put("categories", categoryList);
-        Product offer = specialSaleOffer.getOffer();
-        map.put("saleOffer", offer);
+
         ProductCard productCard = productCardUtil.build(product);
+        productCardUtil.build(productCard, product.getRates());
+        productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
+        map.put("reviews", product.getReviews());
+        map.put("categories", categoryTree.asOrderedList());
+        map.putAll(templateService.model(userProvider.getUser()));
         return map;
     }
 
@@ -89,4 +77,5 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getByCategory(Category category) {
         return productDAO.getByCategoryTree(category);
     }
+
 }

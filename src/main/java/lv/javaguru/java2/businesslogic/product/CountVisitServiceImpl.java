@@ -46,13 +46,13 @@ public class CountVisitServiceImpl implements CountVisitService {
             if(countUser != null){
                 countUser.setCounter(countUser.getCounter() + 1);
                 countUsersDAO.update(countUser);
-                return;
+            } else {
+                countUser = new CountUser();
+                countUser.setUserId(user.getId());
+                countUser.setProductId(product.getId());
+                countUser.setCounter(1);
+                countUsersDAO.create(countUser);
             }
-            countUser = new CountUser();
-            countUser.setUserId(user.getId());
-            countUser.setProductId(product.getId());
-            countUser.setCounter(1);
-            countUsersDAO.create(countUser);
         }
     }
 
@@ -66,12 +66,12 @@ public class CountVisitServiceImpl implements CountVisitService {
         if(countVisitor != null){
             countVisitor.setCounter(countVisitor.getCounter() + 1);
             countVisitorsDAO.update(countVisitor);
-            return;
+        } else {
+            countVisitor = new CountVisitor();
+            countVisitor.setIp(ip);
+            countVisitor.setProductId(product.getId());
+            countVisitor.setCounter(1);
+            countVisitorsDAO.create(countVisitor);
         }
-        countVisitor = new CountVisitor();
-        countVisitor.setIp(ip);
-        countVisitor.setProductId(product.getId());
-        countVisitor.setCounter(1);
-        countVisitorsDAO.create(countVisitor);
     }
 }

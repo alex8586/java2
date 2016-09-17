@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic.checkout;
 
+import lv.javaguru.java2.businesslogic.product.StockService;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
@@ -24,6 +25,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private CartProvider cartProvider;
+
+    @Autowired
+    private StockService stockService;
 
     @Override
     public Map<String, Object> model() {
@@ -51,8 +55,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addProducts(Cart cart, long id, int quantity) {
         Product product = productDAO.getById(id);
-        if (product != null)
-            cart.add(product, quantity);
+        if (product == null)
+            return;
+        if (!stockService.isValid(quantity, product))
+            return;
+        cart.add(product, quantity);
     }
 
     @Override
