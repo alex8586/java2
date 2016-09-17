@@ -15,9 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
@@ -39,17 +37,6 @@ public class UserLoginServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void testLoginAllowedWhenNoCurrentUser() {
-        Mockito.doReturn(false).when(userProvider).authorized();
-        assertTrue(userLoginService.allowLogin());
-    }
-
-    @Test
-    public void testRegistrationDisallowedWhenNoCurrentUser() {
-        Mockito.doReturn(true).when(userProvider).authorized();
-        assertFalse(userLoginService.allowLogin());
-    }
 
     @Test(expected = IllegalRequestException.class)
     public void testLoginFailsWhenAlreadyLoggedIn() throws ServiceException {
