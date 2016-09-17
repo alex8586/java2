@@ -1,5 +1,8 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -50,5 +53,31 @@ public class Rate implements BaseEntity {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rate rate1 = (Rate) o;
+
+        return new EqualsBuilder()
+                .append(id, rate1.id)
+                .append(userId, rate1.userId)
+                .append(productId, rate1.productId)
+                .append(rate, rate1.rate)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(userId)
+                .append(productId)
+                .append(rate)
+                .toHashCode();
     }
 }

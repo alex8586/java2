@@ -65,6 +65,8 @@ DELETE FROM shipping_profiles;
 DELETE FROM users;
 DELETE FROM users_counter;
 DELETE FROM visitors_counter;
+DELETE FROM rate;
+TRUNCATE TABLE rate;
 TRUNCATE TABLE categories;
 TRUNCATE TABLE products;
 TRUNCATE TABLE shipping_profiles;
