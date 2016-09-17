@@ -46,7 +46,7 @@ public class ReviewORMDAOImpl implements ReviewDAO {
     @Override
     public Review getById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        return (Review) session.get(Product.class, id);
+        return (Review) session.get(Review.class, id);
     }
 
     @Override

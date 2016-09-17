@@ -1,5 +1,8 @@
 package lv.javaguru.java2.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -85,5 +88,35 @@ public class Review implements BaseEntity {
                 ", comment='" + comment + '\'' +
                 ", date=" + date +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Review review = (Review) o;
+
+        return new EqualsBuilder()
+                .append(id, review.id)
+                .append(userId, review.userId)
+                .append(productId, review.productId)
+                .append(comment, review.comment)
+                .append(userName, review.userName)
+                .append(date, review.date)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(userId)
+                .append(productId)
+                .append(comment)
+                .append(userName)
+                .append(date)
+                .toHashCode();
     }
 }
