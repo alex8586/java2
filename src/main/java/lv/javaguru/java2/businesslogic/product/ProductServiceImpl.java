@@ -1,6 +1,7 @@
 package lv.javaguru.java2.businesslogic.product;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
+import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
@@ -43,6 +44,8 @@ public class ProductServiceImpl implements ProductService {
     private RateValidationService rateValidationService;
     @Autowired
     private TemplateService templateService;
+    @Autowired
+    private CartService cartService;
 
     @Transactional
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
@@ -72,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         map.put("reviews", reviews);
         map.put("categories", categoryTree.asOrderedList());
         map.putAll(templateService.model(userProvider.getUser()));
-
+        map.putAll(cartService.model());
         System.out.println(map);
 
         return map;

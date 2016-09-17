@@ -74,7 +74,7 @@
                                     </p>
                                     <p style="margin-left: 40px;">
                                         <br>
-                                        price - <b style="color: red">${productCard.productPrice} &#8364</b>
+                                        price : <b style="color: red">${productCard.productPrice} &#8364</b>
                                     </p>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                             <div class="col s6" style="display: inline-block;">
                             </div>
                             <div class="col s2 center-align" style="display: inline-block;">
-                                    ${productCard.available}
+                                At warehouse : ${productCard.available}
                             </div>
                             <form action="<tags:linkTo controller="CartController"/>" method="post">
                                 <div class="col s1" style="display: inline-block;">

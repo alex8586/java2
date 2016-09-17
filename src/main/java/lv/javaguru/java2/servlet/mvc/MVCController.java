@@ -55,5 +55,12 @@ public abstract class MVCController {
         return id;
     }
 
+    protected MVCModel redirectToReferer(HttpServletRequest request) {
+        String refererPath = request.getHeader("referer");
+        String app = request.getContextPath();
+        String refererPathWithinApplication = refererPath.substring(refererPath.indexOf(app) + app.length());
+        return new MVCModel(refererPathWithinApplication);
+    }
+
     
 }

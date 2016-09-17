@@ -24,8 +24,6 @@ public class CartController extends MVCController {
         long id = idFrom(request.getParameter("id"));
         Cart cart = cartProvider.getCart();
         cartService.addProduct(cart, id);
-        long cartPrice = cart.getTotalPrice(cart);
-        request.getSession().setAttribute("cart", cart);
         return redirectTo(FrontPageController.class);
     }
 
@@ -39,9 +37,9 @@ public class CartController extends MVCController {
         }
         if (request.getParameter("remove") != null) {
             cartService.removeProduct(cart, productId);
-        } else if (request.getParameter("add") != null) {
+        } else {
             cartService.addProducts(cart, productId, quantity);
         }
-        return redirectTo(FrontPageController.class);
+        return redirectToReferer(request);
     }
 }
