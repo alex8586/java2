@@ -23,7 +23,7 @@ public class LoginController {
     @Autowired
     private Error error;
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView executeGet(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("/login");
         try {

@@ -22,7 +22,7 @@ public class ProfileController {
     @Autowired
     Error error;
 
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView executeGet(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         try {

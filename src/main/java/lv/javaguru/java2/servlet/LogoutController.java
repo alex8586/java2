@@ -19,6 +19,6 @@ public class LogoutController {
     public ModelAndView executeGet(HttpServletRequest request) {
         userLogoutService.logout();
         request.getSession().invalidate();
-        return new ModelAndView("/index");
+        return new ModelAndView("/frontpage");
     }
 }

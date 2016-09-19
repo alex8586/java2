@@ -4,8 +4,8 @@
     <nav>
             <div class="row">
                 <div class="col s3">
-                    <a href="" class="brand-logo">
-                    <i class="material-icons">all_inclusive</i>
+                    <a href="index" class="brand-logo">
+
                     MISKA
                 </a>
                 </div>

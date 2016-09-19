@@ -25,7 +25,7 @@ public class RegistrationController {
     @Autowired
     Error error;
 
-    @RequestMapping(value = "registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
     protected ModelAndView executeGet(HttpServletRequest request) {
         try {
             ModelAndView model = new ModelAndView("/registration");
@@ -40,7 +40,7 @@ public class RegistrationController {
         }
     }
 
-    @RequestMapping(value = "registration", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
     protected ModelAndView executePost(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("/login");
         try {
