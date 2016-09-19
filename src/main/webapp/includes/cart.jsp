@@ -54,7 +54,7 @@
 </div>
 <hr>
 
-<a href="<tags:linkTo controller="CheckoutController"/>">
+<a href="">
     <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>

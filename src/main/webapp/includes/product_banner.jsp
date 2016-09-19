@@ -3,8 +3,8 @@
 
 <div class="card-image">
     <hr>
-    <a href="<tags:linkTo controller="ProductController" />?id=${requestScope.model.saleOffer.id}">
-        <img src="<c:url value="${requestScope.model.saleOffer.imgUrl}" />" width="202" height="224">
+    <a href="?id=${requestScope.saleOffer.id}">
+        <img src="<c:url value="${requestScope.saleOffer.imgUrl}" />" width="202" height="224">
         <img src="miskaweb/img/sale.jpg" width="202" height="50">
     </a>
     <hr>

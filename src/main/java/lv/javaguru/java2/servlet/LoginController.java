@@ -5,18 +5,17 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserLoginService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
-import lv.javaguru.java2.servlet.profilepages.ProfileController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Component
-public class LoginController extends MVCController {
+@Controller
+public class LoginController {
 
     @Autowired
     private UserLoginService userLoginService;
@@ -24,31 +23,35 @@ public class LoginController extends MVCController {
     @Autowired
     private Error error;
 
-    @Override
-    public MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public ModelAndView executeGet(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("/login");
         try {
             Map<String, Object> map = userLoginService.model();
-            return new MVCModel(map, "/login.jsp");
+            for(Map.Entry<String, Object> entry : map.entrySet()){
+                model.addObject(entry.getKey(), entry.getValue());
+            }
+            return model;
         } catch (Exception e) {
             error.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return new ModelAndView("/index");
         }
     }
 
-    @Override
-    public MVCModel executePost(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView executePost(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
-            request.getSession().setAttribute("user", user); //old style
-            return redirectTo(ProfileController.class);
+            request.getSession().setAttribute("user", user);
+            return new ModelAndView("/profile");
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return redirectTo(LoginController.class);
+            return new ModelAndView("/login");
         } catch (DBException e) {
-            return new MVCModel("/error");
+            return new ModelAndView("/error");
         }
     }
 }

@@ -6,17 +6,17 @@ import lv.javaguru.java2.businesslogic.user.UserRegistrationService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Component
-public class RegistrationController extends MVCController {
+@Controller
+public class RegistrationController {
 
     @Autowired
     UserProfileUtil userProfileUtil;
@@ -25,19 +25,24 @@ public class RegistrationController extends MVCController {
     @Autowired
     Error error;
 
-    @Override
-    protected MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping(value = "registration", method = RequestMethod.GET)
+    protected ModelAndView executeGet(HttpServletRequest request) {
         try {
+            ModelAndView model = new ModelAndView("/registration");
             Map<String, Object> map = userRegistrationService.model();
-            return new MVCModel(map, "/registration.jsp");
+            for(Map.Entry<String, Object> entry : map.entrySet()){
+                model.addObject(entry.getKey(), entry.getValue());
+            }
+            return model;
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return new ModelAndView("/index");
         }
     }
 
-    @Override
-    protected MVCModel executePost(HttpServletRequest request) {
+    @RequestMapping(value = "registration", method = RequestMethod.POST)
+    protected ModelAndView executePost(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("/login");
         try {
             UserProfile userProfile = userProfileUtil
                     .build(request.getParameter("fullName"),
@@ -46,13 +51,13 @@ public class RegistrationController extends MVCController {
                             request.getParameter("repeatPassword"));
             userRegistrationService.register(userProfile);
         } catch (NullPointerException e) {
-            return new MVCModel("/error");
+            return new ModelAndView("/error");
         } catch (DBException e) {
-            return new MVCModel("/error");
+            return new ModelAndView("/error");
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return redirectTo(RegistrationController.class);
+            return new ModelAndView("registration");
         }
-        return redirectTo(LoginController.class);
+        return model;
     }
 }

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="input-field col s12">
         <input id="fullName" type="text" class="validate" name="fullName">
-        <label for="email">Name</label>
+        <label for="fullName">Name</label>
     </div>
 </div>
 <div class="row">

@@ -9,7 +9,7 @@
             </div>
             <div class="col s7">
                 <div class="col s6">
-                    <form action="<tags:linkTo controller="RegistrationController" />" method="post">
+                    <form action="registration" method="post">
                         <tags:userProfileForm/>
                         <button class="btn waves-effect waves-light" type="submit" name="register">Register me
                             <i class="material-icons right">send</i>
