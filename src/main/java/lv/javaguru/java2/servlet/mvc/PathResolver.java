@@ -29,10 +29,14 @@ public class PathResolver {
     }
 
     public String linkTo(String controller) {
+        System.out.println("hey i am here for " + controller);
         return reversedRoutes.getOrDefault(controller, DEFAULT_PATH);
     }
 
     public String linkTo(String controller, String id) {
+
+        System.out.println("hey i am here for " + controller + " and " + id);
+
         if (reversedRoutes.containsKey(controller))
             return reversedRoutes.get(controller) + "?id=" + id;
         else
@@ -50,6 +54,7 @@ public class PathResolver {
     public String linkTo(BaseEntity entity) {
         return linkTo(entity.getClass(), entity.getId());
     }
+
 
     private String getOriginalClassName(MVCController controller) {
         String name = controller.getClass().getSimpleName();

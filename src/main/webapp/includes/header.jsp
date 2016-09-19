@@ -1,10 +1,12 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+
 <header>
     <nav>
             <div class="row">
                 <div class="col s3">
-                    <a href="index" class="brand-logo">
+                    <a href="${s:mvcUrl('FPC#all').build()}" class="brand-logo">
 
                     MISKA
                 </a>

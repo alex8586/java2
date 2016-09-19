@@ -101,6 +101,6 @@ public class SpringConfig {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-
     }
+
 }
