@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+@RequestMapping(value = "/registration")
 @Controller
 public class RegistrationController {
 
@@ -25,12 +26,12 @@ public class RegistrationController {
     @Autowired
     Error error;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView executeGet(HttpServletRequest request) {
         try {
             ModelAndView model = new ModelAndView("/registration");
             Map<String, Object> map = userRegistrationService.model();
-            for(Map.Entry<String, Object> entry : map.entrySet()){
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
                 model.addObject(entry.getKey(), entry.getValue());
             }
             return model;
@@ -40,9 +41,8 @@ public class RegistrationController {
         }
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    protected ModelAndView executePost(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("/login");
+    @RequestMapping(method = RequestMethod.POST)
+    protected String executePost(HttpServletRequest request) {
         try {
             UserProfile userProfile = userProfileUtil
                     .build(request.getParameter("fullName"),
@@ -51,13 +51,15 @@ public class RegistrationController {
                             request.getParameter("repeatPassword"));
             userRegistrationService.register(userProfile);
         } catch (NullPointerException e) {
-            return new ModelAndView("/error");
+            return "redirect:error";
         } catch (DBException e) {
-            return new ModelAndView("/error");
+            return "redirect:error";
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return new ModelAndView("registration");
+            return "redirect:registration";
         }
-        return model;
+        return "redirect:login";
     }
+
+
 }

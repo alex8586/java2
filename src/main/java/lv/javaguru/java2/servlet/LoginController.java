@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-
+@RequestMapping(value = "/login")
 @Controller
 public class LoginController {
 
@@ -23,15 +22,11 @@ public class LoginController {
     @Autowired
     private Error error;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     public ModelAndView executeGet(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("/login");
         try {
-            Map<String, Object> map = userLoginService.model();
-            for(Map.Entry<String, Object> entry : map.entrySet()){
-                model.addObject(entry.getKey(), entry.getValue());
-            }
-            return model;
+            return model.addAllObjects(userLoginService.model());
         } catch (Exception e) {
             error.setError(e.getMessage());
             return new ModelAndView("/index");
@@ -39,19 +34,19 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView executePost(HttpServletRequest request) {
+    public String executePost(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
             request.getSession().setAttribute("user", user);
-            return new ModelAndView("/profile");
+            return "redirect:profile";
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return new ModelAndView("/login");
+            return "redirect:login";
         } catch (DBException e) {
-            return new ModelAndView("/error");
+            return "redirect:error";
         }
     }
 }

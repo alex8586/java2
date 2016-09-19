@@ -18,9 +18,9 @@
                 </div>
             </div>
             <div class="col s2">
-                <c:if test="${not empty requestScope.model.registrationError}">
+                <c:if test="${not empty requestScope.registrationError}">
                     <div class="red-text"><br>
-                        <h4>${requestScope.model.registrationError}</h4>
+                        <h4>${requestScope.registrationError}</h4>
                         <hr>
                     </div>
                 </c:if>
