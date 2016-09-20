@@ -9,8 +9,7 @@ import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import lv.javaguru.java2.servlet.LoginController;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,15 +40,15 @@ public class ProfileUpdateController {
             model.addAllObjects(profileUpdateService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
-            return redirectTo(LoginController.class);
+            return SpringPathResolver.redirectTo(LoginController.class);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return SpringPathResolver.redirectTo(FrontPageController.class);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String executePost(@RequestParam Map<String, String> param, HttpServletRequest request) {
+    protected ModelAndView updateProfile(@RequestParam Map<String, String> param) {
         try {
             UserProfile userProfile = userProfileUtil
                     .build(param.get("fullName"),
@@ -58,12 +57,12 @@ public class ProfileUpdateController {
                             param.get("repeatPassword"));
             profileUpdateService.update(userProfile);
         } catch (NullPointerException e) {
-            return new MVCModel("/notification");
+            return new ModelAndView("redirect:error");
         } catch (DBException e) {
-            return new MVCModel("/notification");
+            return new ModelAndView("redirect:error");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return redirectTo(ProfileUpdateController.class);
+        return SpringPathResolver.redirectTo(ProfileUpdateController.class);
     }
 }

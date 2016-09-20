@@ -7,8 +7,7 @@ import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RequestMapping(value = "/registration")
@@ -32,19 +30,19 @@ public class RegistrationController {
     Notification notification;
 
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView executeGet(HttpServletRequest request) {
+    protected ModelAndView model() {
         try {
             ModelAndView model = new ModelAndView("/registration");
             model.addAllObjects(userRegistrationService.model());
             return model;
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return SpringPathResolver.redirectTo(FrontPageController.class);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String executePost(@RequestParam Map<String, String> param) {
+    protected ModelAndView register(@RequestParam Map<String, String> param) {
         try {
             UserProfile userProfile = userProfileUtil
                     .build(param.get("fullName"),
@@ -55,14 +53,14 @@ public class RegistrationController {
             notification.setMessage(SUCCESS_MESSAGE);
 
         } catch (NullPointerException e) {
-            return "redirect:error";
+            return new ModelAndView("redirect:error");
         } catch (DBException e) {
-            return "redirect:error";
+            return new ModelAndView("redirect:error");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return "redirect:registration";
+            new ModelAndView("redirect:registration");
         }
-        return redirectTo(LoginController.class);
+        return SpringPathResolver.redirectTo(LoginController.class);
     }
 
 

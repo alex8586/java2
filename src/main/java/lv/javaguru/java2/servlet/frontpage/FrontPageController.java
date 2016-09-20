@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class FrontPageController {
     }
 
     @RequestMapping("/category/{id}")
-    public RedirectView chooseCategory(@PathVariable("id") long id, HttpServletRequest request) {
+    public ModelAndView chooseCategory(@PathVariable("id") long id, HttpServletRequest request) {
         System.out.println("we are here");
         Category category = categoryDAO.getById(id);
         if (category != null) {
@@ -50,7 +49,7 @@ public class FrontPageController {
     }
 
     @RequestMapping("/category/reset")
-    public RedirectView reset(HttpServletRequest request) {
+    public ModelAndView reset(HttpServletRequest request) {
         request.getSession().removeAttribute("currentCategory");
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }

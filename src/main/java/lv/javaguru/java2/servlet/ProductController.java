@@ -1,7 +1,6 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.notification.Notification;
-import lv.javaguru.java2.businesslogic.product.ProductProvider;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;

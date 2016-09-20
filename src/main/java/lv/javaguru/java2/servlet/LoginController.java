@@ -6,8 +6,7 @@ import lv.javaguru.java2.businesslogic.user.UserLoginService;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import lv.javaguru.java2.servlet.profilepages.ProfileController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RequestMapping(value = "/login")
@@ -30,29 +28,29 @@ public class LoginController {
     private Notification notification;
 
     @RequestMapping( method = RequestMethod.GET)
-    public ModelAndView executeGet(HttpServletRequest request) {
+    public ModelAndView executeGet() {
         ModelAndView model = new ModelAndView("/login");
         try {
             return model.addAllObjects(userLoginService.model());
         } catch (Exception e) {
             notification.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return SpringPathResolver.redirectTo(FrontPageController.class);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String executePost(@RequestParam Map<String, String> param, HttpServletRequest request) {
+    public ModelAndView executePost(@RequestParam Map<String, String> param) {
         String email = param.get("email");
         String password = param.get("password");
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
-            return redirectTo(ProfileController.class);
+            return SpringPathResolver.redirectTo(ProfileController.class);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return redirectTo(LoginController.class);
+            return SpringPathResolver.redirectTo(LoginController.class);
         } catch (DBException e) {
-            return new MVCModel("/notification");
+            return new ModelAndView("redirect:error");
         }
     }
 }
