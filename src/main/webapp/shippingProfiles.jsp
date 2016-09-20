@@ -4,12 +4,12 @@
 
 <tags:userPageTemplate>
      <jsp:attribute name="content">
-         <form action="<tags:linkTo controller="ShippingProfileController" />" method="post">
-             <c:if test="${not empty requestScope.model.shippingProfiles}">
+         <form action="shippingProfiles" method="post">
+             <c:if test="${not empty requestScope.shippingProfiles}">
                 <div class="input-field col s12">
                     <select id="list">
                         <option value="empty">select profile to edit</option>
-                        <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
+                        <c:forEach items="${requestScope.shippingProfiles}" var="shippingProfile">
                             <option value="${shippingProfile.id}">${shippingProfile.address} ${shippingProfile.person}</option>
                         </c:forEach>
                     </select>
@@ -19,7 +19,7 @@
 
                      var spMap = {};
                      spMap['empty'] = {'profileId': '', 'address': '', 'person': '', 'phone': '', 'document': ''};
-                     <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
+                     <c:forEach items="${requestScope.shippingProfiles}" var="shippingProfile">
                      spMap['${shippingProfile.id}'] = {
                          'profileId': '${shippingProfile.id}',
                          'address': '${shippingProfile.address}',
@@ -79,7 +79,7 @@
                      $("#delete_button").attr("disabled", true);
                      $("#delete_button").click(function () {
                          if ($('#profileId').val) {
-                             $("form").attr("action", "/java2/profile/shippingProfiles/delete");
+                             $("form").attr("action", "deleteShippingProfiles");
                              $("form").submit();
                          }
                      });

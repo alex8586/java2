@@ -12,9 +12,9 @@
          </form>
     </jsp:attribute>
     <jsp:attribute name="rightBar">
-        <c:if test="${not empty requestScope.model.profileError}">
+        <c:if test="${not empty requestScope.profileError}">
             <div class="red-text"><br>
-                <h4>${requestScope.model.profileError}</h4>
+                <h4>${requestScope.profileError}</h4>
                 <hr>
             </div>
         </c:if>

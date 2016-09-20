@@ -4,17 +4,16 @@ import lv.javaguru.java2.businesslogic.error.Error;
 import lv.javaguru.java2.businesslogic.profilepages.ProfileOrderService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
-import lv.javaguru.java2.servlet.LoginController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
-@Component
-public class ProfileHistoryOrdersController extends MVCController {
+@Controller
+public class ProfileHistoryOrdersController {
 
     @Autowired
     private ProfileOrderService profileOrderService;
@@ -22,16 +21,17 @@ public class ProfileHistoryOrdersController extends MVCController {
     @Autowired
     private Error error;
 
-    @Override
-    public MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping(value = "/profileHistoryOrders", method = RequestMethod.GET)
+    public ModelAndView executeGet(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("/profile_history");
         try {
-            Map<String, Object> map = profileOrderService.model();
-            return new MVCModel(map, "/profile_history.jsp");
+            model.addAllObjects(profileOrderService.model());
+            return model;
         } catch (UnauthorizedAccessException e) {
-            return redirectTo(LoginController.class);
+            return new ModelAndView("/login");
         } catch (ServiceException e) {
             error.isError();
-            return redirectTo(ProfileHistoryOrdersController.class);
+            return new ModelAndView("/profile_history");
         }
     }
 }

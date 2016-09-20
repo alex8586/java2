@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Controller
 public class ProfileController {
@@ -26,9 +25,7 @@ public class ProfileController {
     public ModelAndView executeGet(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         try {
-            for(Map.Entry<String, Object> entry : profileService.model().entrySet()){
-                model.addObject(entry.getKey(), entry.getValue());
-            }
+            model.addAllObjects(profileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
             return new ModelAndView("/login");

@@ -7,18 +7,19 @@ import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessExcept
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
-import lv.javaguru.java2.servlet.LoginController;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Component
-public class ProfileUpdateController extends MVCController {
+@RequestMapping(value = "/profileUpdate")
+@Controller
+public class ProfileUpdateController {
 
     @Autowired
     UserProfileUtil userProfileUtil;
@@ -29,35 +30,37 @@ public class ProfileUpdateController extends MVCController {
     @Autowired
     Error error;
 
-    @Override
-    public MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView executeGet(HttpServletRequest request) {
         try {
-            Map<String, Object> map = profileUpdateService.model();
-            return new MVCModel(map, "/profile_update.jsp");
+            ModelAndView model = new ModelAndView("/profile_update");
+            model.addAllObjects(profileUpdateService.model());
+            return model;
         } catch (UnauthorizedAccessException e) {
-            return redirectTo(LoginController.class);
+            return new ModelAndView("/login");
         } catch (ServiceException e) {
             error.setError(e.getMessage());
-            return redirectTo(FrontPageController.class);
+            return new ModelAndView("/index");
         }
     }
 
-    @Override
-    protected MVCModel executePost(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST)
+    protected String executePost(@RequestParam Map<String, String> param, HttpServletRequest request) {
         try {
             UserProfile userProfile = userProfileUtil
-                    .build(request.getParameter("fullName"),
-                            request.getParameter("email"),
-                            request.getParameter("password"),
-                            request.getParameter("repeatPassword"));
+                    .build(param.get("fullName"),
+                            param.get("email"),
+                            param.get("password"),
+                            param.get("repeatPassword"));
             profileUpdateService.update(userProfile);
         } catch (NullPointerException e) {
-            return new MVCModel("/error");
+            return "redirect:error";
         } catch (DBException e) {
-            return new MVCModel("/error");
+            return "redirect:error";
         } catch (ServiceException e) {
             error.setError(e.getMessage());
+            return "redirect:profileUpdate";
         }
-        return redirectTo(ProfileUpdateController.class);
+        return "redirect:profileUpdate";
     }
 }

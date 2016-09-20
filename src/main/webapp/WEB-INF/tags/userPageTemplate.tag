@@ -9,15 +9,15 @@
             <div class="col s2">
                 <div class="collection card center">
                     <h5 class="collection-header">Menu</h5>
-                    <a class="collection-item" href="<tags:linkTo controller="ProfileController"/>"><h6>Profile
+                    <a class="collection-item" href="profile"><h6>Profile
                         main</h6></a>
-                    <a class="collection-item" href="<tags:linkTo controller="ProfileUpdateController"/>"><h6>Update
+                    <a class="collection-item" href="profileUpdate"><h6>Update
                         profile</h6></a>
                     <a class="collection-item" href="<tags:linkTo controller="ProfileCartController"/>"><h6>Show
                         cart</h6></a>
-                    <a class="collection-item" href="<tags:linkTo controller="ProfileHistoryOrdersController"/>"><h6>Show
+                    <a class="collection-item" href="profileHistoryOrders"><h6>Show
                         history of orders</h6></a>
-                    <a class="collection-item" href="<tags:linkTo controller="ShippingProfileController"/>"><h6>Shipping
+                    <a class="collection-item" href="shippingProfiles"><h6>Shipping
                         profiles</h6></a>
                 </div>
             </div>
