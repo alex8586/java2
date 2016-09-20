@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,10 +31,7 @@ public class RegistrationController {
     protected ModelAndView executeGet(HttpServletRequest request) {
         try {
             ModelAndView model = new ModelAndView("/registration");
-            Map<String, Object> map = userRegistrationService.model();
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                model.addObject(entry.getKey(), entry.getValue());
-            }
+            model.addAllObjects(userRegistrationService.model());
             return model;
         } catch (ServiceException e) {
             error.setError(e.getMessage());
@@ -42,13 +40,13 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String executePost(HttpServletRequest request) {
+    protected String executePost(@RequestParam Map<String, String> param) {
         try {
             UserProfile userProfile = userProfileUtil
-                    .build(request.getParameter("fullName"),
-                            request.getParameter("email"),
-                            request.getParameter("password"),
-                            request.getParameter("repeatPassword"));
+                    .build(param.get("fullName"),
+                            param.get("email"),
+                            param.get("password"),
+                            param.get("repeatPassword"));
             userRegistrationService.register(userProfile);
         } catch (NullPointerException e) {
             return "redirect:error";

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 @RequestMapping(value = "/login")
 @Controller
 public class LoginController {
@@ -34,9 +37,9 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String executePost(HttpServletRequest request) {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    public String executePost(@RequestParam Map<String, String> param, HttpServletRequest request) {
+        String email = param.get("email");
+        String password = param.get("password");
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
