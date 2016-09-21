@@ -8,8 +8,8 @@
                 <%@include file="includes/category.jsp" %>
             </div>
             <div class="col s8">
-                <c:set var="productCard" value="${requestScope.model.productCard}"/>
-                <c:if test="${empty requestScope.model.error}">
+                <c:set var="productCard" value="${requestScope.productCard}"/>
+                <c:if test="${empty requestScope.error}">
                     <div class="row">
                         <div class="row">
                             <div class="col s12 center-align" >
@@ -31,17 +31,11 @@
                                     <img src="${productCard.productImgUrl}" width="219" height="219">
                                 </div>
 
-                                <c:if test="${not empty requestScope.model.user}">
-                                    <c:if test="${empty requestScope.model.cantRate}">
+                                <c:if test="${not empty requestScope.user}">
+                                    <c:if test="${empty requestScope.cantRate}">
                                         <div class="row center">
                                             <form action="<tags:linkTo controller="RateController"/>" method="post">
                                                 Rate
-                                                <input type="submit" value="1" name="rate"  style="background-color: #e3f2fd">
-                                                <input type="submit" value="2" name="rate"  style="background-color: #bbdefb">
-                                                <input type="submit" value="3" name="rate"  style="background-color: #90caf9">
-                                                <input type="submit" value="4" name="rate"  style="background-color: #64b5f6">
-                                                <input type="submit" value="5" name="rate"  style="background-color: #42a5f5">
-                                                <input type="hidden" value="${requestScope.model.productCard.productId}" name="productId">
                                                 <input type="submit" value="1" name="rate"
                                                        style="background-color: #e3f2fd">
                                                 <input type="submit" value="2" name="rate"
@@ -56,9 +50,9 @@
                                             </form>
                                         </div>
                                     </c:if>
-                                    <c:if test="${not empty requestScope.model.cantRate}">
+                                    <c:if test="${not empty requestScope.cantRate}">
                                         <div class="row">
-                                            ${requestScope.model.cantRate}
+                                            ${requestScope.cantRate}
                                         </div>
                                     </c:if>
                                 </c:if>
@@ -123,7 +117,7 @@
                             <div class="row">
                                 <ul class="collection with-header">
                                     <li class="collection-header"><h5>Comments :</h5></li>
-                                    <c:forEach items="${requestScope.model.reviews}" var="review">
+                                    <c:forEach items="${requestScope.reviews}" var="review">
                                         <li class="collection-item"
                                             style="background-color: lightgray">${review.userName}, ${review.date}</li>
                                         <li class="collection-item">${review.comment}</li>

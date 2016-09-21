@@ -28,7 +28,7 @@ public class RegistrationController {
     Notification notification;
 
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView model() {
+    protected ModelAndView registration() {
         try {
             ModelAndView model = new ModelAndView("/registration");
             model.addAllObjects(userRegistrationService.model());

@@ -1,12 +1,13 @@
 <%@attribute name="productCard" required="true" type="lv.javaguru.java2.dto.ProductCard" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <div class="col s3">
     <div class="card vertical-grabber">
         <div class="card-title center">
             ${productCard.productName}
         </div>
         <div class="card-image">
-            <a href="<tags:linkTo controller="ProductController" resourceId="${productCard.productId}"/>"><img
+            <a href="${s:mvcUrl('PC#productModel').arg(0, productCard.productId).build()}"><img
                     src="${productCard.productImgUrl}"
                     height="130" width="130"></a>
         </div>

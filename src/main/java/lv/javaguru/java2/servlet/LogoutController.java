@@ -14,7 +14,7 @@ public class LogoutController {
     @Autowired
     UserLogoutService userLogoutService;
 
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         userLogoutService.logout();
         request.getSession().invalidate();

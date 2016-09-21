@@ -27,7 +27,7 @@ public class LoginController {
     private Notification notification;
 
     @RequestMapping( method = RequestMethod.GET)
-    public ModelAndView model() {
+    public ModelAndView login() {
         ModelAndView model = new ModelAndView("/login");
         try {
             return model.addAllObjects(userLoginService.model());

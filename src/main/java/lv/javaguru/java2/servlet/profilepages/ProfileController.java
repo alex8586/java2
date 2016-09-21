@@ -4,9 +4,6 @@ import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.profilepages.ProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
-import lv.javaguru.java2.servlet.LoginController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +22,7 @@ public class ProfileController {
     Notification notification;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView executeGet(HttpServletRequest request) {
+    public ModelAndView profile(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         try {
             model.addAllObjects(profileService.model());
