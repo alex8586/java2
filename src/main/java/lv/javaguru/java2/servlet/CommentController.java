@@ -7,15 +7,14 @@ import lv.javaguru.java2.businesslogic.validators.ReviewValidationService;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
-@Component
+@Controller
 public class CommentController extends MVCController {
 
     private static final String NO_PERMISSION_TO_COMMENT = "You have no permission to comment";
@@ -31,29 +30,28 @@ public class CommentController extends MVCController {
     private ReviewService reviewService;
 
     @Override
-    protected MVCModel executePost(HttpServletRequest request) {
-
-        long productId = idFrom(request.getParameter("productId"));
-        String comment = request.getParameter("comment");
+    @RequestMapping("/product/{productId}/comment")
+    protected ModelAndView comment(
+            @RequestParam("productId") long productId,
+            @RequestParam("comment") String comment) {
         if (comment == null)
             throw new NullPointerException();
 
-        Map<String, Object> map = new HashMap<String, Object>();
         if (comment.isEmpty()) {
             notification.setError(EMPTY_COMMENT);
-            return redirectTo(Product.class, productId);
-        }
-        if (!userProvider.authorized()) {
+            return SpringPathResolver.redirectTo(Product.class, productId);
+        } else if (!userProvider.authorized()) {
             notification.setError(NO_PERMISSION_TO_COMMENT);
-            return redirectTo(Product.class, productId);
+            return SpringPathResolver.redirectTo(Product.class, productId);
         }
+
 
         User user = userProvider.getUser();
         if (!reviewValidationService.canComment(user, productId)) {
             notification.setError(CAN_NOT_COMMENT_TODAY);
-            return redirectTo(Product.class, productId);
+            return SpringPathResolver.redirectTo(Product.class, productId);
         }
         reviewService.addComment(productId, user, comment);
-        return redirectTo(ProductController.class, productId);
+        return SpringPathResolver.redirectTo(Product.class, productId);
     }
 }

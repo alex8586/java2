@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-
 @RequestMapping(value = "/registration")
 @Controller
 public class RegistrationController {
 
-    private static final String SUCCESS_MESSAGE = "Congrats. Registration was successfull. Now you can login";
+    private static final String SUCCESS_MESSAGE = "Congrats. Registration was successful. Now you can login";
     @Autowired
     UserProfileUtil userProfileUtil;
     @Autowired
@@ -42,16 +40,15 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected ModelAndView register(@RequestParam Map<String, String> param) {
+    protected ModelAndView register(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("repeatPassword") String repeatPassword) {
         try {
-            UserProfile userProfile = userProfileUtil
-                    .build(param.get("fullName"),
-                            param.get("email"),
-                            param.get("password"),
-                            param.get("repeatPassword"));
+            UserProfile userProfile = userProfileUtil.build(fullName, email, password, repeatPassword);
             userRegistrationService.register(userProfile);
             notification.setMessage(SUCCESS_MESSAGE);
-
         } catch (NullPointerException e) {
             return new ModelAndView("redirect:error");
         } catch (DBException e) {

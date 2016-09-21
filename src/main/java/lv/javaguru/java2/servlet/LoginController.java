@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-
 @RequestMapping(value = "/login")
 @Controller
 public class LoginController {
@@ -28,7 +26,7 @@ public class LoginController {
     private Notification notification;
 
     @RequestMapping( method = RequestMethod.GET)
-    public ModelAndView executeGet() {
+    public ModelAndView model() {
         ModelAndView model = new ModelAndView("/login");
         try {
             return model.addAllObjects(userLoginService.model());
@@ -39,9 +37,9 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView executePost(@RequestParam Map<String, String> param) {
-        String email = param.get("email");
-        String password = param.get("password");
+    public ModelAndView login(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password) {
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);

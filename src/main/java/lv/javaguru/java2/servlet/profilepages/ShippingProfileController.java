@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping(value = "/shippingProfiles")
 public class ShippingProfileController {
@@ -46,18 +44,18 @@ public class ShippingProfileController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView save(@RequestParam Map<String, String> param) {
+    public ModelAndView save(
+            @RequestParam("profileId") String profileId,
+            @RequestParam("person") String person,
+            @RequestParam("address") String address,
+            @RequestParam("phone") String phone,
+            @RequestParam("document") String document) {
         try {
             ShippingDetails shippingDetails =
-                    shippingDetailsUtil.build(
-                            param.get("profileId"),
-                            param.get("person"),
-                            param.get("address"),
-                            param.get("phone"),
-                            param.get("document"));
+                    shippingDetailsUtil.build(profileId, person, address, phone, document);
             shippingProfileService.save(shippingDetails);
         } catch (NullPointerException e) {
-            return new ModelAndView("/notification");
+            return new ModelAndView("redirect:error");
         } catch (DBException e) {
             return new ModelAndView("redirect:error");
         } catch (ServiceException e) {
@@ -67,12 +65,9 @@ public class ShippingProfileController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView delete(@RequestParam("profileId") String resourceId) {
+    public ModelAndView delete(@RequestParam("profileId") long resourceId) {
         try {
-            if (resourceId != null) {
-                Long id = Long.valueOf(resourceId);
-                shippingProfileService.delete(id);
-            }
+            shippingProfileService.delete(resourceId);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }

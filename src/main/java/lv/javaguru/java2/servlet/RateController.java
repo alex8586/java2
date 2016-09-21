@@ -9,13 +9,11 @@ import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
-@Component
+@Controller
 public class RateController extends MVCController{
 
     @Autowired
@@ -25,14 +23,12 @@ public class RateController extends MVCController{
     @Autowired
     private Notification notification;
 
-    @Override
-    protected MVCModel executePost(HttpServletRequest request) {
-        long productId = 0;
+    @RequestMapping("/product/{productId}/rate/{rate}")
+    protected MVCModel rate(
+            @RequestParam("productId") long productId,
+            @RequestParam("rate") int rate) {
         try {
-            Map<String, Object> map = new HashMap<String, Object>();
             User user = userProvider.getUser();
-            productId = idFrom(request.getParameter("productId"));
-            int rate = Integer.valueOf(request.getParameter("rate"));
             rateService.rate(productId, user, rate);
             return redirectTo(Product.class, productId);
         } catch (NullPointerException e) {

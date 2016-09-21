@@ -5,16 +5,17 @@ import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
-@Component
-public class ProductController extends MVCController {
+@Controller
+public class ProductController {
 
     private static final String UNABLE_TO_PROCESS_REQUEST = "Error. Unable to find product";
 
@@ -23,13 +24,12 @@ public class ProductController extends MVCController {
     @Autowired
     private Notification notification;
 
-    @Override
-    protected MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping("/product/{productId}")
+    protected ModelAndView productModel(@RequestParam("productId") long productId, HttpServletRequest request) {
         try {
-            Long id = idFrom(request.getParameter("id"));
-            Map<String, Object> map;
-            map = productService.getById(id, request.getRemoteAddr());
-            return new MVCModel(map, "/product.jsp");
+            ModelAndView mav = new ModelAndView("/product.jsp");
+            mav.addAllObjects(productService.getById(productId, request.getRemoteAddr()));
+            return mav;
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         } catch (NumberFormatException e) {
@@ -39,6 +39,6 @@ public class ProductController extends MVCController {
         } catch (DBException e) {
             notification.setError(e.getMessage());
         }
-        return redirectTo(FrontPageController.class);
+        return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 }

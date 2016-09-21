@@ -21,14 +21,13 @@ public class ContactController {
     @Autowired
     private TemplateService templateService;
 
-
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
     public ModelAndView model() {
-        ModelAndView mov = new ModelAndView();
+
         if (!userProvider.authorized())
             return SpringPathResolver.redirectTo(LoginController.class);
+        ModelAndView mov = new ModelAndView("contact");
         mov.addAllObjects(templateService.model());
-        mov.setViewName("contact");
         return mov;
     }
 

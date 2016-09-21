@@ -1,12 +1,13 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.user.UserLogoutService;
+import lv.javaguru.java2.servlet.frontpage.FrontPageController;
+import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LogoutController {
@@ -15,9 +16,8 @@ public class LogoutController {
     UserLogoutService userLogoutService;
 
     @RequestMapping(value = "logout", method = RequestMethod.GET)
-    public String executeGet(HttpServletRequest request) {
+    public ModelAndView logout() {
         userLogoutService.logout();
-        request.getSession().invalidate();
-        return "redirect:index";
+        return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 }
