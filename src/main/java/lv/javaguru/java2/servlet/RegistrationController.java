@@ -10,9 +10,9 @@ import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @RequestMapping(value = "/registration")
@@ -40,24 +40,19 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected ModelAndView register(
-            @RequestParam("fullName") String fullName,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("repeatPassword") String repeatPassword) {
+    protected String register(@ModelAttribute UserProfile userProfile) {
         try {
-            UserProfile userProfile = userProfileUtil.build(fullName, email, password, repeatPassword);
             userRegistrationService.register(userProfile);
             notification.setMessage(SUCCESS_MESSAGE);
         } catch (NullPointerException e) {
-            return new ModelAndView("redirect:error");
+            return "redirect:error";
         } catch (DBException e) {
-            return new ModelAndView("redirect:error");
+            return "redirect:error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            new ModelAndView("redirect:registration");
+            return "redirect:registration";
         }
-        return SpringPathResolver.redirectTo(LoginController.class);
+        return "redirect:login";
     }
 
 

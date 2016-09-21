@@ -19,10 +19,10 @@ public class ProfileHistoryOrdersController {
 
     @RequestMapping(value = "/profileHistoryOrders", method = RequestMethod.GET)
     public ModelAndView model() {
-        ModelAndView mov = new ModelAndView("/profile_history");
+        ModelAndView model = new ModelAndView("/profile_history");
         try {
-            mov.addAllObjects(profileOrderService.model());
-            return mov;
+            model.addAllObjects(profileOrderService.model());
+            return model;
         } catch (UnauthorizedAccessException e) {
             return SpringPathResolver.redirectTo(LoginController.class);
         } catch (ServiceException e) {

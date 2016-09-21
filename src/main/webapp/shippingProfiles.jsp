@@ -4,7 +4,7 @@
 
 <tags:userPageTemplate>
      <jsp:attribute name="content">
-         <form action="shippingProfiles" method="post">
+         <form action="shippingProfiles/save" method="post">
              <c:if test="${not empty requestScope.shippingProfiles}">
                 <div class="input-field col s12">
                     <select id="list">
@@ -79,7 +79,7 @@
                      $("#delete_button").attr("disabled", true);
                      $("#delete_button").click(function () {
                          if ($('#profileId').val) {
-                             $("form").attr("action", "deleteShippingProfiles");
+                             $("form").attr("action", "shippingProfiles/delete");
                              $("form").submit();
                          }
                      });

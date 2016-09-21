@@ -6,11 +6,11 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.ShippingDetails;
-import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
 import lv.javaguru.java2.servlet.LoginController;
 import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +22,6 @@ public class ShippingProfileController {
 
     @Autowired
     Notification notification;
-
-    @Autowired
-    private ShippingDetailsUtil shippingDetailsUtil;
 
     @Autowired
     private ShippingProfileService shippingProfileService;
@@ -44,34 +41,27 @@ public class ShippingProfileController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView save(
-            @RequestParam("profileId") String profileId,
-            @RequestParam("person") String person,
-            @RequestParam("address") String address,
-            @RequestParam("phone") String phone,
-            @RequestParam("document") String document) {
+    public String save(@ModelAttribute ShippingDetails shippingDetails) {
         try {
-            ShippingDetails shippingDetails =
-                    shippingDetailsUtil.build(profileId, person, address, phone, document);
             shippingProfileService.save(shippingDetails);
         } catch (NullPointerException e) {
-            return new ModelAndView("redirect:error");
+            return "redirect:error";
         } catch (DBException e) {
-            return new ModelAndView("redirect:error");
+            return "redirect:error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return SpringPathResolver.redirectTo(ShippingProfileController.class);
+        return "redirect:shippingProfiles";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView delete(@RequestParam("profileId") long resourceId) {
+    public String delete(@RequestParam("profileId") long resourceId) {
         try {
             shippingProfileService.delete(resourceId);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return SpringPathResolver.redirectTo(ShippingProfileController.class);
+        return "redirect:shippingProfiles";
     }
 
 }

@@ -14,9 +14,15 @@
 <body>
 <%@include file="/includes/header.jsp" %>
 <main>
-    <c:if test="${not empty requestScope.model.error}">
+    <c:if test="${not empty requestScope.error}">
         <div class="red-text center"><br>
-            <h5>Error:${requestScope.model.error}</h5>
+            <h5>Error:${requestScope.error}</h5>
+            <hr>
+        </div>
+    </c:if>
+    <c:if test="${not empty requestScope.message}">
+        <div class="blue-text center"><br>
+            <h5>${requestScope.message}</h5>
             <hr>
         </div>
     </c:if>

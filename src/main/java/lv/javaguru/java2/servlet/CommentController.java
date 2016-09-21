@@ -29,7 +29,6 @@ public class CommentController extends MVCController {
     @Autowired
     private ReviewService reviewService;
 
-    @Override
     @RequestMapping("/product/{productId}/comment")
     protected ModelAndView comment(
             @RequestParam("productId") long productId,

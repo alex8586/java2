@@ -29,12 +29,6 @@
                 </div>
             </div>
             <div class="col s2">
-                <c:if test="${not empty requestScope.loginError}">
-                    <div class="red-text"><br>
-                        <h4>${requestScope.loginError}</h4>
-                        <hr>
-                    </div>
-                </c:if>
                 <%@include file="includes/product_banner.jsp" %>
             </div>
         </div>

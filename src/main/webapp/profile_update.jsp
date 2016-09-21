@@ -4,7 +4,7 @@
 
 <tags:userPageTemplate>
     <jsp:attribute name="content">
-         <form action="<tags:linkTo controller="ProfileUpdateController" />" method="post">
+         <form action="profileUpdate" method="post">
              <tags:userProfileForm/>
              <button class="btn waves-effect waves-light" type="submit" name="update">Change
                  <i class="material-icons right">send</i>
