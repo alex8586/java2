@@ -14,8 +14,8 @@
                     <hr style="color: orange; width: 200px ">
                 </div>
 
-                <c:if test="${not empty requestScope.model.cart}">
-                    <c:forEach var="cartLine" items="${requestScope.model.cart.productCards}">
+                <c:if test="${not empty requestScope.cart}">
+                    <c:forEach var="cartLine" items="${requestScope.cart.productCards}">
                         <div class="row">
                             <div class="col s2">
                                 <img src="${cartLine.productImgUrl}" height="50" width="50">
@@ -38,18 +38,18 @@
                         <b>Total :</b>
                     </div>
                     <div class="col s2 center-align">
-                        <b>${requestScope.model.cart.totalPrice}&#8364</b>
+                        <b>${requestScope.cart.totalPrice}&#8364</b>
                     </div>
                 </div>
                 <hr style="color: whitesmoke">
 
                 <div class="row">
-                    <form action="<tags:linkTo controller="CheckoutController"/>" method="post">
-                        <c:if test="${not empty requestScope.model.shippingProfiles}">
+                    <form action="checkout" method="post">
+                        <c:if test="${not empty requestScope.shippingProfiles}">
                             <div class="input-field col s12">
                                 <select id="list">
                                     <option value="empty">select profile</option>
-                                    <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
+                                    <c:forEach items="${requestScope.shippingProfiles}" var="shippingProfile">
                                         <option value="${shippingProfile.id}">${shippingProfile.address} ${shippingProfile.person}</option>
                                     </c:forEach>
                                 </select>
@@ -65,7 +65,7 @@
                                     'phone': '',
                                     'document': ''
                                 };
-                                <c:forEach items="${requestScope.model.shippingProfiles}" var="shippingProfile">
+                                <c:forEach items="${requestScope.shippingProfiles}" var="shippingProfile">
                                 spMap['${shippingProfile.id}'] = {
                                     'profileId': '${shippingProfile.id}',
                                     'address': '${shippingProfile.address}',
@@ -93,7 +93,7 @@
                         </c:if>
                         <div class="row">
                             <input id="hashcode" type="hidden" name="hashcode"
-                                   value="${requestScope.model.cart.cartCheckSum}">
+                                   value="${requestScope.cart.cartCheckSum}">
                             <input id="profileId" type="hidden" class="validate" name="profileId">
                             <div class="input-field col s12">
                                 <input id="address" type="text" class="validate" name="address">

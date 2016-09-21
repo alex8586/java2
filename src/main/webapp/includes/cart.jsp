@@ -56,7 +56,7 @@
 </div>
 <hr>
 
-<a href="">
+<a href="checkout">
     <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>

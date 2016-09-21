@@ -8,64 +8,53 @@ import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
-import lv.javaguru.java2.dto.builders.ShippingDetailsUtil;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-
-@Component
-public class CheckoutController extends MVCController {
-
+@RequestMapping("/checkout")
+@Controller
+public class CheckoutController {
 
     @Autowired
     CheckoutService checkoutService;
     @Autowired
     UserProvider userProvider;
     @Autowired
-    private ShippingDetailsUtil shippingDetailsUtil;
-    @Autowired
     private CartProvider cartProvider;
     @Autowired
     private Notification notification;
 
-    @Override
-    public MVCModel executeGet(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView checkout() {
+        ModelAndView model = new ModelAndView("/checkout");
         try {
-            Map<String, Object> data = checkoutService.model();
-            return new MVCModel(data, "/checkout.jsp");
+            model.addAllObjects(checkoutService.model());
+            return model;
         } catch (ServiceException e) {
-            return redirectTo(FrontPageController.class);
+            return new ModelAndView("redirect:index");
         }
     }
 
-    @Override
-    public MVCModel executePost(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST)
+    public String buy(@ModelAttribute ShippingDetails shippingDetails,
+                      @RequestParam ("hashcode") String hashcode) {
         try {
-            ShippingDetails shippingDetails =
-                    shippingDetailsUtil.build(
-                            request.getParameter("profileId"),
-                            request.getParameter("person"),
-                            request.getParameter("address"),
-                            request.getParameter("phone"),
-                            request.getParameter("document"));
-            String hashcode = request.getParameter("hashcode");
-
             Order order = checkoutService.checkout(hashcode, userProvider.getUser(),
                     cartProvider.getCart(), shippingDetails);
-            return redirectTo(order);
+            return "redirect:order" + "?orderId=" + order.getId();
 
         } catch (NullPointerException e) {
-            return new MVCModel("/notification");
+            return "redirect:error";
         } catch (DBException e) {
-            return new MVCModel("/notification");
+            return "redirect:error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return redirectTo(CheckoutController.class);
+            return "redirect:checkout";
         }
     }
 }

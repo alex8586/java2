@@ -5,12 +5,12 @@
 <tags:userPageTemplate>
      <jsp:attribute name="content">
         <div class="row">
-            <c:if test="${empty requestScope.model.orderList}">
+            <c:if test="${empty requestScope.orderList}">
                 <div class="center-align">
                     You have not made a purchase yet.
                 </div>
             </c:if>
-            <c:if test="${not empty requestScope.model.orderList}">
+            <c:if test="${not empty requestScope.orderList}">
                 <div class="row center-align">
 
                     List of orders :
@@ -36,7 +36,7 @@
 
                     </div>
                 </div>
-                <c:forEach items="${requestScope.model.orderList}" var="order">
+                <c:forEach items="${requestScope.orderList}" var="order">
                     <div class="row">
                         <div class="col s1 center-align">
                                 ${order.id}
@@ -54,7 +54,7 @@
                                 ${order.total} &#8364
                         </div>
                         <div class="col s2 center-align">
-                            <a href="<tags:linkTo controller="ProfileOrderController"/>?id=${order.id}">Details</a>
+                            <a href="order?orderId=${order.id}">Details</a>
                         </div>
                     </div>
                 </c:forEach>

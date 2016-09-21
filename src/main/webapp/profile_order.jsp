@@ -5,16 +5,16 @@
 <tags:userPageTemplate>
      <jsp:attribute name="content">
          <div class="row">
-             <c:if test="${empty requestScope.model.order}">
+             <c:if test="${empty requestScope.order}">
                  <div class="center-align" style="color: red">
                      <br>
                      <h5>Error ! No such order !</h5>
                  </div>
              </c:if>
-             <c:if test="${not empty requestScope.model.order}">
+             <c:if test="${not empty requestScope.order}">
                  <div class="center-align">
                      <br>
-                     Order Nr. ${requestScope.model.order.id}
+                     Order Nr. ${requestScope.order.id}
                      <hr style="color: orange; width: 200px ">
                  </div>
                  <div class="row ">
@@ -22,37 +22,37 @@
                          Person :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.person}
+                             ${requestScope.order.person}
                      </div>
                      <div class="col s3">
                          Document :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.document}
+                             ${requestScope.order.document}
                      </div>
                      <div class="col s3">
                          Address :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.address}
+                             ${requestScope.order.address}
                      </div>
                      <div class="col s3">
                          Phone :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.phone}
+                             ${requestScope.order.phone}
                      </div>
                      <div class="col s3">
                          Order date :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.orderDate}
+                             ${requestScope.order.orderDate}
                      </div>
                      <div class="col s3">
                          Delivery date :
                      </div>
                      <div class="col s9">
-                             ${requestScope.model.order.deliveryDate}
+                             ${requestScope.order.deliveryDate}
                      </div>
                  </div>
                  <div class="row">
@@ -77,8 +77,8 @@
                             Price :
                         </div>
                     </div>
-                 <c:if test="${not empty requestScope.model.order}">
-                     <c:forEach items="${requestScope.model.order.orderLines}" var="product">
+                 <c:if test="${not empty requestScope.order}">
+                     <c:forEach items="${requestScope.order.orderLines}" var="product">
                       <div class="row">
                           <div class="col s2">
                                 ${product.name}
@@ -105,7 +105,7 @@
                              <b>Total sum :</b>
                          </div>
                          <div class="col s2 center-align">
-                                 <b>${requestScope.model.order.total} &#8364</b>
+                                 <b>${requestScope.order.total} &#8364</b>
                          </div>
                      </div>
                  </c:if>
@@ -115,7 +115,7 @@
 
                      </div>
                      <div class="col s4">
-                         <a href="<tags:linkTo controller="ProfileHistoryOrdersController"/>"><h5>Back to history</h5>
+                         <a href="profileHistoryOrders"><h5>Back to history</h5>
                          </a>
                      </div>
                  </div>
