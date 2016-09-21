@@ -10,7 +10,7 @@
         <div class="row">
             <div>
                 <div class="col s8 left">
-                    <a href="<tags:linkTo controller="ProductController" resourceId="${cartLine.productId}" />">
+                    <a href="${s:mvcUrl('PC#productModel').arg(0, cartLine.productId).build()}">
                         ${cartLine.productName}
                     </a>
                 </div>
@@ -22,7 +22,7 @@
 
         <div class="row">
             <div class="col s6 left">
-                <form action="cart" method="post">
+                <form action="addRemove" method="post">
                     <div style="display: inline-block">
                         <input type="hidden" name="productId" value="${cartLine.productId}">
                         <input type="submit" name="remove" value="-">

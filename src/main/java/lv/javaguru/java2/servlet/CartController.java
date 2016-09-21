@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class CartController  {
 
@@ -17,7 +19,7 @@ public class CartController  {
     @Autowired
     private CartProvider cartProvider;
 
-    @RequestMapping(value = "/cart", method = RequestMethod.GET)
+    @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
     public String addToCart(@RequestParam ("productId") long id) {
         Cart cart = cartProvider.getCart();
         cartService.addProduct(cart, id);
@@ -32,4 +34,17 @@ public class CartController  {
 
         return "redirect:product" + "?productId=" + productId;
     }
+
+    @RequestMapping(value = "/addRemove", method = RequestMethod.POST)
+    public String addRemove(@RequestParam ("productId") long productId, HttpServletRequest request){
+        Cart cart = cartProvider.getCart();
+        if (request.getParameter("remove") != null) {
+            cartService.removeProduct(cart, productId);
+        } else if (request.getParameter("add") != null) {
+            cartService.addProduct(cart, productId);
+        }
+        request.getSession().setAttribute("cart", cart);
+        return "redirect:index";
+    }
+
 }

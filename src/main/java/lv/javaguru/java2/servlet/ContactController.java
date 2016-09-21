@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
+import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.database.CategoryDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,11 +20,15 @@ public class ContactController {
     @Autowired
     private TemplateService templateService;
 
+    @Autowired
+    private CartService cartService;
+
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
     public ModelAndView model() {
         ModelAndView mov = new ModelAndView("contact");
         mov.addObject("categories", categoryDAO.getAll());
         mov.addAllObjects(templateService.model());
+        mov.addAllObjects(cartService.model());
         return mov;
     }
 
