@@ -34,7 +34,7 @@
                                 <c:if test="${not empty requestScope.user}">
                                     <c:if test="${empty requestScope.cantRate}">
                                         <div class="row center">
-                                            <form action="<tags:linkTo controller="RateController"/>" method="post">
+                                            <form action="${s:mvcUrl('RC#rate').arg(0, productCard.productId).build()}" method="post">
                                                 Rate
                                                 <input type="submit" value="1" name="rate"
                                                        style="background-color: #e3f2fd">
@@ -92,12 +92,12 @@
                             </form>
                         </div>
 
-                        <c:if test="${not empty requestScope.model.user}">
+                        <c:if test="${not empty requestScope.user}">
                             <div class="row">
                                 <div class="col s12">
                                     Add comment :
                                 </div>
-                                <form action="<tags:linkTo controller="CommentController"/>" method="post">
+                                <form action="comment" method="post">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">mode_edit</i>
                                         <textarea id="icon_prefix2" class="materialize-textarea" name="comment"></textarea>
@@ -113,7 +113,7 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${not empty requestScope.model.reviews}">
+                        <c:if test="${not empty requestScope.reviews}">
                             <div class="row">
                                 <ul class="collection with-header">
                                     <li class="collection-header"><h5>Comments :</h5></li>
