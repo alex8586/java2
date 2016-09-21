@@ -21,7 +21,7 @@
             Stock: ${productCard.stockQuantity}
         </div>
         <div class="card-action center">
-            <a href="<tags:linkTo controller="CartController" resourceId="${productCard.productId}" />">Add to cart</a>
+            <a href="cart?productId=${productCard.productId}">Add to cart</a>
         </div>
     </div>
 </div>

@@ -5,8 +5,8 @@
 <div class="center-align">
     <h5 style="color: orange">In your cart :</h5>
 </div>
-<c:if test="${not empty requestScope.model.cart}">
-    <c:forEach var="cartLine" items="${requestScope.model.cart.productCards}">
+<c:if test="${not empty requestScope.cart}">
+    <c:forEach var="cartLine" items="${requestScope.cart.productCards}">
         <div class="row">
             <div>
                 <div class="col s8 left">
@@ -46,11 +46,11 @@
         Total :
     </div>
     <div class="col s6 right-align">
-        <c:if test="${empty requestScope.model.cart.totalPrice}">
+        <c:if test="${empty requestScope.cart.totalPrice}">
             0 &#8364
         </c:if>
-        <c:if test="${not empty requestScope.model.cart.totalPrice}">
-            ${requestScope.model.cart.totalPrice}&#8364
+        <c:if test="${not empty requestScope.cart.totalPrice}">
+            ${requestScope.cart.totalPrice}&#8364
         </c:if>
     </div>
 </div>

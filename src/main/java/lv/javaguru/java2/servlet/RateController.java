@@ -21,20 +21,20 @@ public class RateController extends MVCController{
     @Autowired
     private Notification notification;
 
-    @RequestMapping(value = "rate",params = {"productId", "rate"}, method = RequestMethod.POST)
+    @RequestMapping(value = "rate", method = RequestMethod.POST)
     protected String rate(
             @RequestParam("productId") long productId,
             @RequestParam("rate") int rate) {
         try {
             User user = userProvider.getUser();
             rateService.rate(productId, user, rate);
-            return "forward:product";
+            return "redirect:product"+ "?productId=" + productId;
         } catch (NullPointerException e) {
             notification.setError(e);
             return "redirect:index";
         } catch (Exception e) {
             notification.setError(e);
-            return "redirect:product";
+            return "redirect:product"+ "?productId=" + productId;
         }
     }
 

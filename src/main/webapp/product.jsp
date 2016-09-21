@@ -15,7 +15,7 @@
                             <div class="col s12 center-align" >
                                 <br>
                                 <h5>${productCard.productName}</h5>
-                                <c:if test="${productCard.averageRate} > 0">
+                                <c:if test="${productCard.averageRate > 0}" >
                                     <b style="background-color: ${productCard.rateColorCode}">&ensp;
                                         Rating &ensp; ${productCard.averageRate}&ensp;
                                     </b>
@@ -34,7 +34,7 @@
                                 <c:if test="${not empty requestScope.user}">
                                     <c:if test="${empty requestScope.cantRate}">
                                         <div class="row center">
-                                            <form action="${s:mvcUrl('RC#rate').arg(0, productCard.productId).build()}" method="post">
+                                            <form action="rate" method="post">
                                                 Rate
                                                 <input type="submit" value="1" name="rate"
                                                        style="background-color: #e3f2fd">
@@ -79,7 +79,7 @@
                             <div class="col s2 center-align" style="display: inline-block;">
                                 At warehouse : ${productCard.available}
                             </div>
-                            <form action="<tags:linkTo controller="CartController"/>" method="post">
+                            <form action="addQuantity" method="post">
                                 <div class="col s1" style="display: inline-block;">
                                     <input type="text" placeholder="0" name="quantity">
                                     <input type="hidden" value="${productCard.productId}" name="productId">

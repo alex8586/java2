@@ -3,43 +3,33 @@ package lv.javaguru.java2.servlet;
 import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.domain.Cart;
-import lv.javaguru.java2.servlet.frontpage.FrontPageController;
-import lv.javaguru.java2.servlet.mvc.MVCController;
-import lv.javaguru.java2.servlet.mvc.MVCModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-
-@Component
-public class CartController extends MVCController {
+@Controller
+public class CartController  {
 
     @Autowired
     private CartService cartService;
     @Autowired
     private CartProvider cartProvider;
 
-    @Override
-    public MVCModel executeGet(HttpServletRequest request) {
-        long id = idFrom(request.getParameter("id"));
+    @RequestMapping(value = "/cart", method = RequestMethod.GET)
+    public String addToCart(@RequestParam ("productId") long id) {
         Cart cart = cartProvider.getCart();
         cartService.addProduct(cart, id);
-        return redirectTo(FrontPageController.class);
+        return "redirect:index";
     }
 
-    @Override
-    public MVCModel executePost(HttpServletRequest request) {
+    @RequestMapping(value = "/addQuantity", method = RequestMethod.POST)
+    public String addQuantity(@RequestParam ("productId") long productId,
+                              @RequestParam ("quantity") int quantity) {
         Cart cart = cartProvider.getCart();
-        long productId = Long.parseLong(request.getParameter("productId"));
-        int quantity = 1;
-        if (request.getParameter("quantity") != null) {
-            quantity = Integer.parseInt(request.getParameter("quantity"));
-        }
-        if (request.getParameter("remove") != null) {
-            cartService.removeProduct(cart, productId);
-        } else {
-            cartService.addProducts(cart, productId, quantity);
-        }
-        return redirectToReferer(request);
+        cartService.addProducts(cart, productId, quantity);
+
+        return "redirect:product" + "?productId=" + productId;
     }
 }
