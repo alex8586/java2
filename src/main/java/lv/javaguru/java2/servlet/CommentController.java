@@ -31,6 +31,7 @@ public class CommentController extends MVCController {
     protected String comment(
             @RequestParam("productId") long productId,
             @RequestParam("comment") String comment) {
+        System.out.println("================ comment = " + comment);
         if (comment == null)
             throw new NullPointerException();
 

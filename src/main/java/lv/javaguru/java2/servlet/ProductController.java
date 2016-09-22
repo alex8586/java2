@@ -27,7 +27,6 @@ public class ProductController {
     protected ModelAndView productModel(@RequestParam("productId") long productId, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("/product");
         try {
-            System.out.println("========== productId = " + productId);
             mav.addAllObjects(productService.getById(productId, request.getRemoteAddr()));
         } catch (ServiceException e) {
             notification.setError(e.getMessage());

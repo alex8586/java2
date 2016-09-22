@@ -12,7 +12,6 @@
                 <c:forEach items="${requestScope.productCards}" var="productCard">
                     <tags:productCard productCard="${productCard}"/>
                 </c:forEach>
-                dfgdfg
             </div>
             <div class="col s2">
                 <hr>
