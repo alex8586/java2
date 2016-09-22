@@ -6,8 +6,6 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.dto.ShippingDetails;
-import lv.javaguru.java2.servlet.LoginController;
-import lv.javaguru.java2.servlet.mvc.SpringPathResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/shippingProfiles")
 public class ShippingProfileController {
 
     @Autowired
@@ -26,17 +23,17 @@ public class ShippingProfileController {
     @Autowired
     private ShippingProfileService shippingProfileService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/shippingProfiles", method = RequestMethod.GET)
     public ModelAndView model() {
         ModelAndView model = new ModelAndView("/shippingProfiles");
         try {
             model.addAllObjects(shippingProfileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
-            return SpringPathResolver.redirectTo(LoginController.class);
+            return new ModelAndView("/login");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return SpringPathResolver.redirectTo(ShippingProfileController.class);
+            return new ModelAndView("redirect:shippingProfiles");
         }
     }
 
@@ -51,7 +48,7 @@ public class ShippingProfileController {
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return "redirect:shippingProfiles";
+        return "redirect:/shippingProfiles";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -61,7 +58,7 @@ public class ShippingProfileController {
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return "redirect:shippingProfiles";
+        return "redirect:/shippingProfiles";
     }
 
 }
