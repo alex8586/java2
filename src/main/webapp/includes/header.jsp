@@ -17,7 +17,7 @@
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">SHIPPING</a></li>
-                    <li><a href="contact">CONTACT</a></li>
+                    <li><a href="${s:mvcUrl('ContactC#contactModel').build()}">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">
                         <li><a href="profile">PROFILE</a></li>
                         <li><a href="logout">LOGOUT</a></li>

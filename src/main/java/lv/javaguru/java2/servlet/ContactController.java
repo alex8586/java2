@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/contact", name = "ContactController")
 public class ContactController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ContactController {
     @Autowired
     private CartService cartService;
 
-    @RequestMapping(value = "/contact", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, name = "contactModel")
     public ModelAndView model() {
         ModelAndView mov = new ModelAndView("contact");
         mov.addObject("categories", categoryDAO.getAll());
