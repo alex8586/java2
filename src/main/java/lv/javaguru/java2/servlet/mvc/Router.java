@@ -1,12 +1,9 @@
 package lv.javaguru.java2.servlet.mvc;
 
 import lv.javaguru.java2.config.SpringConfig;
-import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.servlet.*;
-import lv.javaguru.java2.servlet.frontpage.CategoryChooseController;
-import lv.javaguru.java2.servlet.frontpage.CategoryResetController;
 import lv.javaguru.java2.servlet.frontpage.FrontPageController;
 import lv.javaguru.java2.servlet.profilepages.*;
 import org.springframework.beans.BeansException;
@@ -35,8 +32,6 @@ public class Router implements Filter {
         addController("/checkout", CheckoutController.class);
         addController("/cart", CartController.class);
         addController("/index", FrontPageController.class);
-        addController("/index/category", CategoryChooseController.class);
-        addController("/index/all", CategoryResetController.class);
         addController("/register", RegistrationController.class);
         addController("/login", LoginController.class);
         addController("/logout", LogoutController.class);
@@ -54,7 +49,7 @@ public class Router implements Filter {
 
 
         pathResolver.setAlias(Product.class, ProductController.class);
-        pathResolver.setAlias(Category.class, CategoryChooseController.class);
+
         pathResolver.setAlias(Order.class, ProfileOrderController.class);
         filterConfig.getServletContext().setAttribute("reverseRouter", pathResolver);
 

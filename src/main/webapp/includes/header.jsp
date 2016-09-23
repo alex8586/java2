@@ -6,8 +6,7 @@
     <nav>
             <div class="row orange">
                 <div class="col s3">
-                    <a href="index" class="brand-logo">
-
+                    <a href="${s:mvcUrl('FPC#all').build()}" class="brand-logo">
                     MISKA
                 </a>
                 </div>

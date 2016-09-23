@@ -23,8 +23,6 @@ public class ProductController {
     @Autowired
     private Notification notification;
 
-    //@RequestMapping(value = "/product",params = {"productId"}, method = RequestMethod.GET)
-    //protected ModelAndView productModel(@RequestParam("productId") long productId, HttpServletRequest request) {
     @RequestMapping(value = "/product/{productId}", method = RequestMethod.GET)
     public ModelAndView productModel(@PathVariable("productId") long productId, HttpServletRequest request) {
 

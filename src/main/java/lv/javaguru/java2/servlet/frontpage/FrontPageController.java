@@ -48,8 +48,8 @@ public class FrontPageController {
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 
-    @RequestMapping("/category/reset")
-    public ModelAndView reset(HttpServletRequest request) {
+    @RequestMapping("/category/all")
+    public ModelAndView all(HttpServletRequest request) {
         request.getSession().removeAttribute("currentCategory");
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }
