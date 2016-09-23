@@ -28,7 +28,7 @@
                                     <i>Views</i> ${productCard.viewCount}
                                 </div>
                                 <div class="row">
-                                    <img src="${productCard.productImgUrl}" width="219" height="219">
+                                    <img src="<c:url value='${productCard.productImgUrl}'/>" width="219" height="219">
                                 </div>
 
                                 <c:if test="${not empty requestScope.user}">

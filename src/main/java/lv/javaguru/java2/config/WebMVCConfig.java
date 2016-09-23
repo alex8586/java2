@@ -28,6 +28,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
         //registry.addResourceHandler("/tags/**").addResourceLocations("/tags/");
         registry.addResourceHandler("/img/**").addResourceLocations("/img/");
         registry.addResourceHandler("/miskaweb/**").addResourceLocations("/miskaweb/");

@@ -131,7 +131,7 @@ VALUES (default, 'Salami', '', 'img/products/meat/sausages/43/', 4.54, 14);
 UPDATE products
 SET products.description = CONCAT('desc for ', products.name);
 UPDATE products
-SET products.imgurl = "img/products/image_coming_soon.png";
+SET products.imgurl = "/img/products/image_coming_soon.png";
 
 
 INSERT INTO stock (product_id, quantity, expire_date)
