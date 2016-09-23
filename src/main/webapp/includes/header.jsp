@@ -1,6 +1,6 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <header>
     <nav>
@@ -24,8 +24,8 @@
                         Hi ${sessionScope.user.fullName}!
                     </c:if>
                     <c:if test="${empty sessionScope.user}">
-                        <li><a href="login">LOGIN</a></li>
-                        <li><a href="registration">REGISTER</a></li>
+                        <li><a href="${s:mvcUrl('LC#model').build()}">LOGIN</a></li>
+                        <li><a href="${s:mvcUrl('RC#model').build()}">REGISTER</a></li>
                     </c:if>
                 </ul>
                 </div>

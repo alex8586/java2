@@ -16,8 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RequestMapping(value = "/login")
 @Controller
+@RequestMapping(value = "/login")
 public class LoginController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class LoginController {
     private Notification notification;
 
     @RequestMapping( method = RequestMethod.GET)
-    public ModelAndView login() {
+    public ModelAndView model() {
         ModelAndView model = new ModelAndView("/login");
         try {
             return model.addAllObjects(userLoginService.model());
