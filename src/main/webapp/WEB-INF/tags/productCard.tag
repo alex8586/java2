@@ -1,9 +1,9 @@
 <%@attribute name="productCard" required="true" type="lv.javaguru.java2.dto.ProductCard" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<div class="col s3">
+<div class="col s3" style=" display: inline-block;">
     <div class="card vertical-grabber">
-        <div class="card-title center">
+        <div class="row center" style="height: 60px;margin: 10px;  font-size: 20px">
             ${productCard.productName}
         </div>
         <div class="card-image">
@@ -12,12 +12,12 @@
                     height="130" width="130"></a>
         </div>
         <div class="card-content left-align">
-            <p>${productCard.productDescription}</p>
-            <hr>
+
+
             Price : ${productCard.productPrice} &#8364
-            <hr>
+            <br>
             Expiration: ${productCard.stockExpireDate}
-            <hr>
+            <br>
             Stock: ${productCard.stockQuantity}
         </div>
         <div class="card-action center">

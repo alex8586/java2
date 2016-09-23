@@ -5,6 +5,6 @@
     <h5 class="collection-header">Categories</h5>
     <c:forEach items="${requestScope.categories}" var="category">
         <a href="${s:mvcUrl('FPC#chooseCategory').arg(0,category.id).build()}"
-           class="collection-item">${category.name}</a>
+           class="collection-item blue-text">${category.name}</a>
     </c:forEach>
 </div>

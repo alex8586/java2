@@ -22,7 +22,7 @@
                                 <label for="password">Password</label>
                             </div>
                         </div>
-                        <button class="btn waves-effect waves-light" type="submit" name="register">Log in
+                        <button class="btn waves-effect waves-light blue" type="submit" name="register">Log in
                             <i class="material-icons right">send</i>
                         </button>
                     </form>

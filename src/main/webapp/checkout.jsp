@@ -112,7 +112,7 @@
                                 <label id="document_label" for="document">Document</label>
                             </div>
                             <div class="input-field col s12 center-align">
-                                <button class="btn waves-effect waves-light" type="submit" name="save" id="save_button">
+                                <button class="btn waves-effect waves-light blue" type="submit" name="save" id="save_button">
                                     Buy
                                     <i class="material-icons right">payment</i>
                                 </button>

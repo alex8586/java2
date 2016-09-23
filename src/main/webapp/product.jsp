@@ -81,11 +81,11 @@
                             </div>
                             <form action="addQuantity" method="post">
                                 <div class="col s1" style="display: inline-block;">
-                                    <input type="text" placeholder="0" name="quantity">
+                                    <input type="text" placeholder="0" name="quantity"">
                                     <input type="hidden" value="${productCard.productId}" name="productId">
                                 </div>
                                 <div class="col s3 right-align" style="display: inline-block;">
-                                    <button class="btn waves-effect waves-light" type="submit" name="addToCart">Add to cart
+                                    <button class="btn waves-effect waves-light blue" type="submit" name="addToCart">Add to cart
                                         <i class="material-icons right">add_shopping_cart</i>
                                     </button>
                                 </div>
@@ -105,7 +105,7 @@
                                         <input type="hidden" value="${productCard.productId}" name="productId">
                                     </div>
                                     <div class="col s12 right-align">
-                                        <button class="btn waves-effect waves-light" type="submit" name="comment">Comment !
+                                        <button class="btn waves-effect waves-light blue" type="submit" name="comment">Comment !
                                             <i class="material-icons right">list</i>
                                         </button>
                                     </div>

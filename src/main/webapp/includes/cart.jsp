@@ -57,7 +57,7 @@
 <hr>
 
 <a href="checkout">
-    <button class="btn waves-effect waves-light" type="submit" name="buy">Buy
+    <button class="btn waves-effect waves-light blue" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>
 </a>

@@ -7,17 +7,17 @@
     <jsp:body>
         <div class="row">
             <div class="col s2">
-                <div class="collection card center">
+                <div class="collection card center blue-text">
                     <h5 class="collection-header">Menu</h5>
-                    <a class="collection-item" href="profile"><h6>Profile
+                    <a class="collection-item blue-text" href="profile"><h6>Profile
                         main</h6></a>
-                    <a class="collection-item" href="profileUpdate"><h6>Update
+                    <a class="collection-item blue-text" href="profileUpdate"><h6>Update
                         profile</h6></a>
-                    <a class="collection-item" href="<tags:linkTo controller="ProfileCartController"/>"><h6>Show
+                    <a class="collection-item blue-text" href="<tags:linkTo controller="ProfileCartController"/>"><h6>Show
                         cart</h6></a>
-                    <a class="collection-item" href="profileHistoryOrders"><h6>Show
+                    <a class="collection-item blue-text" href="profileHistoryOrders"><h6>Show
                         history of orders</h6></a>
-                    <a class="collection-item" href="shippingProfiles"><h6>Shipping
+                    <a class="collection-item blue-text" href="shippingProfiles"><h6>Shipping
                         profiles</h6></a>
                 </div>
             </div>

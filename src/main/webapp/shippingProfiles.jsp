@@ -66,12 +66,12 @@
                      <label id="document_label" for="document">Document</label>
                  </div>
                  <div class="input-field col s6">
-                     <button class="btn waves-effect waves-light" type="submit" name="save" id="save_button">Save
+                     <button class="btn waves-effect waves-light blue" type="submit" name="save" id="save_button">Save
                          <i class="material-icons right">send</i>
                      </button>
                  </div>
                  <div class="input-field col s6">
-                     <button class="btn waves-effect waves-light" type="submit" name="delete" id="delete_button">Delete
+                     <button class="btn waves-effect waves-light blue" type="submit" name="delete" id="delete_button">Delete
                          <i class="material-icons right">delete</i>
                      </button>
                  </div>

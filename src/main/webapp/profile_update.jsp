@@ -6,7 +6,7 @@
     <jsp:attribute name="content">
          <form action="profileUpdate" method="post">
              <tags:userProfileForm/>
-             <button class="btn waves-effect waves-light" type="submit" name="update">Change
+             <button class="btn waves-effect waves-light blue" type="submit" name="update">Change
                  <i class="material-icons right">send</i>
              </button>
          </form>
