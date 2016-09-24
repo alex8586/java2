@@ -1,6 +1,5 @@
 <%@attribute name="productCard" required="true" type="lv.javaguru.java2.dto.ProductCard" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="col m6 l3" style=" display: inline-block;">
@@ -9,7 +8,7 @@
             ${productCard.productName}
         </div>
         <div class="card-image">
-            <a href="${s:mvcUrl('PC#productModel').arg(0, productCard.productId).build()}">
+            <a href="<c:url value="/product/${productCard.productId}"/>">
                 <img src="<c:url value='${productCard.productImgUrl}'/>" height="130" width="130">
             </a>
         </div>

@@ -27,7 +27,7 @@ public class CommentController extends MVCController {
     @Autowired
     private ReviewService reviewService;
 
-    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/product/comment", method = RequestMethod.POST)
     protected String comment(
             @RequestParam("productId") long productId,
             @RequestParam("comment") String comment) {
@@ -37,18 +37,18 @@ public class CommentController extends MVCController {
 
         if (comment.isEmpty()) {
             notification.setError(EMPTY_COMMENT);
-            return "redirect:product"+ "?productId=" + productId;
+            return "redirect:/product/" + productId;
         } else if (!userProvider.authorized()) {
             notification.setError(NO_PERMISSION_TO_COMMENT);
-            return "redirect:product"+ "?productId=" + productId;
+            return "redirect:/product/" + productId;
         }
 
         User user = userProvider.getUser();
         if (!reviewValidationService.canComment(user, productId)) {
             notification.setError(CAN_NOT_COMMENT_TODAY);
-            return "redirect:product"+ "?productId=" + productId;
+            return "redirect:/product/" + productId;
         }
         reviewService.addComment(productId, user, comment);
-        return "redirect:product"+ "?productId=" + productId;
+        return "redirect:/product/" + productId;
     }
 }

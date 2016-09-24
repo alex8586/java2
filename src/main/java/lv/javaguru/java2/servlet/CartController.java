@@ -31,9 +31,11 @@ public class CartController  {
 
     @RequestMapping(value = "/addQuantity", method = RequestMethod.POST)
     public String addQuantity(@RequestParam ("productId") long productId,
-                              @RequestParam ("quantity") int quantity) {
-        Cart cart = cartProvider.getCart();
-        cartService.addProducts(cart, productId, quantity);
+                              @RequestParam(value = "quantity") Integer quantity) {
+        if (quantity != null && quantity > 0) {
+            Cart cart = cartProvider.getCart();
+            cartService.addProducts(cart, productId, quantity);
+        }
         return "redirect:/product/" + productId;
     }
 
