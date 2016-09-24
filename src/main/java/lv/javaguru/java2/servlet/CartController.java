@@ -5,6 +5,7 @@ import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping(value = "/cart")
 public class CartController  {
 
     @Autowired
@@ -19,11 +21,11 @@ public class CartController  {
     @Autowired
     private CartProvider cartProvider;
 
-    @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
-    public String addToCart(@RequestParam ("productId") long id) {
+    @RequestMapping(value = "/add/{productId}", method = RequestMethod.GET)
+    public String addToCart(@PathVariable("productId") long id) {
         Cart cart = cartProvider.getCart();
         cartService.addProduct(cart, id);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/addQuantity", method = RequestMethod.POST)
@@ -31,12 +33,11 @@ public class CartController  {
                               @RequestParam ("quantity") int quantity) {
         Cart cart = cartProvider.getCart();
         cartService.addProducts(cart, productId, quantity);
-
-        return "redirect:product" + "?productId=" + productId;
+        return "redirect:/product/" + productId;
     }
 
     @RequestMapping(value = "/addRemove", method = RequestMethod.POST)
-    public String addRemove(@RequestParam ("productId") long productId, HttpServletRequest request){
+    public String addRemove(@RequestParam("productId") long productId, HttpServletRequest request) {
         Cart cart = cartProvider.getCart();
         if (request.getParameter("remove") != null) {
             cartService.removeProduct(cart, productId);
@@ -44,7 +45,7 @@ public class CartController  {
             cartService.addProduct(cart, productId);
         }
         request.getSession().setAttribute("cart", cart);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
 }

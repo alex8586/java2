@@ -22,7 +22,7 @@
 
         <div class="row">
             <div class="col s6 left">
-                <form action="addRemove" method="post">
+                <form action="<c:url value='/cart/addRemove' />" method="post">
                     <div style="display: inline-block">
                         <input type="hidden" name="productId" value="${cartLine.productId}">
                         <input type="submit" name="remove" value="-">

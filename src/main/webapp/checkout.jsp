@@ -47,7 +47,7 @@
 
                 <div class="row">
 
-                    <form action="<c:url value='/checkout'/>" method="post">
+                    <form action="<c:url value='/checkout' />" method="post">
                         <c:if test="${not empty requestScope.shippingProfiles}">
                             <div class="input-field col s12">
                                 <select id="list">

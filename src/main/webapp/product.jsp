@@ -79,9 +79,9 @@
                             <div class="col s2 center-align" style="display: inline-block;">
                                 At warehouse : ${productCard.available}
                             </div>
-                            <form action="addQuantity" method="post">
+                            <form action="<c:url value="/cart/addQuantity" /> " method="post">
                                 <div class="col s1" style="display: inline-block;">
-                                    <input type="text" placeholder="0" name="quantity"">
+                                    <input type="text" placeholder="0" name="quantity">
                                     <input type="hidden" value="${productCard.productId}" name="productId">
                                 </div>
                                 <div class="col s3 right-align" style="display: inline-block;">

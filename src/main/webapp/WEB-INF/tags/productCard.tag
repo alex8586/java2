@@ -14,8 +14,6 @@
             </a>
         </div>
         <div class="card-content left-align">
-
-
             Price : ${productCard.productPrice} &#8364
             <br>
             Expiration: ${productCard.stockExpireDate}
@@ -23,7 +21,7 @@
             Stock: ${productCard.stockQuantity}
         </div>
         <div class="card-action center">
-            <a href="addToCart?productId=${productCard.productId}">Add to cart</a>
+            <a href="<c:url value='/cart/add/${productCard.productId}'/>">Add to cart</a>
         </div>
     </div>
 </div>
