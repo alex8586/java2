@@ -32,7 +32,7 @@ public class RateController extends MVCController{
             return "redirect:/product/" + productId;
         } catch (NullPointerException e) {
             notification.setError(e);
-            return "redirect:index";
+            return "redirect:/index";
         } catch (Exception e) {
             notification.setError(e);
             return "redirect:/product" + productId;

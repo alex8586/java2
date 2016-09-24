@@ -17,7 +17,7 @@
                      Order Nr. ${requestScope.order.id}
                      <hr style="color: orange; width: 200px ">
                  </div>
-                 <div class="row ">
+                 <div class="row">
                      <div class="col s3">
                          Person :
                      </div>
@@ -61,10 +61,11 @@
                          Your order contains :
                      </div>
                  </div>
-                 <table class="bordered striped">
+
+                 <table class="striped">
                      <thead>
                      <tr>
-                         <th>Product name :</th>
+                         <th data-field="name">Product name :</th>
                          <th>Description :</th>
                          <th>ExpireDate :</th>
                          <th>Quantity :</th>

@@ -18,6 +18,6 @@ public class LogoutController {
     public String logout(HttpServletRequest request) {
         userLogoutService.logout();
         request.getSession().invalidate();
-        return "redirect:index";
+        return "redirect:/index";
     }
 }

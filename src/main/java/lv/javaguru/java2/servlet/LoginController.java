@@ -45,12 +45,12 @@ public class LoginController {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
             request.getSession().setAttribute("user", user);
-            return "redirect:profile";
+            return "redirect:/profile";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return "redirect:login";
+            return "redirect:/login";
         } catch (DBException e) {
-            return "redirect:error";
+            return "redirect:/error";
         }
     }
 }

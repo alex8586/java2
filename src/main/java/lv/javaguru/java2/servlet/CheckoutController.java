@@ -37,7 +37,7 @@ public class CheckoutController {
             model.addAllObjects(checkoutService.model());
             return model;
         } catch (ServiceException e) {
-            return new ModelAndView("redirect:index");
+            return new ModelAndView("redirect:/index");
         }
     }
 
@@ -50,14 +50,14 @@ public class CheckoutController {
             if (userProvider.authorized())
                 return "redirect:/order/" + order.getId();
             else
-                return "redirect:index";
+                return "redirect:/index";
         } catch (NullPointerException e) {
             return "redirect:error";
         } catch (DBException e) {
             return "redirect:error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return "redirect:checkout";
+            return "redirect:/checkout";
         }
     }
 }

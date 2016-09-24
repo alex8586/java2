@@ -33,7 +33,7 @@ public class ShippingProfileController {
             return new ModelAndView("/login");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return new ModelAndView("redirect:shippingProfiles");
+            return new ModelAndView("redirect:/shippingProfiles");
         }
     }
 

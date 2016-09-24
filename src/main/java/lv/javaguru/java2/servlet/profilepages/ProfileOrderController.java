@@ -25,10 +25,10 @@ public class ProfileOrderController {
     public ModelAndView model(@PathVariable("orderId") long orderId) {
         ModelAndView model = new ModelAndView("/profile_order");
         if (!userProvider.authorized())
-            return new ModelAndView("redirect:index");
+            return new ModelAndView("redirect:/index");
         User user = userProvider.getUser();
         if(!profileOrderValidationService.isValid(orderId, user.getId())){
-            return new ModelAndView("redirect:index");
+            return new ModelAndView("redirect:/index");
         }
         model.addAllObjects(profileOrderService.getById(orderId));
         return model;

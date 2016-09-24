@@ -26,7 +26,7 @@ public class ProfileHistoryOrdersController {
         } catch (UnauthorizedAccessException e) {
             return SpringPathResolver.redirectTo(LoginController.class);
         } catch (ServiceException e) {
-            return new ModelAndView("redirect:error");
+            return new ModelAndView("redirect:/error");
         }
     }
 }

@@ -44,14 +44,14 @@ public class RegistrationController {
             userRegistrationService.register(userProfile);
             notification.setMessage(SUCCESS_MESSAGE);
         } catch (NullPointerException e) {
-            return "redirect:error";
+            return "redirect:/error";
         } catch (DBException e) {
-            return "redirect:error";
+            return "redirect:/error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return "redirect:registration";
+            return "redirect:/registration";
         }
-        return "redirect:login";
+        return "redirect:/login";
     }
 
 

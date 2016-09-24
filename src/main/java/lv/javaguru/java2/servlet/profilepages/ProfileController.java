@@ -27,7 +27,7 @@ public class ProfileController {
             model.addAllObjects(profileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
-            return new ModelAndView("redirect:login");
+            return new ModelAndView("redirect:/login");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
             return new ModelAndView("/profile");
