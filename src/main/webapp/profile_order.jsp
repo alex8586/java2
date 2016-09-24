@@ -60,56 +60,55 @@
                          Your order contains :
                      </div>
                  </div>
-                    <div class="row">
-                        <div class="col s2 center-align">
+                 <div class="row">
+                     <div class="col s2 ">
                             Product name :
                         </div>
-                        <div class="col s4 center-align">
+                     <div class="col s4 ">
                             Description :
                         </div>
-                        <div class="col s2 center-align">
+                     <div class="col s2 ">
                             ExpireDate :
                         </div>
-                        <div class="col s2 center-align">
+                     <div class="col s2 ">
                             Quantity :
                         </div>
-                        <div class="col s2 center-align">
+                     <div class="col s2 ">
                             Price :
                         </div>
-                    </div>
-                 <c:if test="${not empty requestScope.order}">
-                     <c:forEach items="${requestScope.order.orderLines}" var="product">
+                 </div>
+
+                 <c:forEach items="${requestScope.order.orderLines}" var="product">
                       <div class="row">
                           <div class="col s2">
-                                ${product.name}
+                                  ${product.name}
                           </div>
                           <div class="col s4">
-                                ${product.description}
+                                  ${product.description}
                           </div>
-                          <div class="col s2 center-align">
-                                ${product.expireDate}
+                          <div class="col s2 ">
+                                  ${product.expireDate}
                           </div>
-                          <div class="col s2 center-align">
-                                ${product.quantity}
+                          <div class="col s2 ">
+                                  ${product.quantity}
                           </div>
-                          <div class="col s2 center-align">
-                                ${product.price}
+                          <div class="col s2 ">
+                                  ${product.price}
                           </div>
                       </div>
-                     </c:forEach>
-                     <div class="row">
-                         <div class="col s8">
+                 </c:forEach>
+                  <div class="row">
+                      <div class="col s8">
 
-                         </div>
-                         <div class="col s2 center-align">
-                             <b>Total sum :</b>
-                         </div>
-                         <div class="col s2 center-align">
-                                 <b>${requestScope.order.total} &#8364</b>
-                         </div>
-                     </div>
-                 </c:if>
-
+                      </div>
+                      <div class="col s2 center-align">
+                          <b>Total sum :</b>
+                      </div>
+                      <div class="col s2 center-align">
+                          <b>${requestScope.order.total} &#8364</b>
+                      </div>
+                  </div>
+                 
                  <div class="row">
                      <div class="col s8">
 

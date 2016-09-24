@@ -30,8 +30,7 @@ public class CommentController extends MVCController {
     @RequestMapping(value = "/product/comment", method = RequestMethod.POST)
     protected String comment(
             @RequestParam("productId") long productId,
-            @RequestParam("comment") String comment) {
-        System.out.println("================ comment = " + comment);
+            @RequestParam("commentText") String comment) {
         if (comment == null)
             throw new NullPointerException();
 
