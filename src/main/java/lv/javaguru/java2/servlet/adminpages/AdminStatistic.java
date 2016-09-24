@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class AdminStatistic {
@@ -19,8 +17,7 @@ public class AdminStatistic {
 
     @RequestMapping(value = "/statistic", method = RequestMethod.GET)
     public ModelAndView statistic(HttpServletRequest request){
-        ModelAndView model = new ModelAndView("/admin_statisic");
-        Map<String, Object> map = new HashMap<>();
+        ModelAndView model = new ModelAndView("/admin_statistic");
         model.addAllObjects(statisticService.model());
         return model;
     }

@@ -12,30 +12,31 @@
                 <br>
                 <table class="striped centered">
                     <thead>
-                    <tr>
-                        <th data-field="id">Pr. id</th>
-                        <th data-field="name">Product name</th>
-                        <th data-field="price">C. id</th>
-                        <th data-field="price">Category name</th>
-                        <th data-field="price">Comments</th>
-                        <th data-field="price">Rates</th>
-                        <th data-field="price">Views</th>
-                    </tr>
+                        <tr>
+                            <th data-field="id">Product id</th>
+                            <th data-field="name">Product name</th>
+                            <th data-field="price">Category id</th>
+                            <th data-field="price">Category name</th>
+                            <th data-field="price">Comments</th>
+                            <th data-field="price">Rates</th>
+                            <th data-field="price">Views</th>
+                            <th data-field="price">Views</th>
+                        </tr>
                     </thead>
-
                     <tbody>
-                    <c:if test="${not empty requestScope.productList}">
-                    <c:forEach items="${requestScope.productList}" var="product">
-                    <tr>
-                        <%--<td>${product.id}</td>--%>
-                        <%--<td>${product.name}</td>--%>
-                        <%--<td>${}</td>--%>
-                        <%--<td>${}</td>--%>
-                        <%--<td>${}</td>--%>
-                        <%--<td>${}</td>--%>
-                        <%--<td>${}</td>--%>
-                    </tr>
-                    </c:forEach>
+                    <c:if test="${not empty requestScope.statisticList}">
+                        <c:forEach items="${requestScope.statisticList}" var="line">
+                            <tr>
+                                <td>${line.productId}</td>
+                                <td>${line.productName}</td>
+                                <td>${line.categoryId}</td>
+                                <td>${line.categoryName}</td>
+                                <td>${line.reviewCount}</td>
+                                <td>${line.userVisits}</td>
+                                <td>${line.visitorVisits}</td>
+                                <td>${line.avgRate}</td>
+                            </tr>
+                        </c:forEach>
                     </c:if>
                     </tbody>
                 </table>
