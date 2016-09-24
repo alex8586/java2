@@ -1,22 +1,19 @@
-CREATE VIEW product_statistics AS
-  SELECT
-    products.id                                AS product_id,
-    products.name                              AS product_name,
-    categories.id                              AS category_id,
-    categories.name                            AS category_name,
-    count(reviews.id)                          AS review_count,
-    COALESCE(sum(users_counter.counter), 0)    AS user_visits,
-    COALESCE(sum(visitors_counter.counter), 0) AS visitor_visits,
-    COALESCE(avg(rate.rate), 0)                AS avg_rate
-  FROM products
-    LEFT OUTER JOIN categories
+create view product_statistics as
+  select  products.id as product_id , products.name as product_name,
+          categories.id as category_id, categories.name as category_name,
+          count(reviews.id) as review_count,
+          COALESCE(sum(users_counter.counter),0) as user_visits ,
+          COALESCE(sum(visitors_counter.counter),0) as visitor_visits,
+          COALESCE(avg(rate.rate),0) as avg_rate
+  from products
+    LEFT outer join categories
       ON products.category_id = categories.id
-    LEFT OUTER JOIN reviews
+    LEFT outer join reviews
       ON reviews.product_id = products.id
-    LEFT OUTER JOIN visitors_counter
+    LEFT outer join visitors_counter
       ON visitors_counter.product_id = products.id
-    LEFT OUTER JOIN users_counter
+    LEFT outer join users_counter
       ON users_counter.product_id = products.id
-    LEFT OUTER JOIN rate
+    LEFT outer join rate
       ON rate.product_id = products.id
-  GROUP BY products.id;
+  group by products.id;
