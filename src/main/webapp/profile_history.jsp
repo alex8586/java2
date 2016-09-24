@@ -54,7 +54,7 @@
                                 ${order.total} &#8364
                         </div>
                         <div class="col s2 center-align">
-                            <a href="order?orderId=${order.id}">Details</a>
+                            <a href="<c:url value='/order/${order.id}' />">Details</a>
                         </div>
                     </div>
                 </c:forEach>

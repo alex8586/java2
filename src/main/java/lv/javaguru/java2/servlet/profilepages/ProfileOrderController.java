@@ -21,7 +21,7 @@ public class ProfileOrderController {
     @Autowired
     private UserProvider userProvider;
 
-    @RequestMapping(value = "/profile/order/{orderId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
     public ModelAndView model(@PathVariable("orderId") long orderId) {
         ModelAndView model = new ModelAndView("/profile_order");
         if (!userProvider.authorized())

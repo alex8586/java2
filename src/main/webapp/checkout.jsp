@@ -18,10 +18,12 @@
                     <c:forEach var="cartLine" items="${requestScope.cart.productCards}">
                         <div class="row">
                             <div class="col s2">
-                                <img src="${cartLine.productImgUrl}" height="50" width="50">
+                                <img src="<c:url value='${cartLine.productImgUrl}'/>" height="50" width="50">
                             </div>
                             <div class="col s6 left-align">
-                                    ${cartLine.productName}
+                                <a href="${s:mvcUrl('PC#productModel').arg(0, cartLine.productId).build()}">
+                                        ${cartLine.productName}
+                                </a>
                             </div>
                             <div class="col s2 center-align">
                                     ${cartLine.quantity} items
@@ -44,7 +46,8 @@
                 <hr style="color: whitesmoke">
 
                 <div class="row">
-                    <form action="checkout" method="post">
+
+                    <form action="<c:url value='/checkout'/>" method="post">
                         <c:if test="${not empty requestScope.shippingProfiles}">
                             <div class="input-field col s12">
                                 <select id="list">

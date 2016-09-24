@@ -4,13 +4,13 @@
 
 <header>
     <nav>
-            <div class="row orange">
-                <div class="col s3">
-                    <a href="${s:mvcUrl('FPC#all').build()}" class="brand-logo">
+        <div class="row orange">
+            <div class="col s3">
+                <a href="${s:mvcUrl('FPC#all').build()}" class="brand-logo">
                     MISKA
                 </a>
-                </div>
-                <div class="col s9">
+            </div>
+            <div class="col s9">
                 <ul class=" hide-on-med-and-down">
                     <li><a href="">NEWS</a></li>
                     <li><a href="">SALE</a></li>
@@ -28,8 +28,8 @@
                         <li><a href="${s:mvcUrl('RC#model').build()}">REGISTER</a></li>
                     </c:if>
                 </ul>
-                </div>
             </div>
+        </div>
     </nav>
 </header>
 

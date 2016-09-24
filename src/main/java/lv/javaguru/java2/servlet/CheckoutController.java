@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-@RequestMapping("/checkout")
+
 @Controller
+@RequestMapping(value = "/checkout", name = "CheckoutController")
 public class CheckoutController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class CheckoutController {
     @Autowired
     private Notification notification;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, name = "checkout")
     public ModelAndView checkout() {
         ModelAndView model = new ModelAndView("/checkout");
         try {
@@ -40,14 +41,16 @@ public class CheckoutController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, name = "buy")
     public String buy(@ModelAttribute ShippingDetails shippingDetails,
-                      @RequestParam ("hashcode") String hashcode) {
+                      @RequestParam("hashcode") String hashcode) {
         try {
             Order order = checkoutService.checkout(hashcode, userProvider.getUser(),
                     cartProvider.getCart(), shippingDetails);
-            return "redirect:order" + "?orderId=" + order.getId();
-
+            if (userProvider.authorized())
+                return "redirect:/order/" + order.getId();
+            else
+                return "redirect:index";
         } catch (NullPointerException e) {
             return "redirect:error";
         } catch (DBException e) {

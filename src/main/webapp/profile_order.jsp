@@ -115,7 +115,7 @@
 
                      </div>
                      <div class="col s4">
-                         <a href="profileHistoryOrders"><h5>Back to history</h5>
+                         <a href="<c:url value='/profile/orders'/>"><h5>Back to history</h5>
                          </a>
                      </div>
                  </div>
