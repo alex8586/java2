@@ -37,4 +37,14 @@ public class UserProfile {
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", repeatPassword='" + repeatPassword + '\'' +
+                '}';
+    }
 }

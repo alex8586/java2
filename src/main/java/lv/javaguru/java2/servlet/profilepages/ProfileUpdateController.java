@@ -47,7 +47,6 @@ public class ProfileUpdateController {
     @RequestMapping(method = RequestMethod.POST, value = "/profile/update", name = "update")
     public String update(@ModelAttribute UserProfile userProfile) {
         try {
-            System.out.println(userProfile);
             profileUpdateService.update(userProfile);
         } catch (NullPointerException e) {
             return "redirect:error";

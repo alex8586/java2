@@ -11,6 +11,7 @@ import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,7 +20,8 @@ import java.util.Map;
 @Component
 public class ProfileUpdateServiceImpl implements ProfileUpdateService {
     private final String USER_ALREADY_EXISTS = "User already exists";
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     @Qualifier("ORM_UserDAO")
     private UserDAO userDAO;
@@ -53,6 +55,7 @@ public class ProfileUpdateServiceImpl implements ProfileUpdateService {
             }
         }
         userProfileUtil.updateUser(userProfile, user);
+        user.setPassword(passwordEncoder.encode(userProfile.getPassword()));
         userDAO.update(user);
     }
 
