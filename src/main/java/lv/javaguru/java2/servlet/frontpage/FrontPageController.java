@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/index")
+@RequestMapping("/index")
 public class FrontPageController {
 
     @Autowired
@@ -30,7 +30,6 @@ public class FrontPageController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView model(@SessionAttribute(value = "currentCategory", required = false) Category category) {
         ModelAndView model = new ModelAndView("frontpage");
-        System.out.println(category);
         Map<String, Object> frontPageData = frontPageService.model(category);
         model.addAllObjects(frontPageData);
         return model;

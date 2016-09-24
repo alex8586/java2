@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
+@RequestMapping(name = "ProfileController")
 public class ProfileController {
 
     @Autowired
@@ -21,18 +20,16 @@ public class ProfileController {
     @Autowired
     Notification notification;
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView profile(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView();
+    @RequestMapping(value = "/profile", method = RequestMethod.GET, name = "model")
+    public ModelAndView model() {
         try {
+            ModelAndView model = new ModelAndView();
             model.addAllObjects(profileService.model());
             return model;
         } catch (UnauthorizedAccessException e) {
-            //return redirectTo(LoginController.class);
-            return new ModelAndView("/login");
+            return new ModelAndView("redirect:login");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            //return redirectTo(ProfileService.class);
             return new ModelAndView("/profile");
         }
     }

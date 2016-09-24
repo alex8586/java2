@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController {
 
     @Autowired
@@ -26,9 +25,9 @@ public class LoginController {
     @Autowired
     private Notification notification;
 
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, value = "/login")
     public ModelAndView model() {
-        ModelAndView model = new ModelAndView("/login");
+        ModelAndView model = new ModelAndView("login");
         try {
             return model.addAllObjects(userLoginService.model());
         } catch (Exception e) {
@@ -37,7 +36,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(
             @RequestParam("email") String email,
             @RequestParam("password") String password,

@@ -21,4 +21,9 @@ public class SpringPathResolver {
                 .build()
                 .expand(String.valueOf(id)));
     }
+
+    public void foo() {
+
+
+    }
 }

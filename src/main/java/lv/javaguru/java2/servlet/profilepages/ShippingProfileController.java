@@ -23,7 +23,7 @@ public class ShippingProfileController {
     @Autowired
     private ShippingProfileService shippingProfileService;
 
-    @RequestMapping(value = "/shippingProfiles", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile/shippingProfiles", method = RequestMethod.GET)
     public ModelAndView model() {
         ModelAndView model = new ModelAndView("/shippingProfiles");
         try {
@@ -37,7 +37,7 @@ public class ShippingProfileController {
         }
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/shippingProfiles/save", method = RequestMethod.POST)
     public String save(@ModelAttribute ShippingDetails shippingDetails) {
         try {
             shippingProfileService.save(shippingDetails);
@@ -51,7 +51,7 @@ public class ShippingProfileController {
         return "redirect:/shippingProfiles";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/shippingProfiles/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("profileId") long resourceId) {
         try {
             shippingProfileService.delete(resourceId);

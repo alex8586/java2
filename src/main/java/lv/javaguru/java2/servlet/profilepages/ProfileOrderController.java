@@ -6,9 +6,9 @@ import lv.javaguru.java2.businesslogic.validators.ProfileOrderValidationService;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -21,12 +21,11 @@ public class ProfileOrderController {
     @Autowired
     private UserProvider userProvider;
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public ModelAndView executeGet(@RequestParam () long orderId) {
+    @RequestMapping(value = "/profile/order/{orderId}", method = RequestMethod.GET)
+    public ModelAndView model(@PathVariable("orderId") long orderId) {
         ModelAndView model = new ModelAndView("/profile_order");
         if (!userProvider.authorized())
             return new ModelAndView("redirect:index");
-
         User user = userProvider.getUser();
         if(!profileOrderValidationService.isValid(orderId, user.getId())){
             return new ModelAndView("redirect:index");

@@ -20,7 +20,6 @@ public class Router implements Filter {
     private AnnotationConfigWebApplicationContext springContext;
 
     public void init(FilterConfig filterConfig) throws ServletException {
-
         try {
             springContext = new AnnotationConfigWebApplicationContext();
             springContext.register(SpringConfig.class);
@@ -36,7 +35,7 @@ public class Router implements Filter {
         addController("/login", LoginController.class);
         addController("/logout", LogoutController.class);
         addController("/profile", ProfileController.class);
-        addController("/profile/cart", ProfileCartController.class);
+        //addController("/profile/cart", ProfileCartController.class);
         addController("/profile/order", ProfileOrderController.class);
         addController("/profile/history_orders", ProfileHistoryOrdersController.class);
         addController("/profile/update", ProfileUpdateController.class);
@@ -45,7 +44,7 @@ public class Router implements Filter {
         addController("/product/comment", CommentController.class);
         addController("/contacts", ContactController.class);
         addController("/profile/shippingProfiles", ShippingProfileController.class);
-        addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
+        //addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);
 
 
         pathResolver.setAlias(Product.class, ProductController.class);

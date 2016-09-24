@@ -17,7 +17,7 @@ public class ProfileHistoryOrdersController {
     @Autowired
     private ProfileOrderService profileOrderService;
 
-    @RequestMapping(value = "/profileHistoryOrders", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile/orders", method = RequestMethod.GET)
     public ModelAndView model() {
         ModelAndView model = new ModelAndView("/profile_history");
         try {

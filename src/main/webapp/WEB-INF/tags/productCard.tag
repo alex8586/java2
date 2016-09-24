@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="col s3" style=" display: inline-block;">
+<div class="col m6 l3" style=" display: inline-block;">
     <div class="card vertical-grabber">
         <div class="row center" style="height: 60px;margin: 10px;  font-size: 20px">
             ${productCard.productName}

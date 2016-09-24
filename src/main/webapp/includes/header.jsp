@@ -17,10 +17,10 @@
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">YOUR IDEA</a></li>
                     <li><a href="">SHIPPING</a></li>
-                    <li><a href="${s:mvcUrl('ContactC#contactModel').build()}">CONTACT</a></li>
+                    <li><a href="${s:mvcUrl('ContactController#contactModel').build()}">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">
-                        <li><a href="profile">PROFILE</a></li>
-                        <li><a href="logout">LOGOUT</a></li>
+                        <li><a href="${s:mvcUrl('ProfileController#model').build()}">PROFILE</a></li>
+                        <li><a href="${s:mvcUrl('LC#logout').build()}">LOGOUT</a></li>
                         Hi ${sessionScope.user.fullName}!
                     </c:if>
                     <c:if test="${empty sessionScope.user}">

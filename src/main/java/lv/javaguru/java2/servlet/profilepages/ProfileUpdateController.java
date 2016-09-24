@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
-@RequestMapping(value = "/profileUpdate")
 @Controller
+@RequestMapping(name = "ProfileUpdateController")
 public class ProfileUpdateController {
 
     @Autowired
@@ -32,8 +30,8 @@ public class ProfileUpdateController {
     @Autowired
     Notification notification;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView executeGet(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET, value = "/profile/update", name = "model")
+    public ModelAndView model() {
         try {
             ModelAndView model = new ModelAndView("/profile_update");
             model.addAllObjects(profileUpdateService.model());
@@ -46,9 +44,10 @@ public class ProfileUpdateController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    protected String updateProfile(@ModelAttribute UserProfile userProfile) {
+    @RequestMapping(method = RequestMethod.POST, value = "/profile/update", name = "update")
+    public String update(@ModelAttribute UserProfile userProfile) {
         try {
+            System.out.println(userProfile);
             profileUpdateService.update(userProfile);
         } catch (NullPointerException e) {
             return "redirect:error";
@@ -57,6 +56,6 @@ public class ProfileUpdateController {
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return "redirect:profileUpdate";
+        return "redirect:/profile/update";
     }
 }

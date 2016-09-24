@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/registration")
 public class RegistrationController {
 
     private static final String SUCCESS_MESSAGE = "Congrats. Registration was successful. Now you can login";
@@ -27,7 +26,7 @@ public class RegistrationController {
     @Autowired
     Notification notification;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, value = "/registration")
     public ModelAndView model() {
         try {
             ModelAndView model = new ModelAndView("/registration");
@@ -39,7 +38,7 @@ public class RegistrationController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/registration")
     public String register(@ModelAttribute UserProfile userProfile) {
         try {
             userRegistrationService.register(userProfile);
