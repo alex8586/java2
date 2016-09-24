@@ -4,6 +4,7 @@ import lv.javaguru.java2.businesslogic.checkout.CartProvider;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
 import lv.javaguru.java2.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,8 +45,7 @@ public class CartController  {
         } else if (request.getParameter("add") != null) {
             cartService.addProduct(cart, productId);
         }
-        request.getSession().setAttribute("cart", cart);
-        return "redirect:/index";
+        return "redirect:" + request.getHeader(HttpHeaders.REFERER);
     }
 
 }
