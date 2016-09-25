@@ -13,8 +13,6 @@ import java.util.Map;
 @Component
 public class StatisticServiceImpl implements StatisticService {
 
-    private final static String PRODUCT_NAME = "getProductName()";
-
     @Autowired
     private StatisticLineDAO statisticLineDAO;
 
