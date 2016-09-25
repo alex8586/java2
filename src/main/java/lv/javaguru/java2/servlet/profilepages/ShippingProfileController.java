@@ -33,7 +33,7 @@ public class ShippingProfileController {
             return new ModelAndView("/login");
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
-            return new ModelAndView("redirect:/shippingProfiles");
+            return new ModelAndView("redirect:/error");
         }
     }
 
@@ -42,23 +42,23 @@ public class ShippingProfileController {
         try {
             shippingProfileService.save(shippingDetails);
         } catch (NullPointerException e) {
-            return "redirect:error";
+            return "redirect:/error";
         } catch (DBException e) {
-            return "redirect:error";
+            return "redirect:/error";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return "redirect:/shippingProfiles";
+        return "redirect:/profile/shippingProfiles";
     }
 
     @RequestMapping(value = "/profile/shippingProfiles/delete", method = RequestMethod.POST)
-    public String delete(@RequestParam("profileId") long resourceId) {
+    public String delete(@RequestParam("profileId") long profileId) {
         try {
-            shippingProfileService.delete(resourceId);
+            shippingProfileService.delete(profileId);
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
         }
-        return "redirect:/shippingProfiles";
+        return "redirect:/profile/shippingProfiles";
     }
 
 }

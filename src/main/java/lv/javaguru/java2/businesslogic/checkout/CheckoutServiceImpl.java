@@ -1,7 +1,6 @@
 package lv.javaguru.java2.businesslogic.checkout;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
-import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.product.StockService;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
@@ -36,8 +35,6 @@ public class CheckoutServiceImpl implements CheckoutService {
     ShippingProfileService shippingProfileService;
     @Autowired
     private UserProvider userProvider;
-    @Autowired
-    private SpecialSaleOffer specialSaleOffer;
     @Autowired
     private OrderDAO orderDAO;
     @Autowired
@@ -92,8 +89,11 @@ public class CheckoutServiceImpl implements CheckoutService {
         orderDAO.create(order);
 
         cartProvider.empty();
-        if (shippingDetails.getId() == 0 && userProvider.authorized())
-            shippingProfileService.save(shippingDetails);
+        try {
+            if (shippingDetails.getId() == 0 && userProvider.authorized())
+                shippingProfileService.save(shippingDetails);
+        } catch (ServiceException e) {
+        }
 
         return order;
     }

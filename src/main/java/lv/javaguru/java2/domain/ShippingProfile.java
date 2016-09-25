@@ -101,7 +101,7 @@ public class ShippingProfile implements BaseEntity {
         ShippingProfile other = (ShippingProfile) object;
 
         return new EqualsBuilder()
-                .append(this.getId(), other.getId())
+                //.append(this.getId(), other.getId())
                 .append(this.getAddress(), other.getAddress())
                 .append(this.getPerson(), other.getPerson())
                 .append(this.getDocument(), other.getDocument())

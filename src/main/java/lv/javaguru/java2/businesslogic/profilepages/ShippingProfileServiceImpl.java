@@ -7,6 +7,7 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailsUniquenessValidationService;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
 import lv.javaguru.java2.domain.User;
@@ -32,6 +33,8 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     ShippingDetailsUtil shippingDetailsUtil;
     @Autowired
     ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
+    @Autowired
+    ShippingDetailsUniquenessValidationService shippingDetailsUniquenessValidationService;
     @Autowired
     TemplateService templateService;
 
@@ -61,6 +64,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     @Override
     public ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException {
         shippingDetailsFormatValidationService.validate(shippingDetails);
+        shippingDetailsUniquenessValidationService.validate(shippingDetails, user);
         if (shippingDetails.getId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingDetails.getId());
             if (oldProfile == null)
