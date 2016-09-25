@@ -1,6 +1,7 @@
 package lv.javaguru.java2.domain.order;
 
 import lv.javaguru.java2.domain.BaseEntity;
+import lv.javaguru.java2.domain.interfaces.LockedResource;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order implements BaseEntity {
+public class Order implements BaseEntity, LockedResource {
 
     @Column(name = "id")
     @Id
@@ -132,8 +133,12 @@ public class Order implements BaseEntity {
     public String getSecurityKey() {
         return securityKey;
     }
-
     public void setSecurityKey(String securityKey) {
         this.securityKey = securityKey;
+    }
+
+    @Override
+    public String getKey() {
+        return getSecurityKey();
     }
 }

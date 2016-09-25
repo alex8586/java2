@@ -6,6 +6,7 @@ import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.DeliveryDateValidationService;
+import lv.javaguru.java2.businesslogic.validators.LockedResourceAccessService;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
@@ -55,6 +56,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     private StockService stockService;
     @Autowired
     private TemplateService templateService;
+    @Autowired
+    private LockedResourceAccessService lockedResourceAccessService;
 
     @Override
     public Map<String, Object> model() throws ServiceException {
@@ -92,8 +95,8 @@ public class CheckoutServiceImpl implements CheckoutService {
         orderUtil.build(cart, order);
         order.setOrderDate(new Date());
         order.setDeliveryDate(DateUtils.asDate(deliveryDate));
+        order.setSecurityKey(lockedResourceAccessService.generateKey());
         orderDAO.create(order);
-
         cartProvider.empty();
         try {
             if (shippingDetails.getId() == 0 && userProvider.authorized())

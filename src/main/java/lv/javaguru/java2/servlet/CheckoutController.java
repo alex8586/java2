@@ -24,7 +24,8 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = "/checkout", name = "CheckoutController")
 public class CheckoutController {
-
+    private static final String ORDER_SUCCESS_MESSAGE =
+            "Congratulations, checkout is complete and your order will be delivered to you soon";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
     @Autowired
     CheckoutService checkoutService;
@@ -55,10 +56,11 @@ public class CheckoutController {
             Order order = checkoutService.checkout(hashcode,
                     userProvider.getUser(), cartProvider.getCart(),
                     shippingDetails, deliveryDate);
+            notification.setMessage(ORDER_SUCCESS_MESSAGE);
             if (userProvider.authorized())
                 return "redirect:/order/" + order.getId();
             else
-                return "redirect:/index";
+                return "redirect:/order/" + order.getId() + "/key/" + order.getKey();
         } catch (NullPointerException e) {
             return "redirect:error";
         } catch (DBException e) {

@@ -1,16 +1,17 @@
 package lv.javaguru.java2.businesslogic.validators;
 
 import lv.javaguru.java2.database.OrderDAO;
+import lv.javaguru.java2.domain.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProfileOrderValidationServiceImpl implements ProfileOrderValidationService {
 
     @Autowired
+    LockedResourceAccessService lockedResourceAccessService;
+    @Autowired
     private OrderDAO orderDAO;
-    @Qualifier("ORM_UserDAO")
 
     @Override
     public boolean isValid(long orderId, long userId){
@@ -19,6 +20,7 @@ public class ProfileOrderValidationServiceImpl implements ProfileOrderValidation
 
     @Override
     public boolean isValid(long orderId, String securityKey) {
-        return String.valueOf(orderId).equals(securityKey);
+        Order order = orderDAO.getById(orderId);
+        return lockedResourceAccessService.validateKey(order, securityKey);
     }
 }
