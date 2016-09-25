@@ -7,6 +7,7 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.UnauthorizedAccessException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
+import lv.javaguru.java2.businesslogic.validators.ShippingDetailsUniquenessValidationService;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.database.ShippingProfileDAO;
 import lv.javaguru.java2.domain.ShippingProfile;
@@ -20,6 +21,7 @@ import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
+@WebAppConfiguration
 public class ShippingProfileServiceImplTest {
 
     @Mock
@@ -48,6 +51,9 @@ public class ShippingProfileServiceImplTest {
     private UserProvider userProvider;
     @Mock
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
+    @Mock
+    private ShippingDetailsUniquenessValidationService shippingDetailsUniquenessValidationService;
+
     @Spy
     private ShippingDetailsUtil shippingDetailsUtil;
 

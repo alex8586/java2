@@ -8,7 +8,6 @@ import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.domain.order.OrderLine;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,14 +15,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
+
 public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORMDAOImpl> {
 
     @Autowired
@@ -99,6 +95,7 @@ public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORM
         order.setDeliveryDate(new Date());
         order.setTotal(654);
         order.setUserId(user.getId());
+        order.setSecurityKey("key");
         orderDAO.create(order);
 
         anotherOrder = new Order();
@@ -110,6 +107,7 @@ public class OrderLineORMDAOImplTest extends CrudDAOTest<OrderLine, OrderLineORM
         anotherOrder.setDeliveryDate(new Date());
         anotherOrder.setTotal(987);
         anotherOrder.setUserId(anotherUser.getId());
+        anotherOrder.setSecurityKey("anotherkey");
         orderDAO.create(anotherOrder);
         super.before();
     }

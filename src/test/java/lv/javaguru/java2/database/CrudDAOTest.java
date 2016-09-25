@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -20,6 +21,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
+@WebAppConfiguration
 public abstract class CrudDAOTest<RecordClass extends BaseEntity, DAOClass extends CrudDAO<RecordClass>> {
     protected Random random = new Random();
     protected RecordClass newRecord;

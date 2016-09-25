@@ -13,9 +13,11 @@ import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
+@WebAppConfiguration
 public class ProfileUpdateServiceImplTest {
 
     private static String goodName = "NameSurname";
