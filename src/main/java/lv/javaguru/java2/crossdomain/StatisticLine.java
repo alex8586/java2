@@ -20,12 +20,12 @@ public class StatisticLine {
     private String categoryName;
     @Column(name = "review_count")
     private BigInteger reviewCount;
-    @Column(name = "avg_rate")
-    private BigDecimal avgRate;
     @Column(name = "user_visits")
     private BigDecimal userVisits;
     @Column(name = "visitor_visits")
     private BigDecimal visitorVisits;
+    @Column(name = "avg_rate")
+    private BigDecimal avgRate;
 
     public BigInteger getProductId() {
         return productId;
