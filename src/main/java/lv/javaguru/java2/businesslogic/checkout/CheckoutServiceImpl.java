@@ -5,6 +5,7 @@ import lv.javaguru.java2.businesslogic.product.StockService;
 import lv.javaguru.java2.businesslogic.profilepages.ShippingProfileService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
+import lv.javaguru.java2.businesslogic.validators.DeliveryDateValidationService;
 import lv.javaguru.java2.businesslogic.validators.ShippingDetailsFormatValidationService;
 import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.database.ShippingProfileDAO;
@@ -14,11 +15,13 @@ import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
 import lv.javaguru.java2.dto.builders.OrderUtil;
+import lv.javaguru.java2.helpers.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +50,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Autowired
     private ShippingDetailsFormatValidationService shippingDetailsFormatValidationService;
     @Autowired
+    private DeliveryDateValidationService deliveryDateValidationService;
+    @Autowired
     private StockService stockService;
     @Autowired
     private TemplateService templateService;
@@ -73,19 +78,20 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Transactional(rollbackFor = ServiceException.class)
-    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails) throws ServiceException {
+    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails, LocalDate deliveryDate) throws ServiceException {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-        stockService.supply(cart);
+        deliveryDateValidationService.validate(deliveryDate);
 
+        stockService.supply(cart);
         shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();
         orderUtil.build(userProvider.getUser(), order);
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
         order.setOrderDate(new Date());
-        order.setDeliveryDate(new Date());
+        order.setDeliveryDate(DateUtils.asDate(deliveryDate));
         orderDAO.create(order);
 
         cartProvider.empty();

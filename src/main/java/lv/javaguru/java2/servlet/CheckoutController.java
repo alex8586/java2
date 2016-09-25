@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 @Controller
 @RequestMapping(value = "/checkout", name = "CheckoutController")
 public class CheckoutController {
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
     @Autowired
     CheckoutService checkoutService;
     @Autowired
@@ -43,10 +48,13 @@ public class CheckoutController {
 
     @RequestMapping(method = RequestMethod.POST, name = "buy")
     public String buy(@ModelAttribute ShippingDetails shippingDetails,
-                      @RequestParam("hashcode") String hashcode) {
+                      @RequestParam("hashcode") String hashcode,
+                      @RequestParam("deliveryDate") String deliveryDateString) {
         try {
-            Order order = checkoutService.checkout(hashcode, userProvider.getUser(),
-                    cartProvider.getCart(), shippingDetails);
+            LocalDate deliveryDate = LocalDate.parse(deliveryDateString, formatter);
+            Order order = checkoutService.checkout(hashcode,
+                    userProvider.getUser(), cartProvider.getCart(),
+                    shippingDetails, deliveryDate);
             if (userProvider.authorized())
                 return "redirect:/order/" + order.getId();
             else
