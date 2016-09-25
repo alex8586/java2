@@ -15,7 +15,7 @@
                     <li><a href="">NEWS</a></li>
                     <li><a href="">SALE</a></li>
                     <li><a href="">YOUR IDEA</a></li>
-                    <li><a href="admin">ADMIN</a></li>
+                    <li><a href="<c:url value='/admin'/>">ADMIN</a></li>
                     <li><a href="">SHIPPING</a></li>
                     <li><a href="<c:url value='/contact'/>">CONTACT</a></li>
                     <c:if test="${not empty sessionScope.user}">

@@ -13,14 +13,14 @@
                 <table class="striped centered">
                     <thead>
                         <tr>
-                            <th data-field="id">Product id</th>
-                            <th data-field="name">Product name</th>
-                            <th data-field="price">Category id</th>
-                            <th data-field="price">Category name</th>
-                            <th data-field="price">Comments</th>
-                            <th data-field="price">Rates</th>
-                            <th data-field="price">Views</th>
-                            <th data-field="price">Views</th>
+                            <th data-field="id"><a href="<c:url value='/statistic/sortBy/productId'/>">Product id</a></th>
+                            <th data-field="name"><a href="<c:url value='/statistic/sortBy/productName'/>">Product name</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/categoryId'/>">Category id</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/categoryName'/>">Category name</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/reviewCount'/>">Comments</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/userVisits'/>">User count</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/visitorVisits'/>">Visitor count</a></th>
+                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/avgRate'/>">Rate</a></th>
                         </tr>
                     </thead>
                     <tbody>
