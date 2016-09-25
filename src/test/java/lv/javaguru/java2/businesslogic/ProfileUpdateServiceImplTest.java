@@ -13,6 +13,7 @@ import lv.javaguru.java2.dto.builders.UserProfileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -33,8 +34,13 @@ public class ProfileUpdateServiceImplTest {
     private UserProvider userProvider;
     @Mock
     private UserProfileFormatValidationService userProfileFormatValidationService;
+    @Mock
+    private TemplateService templateService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @Spy
     private UserProfileUtil userProfileUtil;
+
     @InjectMocks
     private ProfileUpdateServiceImpl profileUpdateService;
 

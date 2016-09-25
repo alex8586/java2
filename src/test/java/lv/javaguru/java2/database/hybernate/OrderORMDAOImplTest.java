@@ -31,7 +31,6 @@ import static org.junit.Assert.assertEquals;
 @WebAppConfiguration
 public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
 
-
     @Autowired
     @Qualifier("ORM_ProductDAO")
     ProductDAO productDAO;
@@ -90,6 +89,7 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
         order.setUserId(user.getId());
+        order.setSecurityKey("key");
 
         OrderLine orderLine = new OrderLine();
         orderLine.setDescription("desc");
@@ -113,6 +113,7 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         order.setTotal(9002);
         order.setOrderDate(new Date());
         order.setDeliveryDate(new Date());
+        order.setSecurityKey("key2");
 
         OrderLine orderLine = new OrderLine();
         orderLine.setDescription("desc2");
@@ -148,6 +149,8 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         assertEquals(order1.getPerson(), order2.getPerson());
         assertEquals(order1.getPhone(), order2.getPhone());
         assertEquals(order1.getTotal(), order2.getTotal());
+        assertEquals(order1.getKey(), order2.getKey());
+        assertEquals(order1.getSecurityKey(), order2.getSecurityKey());
 
         assertEquals(order1.getOrderLines().size(), order2.getOrderLines().size());
         assertTrue(order1.getOrderLines().containsAll(order2.getOrderLines()));
@@ -161,25 +164,5 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
 
         assertEquals(recordFromDAO.getId(), order.getId());
         assertEquals(recordFromDAO.getOrderLines().size(), order.getOrderLines().size());
-    }
-
-    @Test
-    public void getMultipleOrdersByUsers() {
-        Order secondOrder = newRecord();
-        fillRecordWithData(secondOrder);
-        makeChangesInRecord(secondOrder);
-        dao.create(secondOrder);
-
-        List<Order> ordersByUser = dao.getByUserId(user.getId());
-        for (Order order : ordersByUser) {
-            System.out.println(order + " " + order.getId());
-            for (OrderLine orderLine : order.getOrderLines()) {
-                System.out.println(orderLine.getId() + " " + orderLine.getOrder().getId());
-            }
-
-        }
-
-        System.out.println(ordersByUser);
-
     }
 }
