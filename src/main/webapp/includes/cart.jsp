@@ -56,7 +56,7 @@
 </div>
 <hr>
 
-<a href="checkout">
+<a href="<c:url value='/checkout'/>">
     <button class="btn waves-effect waves-light blue" type="submit" name="buy">Buy
         <i class="material-icons right">payment</i>
     </button>
