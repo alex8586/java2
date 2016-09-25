@@ -21,7 +21,15 @@
 <%@include file="/includes/footer.jsp" %>
 
 <c:url var="js" value="/miskaweb/js/materialize.min.js"/>
-<script type="text/javascript" src="${js}"></script>
+<script type="text/javascript" src="${js}">
+
+    $(document).ready(function(){
+        $('.collapsible').collapsible({
+            accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+        });
+    });
+
+</script>
 
 </body>
 </html>
