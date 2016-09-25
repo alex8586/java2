@@ -10,7 +10,7 @@
         <div class="row">
             <div>
                 <div class="col s8 left">
-                    <a href="${s:mvcUrl('PC#productModel').arg(0, cartLine.productId).build()}">
+                    <a href="<c:url value='/product/${cartLine.productId}'/>">
                         ${cartLine.productName}
                     </a>
                 </div>

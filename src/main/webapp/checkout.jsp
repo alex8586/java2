@@ -114,6 +114,10 @@
                                 <input id="document" type="text" class="validate" name="document">
                                 <label id="document_label" for="document">Document</label>
                             </div>
+                            <div class="input-field col s12">
+                                <input id="delivery_date" type="date" class="datepicker" name="delivery_date">
+                                <label id="delivery_date_label" for="delivery_date">Delivery Date</label>
+                            </div>
                             <div class="input-field col s12 center-align">
                                 <button class="btn waves-effect waves-light blue" type="submit" name="save" id="save_button">
                                     Buy
@@ -127,6 +131,7 @@
             <div class="col s2">
                 <%@include file="includes/product_banner.jsp" %>
             </div>
+
         </div>
     </jsp:body>
 </tags:pageTemplate>
