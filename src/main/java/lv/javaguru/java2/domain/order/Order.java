@@ -43,6 +43,9 @@ public class Order implements BaseEntity {
     @Column(name = "user_id")
     private long userId;
 
+    @Column(name = "security_key")
+    private String securityKey;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines = new ArrayList<>();
 
@@ -126,4 +129,11 @@ public class Order implements BaseEntity {
         this.userId = userId;
     }
 
+    public String getSecurityKey() {
+        return securityKey;
+    }
+
+    public void setSecurityKey(String securityKey) {
+        this.securityKey = securityKey;
+    }
 }

@@ -33,4 +33,16 @@ public class ProfileOrderController {
         model.addAllObjects(profileOrderService.getById(orderId));
         return model;
     }
+
+    @RequestMapping(value = "/order/{orderId}/securityKey/{securityKey}", method = RequestMethod.GET)
+    public ModelAndView model(@PathVariable("orderId") long orderId, @PathVariable("securityKey") String securityKey) {
+        if (userProvider.authorized())
+            return new ModelAndView("redirect:/index");
+        if (!profileOrderValidationService.isValid(orderId, securityKey)) {
+            return new ModelAndView("redirect:/index");
+        }
+        ModelAndView model = new ModelAndView("/profile_order");
+        model.addAllObjects(profileOrderService.getById(orderId));
+        return model;
+    }
 }

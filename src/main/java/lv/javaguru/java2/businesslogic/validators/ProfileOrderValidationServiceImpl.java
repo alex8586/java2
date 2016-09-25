@@ -16,4 +16,9 @@ public class ProfileOrderValidationServiceImpl implements ProfileOrderValidation
     public boolean isValid(long orderId, long userId){
         return orderDAO.getById(orderId).getUserId() == userId;
     }
+
+    @Override
+    public boolean isValid(long orderId, String securityKey) {
+        return String.valueOf(orderId).equals(securityKey);
+    }
 }
