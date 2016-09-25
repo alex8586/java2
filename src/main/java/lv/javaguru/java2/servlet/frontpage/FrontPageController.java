@@ -37,7 +37,6 @@ public class FrontPageController {
 
     @RequestMapping("/category/{id}")
     public ModelAndView chooseCategory(@PathVariable("id") long id, HttpServletRequest request) {
-        System.out.println("we are here");
         Category category = categoryDAO.getById(id);
         if (category != null) {
             if (category.getFather_id() == 0)
