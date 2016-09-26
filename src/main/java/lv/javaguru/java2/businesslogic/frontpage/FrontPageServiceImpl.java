@@ -38,7 +38,9 @@ public class FrontPageServiceImpl implements FrontPageService {
         } else {
             productList = productService.getByCategory(category);
         }
+
         List<ProductCard> productCards = productCardUtil.build(productList);
+        productCardUtil.addRate(productCards);
         map.put("categories", categoryTree.asOrderedList());
         map.put("productCards", productCards);
         map.putAll(templateService.model());

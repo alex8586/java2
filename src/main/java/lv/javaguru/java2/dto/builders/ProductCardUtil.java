@@ -1,6 +1,7 @@
 package lv.javaguru.java2.dto.builders;
 
 import lv.javaguru.java2.businesslogic.product.RateService;
+import lv.javaguru.java2.database.RateDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Rate;
 import lv.javaguru.java2.domain.Stock;
@@ -16,7 +17,9 @@ import java.util.stream.Collectors;
 public class ProductCardUtil {
 
     @Autowired
-    RateService rateService;
+    private RateService rateService;
+    @Autowired
+    private RateDAO rateDAO;
 
     public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
@@ -67,6 +70,14 @@ public class ProductCardUtil {
         return products.stream()
                 .map(product -> build(product))
                 .collect(Collectors.toList());
+    }
+
+    public void addRate(List<ProductCard> list){
+        for(ProductCard productCard : list){
+            long productId = productCard.getProductId();
+            List<Rate> rates = rateDAO.getByProductId(productId);
+            build(productCard, rates);
+        }
     }
 
 
