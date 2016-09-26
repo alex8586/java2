@@ -1,6 +1,8 @@
 package lv.javaguru.java2.businesslogic.admin;
 
+import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
+import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,12 +18,17 @@ public class ProductEditorServiceImpl implements ProductEditorService {
     @Autowired
     @Qualifier("ORM_ProductDAO")
     private ProductDAO productDAO;
+    @Autowired
+    @Qualifier("ORM_CategoryDAO")
+    private CategoryDAO categoryDAO;
 
     @Override
     public Map<String, Object> getProductList(){
         Map<String, Object> map = new HashMap<>();
-        List<Product> list = productDAO.getAll();
-        map.put("productList", list);
+        List<Product> products = productDAO.getAll();
+        List<Category> categories = categoryDAO.getAll();
+        map.put("categoryList", categories);
+        map.put("productList", products);
         return map;
     }
 
@@ -32,4 +39,8 @@ public class ProductEditorServiceImpl implements ProductEditorService {
         productDAO.delete(product);
     }
 
+    @Override
+    public void update(Product product){
+        productDAO.update(product);
+    }
 }
