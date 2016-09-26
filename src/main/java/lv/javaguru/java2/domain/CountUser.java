@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users_counter")
-public class CountUser implements BaseEntity {
+public class CountUser implements BaseEntity, CountEntity {
 
     @Column(name="id")
     @Id

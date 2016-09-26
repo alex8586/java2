@@ -2,10 +2,8 @@ package lv.javaguru.java2.businesslogic.product;
 
 import lv.javaguru.java2.database.CountUsersDAO;
 import lv.javaguru.java2.database.CountVisitorsDAO;
-import lv.javaguru.java2.domain.CountUser;
-import lv.javaguru.java2.domain.CountVisitor;
-import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.User;
+import lv.javaguru.java2.database.CrudDAO;
+import lv.javaguru.java2.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -31,43 +29,37 @@ public class CountVisitServiceImpl implements CountVisitService {
         this.visitedProduct = new LinkedList<>();
     }
 
-    @Override
-    public void countVisit(Product product, User user) {
-        if (user != null) {
-            if(visitedProduct.contains(product.getId())){
-                return;
-            }
-            visitedProduct.add(product.getId());
-            CountUser countUser = countUsersDAO.getCountUserByUserIdProductId(user.getId(), product.getId());
-            if(countUser != null){
-                countUser.setCounter(countUser.getCounter() + 1);
-                countUsersDAO.update(countUser);
-            } else {
-                countUser = new CountUser();
-                countUser.setUserId(user.getId());
-                countUser.setProductId(product.getId());
-                countUser.setCounter(1);
-                countUsersDAO.create(countUser);
-            }
+    private void countVisit(Product product, CountEntity countEntity, CrudDAO countDAO) {
+        if (visitedProduct.contains(product.getId())) {
+            return;
+        }
+        visitedProduct.add(product.getId());
+        countEntity.setCounter(countEntity.getCounter() + 1);
+        if (countEntity != null) {
+            countDAO.update(countEntity);
+        } else {
+            countEntity.setProductId(product.getId());
+            countDAO.create(countEntity);
         }
     }
 
     @Override
+    public void countVisit(Product product, User user) {
+        CountUser count = countUsersDAO.getCountUserByUserIdProductId(user.getId(), product.getId());
+        if (count == null) {
+            count = new CountUser();
+            count.setUserId(user.getId());
+        }
+        countVisit(product, count, countUsersDAO);
+    }
+
+    @Override
     public void countVisit(Product product, String ip){
-        if(visitedProduct.contains(product.getId())){
-            return;
+        CountVisitor count = countVisitorsDAO.getCountUserByUserIpProductId(ip, product.getId());
+        if (count == null) {
+            count = new CountVisitor();
+            count.setIp(ip);
         }
-        visitedProduct.add(product.getId());
-        CountVisitor countVisitor = countVisitorsDAO.getCountUserByUserIpProductId(ip, product.getId());
-        if(countVisitor != null){
-            countVisitor.setCounter(countVisitor.getCounter() + 1);
-            countVisitorsDAO.update(countVisitor);
-        } else {
-            countVisitor = new CountVisitor();
-            countVisitor.setIp(ip);
-            countVisitor.setProductId(product.getId());
-            countVisitor.setCounter(1);
-            countVisitorsDAO.create(countVisitor);
-        }
+        countVisit(product, count, countUsersDAO);
     }
 }
