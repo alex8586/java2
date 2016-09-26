@@ -16,7 +16,7 @@
 <main>
     <c:if test="${not empty requestScope.error}">
         <div class="red-text center"><br>
-            <h5>Error:${requestScope.error}</h5>
+            <h5>Error: ${requestScope.error}</h5>
             <hr>
         </div>
     </c:if>

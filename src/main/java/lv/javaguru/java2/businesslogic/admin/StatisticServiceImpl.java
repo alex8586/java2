@@ -49,7 +49,7 @@ public class StatisticServiceImpl implements StatisticService {
         }
         if(sortValue.equals("reviewCount")){
             Collections.sort(list, (StatisticLine l1, StatisticLine l2) ->
-                    Long.valueOf(l1.getReviewCount()).compareTo(Long.valueOf(l2.getReviewCount())));
+                    Long.valueOf(l2.getReviewCount()).compareTo(Long.valueOf(l1.getReviewCount())));
         }
         if(sortValue.equals("userVisits")){
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)

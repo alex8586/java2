@@ -12,7 +12,7 @@
                 <div class="col s6">
                     <form action="registration" method="post">
                         <tags:userProfileForm/>
-                        <button class="btn waves-effect waves-light" type="submit" name="register">Register me
+                        <button class="btn waves-effect waves-light blue" type="submit" name="register">Register me
                             <i class="material-icons right">send</i>
                         </button>
                     </form>

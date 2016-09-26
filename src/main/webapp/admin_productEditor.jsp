@@ -19,7 +19,7 @@
                                     id ${product.id}. ${product.name}
                                 </div>
                                 <div class="col s3">
-                                        ${product.categoryId}. CategoryName
+                                        Category id ${product.categoryId}
                                 </div>
                                 <div class="col s2">
                                     Price : ${product.price} &euro;
