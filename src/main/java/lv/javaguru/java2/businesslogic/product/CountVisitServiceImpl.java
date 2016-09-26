@@ -1,6 +1,5 @@
 package lv.javaguru.java2.businesslogic.product;
 
-import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.CountUsersDAO;
 import lv.javaguru.java2.database.CountVisitorsDAO;
 import lv.javaguru.java2.domain.CountUser;
@@ -20,8 +19,6 @@ import java.util.List;
 @Component
 public class CountVisitServiceImpl implements CountVisitService {
 
-    @Autowired
-    private UserProvider userProvider;
     @Qualifier("ORM_CountVisitorsDAO")
     @Autowired
     private CountVisitorsDAO countVisitorsDAO;
@@ -35,13 +32,12 @@ public class CountVisitServiceImpl implements CountVisitService {
     }
 
     @Override
-    public void countVisit(Product product){
-        if(userProvider.getUser() != null){
+    public void countVisit(Product product, User user) {
+        if (user != null) {
             if(visitedProduct.contains(product.getId())){
                 return;
             }
             visitedProduct.add(product.getId());
-            User user = userProvider.getUser();
             CountUser countUser = countUsersDAO.getCountUserByUserIdProductId(user.getId(), product.getId());
             if(countUser != null){
                 countUser.setCounter(countUser.getCounter() + 1);

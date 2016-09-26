@@ -7,10 +7,7 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.domain.Category;
-import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.Rate;
-import lv.javaguru.java2.domain.Review;
+import lv.javaguru.java2.domain.*;
 import lv.javaguru.java2.dto.ProductCard;
 import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
@@ -54,12 +51,13 @@ public class ProductServiceImpl implements ProductService {
         if (product == null)
             throw new RecordIsNotAvailable();
 
+        User user = userProvider.getUser();
         if (userProvider.authorized())
-            countVisitService.countVisit(product);
+            countVisitService.countVisit(product, user);
         else {
             countVisitService.countVisit(product, ip);
         }
-        if(!rateValidationService.canRate(userProvider.getUser(), id)){
+        if (!rateValidationService.canRate(user, id)) {
             map.put("cantRate",CANT_RATE);
         }
         ProductCard productCard = productCardUtil.build(product);
