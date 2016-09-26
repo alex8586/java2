@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -50,9 +49,8 @@ public class CheckoutController {
     @RequestMapping(method = RequestMethod.POST, name = "buy")
     public String buy(@ModelAttribute ShippingDetails shippingDetails,
                       @RequestParam("hashcode") String hashcode,
-                      @RequestParam("deliveryDate") String deliveryDateString) {
+                      @RequestParam("deliveryDate") String deliveryDate) {
         try {
-            LocalDate deliveryDate = LocalDate.parse(deliveryDateString, formatter);
             Order order = checkoutService.checkout(hashcode,
                     userProvider.getUser(), cartProvider.getCart(),
                     shippingDetails, deliveryDate);

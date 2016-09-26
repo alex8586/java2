@@ -6,5 +6,6 @@ import java.time.LocalDate;
 
 
 public interface DeliveryDateValidationService {
-    void validate(LocalDate delivery_date) throws ServiceException;
+
+    LocalDate validate(String delivery_date) throws ServiceException;
 }

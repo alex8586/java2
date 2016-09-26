@@ -81,12 +81,11 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Transactional(rollbackFor = ServiceException.class)
-    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails, LocalDate deliveryDate) throws ServiceException {
+    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails, String date) throws ServiceException {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-        deliveryDateValidationService.validate(deliveryDate);
-
+        LocalDate deliveryDate = deliveryDateValidationService.validate(date);
         stockService.supply(cart);
         shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();
