@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 public class AdminProductEditor {
@@ -25,22 +26,25 @@ public class AdminProductEditor {
         return model;
     }
 
-    @RequestMapping(value = "product/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/product/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("productId") long productId){
-        System.out.println("=============== productId = " + productId);
         productEditorService.delete(productId);
-        return "redirect:productEditor";
+        return "redirect:/productEditor";
     }
 
-    @RequestMapping(value = "product/edit", method = RequestMethod.POST)
-    public String edit(@ModelAttribute Product product){
-        System.out.println("------------ product id =" + product.getId());
-        System.out.println("------------ product name =" + product.getName());
-        System.out.println("------------ product category id =" + product.getCategoryId() );
-        System.out.println("------------ product price =" + product.getPrice());
-        System.out.println("------------ product imgurl =" + product.getImgUrl());
-        System.out.println("------------ product description =" + product.getDescription());
+    @RequestMapping(value = "/product/edit", method = RequestMethod.POST)
+    public String edit(HttpServletRequest request, @ModelAttribute Product product) {
+        System.out.println(request.getParameterMap());
+
+        for (Map.Entry<String, String[]> stringEntry : request.getParameterMap().entrySet()) {
+            for (String s : stringEntry.getValue()) {
+                System.out.println(stringEntry.getKey() + " " + s);
+            }
+        }
+        System.out.println(product);
+
+        System.out.println(product);
         productEditorService.update(product);
-        return "redirect:productEditor";
+        return "redirect:/productEditor";
     }
 }
