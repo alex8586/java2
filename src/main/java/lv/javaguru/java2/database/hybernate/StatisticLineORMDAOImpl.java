@@ -1,7 +1,7 @@
 package lv.javaguru.java2.database.hybernate;
 
+import lv.javaguru.java2.crossdomain.StatisticLine;
 import lv.javaguru.java2.database.StatisticLineDAO;
-import lv.javaguru.java2.domain.StatisticLine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

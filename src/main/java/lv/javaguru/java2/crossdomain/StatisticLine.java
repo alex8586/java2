@@ -1,4 +1,4 @@
-package lv.javaguru.java2.domain;
+package lv.javaguru.java2.crossdomain;
 
 import org.hibernate.annotations.Immutable;
 
