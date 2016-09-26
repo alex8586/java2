@@ -27,20 +27,13 @@ public class AdminProductEditor {
 
     @RequestMapping(value = "product/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("productId") long productId){
-        System.out.println("=============== productId = " + productId);
         productEditorService.delete(productId);
-        return "redirect:productEditor";
+        return "redirect:/productEditor";
     }
 
     @RequestMapping(value = "product/edit", method = RequestMethod.POST)
     public String edit(@ModelAttribute Product product){
-        System.out.println("------------ product id =" + product.getId());
-        System.out.println("------------ product name =" + product.getName());
-        System.out.println("------------ product category id =" + product.getCategoryId() );
-        System.out.println("------------ product price =" + product.getPrice());
-        System.out.println("------------ product imgurl =" + product.getImgUrl());
-        System.out.println("------------ product description =" + product.getDescription());
         productEditorService.update(product);
-        return "redirect:productEditor";
+        return "redirect:/productEditor";
     }
 }
