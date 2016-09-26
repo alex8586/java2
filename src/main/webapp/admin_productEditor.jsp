@@ -10,34 +10,35 @@
             </div>
             <div class="col s10">
                 <c:if test="${not empty requestScope.productList}">
-                    <ul class="collapsible popout" data-collapsible="accordion">
-                        <c:forEach items="${requestScope.productList}" var="product">
-                        <li>
-                            <div class="collapsible-header grey lighten-4">
-                                <div class="row">
-                                   <div class="col s3">
-                                          id ${product.id}. ${product.name}
-                                    </div>
-                                    <div class="col s3">
-                                            ${product.categoryId}. CategoryName
-                                    </div>
-                                    <div class="col s2">
-                                            Price : ${product.price}
-                                    </div>
-                                    <div class="col s4">
+                <ul class="collapsible popout" data-collapsible="accordion">
+                    <c:forEach items="${requestScope.productList}" var="product">
+                    <li>
+                        <div class="collapsible-header grey lighten-4">
+                            <div class="row">
+                                <div class="col s3">
+                                    id ${product.id}. ${product.name}
+                                </div>
+                                <div class="col s3">
+                                        ${product.categoryId}. CategoryName
+                                </div>
+                                <div class="col s2">
+                                    Price : ${product.price} &euro;
+                                </div>
+                                <div class="col s4">
 
-                                    </div>
                                 </div>
                             </div>
-                            <div class="collapsible-body">
-                                <div class="row" style="height: auto">
-                                    <div class="col s8" style="height: 100%; display: table">
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <form action="<c:url value='/product/edit'/>" method="post">
+                                    <div class="col s8">
                                         <div class="row">
                                             <div class="col s3">
                                                 <br><b>Product name</b>
                                             </div>
                                             <div class="col s9">
-                                                <input value="${product.name}" id="name" type="text" class="validate">
+                                                <input value="${product.name}" type="text" name="name">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -45,11 +46,13 @@
                                                 <br><b>Category</b>
                                             </div>
                                             <div class="col s9">
-                                                <select class="browser-default">
-                                                    <option disabled>${product.categoryId}</option>
-                                                    <c:forEach items="${requestScope.productList}" var="category">
-                                                        <option>${category.categoryId}</option>
-                                                    </c:forEach>
+                                                <select class="browser-default" name="categoryId">
+                                                    <option value="empty">category id = ${product.categoryId}</option>
+                                                    <c:if test="${not empty requestScope.categoryList}">
+                                                        <c:forEach items="${requestScope.categoryList}" var="category">
+                                                            <option value="${category.id}">${category.id}. ${category.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </select>
                                             </div>
                                         </div>
@@ -58,7 +61,7 @@
                                                 <br><b>Image path</b>
                                             </div>
                                             <div class="col s9">
-                                                <input value="${product.imgUrl}" id="ur" type="text" >
+                                                <input value="${product.imgUrl}" type="text" name="ImgUrl">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -66,7 +69,7 @@
                                                 <br><b>Price</b>
                                             </div>
                                             <div class="col s3">
-                                                <input value="${product.price}" id="pric" type="text" class="validate">
+                                                <input value="${product.price}" type="text" name="price">
                                             </div>
                                             <div class="col s6">
                                                 <br>&euro;
@@ -77,8 +80,7 @@
                                                 <br><b>Description</b>
                                             </div>
                                             <div class="col s9">
-                                                <textarea id="commentText" class="materialize-textarea"
-                                                          name="commentText"></textarea>
+                                                <textarea class="materialize-textarea" name="description"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -86,21 +88,23 @@
                                         <br>
                                         <button class="btn waves-effect waves-light blue" type="submit" name="edit">Edit
                                             <i class="material-icons right">description</i>
+                                            <input type="hidden" value="${product.id}" name="id">
                                         </button><br><br>
-                                        <form action="<c:url value='/product/delete'/>" method="post">
-                                            <button class="btn waves-effect waves-light blue" type="submit" name="update">Delete
-                                                <i class="material-icons right">delete</i>
-                                                <input type="hidden" value="${product.id}" name="productId">
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                                </form>
+                                <form action="<c:url value='/product/delete'/>" method="post">
+                                    <button class="btn waves-effect waves-light blue" type="submit" name="update">Delete
+                                        <i class="material-icons right">delete</i>
+                                        <input type="hidden" value="${product.id}" name="productId">
+                                    </button>
+                                </form>
                             </div>
-                        </li>
-                        </c:forEach>
-                    </ul>
-                </c:if>
+                        </div>
             </div>
+            </li>
+            </c:forEach>
+            </ul>
+            </c:if>
+        </div>
         </div>
     </jsp:body>
 </tags:adminTemplate>
