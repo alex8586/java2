@@ -12,6 +12,10 @@ public class CategoryTree implements Iterable<Category> {
     List<Category> asCategoryList;
 
     public CategoryTree(List<Category> categories) {
+        refresh(categories);
+    }
+
+    public void refresh(List<Category> categories) {
         for (Category category : categories) {
             TreeNode<Category> node = new TreeNode<Category>(category);
             nodesById.put(category.getId(), node);
