@@ -1,37 +1,42 @@
-package lv.javaguru.java2.crossdomain;
+package lv.javaguru.java2.domain;
+
+import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
+@Immutable
 @Table(name = "product_statistics")
 public class StatisticLine {
 
-    @Column(name = "product_id")
-    private BigInteger productId;
+    @Id
+    @Column(name = "product_id", updatable = false, nullable = false)
+    private long productId;
+
     @Column(name = "product_name")
     private String productName;
     @Column(name = "category_id")
-    private BigInteger categoryId;
+    private long categoryId;
     @Column(name = "category_name")
     private String categoryName;
     @Column(name = "review_count")
-    private BigInteger reviewCount;
+    private long reviewCount;
     @Column(name = "user_visits")
-    private BigDecimal userVisits;
+    private BigInteger userVisits;
     @Column(name = "visitor_visits")
-    private BigDecimal visitorVisits;
+    private BigInteger visitorVisits;
     @Column(name = "avg_rate")
-    private BigDecimal avgRate;
+    private BigInteger avgRate;
 
-    public BigInteger getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(BigInteger productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
@@ -43,11 +48,11 @@ public class StatisticLine {
         this.productName = productName;
     }
 
-    public BigInteger getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(BigInteger categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -59,35 +64,35 @@ public class StatisticLine {
         this.categoryName = categoryName;
     }
 
-    public BigInteger getReviewCount() {
+    public long getReviewCount() {
         return reviewCount;
     }
 
-    public void setReviewCount(BigInteger reviewCount) {
+    public void setReviewCount(long reviewCount) {
         this.reviewCount = reviewCount;
     }
 
-    public BigDecimal getAvgRate() {
-        return avgRate;
-    }
-
-    public void setAvgRate(BigDecimal avrRate) {
-        this.avgRate = avrRate;
-    }
-
-    public BigDecimal getUserVisits() {
+    public BigInteger getUserVisits() {
         return userVisits;
     }
 
-    public void setUserVisits(BigDecimal userVisits) {
+    public void setUserVisits(BigInteger userVisits) {
         this.userVisits = userVisits;
     }
 
-    public BigDecimal getVisitorVisits() {
+    public BigInteger getVisitorVisits() {
         return visitorVisits;
     }
 
-    public void setVisitorVisits(BigDecimal visitorVisits) {
+    public void setVisitorVisits(BigInteger visitorVisits) {
         this.visitorVisits = visitorVisits;
+    }
+
+    public BigInteger getAvgRate() {
+        return avgRate;
+    }
+
+    public void setAvgRate(BigInteger avgRate) {
+        this.avgRate = avgRate;
     }
 }

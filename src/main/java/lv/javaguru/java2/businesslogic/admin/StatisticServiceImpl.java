@@ -1,7 +1,7 @@
 package lv.javaguru.java2.businesslogic.admin;
 
-import lv.javaguru.java2.crossdomain.StatisticLine;
 import lv.javaguru.java2.database.StatisticLineDAO;
+import lv.javaguru.java2.domain.StatisticLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +22,10 @@ public class StatisticServiceImpl implements StatisticService {
     public Map<String, Object> model(){
         Map<String, Object> model = new HashMap<>();
         List<StatisticLine> list = statisticLineDAO.getAll();
+
+        for (StatisticLine statisticLine : list) {
+            System.out.println(statisticLine);
+        }
         model.put("statisticList", list);
         return model;
     }
@@ -29,54 +33,38 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Map<String, Object> sortBy(String sortValue){
         Map<String, Object> model = new HashMap<>();
+        List<StatisticLine> list = statisticLineDAO.getAll();
+
         if(sortValue.equals("productId")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
-            Collections.sort(list,(StatisticLine l1, StatisticLine l2)
-                    -> l1.getProductId().compareTo(l2.getProductId()));
-            model.put("statisticList", list);
+            Collections.sort(list, (StatisticLine l1, StatisticLine l2) -> Long.valueOf(l1.getProductId()).compareTo(Long.valueOf(l2.getProductId())));
         }
         if(sortValue.equals("productName")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)
                     -> l1.getProductName().compareTo(l2.getProductName()));
-            model.put("statisticList", list);
         }
         if(sortValue.equals("categoryId")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
-            Collections.sort(list,(StatisticLine l1, StatisticLine l2)
-                    -> l1.getCategoryId().compareTo(l2.getCategoryId()));
-            model.put("statisticList", list);
+            Collections.sort(list, (StatisticLine l1, StatisticLine l2) -> Long.valueOf(l1.getCategoryId()).compareTo(Long.valueOf(l2.getCategoryId())));
         }
         if(sortValue.equals("categoryName")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)
                     -> l1.getCategoryName().compareTo(l2.getCategoryName()));
-            model.put("statisticList", list);
         }
         if(sortValue.equals("reviewCount")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
-            Collections.sort(list,(StatisticLine l1, StatisticLine l2)
-                    -> l2.getReviewCount().compareTo(l1.getReviewCount()));
-            model.put("statisticList", list);
+            Collections.sort(list, (StatisticLine l1, StatisticLine l2) -> Long.valueOf(l1.getReviewCount()).compareTo(Long.valueOf(l2.getReviewCount())));
         }
         if(sortValue.equals("userVisits")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)
                     -> l2.getUserVisits().compareTo(l1.getUserVisits()));
-            model.put("statisticList", list);
         }
         if(sortValue.equals("visitorVisits")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)
                     -> l2.getVisitorVisits().compareTo(l1.getVisitorVisits()));
-            model.put("statisticList", list);
         }
         if(sortValue.equals("avgRate")){
-            List<StatisticLine> list = statisticLineDAO.getAll();
             Collections.sort(list,(StatisticLine l1, StatisticLine l2)
                     -> l2.getAvgRate().compareTo(l1.getAvgRate()));
-            model.put("statisticList", list);
         }
+        model.put("statisticList", list);
         return model;
     }
 }
