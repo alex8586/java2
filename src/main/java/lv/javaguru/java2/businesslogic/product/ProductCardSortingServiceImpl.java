@@ -19,12 +19,12 @@ public class ProductCardSortingServiceImpl implements ProductCardSortingService 
     public ProductCardSortingServiceImpl() {
         defaultSortingStrategy = "BYNAME";
 
-        keyToKey.put("byname", "BYNAME");
-        keyToKey.put("byprice", "BYPRICE");
-        keyToKey.put("bystock", "BYSTOCK");
-        keyToKey.put("byrating", "BYRATING");
-        keyToKey.put("byviews", "BYVIEWS");
-        keyToKey.put("bynovelty", "BYNOVELTY");
+        keyToKey.put("A to Z", "BYNAME");
+        keyToKey.put("Cheap first", "BYPRICE");
+        //keyToKey.put("", "BYSTOCK");
+        keyToKey.put("By rating", "BYRATING");
+        keyToKey.put("By views", "BYVIEWS");
+        keyToKey.put("Newest first", "BYNOVELTY");
 
         comparators.put("BYNAME", Comparator.comparing(ProductCard::getProductName));
         comparators.put("BYPRICE", Comparator.comparing(ProductCard::getProductPrice));
@@ -34,14 +34,15 @@ public class ProductCardSortingServiceImpl implements ProductCardSortingService 
         comparators.put("BYNOVELTY", Comparator.comparing(ProductCard::getProductId).reversed());
     }
 
-    public void sort(String publicKey, List<ProductCard> productCards) {
-        String privateKey = keyToKey.getOrDefault(publicKey, defaultSortingStrategy);
-        productCards.sort(comparators.get(privateKey));
+    public void sort(String key, List<ProductCard> productCards) {
+        if (key == null)
+            key = defaultSortingStrategy;
+        productCards.sort(comparators.get(key));
     }
 
-    public void sortReversed(String publicKey, List<ProductCard> productCards) {
-        String privateKey = keyToKey.getOrDefault(publicKey, defaultSortingStrategy);
-        productCards.sort(comparators.get(privateKey).reversed());
+    public void sortReversed(String key, List<ProductCard> productCards) {
+        System.out.println("sorting back");
+        //productCards.sort(comparators.get(key).reversed());
     }
 
     public Map<String, String> sortingStrategies() {

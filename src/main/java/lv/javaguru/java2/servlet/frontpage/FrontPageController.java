@@ -30,6 +30,8 @@ public class FrontPageController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView model(@SessionAttribute(value = "currentCategory", required = false) Category category,
                               @SessionAttribute(value = "sortingStrategy", required = false) String sortBy) {
+
+        System.out.println(sortBy);
         ModelAndView model = new ModelAndView("frontpage");
         Map<String, Object> frontPageData = frontPageService.model(category, sortBy);
         model.addAllObjects(frontPageData);
@@ -47,14 +49,14 @@ public class FrontPageController {
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 
-    @RequestMapping("/category/all")
+    @RequestMapping("/all")
     public ModelAndView all(HttpServletRequest request) {
         request.getSession().removeAttribute("currentCategory");
         request.getSession().removeAttribute("sortingStrategy");
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 
-    @RequestMapping("/category/sortBy/{sortingStrategy}")
+    @RequestMapping("/sortBy/{sortingStrategy}")
     public ModelAndView sortBy(@PathVariable("sortingStrategy") String sortBy, HttpServletRequest request) {
         request.getSession().setAttribute("sortingStrategy", sortBy);
         return SpringPathResolver.redirectTo(FrontPageController.class);

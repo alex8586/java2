@@ -15,9 +15,9 @@
                             <ul class="right hide-on-med-and-down">
                                 <c:forEach items="${requestScope.productCardSortingStrategies}" var="sortingStrategy">
                                     <li>
-                                        <a href="<c:url value="/index/sortBy/${sortingStrategy.key}" />"
+                                        <a href="<c:url value="/index/sortBy/${sortingStrategy.value}" />"
                                            class="html-editor-align-justify blue-text">
-                                                ${sortingStrategy.value}
+                                                ${sortingStrategy.key}
                                         </a>
                                     </li>
                                 </c:forEach>

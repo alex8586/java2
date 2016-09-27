@@ -42,9 +42,8 @@ public class FrontPageServiceImpl implements FrontPageService {
             productList = productService.getByCategory(category);
         }
         List<ProductCard> productCards = productCardUtil.build(productList);
-        map.put("productCards", productCards);
         productCardSortingService.sort(sortingStrategy, productCards);
-
+        map.put("productCards", productCards);
         map.put("productCardSortingStrategies", productCardSortingService.sortingStrategies());
         map.put("rootCategoryNode", categoryTree.getRootNode());
 
