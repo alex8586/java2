@@ -32,7 +32,7 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Autowired
     private ProductCardSortingService productCardSortingService;
 
-    public Map<String, Object> model(Category category) {
+    public Map<String, Object> model(Category category, String sortingStrategy) {
 
         Map<String, Object> map = new HashMap<String, Object>();
         List<Product> productList;
@@ -43,6 +43,8 @@ public class FrontPageServiceImpl implements FrontPageService {
         }
         List<ProductCard> productCards = productCardUtil.build(productList);
         map.put("productCards", productCards);
+        productCardSortingService.sort(sortingStrategy, productCards);
+
         map.put("productCardSortingStrategies", productCardSortingService.sortingStrategies());
         map.put("rootCategoryNode", categoryTree.getRootNode());
 

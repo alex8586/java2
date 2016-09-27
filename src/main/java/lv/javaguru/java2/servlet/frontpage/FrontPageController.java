@@ -28,9 +28,10 @@ public class FrontPageController {
     private CategoryDAO categoryDAO;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView model(@SessionAttribute(value = "currentCategory", required = false) Category category) {
+    public ModelAndView model(@SessionAttribute(value = "currentCategory", required = false) Category category,
+                              @SessionAttribute(value = "sortingStrategy", required = false) String sortBy) {
         ModelAndView model = new ModelAndView("frontpage");
-        Map<String, Object> frontPageData = frontPageService.model(category);
+        Map<String, Object> frontPageData = frontPageService.model(category, sortBy);
         model.addAllObjects(frontPageData);
         return model;
     }
@@ -49,6 +50,13 @@ public class FrontPageController {
     @RequestMapping("/category/all")
     public ModelAndView all(HttpServletRequest request) {
         request.getSession().removeAttribute("currentCategory");
+        request.getSession().removeAttribute("sortingStrategy");
+        return SpringPathResolver.redirectTo(FrontPageController.class);
+    }
+
+    @RequestMapping("/category/sortBy/{sortingStrategy}")
+    public ModelAndView sortBy(@PathVariable("sortingStrategy") String sortBy, HttpServletRequest request) {
+        request.getSession().setAttribute("sortingStrategy", sortBy);
         return SpringPathResolver.redirectTo(FrontPageController.class);
     }
 }
