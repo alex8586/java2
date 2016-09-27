@@ -30,5 +30,4 @@ public class ContactController {
         mov.addAllObjects(cartService.model());
         return mov;
     }
-
 }
