@@ -14,19 +14,34 @@
 <body>
 <%@include file="/includes/header.jsp" %>
 <main>
-
+    <c:if test="${not empty requestScope.error}">
+        <div class="red-text center"><br>
+            <h5>Error: ${requestScope.error}</h5>
+            <hr>
+        </div>
+    </c:if>
+    <c:if test="${not empty requestScope.message}">
+        <div class="blue-text center"><br>
+            <h5>${requestScope.message}</h5>
+            <hr>
+        </div>
+    </c:if>
     <jsp:doBody/>
 
 </main>
 <%@include file="/includes/footer.jsp" %>
 
 <c:url var="js" value="/miskaweb/js/materialize.min.js"/>
-<script type="text/javascript" src="${js}">
-
+<script type="text/javascript" src="${js}"></script>
+<script>
     $(document).ready(function(){
         $('.collapsible').collapsible({
-            accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+            accordion : false
         });
+    });
+
+    $('.datepicker').pickadate({
+        selectMonths: true, selectYears: 2, autoclose: true
     });
 
 </script>

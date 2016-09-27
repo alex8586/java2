@@ -24,11 +24,11 @@ public class DeliveryDateValidationServiceImpl implements DeliveryDateValidation
             throw new ServiceException("All fields must be filled");
         }
         if (delivery_date.compareTo(LocalDate.now()) < 0)
-            throw new ServiceException("Provided delivery date is in the past");
+            throw new ServiceException("Entered date is in the past");
         if (delivery_date.compareTo(LocalDate.now()) > 0)
             return delivery_date;
         if (LocalDateTime.now().getHour() >= CUT_OF_TIME_HOUR)
-            throw new ServiceException("Today's delivery is closed at " + CUT_OF_TIME_HOUR + " o'clock");
+            throw new ServiceException("Working time till " + CUT_OF_TIME_HOUR + " o'clock");
         return delivery_date;
     }
 }

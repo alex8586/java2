@@ -76,7 +76,7 @@
                                                 <br><b>Price</b>
                                             </div>
                                             <div class="col s3">
-                                                <input value="${product.price}" type="text" name="pricex">
+                                                <input value="${product.price}" type="text" name="price">
                                             </div>
                                             <div class="col s6">
                                                 <br>&euro;

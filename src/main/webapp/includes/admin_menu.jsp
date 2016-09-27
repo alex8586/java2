@@ -8,7 +8,7 @@
     <a href="<c:url value='/statistic'/>" class="collection-item blue-text"><h6>Statistic</h6></a>
     <a href="<c:url value='/productEditor'/>" class="collection-item blue-text"><h6>Product Editor</h6></a>
     <a href="<c:url value='/categoryEditor'/>" class="collection-item blue-text"><h6>Category Editor</h6></a>
-    <a href="" class="collection-item blue-text"><h6>Stock</h6></a>
+    <a href="<c:url value='/stockEditor'/>" class="collection-item blue-text"><h6>Stock Editor</h6></a>
     <a href="" class="collection-item blue-text"><h6>Orders</h6></a>
 
 </div>
