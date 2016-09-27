@@ -57,6 +57,10 @@ public class CategoryTree implements Iterable<Category> {
         return nodesByParentId.get(0L).get(0).getInstance();
     }
 
+    public TreeNode<Category> getRootNode() {
+        return nodesByParentId.get(0L).get(0);
+    }
+
     public TreeNode<Category> getNode(Category category) {
         return nodesById.get(category.getId());
     }

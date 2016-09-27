@@ -9,6 +9,23 @@
             </div>
             <div class="col s8">
 
+                <div class="navbar">
+                    <nav>
+                        <div class="nav-wrapper white">
+                            <ul class="right hide-on-med-and-down">
+                                <c:forEach items="${requestScope.productCardSortingStrategies}" var="sortingStrategy">
+                                    <li>
+                                        <a href="<c:url value="/index/sortBy/${sortingStrategy.value}" />"
+                                           class="html-editor-align-justify blue-text">
+                                                ${sortingStrategy.key}
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+
                 <c:forEach items="${requestScope.productCards}" var="productCard">
                     <tags:productCard productCard="${productCard}"/>
                 </c:forEach>

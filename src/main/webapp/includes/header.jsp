@@ -6,7 +6,7 @@
     <nav>
         <div class="row orange">
             <div class="col s3">
-                <a href="<c:url value='/index/category/all'/>" class="brand-logo">
+                <a href="<c:url value='/index/all'/>" class="brand-logo">
                     MISKA
                 </a>
             </div>

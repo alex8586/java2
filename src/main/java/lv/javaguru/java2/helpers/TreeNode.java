@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class TreeNode<Type> {
+public class TreeNode<Type> {
     private final Type instance;
     private TreeNode<Type> parent = null;
     private List<TreeNode<Type>> children = null;

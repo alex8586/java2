@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface FrontPageService {
 
-    Map<String, Object> model(Category category);
+    Map<String, Object> model(Category category, String sortingStrategy);
 
 }

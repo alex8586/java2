@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         List<Review> reviews = product.getReviews();
         reviews.size();
         map.put("reviews", reviews);
-        map.put("categories", categoryTree.asOrderedList());
+        map.put("rootCategoryNode", categoryTree.getRootNode());
         map.putAll(templateService.model(userProvider.getUser()));
         map.putAll(cartService.model());
         System.out.println(map);

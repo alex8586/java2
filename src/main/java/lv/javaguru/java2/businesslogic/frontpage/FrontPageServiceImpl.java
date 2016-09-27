@@ -2,6 +2,7 @@ package lv.javaguru.java2.businesslogic.frontpage;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
+import lv.javaguru.java2.businesslogic.product.ProductCardSortingService;
 import lv.javaguru.java2.businesslogic.product.ProductService;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
@@ -28,8 +29,10 @@ public class FrontPageServiceImpl implements FrontPageService {
     private CartService cartService;
     @Autowired
     private TemplateService templateService;
+    @Autowired
+    private ProductCardSortingService productCardSortingService;
 
-    public Map<String, Object> model(Category category) {
+    public Map<String, Object> model(Category category, String sortingStrategy) {
 
         Map<String, Object> map = new HashMap<String, Object>();
         List<Product> productList;
@@ -38,11 +41,12 @@ public class FrontPageServiceImpl implements FrontPageService {
         } else {
             productList = productService.getByCategory(category);
         }
-
         List<ProductCard> productCards = productCardUtil.build(productList);
-        productCardUtil.addRate(productCards);
-        map.put("categories", categoryTree.asOrderedList());
+        productCardSortingService.sort(sortingStrategy, productCards);
         map.put("productCards", productCards);
+        map.put("productCardSortingStrategies", productCardSortingService.sortingStrategies());
+        map.put("rootCategoryNode", categoryTree.getRootNode());
+
         map.putAll(templateService.model());
         map.putAll(cartService.model());
         return map;
