@@ -50,7 +50,14 @@
                                                     <option value="empty">category id = ${product.categoryId}</option>
                                                     <c:if test="${not empty requestScope.categoryList}">
                                                         <c:forEach items="${requestScope.categoryList}" var="category">
-                                                            <option value="${category.id}">${category.id}. ${category.name}</option>
+                                                            <c:if test="${category.id eq product.categoryId}">
+                                                                <option selected="true"
+                                                                        value="${category.id}">${category.id}. ${category.name}</option>
+                                                            </c:if>
+                                                            <c:if test="${category.id ne product.categoryId}">
+                                                                <option value="${category.id}">${category.id}. ${category.name}</option>
+                                                            </c:if>
+
                                                         </c:forEach>
                                                     </c:if>
                                                 </select>
@@ -61,7 +68,7 @@
                                                 <br><b>Image path</b>
                                             </div>
                                             <div class="col s9">
-                                                <input value="${product.imgUrl}" type="text" name="ImgUrl">
+                                                <input value="${product.imgUrl}" type="text" name="imgUrl">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -69,7 +76,7 @@
                                                 <br><b>Price</b>
                                             </div>
                                             <div class="col s3">
-                                                <input value="${product.price}" type="text" name="price">
+                                                <input value="${product.price}" type="text" name="pricex">
                                             </div>
                                             <div class="col s6">
                                                 <br>&euro;
@@ -90,6 +97,7 @@
                                             <i class="material-icons right">description</i>
                                             <input type="hidden" value="${product.id}" name="id">
                                         </button><br><br>
+
                                 </form>
                                 <form action="<c:url value='/product/delete'/>" method="post">
                                     <button class="btn waves-effect waves-light blue" type="submit" name="update">Delete

@@ -35,8 +35,8 @@ public class ProductEditorServiceImpl implements ProductEditorService {
     @Override
     public void delete(long productId) {
         Product product = productDAO.getById(productId);
-        System.out.println("--------------- product " + product.toString());
         productDAO.delete(product);
+
     }
 
     @Override
