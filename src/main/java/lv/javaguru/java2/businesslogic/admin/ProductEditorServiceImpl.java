@@ -40,11 +40,16 @@ public class ProductEditorServiceImpl implements ProductEditorService {
     public void delete(long productId) {
         Product product = productDAO.getById(productId);
         productDAO.delete(product);
-
     }
 
     @Override
-    public void update(Product product){
-        productDAO.update(product);
+    public void edit(Product product) {
+        Product existingProduct = productDAO.getById(product.getId());
+        existingProduct.setName(product.getName());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setImgUrl(product.getImgUrl());
+        existingProduct.setCategoryId(product.getCategoryId());
+        existingProduct.setPrice(product.getPrice());
+        productDAO.update(existingProduct);
     }
 }

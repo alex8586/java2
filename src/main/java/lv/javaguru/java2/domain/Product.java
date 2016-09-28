@@ -2,6 +2,8 @@ package lv.javaguru.java2.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,10 +19,6 @@ public class Product implements BaseEntity {
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private List<Rate> rates = new ArrayList<>();
-
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +33,14 @@ public class Product implements BaseEntity {
     private long price;
     @Column(name = "imgurl")
     private String imgUrl;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinColumn(name = "product_id")
+    private List<Rate> rates = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
     private List<Stock> stockList = new ArrayList<>();
 
@@ -71,11 +76,9 @@ public class Product implements BaseEntity {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
-
     public List<Rate> getRates() {
         return rates;
     }
-
     public void setRates(List<Rate> rates) {
         this.rates = rates;
     }

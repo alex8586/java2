@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Controller
 public class AdminProductEditor {
@@ -34,17 +33,7 @@ public class AdminProductEditor {
 
     @RequestMapping(value = "/product/edit", method = RequestMethod.POST)
     public String edit(HttpServletRequest request, @ModelAttribute Product product) {
-        System.out.println(request.getParameterMap());
-
-        for (Map.Entry<String, String[]> stringEntry : request.getParameterMap().entrySet()) {
-            for (String s : stringEntry.getValue()) {
-                System.out.println(stringEntry.getKey() + " " + s);
-            }
-        }
-        System.out.println(product);
-
-        System.out.println(product);
-        productEditorService.update(product);
+        productEditorService.edit(product);
         return "redirect:/productEditor";
     }
 }
