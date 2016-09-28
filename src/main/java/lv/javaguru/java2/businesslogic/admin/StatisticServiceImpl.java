@@ -1,7 +1,7 @@
 package lv.javaguru.java2.businesslogic.admin;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
-import lv.javaguru.java2.businesslogic.product.SortingService;
+import lv.javaguru.java2.businesslogic.utils.SortingService;
 import lv.javaguru.java2.crossdomain.StatisticLine;
 import lv.javaguru.java2.database.StatisticLineDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,13 @@ public class StatisticServiceImpl implements StatisticService {
     private StatisticLineDAO statisticLineDAO;
     @Autowired
     private TemplateService templateService;
-
     @Autowired
     private SortingService<StatisticLine> statisticLineSortingService;
+
+    @Override
+    public Map<String, Object> model() {
+        return model(statisticLineSortingService.getDefaultSortingStrategy());
+    }
 
     @Override
     public Map<String, Object> model(String sortBy) {

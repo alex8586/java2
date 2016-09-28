@@ -1,4 +1,4 @@
-package lv.javaguru.java2.businesslogic.product;
+package lv.javaguru.java2.businesslogic.utils;
 
 
 import lv.javaguru.java2.dto.ProductCard;

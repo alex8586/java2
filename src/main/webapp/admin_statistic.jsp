@@ -13,14 +13,13 @@
                 <table class="striped centered">
                     <thead>
                         <tr>
-                            <th data-field="id"><a href="<c:url value='/statistic/sortBy/productId'/>">Product id</a></th>
-                            <th data-field="name"><a href="<c:url value='/statistic/sortBy/productName'/>">Product name</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/categoryId'/>">Category id</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/categoryName'/>">Category name</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/reviewCount'/>">Comments</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/userVisits'/>">User count</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/visitorVisits'/>">Visitor count</a></th>
-                            <th data-field="price"><a href="<c:url value='/statistic/sortBy/avgRate'/>">Rate</a></th>
+                            <c:forEach
+                                    items="Product id,Product name,Category id,Category name,Comments,User count,Visitor count,Rate"
+                                    var="sortBy">
+                                <th>
+                                    <a href="<c:url value='/statistic/sortBy/${requestScope.sortingStrategies[sortBy]}'/>">${sortBy}</a>
+                                </th>
+                            </c:forEach>
                         </tr>
                     </thead>
                     <tbody>

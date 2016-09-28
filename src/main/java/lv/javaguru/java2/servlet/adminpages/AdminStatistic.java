@@ -26,7 +26,7 @@ public class AdminStatistic {
     @RequestMapping(value = "/statistic/sortBy/{sortValue}", method = RequestMethod.GET)
     public ModelAndView statisticSortBy(@PathVariable String sortValue, HttpServletRequest request){
         ModelAndView model = new ModelAndView("/admin_statistic");
-        model.addAllObjects(statisticService.sortBy(sortValue));
+        model.addAllObjects(statisticService.model(sortValue));
         return model;
     }
 }

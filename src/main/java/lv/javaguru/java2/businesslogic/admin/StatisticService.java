@@ -6,4 +6,6 @@ public interface StatisticService {
 
     Map<String, Object> model(String sortBy);
 
+    Map<String, Object> model();
+
 }
