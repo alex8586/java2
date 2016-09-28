@@ -116,7 +116,7 @@
                             </div>
                             <div class="input-field col s12">
                                 <input id="deliveryDate" type="date" class="datepicker" name="deliveryDate">
-                                <label id="deliveryDate_label" for="delivery_date">Delivery Date</label>
+                                <label class="active" for="deliveryDate">Delivery Date</label>
                             </div>
                             <div class="input-field col s12 center-align">
                                 <button class="btn waves-effect waves-light blue" type="submit" name="save" id="save_button">
