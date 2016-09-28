@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic.admin;
 
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.database.CategoryDAO;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
@@ -21,6 +22,8 @@ public class ProductEditorServiceImpl implements ProductEditorService {
     @Autowired
     @Qualifier("ORM_CategoryDAO")
     private CategoryDAO categoryDAO;
+    @Autowired
+    private TemplateService templateService;
 
     @Override
     public Map<String, Object> getProductList(){
@@ -29,6 +32,7 @@ public class ProductEditorServiceImpl implements ProductEditorService {
         List<Category> categories = categoryDAO.getAll();
         map.put("categoryList", categories);
         map.put("productList", products);
+        map.putAll(templateService.model());
         return map;
     }
 

@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic;
 
+import lv.javaguru.java2.businesslogic.admin.AdminOrdersService;
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
@@ -24,6 +25,8 @@ public class TemplateServiceImpl implements TemplateService {
     @Autowired
     private UserProvider userProvider;
 
+    @Autowired
+    private AdminOrdersService adminOrdersService;
 
     @Override
     public Map<String, Object> model() {
@@ -39,6 +42,8 @@ public class TemplateServiceImpl implements TemplateService {
         if (notification.haveMessage())
             map.put("message", notification.getMessage());
         map.put("user", user);
+        int newOrders = adminOrdersService.getNewOrder();
+        map.put("newOrders",newOrders);
         return map;
     }
 

@@ -1,5 +1,6 @@
 package lv.javaguru.java2.businesslogic.admin;
 
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.crossdomain.StatisticLine;
 import lv.javaguru.java2.database.StatisticLineDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,17 @@ import java.util.Map;
 @Component
 public class StatisticServiceImpl implements StatisticService {
 
-    private final static String PRODUCT_NAME = "getProductName()";
-
     @Autowired
     private StatisticLineDAO statisticLineDAO;
+    @Autowired
+    private TemplateService templateService;
 
     @Override
     public Map<String, Object> model(){
         Map<String, Object> model = new HashMap<>();
         List<StatisticLine> list = statisticLineDAO.getAll();
         model.put("statisticList", list);
+        model.putAll(templateService.model());
         return model;
     }
 
@@ -64,6 +66,7 @@ public class StatisticServiceImpl implements StatisticService {
                     -> l2.getAvgRate().compareTo(l1.getAvgRate()));
         }
         model.put("statisticList", list);
+        model.putAll(templateService.model());
         return model;
     }
 }

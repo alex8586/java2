@@ -9,4 +9,6 @@ public interface AdminOrdersService {
     Map<String, Object> getListOrdersSortByStatus();
 
     void acceptOrder(long id);
+
+    int getNewOrder();
 }
