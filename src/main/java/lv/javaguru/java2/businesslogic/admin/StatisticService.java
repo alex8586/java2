@@ -4,7 +4,6 @@ import java.util.Map;
 
 public interface StatisticService {
 
-    Map<String, Object> model();
+    Map<String, Object> model(String sortBy);
 
-    Map<String, Object> sortBy(String sortValue);
 }

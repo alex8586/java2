@@ -2,8 +2,8 @@ package lv.javaguru.java2.businesslogic.frontpage;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.checkout.CartService;
-import lv.javaguru.java2.businesslogic.product.ProductCardSortingService;
 import lv.javaguru.java2.businesslogic.product.ProductService;
+import lv.javaguru.java2.businesslogic.product.SortingService;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.dto.ProductCard;
@@ -30,7 +30,7 @@ public class FrontPageServiceImpl implements FrontPageService {
     @Autowired
     private TemplateService templateService;
     @Autowired
-    private ProductCardSortingService productCardSortingService;
+    private SortingService<ProductCard> productCardSortingService;
 
     public Map<String, Object> model(Category category, String sortingStrategy) {
 
