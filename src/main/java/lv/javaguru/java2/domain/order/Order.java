@@ -13,6 +13,11 @@ import java.util.List;
 @Table(name = "orders")
 public class Order implements BaseEntity, LockedResource {
 
+    private final static String IN_PROGRESS = "In progress";
+    private final static String DONE = "Done";
+    @Transient
+    private boolean isDone = false;
+
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,6 +51,9 @@ public class Order implements BaseEntity, LockedResource {
 
     @Column(name = "security_key")
     private String securityKey;
+
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines = new ArrayList<>();
@@ -133,8 +141,28 @@ public class Order implements BaseEntity, LockedResource {
     public String getSecurityKey() {
         return securityKey;
     }
+
     public void setSecurityKey(String securityKey) {
         this.securityKey = securityKey;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean isDone){
+        if(isDone)
+            this.status = DONE;
+        else
+            this.status = IN_PROGRESS;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 
     @Override

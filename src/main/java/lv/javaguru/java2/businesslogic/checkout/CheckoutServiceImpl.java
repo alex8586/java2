@@ -95,6 +95,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setOrderDate(new Date());
         order.setDeliveryDate(DateUtils.asDate(deliveryDate));
         order.setSecurityKey(lockedResourceAccessService.generateKey());
+        order.setStatus(false);
         orderDAO.create(order);
         cartProvider.empty();
         try {
