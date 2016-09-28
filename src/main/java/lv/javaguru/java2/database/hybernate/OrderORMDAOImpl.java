@@ -83,11 +83,11 @@ public class OrderORMDAOImpl implements OrderDAO {
     }
 
     @Override
-    public long getCountStatusInProgress(){
+    public long getCountStatusInProgress(String value){
         Session session = sessionFactory.getCurrentSession();
         return (long) session.createCriteria(Order.class)
                 .setProjection(Projections.rowCount())
-                .add(Restrictions.eq("status", "In progress"))
+                .add(Restrictions.eq("status", value))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .uniqueResult();
     }

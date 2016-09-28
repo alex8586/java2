@@ -13,6 +13,6 @@ public interface OrderDAO extends CrudDAO<Order> {
 
     List<Order> getAllSortByStatus();
 
-    long getCountStatusInProgress();
+    long getCountStatusInProgress(String value);
 
 }

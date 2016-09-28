@@ -15,6 +15,8 @@ import java.util.Map;
 @Component
 public class TemplateServiceImpl implements TemplateService {
 
+    private final static String IN_PROGRESS = "In progress";
+
     @Autowired
     Notification notification;
 
@@ -42,7 +44,7 @@ public class TemplateServiceImpl implements TemplateService {
         if (notification.haveMessage())
             map.put("message", notification.getMessage());
         map.put("user", user);
-        long newOrders = orderDAO.getCountStatusInProgress();
+        long newOrders = orderDAO.getCountStatusInProgress(IN_PROGRESS);
         map.put("newOrders",newOrders);
         return map;
     }
