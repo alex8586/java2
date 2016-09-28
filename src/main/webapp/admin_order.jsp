@@ -22,11 +22,7 @@
                                 <th>Order date</th>
                                 <th>Delivery date</th>
                                 <th>Total</th>
-                                <th>Status
-                                    <a href="<c:url value='/orders/sortBy/inProgress'/>">
-                                    <i class="material-icons" style="float:left;">keyboard_arrow_down</i>
-                                    </a>
-                                </th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>

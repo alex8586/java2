@@ -11,4 +11,8 @@ public interface OrderDAO extends CrudDAO<Order> {
 
     List<Order> getAllOrderLinesByOrderId(long id);
 
+    List<Order> getAllSortByStatus();
+
+    long getCountStatusInProgress();
+
 }

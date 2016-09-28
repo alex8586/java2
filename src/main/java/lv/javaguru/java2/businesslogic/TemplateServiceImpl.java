@@ -1,9 +1,9 @@
 package lv.javaguru.java2.businesslogic;
 
-import lv.javaguru.java2.businesslogic.admin.AdminOrdersService;
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.SpecialSaleOffer;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
+import lv.javaguru.java2.database.OrderDAO;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +26,7 @@ public class TemplateServiceImpl implements TemplateService {
     private UserProvider userProvider;
 
     @Autowired
-    private AdminOrdersService adminOrdersService;
+    private OrderDAO orderDAO;
 
     @Override
     public Map<String, Object> model() {
@@ -42,7 +42,7 @@ public class TemplateServiceImpl implements TemplateService {
         if (notification.haveMessage())
             map.put("message", notification.getMessage());
         map.put("user", user);
-        int newOrders = adminOrdersService.getNewOrder();
+        long newOrders = orderDAO.getCountStatusInProgress();
         map.put("newOrders",newOrders);
         return map;
     }

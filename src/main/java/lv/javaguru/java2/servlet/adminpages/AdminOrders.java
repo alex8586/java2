@@ -29,10 +29,4 @@ public class AdminOrders {
         return "redirect:/orders";
     }
 
-    @RequestMapping(value = "/orders/sortBy/inProgress")
-    public ModelAndView sort(HttpServletRequest request){
-        ModelAndView model = new ModelAndView("/admin_order");
-        model.addAllObjects(adminOrdersService.getListOrdersSortByStatus());
-        return model;
-    }
 }

@@ -19,7 +19,7 @@ public class AdminOrdersServiceImpl implements AdminOrdersService {
     @Override
     public Map<String, Object> getListOrders(){
         Map<String, Object> map = new HashMap<>();
-        List<Order> orderList = orderDAO.getAll();
+        List<Order> orderList = orderDAO.getAllSortByStatus();
         map.putAll(templateService.model());
         map.put("orderList", orderList);
         return map;
@@ -32,24 +32,4 @@ public class AdminOrdersServiceImpl implements AdminOrdersService {
         orderDAO.update(order);
     }
 
-    @Override
-    public Map<String, Object> getListOrdersSortByStatus(){
-        Map<String, Object> map = new HashMap<>();
-        List<Order> orderList = orderDAO.getAll();
-        Collections.sort(orderList,(Order o1, Order o2) -> o2.getStatus().compareTo(o1.getStatus()));
-        map.put("orderList", orderList);
-        map.putAll(templateService.model());
-        return map;
-    }
-
-    @Override
-    public int getNewOrder(){
-        List<Order> list = orderDAO.getAll();
-        List<Order> listStatusInProgress = new ArrayList<>();
-        for(Order order : list){
-            if(order.getStatus().equals("In progress"))
-                listStatusInProgress.add(order);
-        }
-        return listStatusInProgress.size();
-    }
 }

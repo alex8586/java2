@@ -5,6 +5,7 @@ import lv.javaguru.java2.domain.order.Order;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -70,5 +71,24 @@ public class OrderORMDAOImpl implements OrderDAO {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Order.class)
                 .add(Restrictions.eq("id",id)).list();
+    }
+
+    @Override
+    public List<Order> getAllSortByStatus(){
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Order.class)
+                .addOrder(org.hibernate.criterion.Order.desc("status"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
+
+    @Override
+    public long getCountStatusInProgress(){
+        Session session = sessionFactory.getCurrentSession();
+        return (long) session.createCriteria(Order.class)
+                .setProjection(Projections.rowCount())
+                .add(Restrictions.eq("status", "In progress"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .uniqueResult();
     }
 }
