@@ -35,7 +35,7 @@ public class CountVisitServiceImpl implements CountVisitService {
         }
         visitedProduct.add(product.getId());
         countEntity.setCounter(countEntity.getCounter() + 1);
-        if (countEntity != null) {
+        if (countEntity.getId() > 0) {
             countDAO.update(countEntity);
         } else {
             countEntity.setProductId(product.getId());
@@ -60,6 +60,6 @@ public class CountVisitServiceImpl implements CountVisitService {
             count = new CountVisitor();
             count.setIp(ip);
         }
-        countVisit(product, count, countUsersDAO);
+        countVisit(product, count, countVisitorsDAO);
     }
 }
