@@ -10,5 +10,7 @@ public interface CountUsersDAO extends CrudDAO<CountUser> {
     long getCountByUserId(long userId);
     long getSumCountFromAllTable();
     List getAllCount();
+
+    List getAll();
     CountUser getCountUserByUserIdProductId(long userId, long productId);
 }

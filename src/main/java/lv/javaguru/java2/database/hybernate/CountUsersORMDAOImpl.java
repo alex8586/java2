@@ -49,6 +49,12 @@ public class CountUsersORMDAOImpl implements CountUsersDAO {
     }
 
     @Override
+    public List<CountUser> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        return (List<CountUser>) session.createCriteria(CountUser.class).list();
+    }
+
+    @Override
     public long getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
         Object result = session.createCriteria(CountUser.class)
