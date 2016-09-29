@@ -32,6 +32,7 @@ public class ReviewValidationServiceImpl implements ReviewValidationService {
         for(Review review : reviewList){
             if(review.getDate().compareTo(startOfDay) >= 0) {
                 canComment = false;
+                break;
             }
         }
         return canComment;
