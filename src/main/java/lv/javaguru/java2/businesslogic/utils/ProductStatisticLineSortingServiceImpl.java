@@ -26,9 +26,9 @@ public class ProductStatisticLineSortingServiceImpl extends SortingService<Stati
         comparators.put("BYPRODUCTNAME", Comparator.comparing(StatisticLine::getProductName));
         comparators.put("BYCATEGORYID", Comparator.comparing(StatisticLine::getCategoryId));
         comparators.put("BYCATEGORYNAME", Comparator.comparing(StatisticLine::getCategoryName));
-        comparators.put("BYCOMMENTCOUNT", Comparator.comparing(StatisticLine::getReviewCount));
-        comparators.put("BYREGISTREDVIEWS", Comparator.comparing(StatisticLine::getUserVisits));
-        comparators.put("BYANONIMOUSVIEWS", Comparator.comparing(StatisticLine::getVisitorVisits));
-        comparators.put("BYAVERAGERATING", Comparator.comparing(StatisticLine::getAvgRate));
+        comparators.put("BYCOMMENTCOUNT", Comparator.comparing(StatisticLine::getReviewCount).reversed());
+        comparators.put("BYREGISTREDVIEWS", Comparator.comparing(StatisticLine::getUserVisits).reversed());
+        comparators.put("BYANONIMOUSVIEWS", Comparator.comparing(StatisticLine::getVisitorVisits).reversed());
+        comparators.put("BYAVERAGERATING", Comparator.comparing(StatisticLine::getAvgRate).reversed());
     }
 }
