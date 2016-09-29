@@ -1,6 +1,6 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.profilepages;
 
-import lv.javaguru.java2.businesslogic.profilepages.ProfileUpdateServiceImpl;
+import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;

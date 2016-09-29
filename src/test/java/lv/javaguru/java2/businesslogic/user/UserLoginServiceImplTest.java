@@ -1,10 +1,8 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.user;
 
 import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
-import lv.javaguru.java2.businesslogic.user.UserLoginServiceImpl;
-import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.UserDAO;
 import lv.javaguru.java2.domain.User;
 import org.junit.Before;

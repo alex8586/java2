@@ -1,6 +1,5 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.product;
 
-import lv.javaguru.java2.businesslogic.product.RandomSaleOffer;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Product;

@@ -1,7 +1,5 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.user;
 
-import lv.javaguru.java2.businesslogic.user.UserLogoutService;
-import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.domain.User;
 import org.junit.Test;

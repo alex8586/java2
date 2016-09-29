@@ -1,8 +1,7 @@
-package lv.javaguru.java2.businesslogic;
+package lv.javaguru.java2.businesslogic.validators;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
-import lv.javaguru.java2.businesslogic.validators.UserProfileFormatValidationService;
 import lv.javaguru.java2.config.SpringConfig;
 import lv.javaguru.java2.dto.UserProfile;
 import lv.javaguru.java2.dto.builders.UserProfileUtil;
