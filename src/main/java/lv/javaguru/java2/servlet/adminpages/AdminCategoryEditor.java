@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet.adminpages;
 
 import lv.javaguru.java2.businesslogic.admin.CategoryEditorService;
+import lv.javaguru.java2.businesslogic.validators.AccessDeniedValidator;
 import lv.javaguru.java2.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,14 @@ public class AdminCategoryEditor {
 
     @Autowired
     private CategoryEditorService categoryEditorService;
+    @Autowired
+    private AccessDeniedValidator accessDeniedValidator;
 
     @RequestMapping(value = "/categoryEditor", method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request){
+        if(accessDeniedValidator.isDenied()){
+            return new ModelAndView("/access_denied");
+        }
         ModelAndView model = new ModelAndView("/admin_categoryEditor");
         model.addAllObjects(categoryEditorService.getCategoryList());
         return model;

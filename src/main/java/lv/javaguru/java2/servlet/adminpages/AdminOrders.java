@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet.adminpages;
 
 import lv.javaguru.java2.businesslogic.admin.AdminOrdersService;
+import lv.javaguru.java2.businesslogic.validators.AccessDeniedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +16,17 @@ public class AdminOrders {
 
     @Autowired
     private AdminOrdersService adminOrdersService;
+    @Autowired
+    private AccessDeniedValidator accessDeniedValidator;
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request){
-        ModelAndView model = new ModelAndView("/admin_order");
+        if(accessDeniedValidator.isDenied()){
+            return new ModelAndView("/access_denied");
+        }
+        ModelAndView model = new ModelAndView();
         model.addAllObjects(adminOrdersService.getListOrders());
+        model.setViewName("/admin_order");
         return model;
     }
 

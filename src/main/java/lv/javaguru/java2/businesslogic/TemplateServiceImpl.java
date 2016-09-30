@@ -43,9 +43,14 @@ public class TemplateServiceImpl implements TemplateService {
             map.put("error", notification.getError());
         if (notification.haveMessage())
             map.put("message", notification.getMessage());
-        map.put("user", user);
-        long newOrders = orderDAO.getCountStatusInProgress(IN_PROGRESS);
-        map.put("newOrders",newOrders);
+        if(userProvider.getUser() != null) {
+            if (user.isAdmin()) {
+                map.put("admin", user);
+                long newOrders = orderDAO.getCountStatusInProgress(IN_PROGRESS);
+                map.put("newOrders", newOrders);
+            } else
+                map.put("user", user);
+        }
         return map;
     }
 

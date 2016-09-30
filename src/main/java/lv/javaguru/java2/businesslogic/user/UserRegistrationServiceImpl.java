@@ -20,6 +20,8 @@ import java.util.Map;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final String USER_ALREADY_EXISTS = "User already exists";
+    private final static String ADMIN_EMAIL = "admin@miska.lv";
+    private final static String ADMIN_PASSWORD = "miska";
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -62,7 +64,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
         userProfileFormatValidationService.validate(userProfile);
         User alreadyExists = userDAO.getByEmail(userProfile.getEmail());
-        if (alreadyExists != null) {
+        if (alreadyExists != null || userProfile.getEmail().equals(ADMIN_EMAIL) &&
+                                     userProfile.getPassword().equals(ADMIN_PASSWORD)) {
             throw new ServiceException(USER_ALREADY_EXISTS);
         }
         User newUser = userProfileUtil.buildUser(userProfile);

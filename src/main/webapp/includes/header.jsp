@@ -21,13 +21,19 @@
                         <li><a href="<c:url value='/logout'/>">LOGOUT</a></li>
                         Hi ${sessionScope.user.fullName}!
                     </c:if>
-                    <c:if test="${empty sessionScope.user}">
+                    <c:if test="${not empty requestScope.admin}">
+                        <li><a href="<c:url value='/profile'/>">PROFILE</a></li>
+                        <li><a href="<c:url value='/logout'/>">LOGOUT</a></li>
+                        Hi ${requestScope.admin.fullName}!
+                    </c:if>
+                    <c:if test="${empty requestScope.user and empty requestScope.admin and empty sessionScope.user}">
                         <li><a href="<c:url value='/login'/>">LOGIN</a></li>
                         <li><a href="<c:url value='/registration'/>">REGISTER</a></li>
                     </c:if>
                 </ul>
             </div>
             <div class="col s2" >
+                <c:if test="${not empty requestScope.admin}">
                 <ul class="hide-on-med-and-down">
                     <li class="blue lighten-1">
                         <a href="<c:url value='/orders'/>">
@@ -38,6 +44,7 @@
                         </a>
                     </li>
                 </ul>
+                </c:if>
             </div>
         </div>
     </nav>

@@ -20,6 +20,9 @@ public class User implements BaseEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
     public User() {
     }
 
@@ -59,6 +62,14 @@ public class User implements BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override

@@ -3,6 +3,7 @@ package lv.javaguru.java2.servlet.adminpages;
 import lv.javaguru.java2.businesslogic.admin.StockEditorService;
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
+import lv.javaguru.java2.businesslogic.validators.AccessDeniedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,14 @@ public class AdminStockEditor {
     private StockEditorService stockEditorService;
     @Autowired
     private Notification notification;
+    @Autowired
+    private AccessDeniedValidator accessDeniedValidator;
 
     @RequestMapping(value = "/stockEditor", method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request) {
+        if(accessDeniedValidator.isDenied()){
+            return new ModelAndView("/access_denied");
+        }
         ModelAndView model = new ModelAndView("/admin_stockEditor");
         model.addAllObjects(stockEditorService.getStockList());
         return model;

@@ -44,7 +44,10 @@ public class LoginController {
         try {
             User user = userLoginService.authenticate(email, password);
             userLoginService.login(user);
-            request.getSession().setAttribute("user", user);
+            if(user.isAdmin())
+                request.getSession().setAttribute("admin", user);
+            else
+                request.getSession().setAttribute("user", user);
             return "redirect:/profile";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());

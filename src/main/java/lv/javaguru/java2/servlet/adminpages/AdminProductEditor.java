@@ -1,6 +1,7 @@
 package lv.javaguru.java2.servlet.adminpages;
 
 import lv.javaguru.java2.businesslogic.admin.ProductEditorService;
+import lv.javaguru.java2.businesslogic.validators.AccessDeniedValidator;
 import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,14 @@ public class AdminProductEditor {
 
     @Autowired
     private ProductEditorService productEditorService;
+    @Autowired
+    private AccessDeniedValidator accessDeniedValidator;
 
     @RequestMapping(value = "/productEditor", method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request){
+        if(accessDeniedValidator.isDenied()){
+            return new ModelAndView("/access_denied");
+        }
         ModelAndView model = new ModelAndView("/admin_productEditor");
         model.addAllObjects(productEditorService.getProductList());
         return model;
