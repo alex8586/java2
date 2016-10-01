@@ -120,15 +120,14 @@ public class CountVisitorORMDAOImplTest {
         long count3 = countVisitor3.getCounter();
 
         long total = count1 + count2 + count3;
-        assertTrue(total == countVisitorsORMDAO.getCountByProductId(productId));
+        assertEquals(total, countVisitorsORMDAO.getCountByProductId(productId));
     }
 
     @Test
     public void getCountByIp() {
-        List list = createCountVisitorListWith15Records();
-        CountVisitor countVisitor1 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor2 = (CountVisitor) list.get(random.nextInt(15));
-        CountVisitor countVisitor3 = (CountVisitor) list.get(random.nextInt(15));
+        CountVisitor countVisitor1 = createCountVisitorWithIp(3434);
+        CountVisitor countVisitor2 = createCountVisitorWithIp(6534);;
+        CountVisitor countVisitor3 = createCountVisitorWithIp(90765456);
 
         String ip = countVisitor1.getIp();
         countVisitor2.setIp(ip);
@@ -156,7 +155,7 @@ public class CountVisitorORMDAOImplTest {
     @Test
     public void getAllCountTest() {
         List list = createCountVisitorListWith15Records();
-        List fromDAO = countVisitorsORMDAO.getAllCount();
+        List fromDAO = countVisitorsORMDAO.getAll();
         assertTrue(list.size() == fromDAO.size());
     }
 
@@ -183,7 +182,7 @@ public class CountVisitorORMDAOImplTest {
         return countVisitorsORMDAO.getById(countCustomerId);
     }
 
-    public List createCountVisitorListWith15Records() {
+    public List<CountVisitor> createCountVisitorListWith15Records() {
         List<CountVisitor> list = new LinkedList<>();
         for (int i = 0; i < 15; i++) {
             CountVisitor countVisitor = createCountVisitorWithIp(i);

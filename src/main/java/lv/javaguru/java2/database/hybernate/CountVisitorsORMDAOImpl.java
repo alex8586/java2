@@ -49,12 +49,6 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     }
 
     @Override
-    public List<CountVisitor> getAll() {
-        Session session = sessionFactory.getCurrentSession();
-        return (List<CountVisitor>) session.createCriteria(CountVisitor.class).list();
-    }
-
-    @Override
     public long getCountByProductId(long productId) {
         Session session = sessionFactory.getCurrentSession();
         Object result = session.createCriteria(CountVisitor.class)
@@ -83,7 +77,7 @@ public class CountVisitorsORMDAOImpl implements CountVisitorsDAO {
     }
 
     @Override
-    public List getAllCount() {
+    public List getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(CountVisitor.class).list();
     }

@@ -157,14 +157,6 @@ public class Order implements BaseEntity, LockedResource {
             this.status = IN_PROGRESS;
     }
 
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
-
     @Override
     public String getKey() {
         return getSecurityKey();

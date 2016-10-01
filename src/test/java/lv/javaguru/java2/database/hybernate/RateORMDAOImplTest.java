@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -120,12 +122,31 @@ public class RateORMDAOImplTest extends CrudHybernateDAOTest<Rate, RateDAO> {
         otherRate.setProductId(productId);
         otherRate.setUserId(anotherUser.getId());
         otherRate.setRate(2);
-        System.out.println("product id = " + rate.getProductId());
-        System.out.println("user id = " + rate.getUserId());
         rateDAO.create(otherRate);
 
         double average = rateDAO.getAverageRate(productId);
         assertEquals(3.5, average, 0);
+    }
+
+    @Test
+    public void getByProductIdTest(){
+        long productId = objectCreator.createProduct(objectCreator.createCategory());
+        Rate rate = new Rate();
+        rate.setProductId(productId);
+        rate.setUserId(user.getId());
+        rate.setRate(5);
+        rateDAO.create(rate);
+
+        long otherProductId = objectCreator.createProduct(objectCreator.createCategory());
+        Rate otherRate = new Rate();
+        otherRate.setProductId(otherProductId);
+        otherRate.setUserId(anotherUser.getId());
+        otherRate.setRate(2);
+        rateDAO.create(otherRate);
+
+        List<Rate> result = rateDAO.getByProductId(otherProductId);
+        assertTrue(result.size() == 1);
+        assertEquals(otherProductId, result.get(0).getProductId());
     }
 
 }

@@ -156,7 +156,7 @@ public class CountUserORMDAOImplTest {
     @Test
     public void getAllCountTest() {
         List list = createCountUsersListWith15Records();
-        List fromDAO = countUsersORMDAO.getAllCount();
+        List fromDAO = countUsersORMDAO.getAll();
         assertTrue(list.size() == fromDAO.size());
     }
 

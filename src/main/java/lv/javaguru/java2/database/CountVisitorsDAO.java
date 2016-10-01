@@ -9,7 +9,6 @@ public interface CountVisitorsDAO extends CrudDAO<CountVisitor> {
     long getCountByProductId(long productId);
     long getCountByIp(String ip);
     long getSumCountFromAllTable();
-    List getAllCount();
 
     List getAll();
     CountVisitor getCountUserByUserIpProductId(String ip, long productId);

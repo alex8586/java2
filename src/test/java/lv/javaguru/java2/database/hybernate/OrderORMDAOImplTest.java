@@ -1,10 +1,7 @@
 package lv.javaguru.java2.database.hybernate;
 
 import lv.javaguru.java2.config.SpringConfig;
-import lv.javaguru.java2.database.CategoryDAO;
-import lv.javaguru.java2.database.CrudDAOTest;
-import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.database.UserDAO;
+import lv.javaguru.java2.database.*;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
@@ -24,6 +21,7 @@ import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,14 +35,19 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
     @Autowired
     @Qualifier("ORM_UserDAO")
     UserDAO userDAO;
+    @Qualifier("ORM_CategoryDAO")
+    @Autowired
+    private CategoryDAO categoryDAO;
+    @Autowired
+    private ObjectCreator objectCreator;
+    @Autowired
+    private OrderDAO orderDAO;
+
     private Random random = new Random();
     private Category category;
     private Product product;
     private Product product2;
     private User user;
-    @Qualifier("ORM_CategoryDAO")
-    @Autowired
-    private CategoryDAO categoryDAO;
 
     @Before
     public void before() {
@@ -74,7 +77,6 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         user.setPassword("pass");
         user.setFullName("name");
         userDAO.create(user);
-
 
         super.before();
     }
@@ -164,5 +166,45 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
 
         assertEquals(recordFromDAO.getId(), order.getId());
         assertEquals(recordFromDAO.getOrderLines().size(), order.getOrderLines().size());
+    }
+
+    @Test
+    public void getCountStatusInProgressTest(){
+        objectCreator.createOrder(false);
+        objectCreator.createOrder(true);
+        objectCreator.createOrder(false);
+
+        long countStatus = orderDAO.getCountStatusInProgress("In progress");
+        assertEquals(2, countStatus);
+    }
+
+    @Test
+    public void getAllSortByStatusTest(){
+        objectCreator.createOrder(true);
+        objectCreator.createOrder(false);
+        objectCreator.createOrder(false);
+
+        List<Order> orderList = orderDAO.getAllSortByStatus();
+        for(Order order : orderList){
+            System.out.println(order.getStatus());
+        }
+        assertEquals(3, orderList.size());
+        assertEquals(orderList.get(0).getStatus(), "In progress");
+        assertEquals(orderList.get(1).getStatus(), "In progress");
+        assertNotEquals(orderList.get(2).getStatus(), "In progress");
+    }
+
+    @Test
+    public void getAllOrderLinesByOrderId(){
+        Order order = objectCreator.createOrderWithTwoOrderLineStatusFalse();
+        List<Order> orderList = orderDAO.getAllOrderLinesByOrderId(order.getId());
+        assertEquals(2, orderList.size());
+        List<OrderLine> orderLineList = orderList.get(0).getOrderLines();
+        assertEquals(2, orderLineList.size());
+        for(OrderLine line : orderLineList){
+            assertEquals(order.getId(), line.getOrder().getId());
+            System.out.println(line);
+
+        }
     }
 }

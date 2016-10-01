@@ -1,5 +1,6 @@
 package lv.javaguru.java2.database.hybernate;
 
+import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.domain.Category;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -22,6 +24,10 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
     private CategoryORMDAOImpl categoryDAO;
     @Autowired
     private ProductORMDAOImpl productDAO;
+    @Autowired
+    private ObjectCreator objectCreator;
+    @Autowired
+    private StockDAO stockDAO;
 
     private Category category = new Category();
     private Product product = new Product();
@@ -147,7 +153,18 @@ public class StockORMDAOImplTest extends CrudHybernateDAOTest<Stock, StockORMDAO
         for(Stock stock1 : list){
             assertTrue(stock1.getId() != yesterdayId);
         }
-
     }
 
+    @Test
+    public void allByProduct(){
+        Stock stock = objectCreator.createStock();
+        Product product = productDAO.getById(stock.getProductId());
+        Stock otherStock = objectCreator.createStock();
+        Product otherProduct = productDAO.getById(otherStock.getProductId());
+        assertNotEquals(product, otherProduct);
+
+        List<Stock> list = stockDAO.allByProduct(product);
+        assertTrue(list.size() == 1);
+        assertEquals(list.get(0).getProductId(), product.getId());
+    }
 }
