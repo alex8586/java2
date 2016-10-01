@@ -22,6 +22,7 @@ public class UserDAOImplTest extends CrudJdbcDAOTest<User, UserDAOImpl> {
         user.setEmail("a@b" + random.nextInt(100000) + ".com");
         user.setFullName("Name Surname " + random.nextInt(100000));
         user.setPassword("pass" + random.nextInt(100000));
+        user.setAdmin(false);
     }
 
     @Override

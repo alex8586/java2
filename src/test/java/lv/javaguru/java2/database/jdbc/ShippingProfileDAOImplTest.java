@@ -27,6 +27,7 @@ public class ShippingProfileDAOImplTest extends CrudJdbcDAOTest<ShippingProfile,
         user.setFullName("name");
         user.setEmail("email");
         user.setPassword("pass");
+        user.setAdmin(false);
         userDAO.create(user);
         super.before();
     }

@@ -12,8 +12,8 @@ import java.util.List;
 @Component("JDBC_UserDAO")
 public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
 
-    private final String CREATE_NEW = "INSERT INTO users (name, email, password,id) values(?,?,?,DEFAULT)";
-    private final String UPDATE_BY_ID = "UPDATE users SET name=?, email=?,password=? WHERE id=?";
+    private final String CREATE_NEW = "INSERT INTO users (name, email, password,is_admin,id) values(?,?,?,?,DEFAULT)";
+    private final String UPDATE_BY_ID = "UPDATE users SET name=?, email=?,password=?,is_admin=? WHERE id=?";
     private final String DELETE_BY_ID = "DELETE FROM users WHERE id=?";
     private final String GET_BY_ID = "SELECT * FROM users WHERE id=?";
     private final String GET_ALL = "SELECT * FROM users";
@@ -59,8 +59,9 @@ public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
         preparedStatement.setString(1, user.getFullName());
         preparedStatement.setString(2, user.getEmail());
         preparedStatement.setString(3, user.getPassword());
+        preparedStatement.setBoolean(4, user.isAdmin());
         if (user.getId() != 0)
-            preparedStatement.setLong(4, user.getId());
+            preparedStatement.setLong(5, user.getId());
     }
 
     @Override
@@ -70,6 +71,7 @@ public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
         user.setFullName(resultSet.getString("name"));
         user.setEmail(resultSet.getString("email"));
         user.setPassword(resultSet.getString("password"));
+        user.setAdmin(resultSet.getBoolean("is_admin"));
         return user;
     }
 
