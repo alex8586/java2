@@ -14,6 +14,12 @@ ALTER TABLE categories
 ALTER TABLE products
   AUTO_INCREMENT = 1;
 
+INSERT INTO users (name, email, password, is_admin)
+VALUES ('Administrator',
+        'admin@miska.lv',
+        '$2a$10$SIUx.phy53wIhbM5mQMdwOBjmz9jeQRNQ3RvxohEkXSYTr8nQSIsy', #pass=admin
+        TRUE);
+
 INSERT INTO categories (id, name, father_id) VALUES (default, 'All products', 0);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Fruits', 1);
 INSERT INTO categories (id, name, father_id) VALUES (default, 'Vegetables', 1);
