@@ -3,7 +3,6 @@ package lv.javaguru.java2.businesslogic.admin;
 import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.serviceexception.WrongFieldFormatException;
-import lv.javaguru.java2.businesslogic.validators.DeliveryDateValidationService;
 import lv.javaguru.java2.crossdomain.StockProduct;
 import lv.javaguru.java2.database.StockDAO;
 import lv.javaguru.java2.database.StockProductDAO;
@@ -29,8 +28,6 @@ public class StockEditorServiceImpl implements StockEditorService {
     private StockProductDAO stockProductDAO;
     @Autowired
     private StockDAO stockDAO;
-    @Autowired
-    private DeliveryDateValidationService deliveryDateValidationService;
     @Autowired
     private TemplateService templateService;
 

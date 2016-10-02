@@ -1,15 +1,18 @@
 package lv.javaguru.java2.businesslogic.validators;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Component
 public class DeliveryDateValidationServiceImpl implements DeliveryDateValidationService {
 
-    private static final int CUT_OF_TIME_HOUR = 14;
+    private final int CUT_OF_TIME_HOUR;
+
+    public DeliveryDateValidationServiceImpl(@Value("14") int cutOfTineHour) {
+        CUT_OF_TIME_HOUR = cutOfTineHour;
+    }
 
     @Override
     public LocalDate validate(LocalDate delivery_date) throws ServiceException {
