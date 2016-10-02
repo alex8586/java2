@@ -18,6 +18,10 @@ public class Cart {
         return items;
     }
 
+    public int get(Product product) {
+        return items.getOrDefault(product, 0);
+    }
+
     public long getTotalPrice(Cart cart) {
         long result = 0;
         if (cart == null)

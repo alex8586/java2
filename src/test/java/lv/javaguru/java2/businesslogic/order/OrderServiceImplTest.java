@@ -24,7 +24,7 @@ public class OrderServiceImplTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
     }
-    
+
     @Test
     public void doInvokeDAO() {
         orderService.create(order);
