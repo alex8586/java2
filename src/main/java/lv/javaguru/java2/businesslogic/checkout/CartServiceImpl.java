@@ -58,7 +58,7 @@ public class CartServiceImpl implements CartService {
         if (product == null)
             return;
 
-        int inCart = cart.getAll().getOrDefault(product, 0);
+        int inCart = cart.get(product);
         if (!stockService.isValid(quantity + inCart, product))
             return;
         cart.add(product, quantity);

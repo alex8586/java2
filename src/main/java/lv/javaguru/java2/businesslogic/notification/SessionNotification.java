@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionNotification implements Notification {
 
-    boolean isError = false;
-    boolean isMessage = false;
-
     String error = "";
     String message = "";
+    private boolean isError = false;
+    private boolean isMessage = false;
 
     public boolean haveError() {
         return isError;
@@ -33,15 +32,15 @@ public class SessionNotification implements Notification {
         return error;
     }
 
-    public void setError(Exception e) {
-        setError(e.getMessage());
-    }
-
     public void setError(String error) {
         isError = true;
         isMessage = false;
         this.error = error;
         this.message = "";
+    }
+
+    public void setError(Exception e) {
+        setError(e.getMessage());
     }
 
     public String getMessage() {
