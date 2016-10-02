@@ -19,13 +19,10 @@ public class ProductCardSortingServiceImplTest {
 
     @Mock
     private ProductCard card1;
-
     @Mock
     private ProductCard card2;
-
     @Mock
     private ProductCard card3;
-
     @Mock
     private ProductCard card4;
 
