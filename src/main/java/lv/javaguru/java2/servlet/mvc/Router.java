@@ -41,7 +41,7 @@ public class Router implements Filter {
         addController("/profile/update", ProfileUpdateController.class);
         addController("/product", ProductController.class);
         addController("/product/rate", RateController.class);
-        addController("/product/comment", CommentController.class);
+        addController("/product/review", ReviewController.class);
         addController("/contacts", ContactController.class);
         addController("/profile/shippingProfiles", ShippingProfileController.class);
         //addController("/profile/shippingProfiles/delete", ShippingProfileDeleteController.class);

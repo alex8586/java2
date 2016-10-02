@@ -2,8 +2,8 @@ package lv.javaguru.java2.servlet;
 
 import lv.javaguru.java2.businesslogic.notification.Notification;
 import lv.javaguru.java2.businesslogic.product.ReviewService;
+import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
-import lv.javaguru.java2.businesslogic.validators.ReviewValidationService;
 import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.servlet.mvc.MVCController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +13,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class CommentController extends MVCController {
+public class ReviewController extends MVCController {
 
-    private static final String NO_PERMISSION_TO_COMMENT = "You have no permission to comment";
+    private static final String NO_PERMISSION_TO_COMMENT = "You have no permission to review";
     private static final String EMPTY_COMMENT = "Comment can't be empty";
-    private static final String CAN_NOT_COMMENT_TODAY = "Not allowed to comment twice per day";
+
     @Autowired
     Notification notification;
     @Autowired
     private UserProvider userProvider;
     @Autowired
-    private ReviewValidationService reviewValidationService;
-    @Autowired
     private ReviewService reviewService;
 
     @RequestMapping(value = "/product/comment", method = RequestMethod.POST)
-    protected String comment(
+    protected String review(
             @RequestParam("productId") long productId,
             @RequestParam("commentText") String comment) {
         if (comment == null)
@@ -43,11 +41,12 @@ public class CommentController extends MVCController {
         }
 
         User user = userProvider.getUser();
-        if (!reviewValidationService.canComment(user, productId)) {
-            notification.setError(CAN_NOT_COMMENT_TODAY);
+        try {
+            reviewService.addComment(productId, user, comment);
             return "redirect:/product/" + productId;
+        } catch (ServiceException e) {
+            notification.setError(e);
         }
-        reviewService.addComment(productId, user, comment);
         return "redirect:/product/" + productId;
     }
 }

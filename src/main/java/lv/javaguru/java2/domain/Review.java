@@ -21,7 +21,7 @@ public class Review implements BaseEntity {
     @Column(name = "product_id")
     public long productId;
 
-    @Column(name = "comment")
+    @Column(name = "review")
     public String comment;
 
     @Column(name = "user_name")
@@ -85,7 +85,7 @@ public class Review implements BaseEntity {
                 "id=" + id +
                 ", userId=" + userId +
                 ", productId=" + productId +
-                ", comment='" + comment + '\'' +
+                ", review='" + comment + '\'' +
                 ", date=" + date +
                 '}';
     }
