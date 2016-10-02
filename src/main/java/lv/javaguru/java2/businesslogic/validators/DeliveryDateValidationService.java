@@ -7,5 +7,5 @@ import java.time.LocalDate;
 
 public interface DeliveryDateValidationService {
 
-    LocalDate validate(String delivery_date) throws ServiceException;
+    LocalDate validate(LocalDate delivery_date) throws ServiceException;
 }
