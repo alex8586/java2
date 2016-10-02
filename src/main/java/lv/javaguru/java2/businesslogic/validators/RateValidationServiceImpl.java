@@ -7,17 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RateValidationServiceImpl implements RateValidationService{
+public class RateValidationServiceImpl implements RateValidationService {
 
     @Autowired
     private RateDAO rateDAO;
 
     @Override
-    public boolean canRate(User user, long productId){
-        if (user == null || productId == 0)
-            return false;
-
-        Rate rate = rateDAO.getByUserIdAndProductId(user.getId(), productId);
-        return rate == null;
+    public boolean canRate(User user, long productId) {
+        Rate existingRate = rateDAO.getByUserIdAndProductId(user.getId(), productId);
+        return existingRate == null;
     }
 }
