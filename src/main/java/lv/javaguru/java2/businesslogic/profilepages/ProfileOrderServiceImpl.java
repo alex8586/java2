@@ -25,7 +25,6 @@ public class ProfileOrderServiceImpl implements ProfileOrderService {
     @Override
     public Map<String, Object> getById(long orderId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("orderLine", orderDAO.getAllOrderLinesByOrderId(orderId));
         map.put("order", orderDAO.getById(orderId));
         map.putAll(templateService.model());
         return map;
