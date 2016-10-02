@@ -87,7 +87,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         LocalDate delivery_date = DateUtils.asLocalDate(date, formatter);
         deliveryDateValidationService.validate(delivery_date);
-        
+
         stockService.supply(cart);
         shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();

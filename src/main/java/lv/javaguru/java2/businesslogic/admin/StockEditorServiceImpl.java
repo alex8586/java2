@@ -13,14 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
 public class StockEditorServiceImpl implements StockEditorService {
 
     private final static String WRONG_NUMBER_FORMAT = "Quantity must be numbers";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
     private final String EMPTY_FIELDS = "All fields must be filled";
     @Autowired
     private StockProductDAO stockProductDAO;
@@ -50,7 +53,7 @@ public class StockEditorServiceImpl implements StockEditorService {
         }catch (NumberFormatException e){
             throw new ServiceException(WRONG_NUMBER_FORMAT);
         }
-        LocalDate date = deliveryDateValidationService.validate(expireDate);
+        LocalDate date = DateUtils.asLocalDate(expireDate, formatter);
         Stock stock = stockDAO.getById(stockId);
         stock.setQuantity(amount);
         stock.setExpireDate(DateUtils.asDate(date));
