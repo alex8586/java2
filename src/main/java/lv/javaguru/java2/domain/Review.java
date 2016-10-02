@@ -22,7 +22,7 @@ public class Review implements BaseEntity {
     public long productId;
 
     @Column(name = "review")
-    public String comment;
+    public String review;
 
     @Column(name = "user_name")
     public String userName;
@@ -55,12 +55,12 @@ public class Review implements BaseEntity {
         this.productId = productId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getReview() {
+        return review;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setReview(String comment) {
+        this.review = comment;
     }
 
     public Date getDate() {
@@ -85,7 +85,7 @@ public class Review implements BaseEntity {
                 "id=" + id +
                 ", userId=" + userId +
                 ", productId=" + productId +
-                ", review='" + comment + '\'' +
+                ", review='" + review + '\'' +
                 ", date=" + date +
                 '}';
     }
@@ -102,7 +102,7 @@ public class Review implements BaseEntity {
                 .append(id, review.id)
                 .append(userId, review.userId)
                 .append(productId, review.productId)
-                .append(comment, review.comment)
+                .append(this.review, review.review)
                 .append(userName, review.userName)
                 .append(date, review.date)
                 .isEquals();
@@ -114,7 +114,7 @@ public class Review implements BaseEntity {
                 .append(id)
                 .append(userId)
                 .append(productId)
-                .append(comment)
+                .append(review)
                 .append(userName)
                 .append(date)
                 .toHashCode();
