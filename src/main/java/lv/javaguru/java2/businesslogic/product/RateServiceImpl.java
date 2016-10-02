@@ -1,6 +1,6 @@
 package lv.javaguru.java2.businesslogic.product;
 
-import lv.javaguru.java2.businesslogic.serviceexception.RecordIsNotAvailable;
+import lv.javaguru.java2.businesslogic.serviceexception.IllegalRequestException;
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.validators.RateFormatValidationService;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
@@ -29,8 +29,8 @@ public class RateServiceImpl implements RateService {
     public void rate(long productId, User user, int rate) throws ServiceException {
         rateFormatValidationService.validate(rate);
 
-        if (user == null || productId == 0)
-            throw new RecordIsNotAvailable();
+        if (user == null)
+            throw new IllegalRequestException();
 
         if (!rateValidationService.canRate(user, productId))
             throw new ServiceException(CAN_NOT_RATE);
