@@ -23,16 +23,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Component
 public class CheckoutServiceImpl implements CheckoutService {
 
     private static final String CART_CONTENT_HAS_CHANGED = "Cart content changed";
     private static final String EMPTY_CART = "Cart is empty";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
     @Autowired
     OrderUtil orderUtil;
     @Autowired
@@ -85,7 +84,10 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-        LocalDate deliveryDate = deliveryDateValidationService.validate(date);
+
+        LocalDate delivery_date = DateUtils.asLocalDate(date, formatter);
+        deliveryDateValidationService.validate(delivery_date);
+        
         stockService.supply(cart);
         shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();
@@ -93,7 +95,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
         order.setOrderDate(new Date());
-        order.setDeliveryDate(DateUtils.asDate(deliveryDate));
+        order.setDeliveryDate(DateUtils.asDate(delivery_date));
         order.setSecurityKey(lockedResourceAccessService.generateKey());
         order.setStatus(false);
         orderDAO.create(order);
