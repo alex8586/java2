@@ -42,7 +42,7 @@ public class ReviewController extends MVCController {
 
         User user = userProvider.getUser();
         try {
-            reviewService.addComment(productId, user, comment);
+            reviewService.addReview(productId, user, comment);
             return "redirect:/product/" + productId;
         } catch (ServiceException e) {
             notification.setError(e);
