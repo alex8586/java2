@@ -58,27 +58,22 @@ public class ProductServiceImpl implements ProductService {
             countVisitService.countVisit(product, ip);
         }
 
-        if (rateValidationService.canRate(user, id)) {
-            map.put("cantRate",CANT_RATE);
-        }
-
-
         ProductCard productCard = productCardUtil.build(product);
         List<Rate> rates = product.getRates();
         rates.size();
         productCardUtil.build(productCard, product.getRates());
-
         productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
+        if (rateValidationService.canRate(user, id)) {
+            map.put("cantRate", CANT_RATE);
+        }
         List<Review> reviews = product.getReviews();
         reviews.size();
         map.put("reviews", reviews);
         map.put("rootCategoryNode", categoryTree.getRootNode());
         map.putAll(templateService.model(userProvider.getUser()));
         map.putAll(cartService.model());
-        System.out.println(map);
-
         return map;
     }
 
