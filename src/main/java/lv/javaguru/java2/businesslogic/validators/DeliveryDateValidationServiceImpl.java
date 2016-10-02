@@ -12,7 +12,7 @@ import java.util.Locale;
 @Component
 public class DeliveryDateValidationServiceImpl implements DeliveryDateValidationService {
 
-    private static final int CUT_OF_TIME_HOUR = 17;
+    private static final int CUT_OF_TIME_HOUR = 14;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
 
     @Override
