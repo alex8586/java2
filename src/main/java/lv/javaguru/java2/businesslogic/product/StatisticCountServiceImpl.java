@@ -15,11 +15,8 @@ public class StatisticCountServiceImpl implements StatisticCountService {
 
     @Override
     public long getProductViews(long productId) {
-        long viewsVisitors;
-        long viewsUsers;
-
-        viewsVisitors = countVisitorsDAO.getCountByProductId(productId);
-        viewsUsers = countUsersDAO.getCountByProductId(productId);
+        long viewsVisitors = countVisitorsDAO.getCountByProductId(productId);
+        long viewsUsers = countUsersDAO.getCountByProductId(productId);
         return viewsUsers + viewsVisitors;
     }
 }
