@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 
 public class RateValidationServiceImplTest {
 
-
     @InjectMocks
     RateValidationServiceImpl rateValidationService;
     @Mock
@@ -42,6 +41,4 @@ public class RateValidationServiceImplTest {
         Mockito.doReturn(null).when(rateDAO).getByUserIdAndProductId(1, 1);
         assertTrue(rateValidationService.canRate(user, 1));
     }
-
-
 }

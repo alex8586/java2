@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfileOrderValidationServiceImpl implements ProfileOrderValidationService {
+public class OrderAccessValidationServiceImpl implements OrderAccessValidationService {
 
     @Autowired
     LockedResourceAccessService lockedResourceAccessService;
@@ -16,7 +16,7 @@ public class ProfileOrderValidationServiceImpl implements ProfileOrderValidation
     @Override
     public boolean isValid(long orderId, long userId){
         Order order = orderDAO.getById(orderId);
-        return order != null && order.getId() == userId;
+        return order != null && order.getUserId() == userId;
     }
 
     @Override

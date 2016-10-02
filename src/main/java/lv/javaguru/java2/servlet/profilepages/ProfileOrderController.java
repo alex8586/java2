@@ -2,7 +2,7 @@ package lv.javaguru.java2.servlet.profilepages;
 
 import lv.javaguru.java2.businesslogic.profilepages.ProfileOrderService;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
-import lv.javaguru.java2.businesslogic.validators.ProfileOrderValidationService;
+import lv.javaguru.java2.businesslogic.validators.OrderAccessValidationService;
 import lv.javaguru.java2.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class ProfileOrderController {
     @Autowired
     private ProfileOrderService profileOrderService;
     @Autowired
-    private ProfileOrderValidationService profileOrderValidationService;
+    private OrderAccessValidationService orderAccessValidationService;
     @Autowired
     private UserProvider userProvider;
 
@@ -27,7 +27,7 @@ public class ProfileOrderController {
         if (!userProvider.authorized())
             return new ModelAndView("redirect:/index");
         User user = userProvider.getUser();
-        if(!profileOrderValidationService.isValid(orderId, user.getId())){
+        if (!orderAccessValidationService.isValid(orderId, user.getId())) {
             return new ModelAndView("redirect:/index");
         }
         model.addAllObjects(profileOrderService.getById(orderId));
@@ -39,7 +39,7 @@ public class ProfileOrderController {
                               @PathVariable("key") String key) {
         if (userProvider.authorized())
             return new ModelAndView("redirect:/index");
-        if (!profileOrderValidationService.isValid(orderId, key)) {
+        if (!orderAccessValidationService.isValid(orderId, key)) {
             return new ModelAndView("redirect:/index");
         }
         ModelAndView model = new ModelAndView("/profile_order");
