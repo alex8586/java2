@@ -66,7 +66,7 @@ public class ReviewORMDAOImplTest extends CrudHybernateDAOTest<Review, ReviewDAO
         review.setUserId(user.getId());
         review.setProductId(product.getId());
         review.setUserName(user.getFullName());
-        review.setComment("comment");
+        review.setComment("review");
         review.setDate(new Date());
     }
 
@@ -75,7 +75,7 @@ public class ReviewORMDAOImplTest extends CrudHybernateDAOTest<Review, ReviewDAO
         review.setUserId(anotherUser.getId());
         review.setProductId(anotherProduct.getId());
         review.setUserName(anotherUser.getFullName());
-        review.setComment("new comment");
+        review.setComment("new review");
         review.setDate(new Date(date.getTime() + (60 * 60 * 24)));
     }
 

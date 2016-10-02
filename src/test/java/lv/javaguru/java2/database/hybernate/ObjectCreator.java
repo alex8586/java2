@@ -69,7 +69,7 @@ public class ObjectCreator {
         review.setUserId(createUser());
         review.setProductId(createProduct(createCategory()));
         review.setUserName("userName" + random.nextInt(100000));
-        review.setComment("comment" + random.nextInt(100000));
+        review.setComment("review" + random.nextInt(100000));
         review.setDate(new Date());
         return reviewDAO.create(review);
     }
