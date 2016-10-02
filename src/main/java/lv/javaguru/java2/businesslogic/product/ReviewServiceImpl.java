@@ -24,7 +24,7 @@ public class ReviewServiceImpl implements ReviewService {
     private ReviewValidationService reviewValidationService;
 
     @Override
-    public void addComment(long productId, User user, String reviewText) throws ServiceException {
+    public void addReview(long productId, User user, String reviewText) throws ServiceException {
 
         if (reviewText.isEmpty())
             throw new WrongFieldFormatException(WRONG_FIELD_FORMAT);
