@@ -13,15 +13,17 @@ public abstract class SortingService<T> {
     protected String defaultSortingStrategy;
 
     public void sort(String key, List<T> list) {
-        if (key == null)
-            key = defaultSortingStrategy;
-        list.sort(comparators.get(key));
+        Comparator comparator = comparators.get(key);
+        if (comparator == null)
+            comparator = comparators.get(defaultSortingStrategy);
+        list.sort(comparator);
     }
 
     public void sortReversed(String key, List<T> list) {
-        if (key == null)
-            key = defaultSortingStrategy;
-        list.sort(comparators.get(key).reversed());
+        Comparator comparator = comparators.get(key);
+        if (comparator == null)
+            comparator = comparators.get(defaultSortingStrategy);
+        list.sort(comparator.reversed());
     }
 
     public Map<String, String> sortingStrategies() {
