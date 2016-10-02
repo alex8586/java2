@@ -2,10 +2,12 @@ package lv.javaguru.java2.businesslogic.validators;
 
 import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Component
 public class DeliveryDateValidationServiceImpl implements DeliveryDateValidationService {
 
     private final int CUT_OF_TIME_HOUR;

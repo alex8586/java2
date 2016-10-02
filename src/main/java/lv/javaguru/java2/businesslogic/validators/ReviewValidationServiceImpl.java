@@ -26,16 +26,17 @@ public class ReviewValidationServiceImpl implements ReviewValidationService {
     public boolean canComment(User user, long productId) {
         Product product = productDAO.getById(productId);
         List<Review> reviewList = reviewDAO.getByUserAndProduct(product, user);
-        boolean canComment = true;
+
+        if (user.isAdmin())
+            return true;
 
         Date startOfDay = getStartOfDay(new Date());
         for(Review review : reviewList){
             if(review.getDate().compareTo(startOfDay) >= 0) {
-                canComment = false;
-                break;
+                return false;
             }
         }
-        return canComment;
+        return true;
     }
 
     private Date getStartOfDay(Date date) {
