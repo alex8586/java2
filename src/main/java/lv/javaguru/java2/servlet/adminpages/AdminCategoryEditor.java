@@ -37,9 +37,17 @@ public class AdminCategoryEditor {
         return "redirect:/categoryEditor";
     }
 
+    @RequestMapping(value = "category/addChild", method = RequestMethod.POST)
+    public String addChild(@RequestParam("fatherId") long fatherId) {
+        categoryEditorService.addChild(fatherId);
+        return "redirect:/categoryEditor";
+    }
+
     @RequestMapping(value = "category/edit", method = RequestMethod.POST)
     public String edit(@ModelAttribute Category category){
         categoryEditorService.edit(category);
         return "redirect:/categoryEditor";
     }
+
+
 }

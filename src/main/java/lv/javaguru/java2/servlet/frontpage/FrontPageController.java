@@ -42,7 +42,7 @@ public class FrontPageController {
     public ModelAndView chooseCategory(@PathVariable("id") long id, HttpServletRequest request) {
         Category category = categoryDAO.getById(id);
         if (category != null) {
-            if (category.getFather_id() == 0)
+            if (category.getFatherId() == 0)
                 request.getSession().removeAttribute("currentCategory");
             request.getSession().setAttribute("currentCategory", category);
         }

@@ -39,7 +39,7 @@
                                     <button class="btn waves-effect waves-light blue" type="submit">Edit
                                         <i class="material-icons right">description</i>
                                         <input type="hidden" value="${category.id}" name="id">
-                                        <input type="hidden" value="${category.father_id}" name="father_id">
+                                        <input type="hidden" value="${category.fatherId}" name="father_id">
                                     </button>
                                 </div>
                                 </form>
@@ -54,6 +54,14 @@
                                         <button class="btn waves-effect waves-light blue" type="submit" name="delete">Delete
                                             <i class="material-icons right">delete</i>
                                             <input type="hidden" value="${category.id}" name="deleteId">
+                                        </button>
+                                    </form>
+                                    <br>
+                                    <form action="<c:url value='/category/addChild'/> " method="post">
+                                        <button class="btn waves-effect waves-light blue" type="submit" name="addChild">
+                                            Add Child
+                                            <i class="material-icons right">playlist_add</i>
+                                            <input type="hidden" value="${category.id}" name="fatherId">
                                         </button>
                                     </form>
                                 </div>

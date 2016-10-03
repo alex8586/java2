@@ -21,7 +21,7 @@ public class Category implements BaseEntity {
 
     @Column(name = "father_id")
 
-    private long father_id;
+    private long fatherId;
 
     public Category() {
     }
@@ -42,17 +42,17 @@ public class Category implements BaseEntity {
         this.id = id;
     }
 
-    public long getFather_id() {
-        return father_id;
+    public long getFatherId() {
+        return fatherId;
     }
 
-    public void setFather_id(long father_id) {
-        this.father_id = father_id;
+    public void setFatherId(long fatherId) {
+        this.fatherId = fatherId;
     }
 
     @Override
     public String toString() {
-        return "Category{" + "id=" + id + ", name='" + name + "',fid= " + father_id + '}';
+        return "Category{" + "id=" + id + ", name='" + name + "',fid= " + fatherId + '}';
     }
 
     @Override

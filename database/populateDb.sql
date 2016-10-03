@@ -161,7 +161,7 @@ INSERT INTO stock (product_id, quantity, expire_date)
     '2017-01-22'
   FROM products;
 
-INSERT INTO reviews (product_id, user_id, user_name, comment, date)
+INSERT INTO reviews (product_id, user_id, user_name, review, date)
   SELECT
     products.id,
     (SELECT users.id

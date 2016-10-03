@@ -10,5 +10,6 @@ public interface CategoryEditorService {
 
     void delete(long categoryId);
 
+    void addChild(long categoryId);
     void edit(Category category);
 }

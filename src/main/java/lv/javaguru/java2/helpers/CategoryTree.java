@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class CategoryTree implements Iterable<Category> {
 
-    Map<Long, TreeNode<Category>> nodesById = new HashMap<Long, TreeNode<Category>>();
-    Map<Long, List<TreeNode<Category>>> nodesByParentId = new HashMap<>();
+    Map<Long, TreeNode<Category>> nodesById;
+    Map<Long, List<TreeNode<Category>>> nodesByParentId;
     List<Category> asCategoryList;
 
     public CategoryTree(List<Category> categories) {
@@ -16,15 +16,18 @@ public class CategoryTree implements Iterable<Category> {
     }
 
     public void refresh(List<Category> categories) {
+        nodesById = new HashMap<Long, TreeNode<Category>>();
+        nodesByParentId = new HashMap<>();
+        asCategoryList = null;
         for (Category category : categories) {
             TreeNode<Category> node = new TreeNode<Category>(category);
             nodesById.put(category.getId(), node);
-            if (nodesByParentId.containsKey(category.getFather_id())) {
-                nodesByParentId.get(category.getFather_id()).add(node);
+            if (nodesByParentId.containsKey(category.getFatherId())) {
+                nodesByParentId.get(category.getFatherId()).add(node);
             } else {
                 List<TreeNode<Category>> children = new ArrayList<TreeNode<Category>>();
                 children.add(node);
-                nodesByParentId.put(category.getFather_id(), children);
+                nodesByParentId.put(category.getFatherId(), children);
             }
         }
         registerNodeParents();
@@ -88,7 +91,7 @@ public class CategoryTree implements Iterable<Category> {
         for (Map.Entry<Long, TreeNode<Category>> entry : nodesById.entrySet()) {
             TreeNode<Category> node = entry.getValue();
             Category instance = node.getInstance();
-            TreeNode<Category> parent = nodesById.get(instance.getFather_id());
+            TreeNode<Category> parent = nodesById.get(instance.getFatherId());
             node.setParent(parent);
         }
     }
