@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Table(name = "products")
 public class Product implements BaseEntity {
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
@@ -34,12 +34,12 @@ public class Product implements BaseEntity {
     @Column(name = "imgurl")
     private String imgUrl;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
     private List<Rate> rates = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
     private List<Stock> stockList = new ArrayList<>();
