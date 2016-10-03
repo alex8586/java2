@@ -1,6 +1,7 @@
 package lv.javaguru.java2.dto.builders;
 
 import lv.javaguru.java2.businesslogic.product.RateService;
+import lv.javaguru.java2.businesslogic.product.StatisticCountService;
 import lv.javaguru.java2.database.RateDAO;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Rate;
@@ -20,6 +21,8 @@ public class ProductCardUtil {
     private RateService rateService;
     @Autowired
     private RateDAO rateDAO;
+    @Autowired
+    private StatisticCountService statisticCountService;
 
     public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
@@ -44,6 +47,7 @@ public class ProductCardUtil {
         }
         productCard.setStockQuantity(quantity);
         productCard.setStockExpireDate(expireDate);
+        productCard.setViewCount(statisticCountService.getProductViews(product.getId()));
         return productCard;
     }
 
