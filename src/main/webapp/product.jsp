@@ -110,7 +110,7 @@
                                 <c:forEach items="${requestScope.reviews}" var="review">
                                     <li class="collection-item"
                                         style="background-color: lightgray">${review.userName}, ${review.date}</li>
-                                    <li class="collection-item">${review.comment}</li>
+                                    <li class="collection-item">${review.review}</li>
                                 </c:forEach>
                             </ul>
                         </div>

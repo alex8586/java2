@@ -41,4 +41,9 @@ public class RateValidationServiceImplTest {
         Mockito.doReturn(null).when(rateDAO).getByUserIdAndProductId(1, 1);
         assertTrue(rateValidationService.canRate(user, 1));
     }
+
+    @Test
+    public void returnFalseWhenUserNotLogged(){
+        assertFalse(rateValidationService.canRate(null, 3));
+    }
 }
