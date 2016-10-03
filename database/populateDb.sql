@@ -161,7 +161,34 @@ INSERT INTO stock (product_id, quantity, expire_date)
     '2017-01-22'
   FROM products;
 
+INSERT INTO reviews (product_id, user_id, user_name, comment, date)
+  SELECT
+    products.id,
+    (SELECT users.id
+     FROM users
+     WHERE name = "Administrator"),
+    "Adm",
+    "review",
+    (SELECT sysdate()
+     FROM dual)
+  FROM products;
 
+INSERT INTO rate (product_id, user_id, rate)
+  SELECT
+    products.id,
+    (SELECT users.id
+     FROM users
+     WHERE name = "Administrator"),
+    3
+  FROM products;
+INSERT INTO rate (product_id, user_id, rate)
+  SELECT
+    products.id,
+    (SELECT users.id
+     FROM users
+     WHERE name = "Administrator"),
+    (products.id % 5) + 1
+  FROM products;
 
 
 
