@@ -35,13 +35,11 @@ public class Product implements BaseEntity {
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
     private List<Stock> stockList = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @Fetch(value = FetchMode.SUBSELECT)
-    @JoinColumn(name = "product_id")
-    private List<Rate> rates = new ArrayList<>();
+    
     @OneToOne(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.JOIN)
     @PrimaryKeyJoinColumn
@@ -79,14 +77,6 @@ public class Product implements BaseEntity {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    }
-
-    public List<Rate> getRates() {
-        return rates;
-    }
-
-    public void setRates(List<Rate> rates) {
-        this.rates = rates;
     }
 
     public StatisticLine getProductStatisticLine() {

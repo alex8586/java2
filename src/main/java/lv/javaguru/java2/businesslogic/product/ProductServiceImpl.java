@@ -65,9 +65,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         ProductCard productCard = productCardUtil.build(product);
-        productCardUtil.build(productCard, product.getRates());
-
-        //productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
         List<Review> reviews = product.getReviews();
