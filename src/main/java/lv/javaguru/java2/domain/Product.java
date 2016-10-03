@@ -1,5 +1,6 @@
 package lv.javaguru.java2.domain;
 
+import lv.javaguru.java2.crossdomain.StatisticLine;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
@@ -14,10 +15,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "products")
 public class Product implements BaseEntity {
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "product_id")
-    private List<Review> reviews = new ArrayList<>();
 
     @Column(name = "id")
     @Id
@@ -37,12 +34,18 @@ public class Product implements BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
-    private List<Rate> rates = new ArrayList<>();
-
+    private List<Stock> stockList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "product_id")
+    private List<Review> reviews = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "product_id")
-    private List<Stock> stockList = new ArrayList<>();
+    private List<Rate> rates = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.JOIN)
+    @PrimaryKeyJoinColumn
+    private StatisticLine productStatisticLine;
 
     public List<Stock> getStockList() {
         return stockList;
@@ -73,21 +76,31 @@ public class Product implements BaseEntity {
     public List<Review> getReviews() {
         return reviews;
     }
+
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
     public List<Rate> getRates() {
         return rates;
     }
+
     public void setRates(List<Rate> rates) {
         this.rates = rates;
+    }
+
+    public StatisticLine getProductStatisticLine() {
+        return productStatisticLine;
+    }
+
+    public void setProductStatisticLine(StatisticLine productStatisticLine) {
+        this.productStatisticLine = productStatisticLine;
     }
 
     @Override
     public long getId() {
         return id;
     }
-
     @Override
     public void setId(long id) {
         this.id = id;

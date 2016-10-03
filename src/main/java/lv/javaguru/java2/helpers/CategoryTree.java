@@ -70,10 +70,6 @@ public class CategoryTree implements Iterable<Category> {
         return nodesById.get(category.getId());
     }
 
-    public List<Category> asOrderedList() {
-        return asCategoryList;
-    }
-
     @Override
     public Iterator<Category> iterator() {
         return asCategoryList.iterator();
