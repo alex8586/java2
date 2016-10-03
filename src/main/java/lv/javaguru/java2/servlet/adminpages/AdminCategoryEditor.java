@@ -39,8 +39,6 @@ public class AdminCategoryEditor {
 
     @RequestMapping(value = "category/edit", method = RequestMethod.POST)
     public String edit(@ModelAttribute Category category){
-        System.out.println("category id "  + category.getId());
-        System.out.println("category name " + category.getName());
         categoryEditorService.edit(category);
         return "redirect:/categoryEditor";
     }

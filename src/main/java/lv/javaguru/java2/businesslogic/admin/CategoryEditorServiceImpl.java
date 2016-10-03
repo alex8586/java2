@@ -2,7 +2,9 @@ package lv.javaguru.java2.businesslogic.admin;
 
 import lv.javaguru.java2.businesslogic.TemplateService;
 import lv.javaguru.java2.database.CategoryDAO;
+import lv.javaguru.java2.database.ProductDAO;
 import lv.javaguru.java2.domain.Category;
+import lv.javaguru.java2.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,9 @@ public class CategoryEditorServiceImpl implements CategoryEditorService{
     private CategoryDAO categoryDAO;
     @Autowired
     private TemplateService templateService;
+    @Qualifier("ORM_ProductDAO")
+    @Autowired
+    private ProductDAO productDAO;
 
     @Override
     public Map<String, Object> getCategoryList() {
@@ -32,6 +37,11 @@ public class CategoryEditorServiceImpl implements CategoryEditorService{
     @Override
     public void delete(long categoryId){
         Category category = categoryDAO.getById(categoryId);
+        List<Product> productList = productDAO.getAllByCategory(category);
+        for(Product product : productList){
+            product.setCategoryId(1);
+            productDAO.update(product);
+        }
         categoryDAO.delete(category);
     }
 

@@ -39,6 +39,7 @@
                                     <button class="btn waves-effect waves-light blue" type="submit">Edit
                                         <i class="material-icons right">description</i>
                                         <input type="hidden" value="${category.id}" name="id">
+                                        <input type="hidden" value="${category.father_id}" name="father_id">
                                     </button>
                                 </div>
                                 </form>
