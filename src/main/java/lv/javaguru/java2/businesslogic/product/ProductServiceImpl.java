@@ -7,7 +7,10 @@ import lv.javaguru.java2.businesslogic.serviceexception.ServiceException;
 import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.businesslogic.validators.RateValidationService;
 import lv.javaguru.java2.database.ProductDAO;
-import lv.javaguru.java2.domain.*;
+import lv.javaguru.java2.domain.Category;
+import lv.javaguru.java2.domain.Product;
+import lv.javaguru.java2.domain.Review;
+import lv.javaguru.java2.domain.User;
 import lv.javaguru.java2.dto.ProductCard;
 import lv.javaguru.java2.dto.builders.ProductCardUtil;
 import lv.javaguru.java2.helpers.CategoryTree;
@@ -64,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
         ProductCard productCard = productCardUtil.build(product);
         productCardUtil.build(productCard, product.getRates());
 
-        productCard.setViewCount(statisticCountService.getProductViews(id));
+        //productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
         List<Review> reviews = product.getReviews();

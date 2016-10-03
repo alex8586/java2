@@ -1,11 +1,13 @@
 package lv.javaguru.java2.dto.builders;
 
+import lv.javaguru.java2.businesslogic.product.StatisticCountServiceImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -18,9 +20,10 @@ import static org.junit.Assert.assertEquals;
 public class ProductCardUtilTest {
 
     private static Date today = new Date();
+    @Mock
+    StatisticCountServiceImpl statisticCountService;
     private Product product1;
     private ProductCard productCard;
-
     @InjectMocks
     private ProductCardUtil productCardBuilder = new ProductCardUtil();
 
