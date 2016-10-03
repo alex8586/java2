@@ -87,7 +87,7 @@
                                                 <br><b>Description</b>
                                             </div>
                                             <div class="col s9">
-                                                <textarea class="materialize-textarea" name="description"></textarea>
+                                                <textarea class="materialize-textarea" name="description">${product.description}</textarea>
                                             </div>
                                         </div>
                                     </div>
