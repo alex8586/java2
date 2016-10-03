@@ -30,8 +30,6 @@ public class FrontPageController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView model(@SessionAttribute(value = "currentCategory", required = false) Category category,
                               @SessionAttribute(value = "sortingStrategy", required = false) String sortBy) {
-
-        System.out.println(sortBy);
         ModelAndView model = new ModelAndView("frontpage");
         Map<String, Object> frontPageData = frontPageService.model(category, sortBy);
         model.addAllObjects(frontPageData);

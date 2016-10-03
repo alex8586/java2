@@ -43,7 +43,6 @@ public class ProductCardUtil {
         productCard.setViewCount(product.getProductStatisticLine().getUserVisits() +
                 product.getProductStatisticLine().getVisitorVisits());
         productCard.setAverageRate(product.getProductStatisticLine().getAvgRate());
-
         String rateColor = rateService.getRateColor(product.getProductStatisticLine().getAvgRate());
         productCard.setRateColorCode(rateColor);
         return productCard;

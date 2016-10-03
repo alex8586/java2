@@ -1,6 +1,6 @@
 package lv.javaguru.java2.dto.builders;
 
-import lv.javaguru.java2.businesslogic.product.StatisticCountServiceImpl;
+import lv.javaguru.java2.businesslogic.product.RateServiceImpl;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
@@ -20,10 +20,11 @@ import static org.junit.Assert.assertEquals;
 public class ProductCardUtilTest {
 
     private static Date today = new Date();
-    @Mock
-    StatisticCountServiceImpl statisticCountService;
     private Product product1;
     private ProductCard productCard;
+
+    @Mock
+    private RateServiceImpl rateService;
     @InjectMocks
     private ProductCardUtil productCardBuilder = new ProductCardUtil();
 

@@ -39,7 +39,7 @@ public class Product implements BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
-    
+
     @OneToOne(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.JOIN)
     @PrimaryKeyJoinColumn

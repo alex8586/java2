@@ -21,6 +21,8 @@
             Price : ${productCard.productPrice} &euro;
             <br>
             Stock: ${productCard.stockQuantity}
+            <br>
+            Views: ${productCard.viewCount}
         </div>
 
         <div class="card-action center" style="padding: 10px">
