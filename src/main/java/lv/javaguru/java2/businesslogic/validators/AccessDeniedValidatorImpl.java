@@ -11,6 +11,11 @@ public class AccessDeniedValidatorImpl implements AccessDeniedValidator {
     private UserProvider userProvider;
 
     public boolean isDenied(){
-        return (userProvider.authorized() && userProvider.getUser().isAdmin());
+        if(userProvider.getUser() == null) {
+            return true;
+        }else if(!userProvider.getUser().isAdmin()){
+            return true;
+        }
+        return false;
     }
 }
