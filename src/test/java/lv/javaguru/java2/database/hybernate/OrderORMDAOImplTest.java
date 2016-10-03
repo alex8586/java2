@@ -185,13 +185,12 @@ public class OrderORMDAOImplTest extends CrudDAOTest<Order, OrderORMDAOImpl> {
         objectCreator.createOrder(false);
 
         List<Order> orderList = orderDAO.getAllSortByStatus();
-        for(Order order : orderList){
-            System.out.println(order.getStatus());
-        }
-        assertEquals(3, orderList.size());
+
+        assertEquals(4, orderList.size());
         assertEquals(orderList.get(0).getStatus(), "In progress");
         assertEquals(orderList.get(1).getStatus(), "In progress");
         assertNotEquals(orderList.get(2).getStatus(), "In progress");
+        assertNotEquals(orderList.get(3).getStatus(), "In progress");
     }
 
     @Test
