@@ -17,7 +17,7 @@ ALTER TABLE products
 INSERT INTO users (name, email, password, is_admin)
 VALUES ('Administrator',
         'admin@miska.lv',
-        '$2a$10$SIUx.phy53wIhbM5mQMdwOBjmz9jeQRNQ3RvxohEkXSYTr8nQSIsy', #pass=admin
+        'miska', #pass=admin
         TRUE);
 
 INSERT INTO categories (id, name, father_id) VALUES (default, 'All products', 0);

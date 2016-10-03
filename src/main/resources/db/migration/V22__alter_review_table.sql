@@ -1,0 +1,1 @@
+ALTER TABLE reviews CHANGE comment review VARCHAR(1024) NOT NULL;
