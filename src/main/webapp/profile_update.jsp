@@ -21,7 +21,7 @@
         </c:if>
         <hr>
 
-        <img src="<c:url value='includes/product_banner.jsp' />"/>
+        <%@include file="includes/product_banner.jsp" %>
 
     </jsp:attribute>
 </tags:userPageTemplate>

@@ -88,7 +88,7 @@
          </form>
     </jsp:attribute>
     <jsp:attribute name="rightBar">
-        errors here
+        <%@include file="/includes/product_banner.jsp" %>
     </jsp:attribute>
 </tags:userPageTemplate>
 
