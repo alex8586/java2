@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class SessionUserProvider implements UserProvider {
 
     private User user;
+
     public User getUser() {
         return user;
     }

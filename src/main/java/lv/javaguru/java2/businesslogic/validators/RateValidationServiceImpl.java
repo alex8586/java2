@@ -14,6 +14,9 @@ public class RateValidationServiceImpl implements RateValidationService {
 
     @Override
     public boolean canRate(User user, long productId) {
+        if (user == null || productId == 0)
+            return false;
+
         Rate existingRate = rateDAO.getByUserIdAndProductId(user.getId(), productId);
         return existingRate == null;
     }

@@ -50,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDAO.getById(id);
         if (product == null)
             throw new RecordIsNotAvailable();
-
         User user = userProvider.getUser();
         if (userProvider.authorized())
             countVisitService.countVisit(product, user);
@@ -62,17 +61,13 @@ public class ProductServiceImpl implements ProductService {
             map.put("cantRate",CANT_RATE);
         }
 
-
         ProductCard productCard = productCardUtil.build(product);
-        List<Rate> rates = product.getRates();
-        rates.size();
         productCardUtil.build(productCard, product.getRates());
 
         productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
         List<Review> reviews = product.getReviews();
-        reviews.size();
         map.put("reviews", reviews);
         map.put("rootCategoryNode", categoryTree.getRootNode());
         map.putAll(templateService.model(userProvider.getUser()));
