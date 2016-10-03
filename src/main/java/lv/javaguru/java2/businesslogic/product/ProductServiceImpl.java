@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             countVisitService.countVisit(product, ip);
         }
 
-        if (rateValidationService.canRate(user, id)) {
+        if (!rateValidationService.canRate(user, id)) {
             map.put("cantRate",CANT_RATE);
         }
 
