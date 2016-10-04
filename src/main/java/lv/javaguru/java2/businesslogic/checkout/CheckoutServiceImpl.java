@@ -23,10 +23,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -34,7 +32,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private static final String CART_CONTENT_HAS_CHANGED = "Cart content changed";
     private static final String EMPTY_CART = "Cart is empty";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM, yyyy", Locale.ENGLISH);
     @Autowired
     OrderUtil orderUtil;
     @Autowired
@@ -83,11 +80,10 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Transactional(rollbackFor = ServiceException.class)
-    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails, String date) throws ServiceException {
+    public Order checkout(String checkSum, User user, Cart cart, ShippingDetails shippingDetails, LocalDate deliveryDate) throws ServiceException {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-        LocalDate deliveryDate = DateUtils.asLocalDate(date, formatter);
         deliveryDateValidationService.validate(deliveryDate);
         shippingDetailsFormatValidationService.validate(shippingDetails);
 

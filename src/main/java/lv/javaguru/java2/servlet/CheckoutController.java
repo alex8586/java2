@@ -8,6 +8,7 @@ import lv.javaguru.java2.businesslogic.user.UserProvider;
 import lv.javaguru.java2.database.DBException;
 import lv.javaguru.java2.domain.order.Order;
 import lv.javaguru.java2.dto.ShippingDetails;
+import lv.javaguru.java2.helpers.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -49,8 +51,9 @@ public class CheckoutController {
     @RequestMapping(method = RequestMethod.POST, name = "buy")
     public String buy(@ModelAttribute ShippingDetails shippingDetails,
                       @RequestParam("hashcode") String hashcode,
-                      @RequestParam("deliveryDate") String deliveryDate) {
+                      @RequestParam("deliveryDate") String deliveryDateString) {
         try {
+            LocalDate deliveryDate = DateUtils.asLocalDate(deliveryDateString, formatter);
             Order order = checkoutService.checkout(hashcode,
                     userProvider.getUser(), cartProvider.getCart(),
                     shippingDetails, deliveryDate);

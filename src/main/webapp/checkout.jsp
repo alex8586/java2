@@ -5,7 +5,7 @@
     <jsp:body>
         <div class="row">
             <div class="col s2">
-                right column here right column here right column here right column here
+
             </div>
             <div class="col s8">
                 <div class="row center">
