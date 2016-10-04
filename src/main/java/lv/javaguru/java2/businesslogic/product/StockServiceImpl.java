@@ -24,13 +24,13 @@ public class StockServiceImpl implements StockService {
     public void supply(Cart cart) throws ServiceException {
         HashMap<Product, Integer> cartLines = cart.getAll();
         for (Map.Entry<Product, Integer> cartLine : cartLines.entrySet()) {
-            Product product = supply(cartLine.getKey().getId(), cartLine.getValue());
+            Product product = productDAO.getById(cartLine.getKey().getId());
+            supply(product, cartLine.getValue());
             productDAO.merge(product);
         }
     }
 
-    private Product supply(long id, Integer quantity) throws ServiceException {
-        Product product = productDAO.getById(id);
+    private void supply(Product product, Integer quantity) throws ServiceException {
         if (product.getFreshStockQuantity() < quantity)
             throw new InsufficientSupplyException(product);
 
@@ -41,7 +41,6 @@ public class StockServiceImpl implements StockService {
             } else {
                 quantity -= stock.getQuantity();
                 stock.setQuantity(0);
-                //product.getStockList().remove(stock);
             }
         }
         if (quantity > 0) {
@@ -50,7 +49,6 @@ public class StockServiceImpl implements StockService {
         if (quantity < 0) {
             throw new IllegalStateException();
         }
-        return product;
     }
 
     @Override
