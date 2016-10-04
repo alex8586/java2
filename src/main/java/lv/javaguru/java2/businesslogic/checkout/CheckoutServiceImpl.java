@@ -92,13 +92,14 @@ public class CheckoutServiceImpl implements CheckoutService {
         shippingDetailsFormatValidationService.validate(shippingDetails);
 
         stockService.supply(cart);
+
         Order order = new Order();
         orderUtil.build(DateUtils.asDate(deliveryDate), order);
         orderUtil.build(lockedResourceAccessService, order);
         orderUtil.build(userProvider.getUser(), order);
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
-        
+
         orderDAO.create(order);
         cartProvider.empty();
         shippingProfileService.safeSave(shippingDetails);
