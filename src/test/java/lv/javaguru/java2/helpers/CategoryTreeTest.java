@@ -27,7 +27,7 @@ public class CategoryTreeTest {
         badCategory.setId(-123);
         rootCategory = new Category();
         rootCategory.setId(7);
-        rootCategory.setFather_id(0);
+        rootCategory.setFatherId(0);
         rootCategory.setName("root");
         rootsChild1 = nthChildFor(rootCategory, 1);
         rootsChild2 = nthChildFor(rootCategory, 2);
@@ -35,7 +35,7 @@ public class CategoryTreeTest {
 
     private static Category nthChildFor(Category category, int ith) {
         Category child = new Category();
-        child.setFather_id(category.getId());
+        child.setFatherId(category.getId());
         child.setId(category.getId() * 10 + ith);
         child.setName("son " + " of " + category.getId());
         return child;

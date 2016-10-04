@@ -40,11 +40,13 @@ public class ProductCardUtil {
         }
         productCard.setStockQuantity(quantity);
         productCard.setStockExpireDate(expireDate);
-        productCard.setViewCount(product.getProductStatisticLine().getUserVisits() +
-                product.getProductStatisticLine().getVisitorVisits());
-        productCard.setAverageRate(product.getProductStatisticLine().getAvgRate());
-        String rateColor = rateService.getRateColor(product.getProductStatisticLine().getAvgRate());
-        productCard.setRateColorCode(rateColor);
+        if (product.getProductStatisticLine() != null) {
+            productCard.setViewCount(product.getProductStatisticLine().getUserVisits() +
+                    product.getProductStatisticLine().getVisitorVisits());
+            productCard.setAverageRate(product.getProductStatisticLine().getAvgRate());
+            String rateColor = rateService.getRateColor(product.getProductStatisticLine().getAvgRate());
+            productCard.setRateColorCode(rateColor);
+        }
         return productCard;
     }
 
