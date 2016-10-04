@@ -24,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component
 public class CheckoutServiceImpl implements CheckoutService {
@@ -84,27 +87,21 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (!checkSum.equals(new Long(cart.getHashCode()).toString())) {
             throw new ServiceException(CART_CONTENT_HAS_CHANGED);
         }
-
-        LocalDate delivery_date = DateUtils.asLocalDate(date, formatter);
-        deliveryDateValidationService.validate(delivery_date);
+        LocalDate deliveryDate = DateUtils.asLocalDate(date, formatter);
+        deliveryDateValidationService.validate(deliveryDate);
+        shippingDetailsFormatValidationService.validate(shippingDetails);
 
         stockService.supply(cart);
-        shippingDetailsFormatValidationService.validate(shippingDetails);
         Order order = new Order();
+        orderUtil.build(DateUtils.asDate(deliveryDate), order);
+        orderUtil.build(lockedResourceAccessService, order);
         orderUtil.build(userProvider.getUser(), order);
         orderUtil.build(shippingDetails, order);
         orderUtil.build(cart, order);
-        order.setOrderDate(new Date());
-        order.setDeliveryDate(DateUtils.asDate(delivery_date));
-        order.setSecurityKey(lockedResourceAccessService.generateKey());
-        order.setStatus(false);
+        
         orderDAO.create(order);
         cartProvider.empty();
-        try {
-            if (shippingDetails.getId() == 0 && userProvider.authorized())
-                shippingProfileService.save(shippingDetails);
-        } catch (ServiceException e) {
-        }
+        shippingProfileService.safeSave(shippingDetails);
 
         return order;
     }

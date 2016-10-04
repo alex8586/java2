@@ -11,6 +11,8 @@ public interface ShippingProfileService {
     Map<String, Object> model() throws ServiceException;
     Map<String, Object> model(User user) throws ServiceException;
 
+    ShippingProfile safeSave(ShippingDetails shippingDetails) throws ServiceException;
+
     ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException;
     ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException;
 

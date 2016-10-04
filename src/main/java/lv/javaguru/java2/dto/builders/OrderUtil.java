@@ -1,6 +1,7 @@
 package lv.javaguru.java2.dto.builders;
 
 
+import lv.javaguru.java2.businesslogic.validators.LockedResourceAccessService;
 import lv.javaguru.java2.domain.Cart;
 import lv.javaguru.java2.domain.Product;
 import lv.javaguru.java2.domain.User;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @Component
 public class OrderUtil {
+
 
     public OrderLine buildOrderLine(Product product, int quantity) {
         OrderLine orderLine = new OrderLine();
@@ -48,6 +50,16 @@ public class OrderUtil {
     public void build(User user, Order order) {
         if (user != null)
             order.setUserId(user.getId());
+    }
+
+    public void build(Date date, Order order) {
+        order.setStatus(false);
+        order.setOrderDate(new Date());
+        order.setDeliveryDate(date);
+    }
+
+    public void build(LockedResourceAccessService lockedResourceAccessService, Order order) {
+        order.setSecurityKey(lockedResourceAccessService.generateKey());
     }
 
 

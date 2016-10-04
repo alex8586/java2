@@ -55,6 +55,16 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     }
 
     @Override
+    public ShippingProfile safeSave(ShippingDetails shippingDetails) {
+        try {
+            if (userProvider.authorized() && shippingDetails.getId() == 0)
+                return save(shippingDetails, userProvider.getUser());
+        } catch (ServiceException e) {
+        }
+        return null;
+    }
+
+    @Override
     public ShippingProfile save(ShippingDetails shippingDetails) throws ServiceException {
         if (!userProvider.authorized())
             throw new UnauthorizedAccessException();

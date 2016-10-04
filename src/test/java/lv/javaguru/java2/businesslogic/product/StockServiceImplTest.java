@@ -25,7 +25,7 @@ public class StockServiceImplTest {
     @InjectMocks
     StockServiceImpl stockService;
 
-    Product product32, product312, product11218, product2121;
+    Product product32, product11218;
 
     Cart cart;
 
@@ -34,9 +34,7 @@ public class StockServiceImplTest {
         MockitoAnnotations.initMocks(this);
         initProducts();
         Mockito.doReturn(product32).when(productDAO).getById(1L);
-        Mockito.doReturn(product312).when(productDAO).getById(2L);
-        Mockito.doReturn(product11218).when(productDAO).getById(3L);
-        Mockito.doReturn(product2121).when(productDAO).getById(4L);
+        Mockito.doReturn(product11218).when(productDAO).getById(2L);
         cart = new Cart();
     }
 
@@ -83,17 +81,9 @@ public class StockServiceImplTest {
         product32.setId(1);
         stock(product32, 3, 2);
 
-        product312 = new Product();
-        product312.setId(2);
-        stock(product312, 3, 1, 2);
-
         product11218 = new Product();
-        product11218.setId(3);
+        product11218.setId(2);
         stock(product11218, 1, 1, 2, 1, 8);
-
-        product2121 = new Product();
-        product2121.setId(4);
-        stock(product2121, 2, 1, 2, 1);
     }
 
     private void stock(Product product, int... quantity) {
