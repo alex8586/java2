@@ -39,8 +39,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductCardUtil productCardUtil;
     @Autowired
-    private StatisticCountService statisticCountService;
-    @Autowired
     private RateValidationService rateValidationService;
     @Autowired
     private TemplateService templateService;
@@ -50,33 +48,30 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Map<String, Object> getById(long id, String ip) throws ServiceException {
         Map<String, Object> map = new HashMap<String, Object>();
+
+        User user = userProvider.getUser();
+        if (userProvider.authorized())
+            countVisitService.countVisit(id, user);
+        else {
+            countVisitService.countVisit(id, ip);
+        }
         Product product = productDAO.getById(id);
         if (product == null)
             throw new RecordIsNotAvailable();
-        User user = userProvider.getUser();
-        if (userProvider.authorized())
-            countVisitService.countVisit(product, user);
-        else {
-            countVisitService.countVisit(product, ip);
-        }
-
         if (!rateValidationService.canRate(user, id)) {
             map.put("cantRate",CANT_RATE);
         }
 
         ProductCard productCard = productCardUtil.build(product);
-        productCardUtil.build(productCard, product.getRates());
-
-        //productCard.setViewCount(statisticCountService.getProductViews(id));
         map.put("productCard", productCard);
 
         List<Review> reviews = product.getReviews();
+        reviews.size();
         map.put("reviews", reviews);
+
         map.put("rootCategoryNode", categoryTree.getRootNode());
         map.putAll(templateService.model(userProvider.getUser()));
         map.putAll(cartService.model());
-        System.out.println(map);
-
         return map;
     }
 

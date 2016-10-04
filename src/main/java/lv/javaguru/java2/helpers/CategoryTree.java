@@ -57,19 +57,20 @@ public class CategoryTree implements Iterable<Category> {
     }
 
     public Category getRoot() {
-        return nodesByParentId.get(0L).get(0).getInstance();
+        TreeNode<Category> node = getRootNode();
+        return node == null ? null : node.getInstance();
     }
 
     public TreeNode<Category> getRootNode() {
+        if (nodesByParentId.size() == 0)
+            return null;
+        if (nodesByParentId.get(0L).size() == 0)
+            return null;
         return nodesByParentId.get(0L).get(0);
     }
 
     public TreeNode<Category> getNode(Category category) {
         return nodesById.get(category.getId());
-    }
-
-    public List<Category> asOrderedList() {
-        return asCategoryList;
     }
 
     @Override

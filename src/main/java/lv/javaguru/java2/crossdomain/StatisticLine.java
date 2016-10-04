@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigInteger;
 
 @Entity
 @Immutable
@@ -25,12 +24,16 @@ public class StatisticLine {
     private String categoryName;
     @Column(name = "review_count")
     private long reviewCount;
-    @Column(name = "user_visits")
-    private BigInteger userVisits;
-    @Column(name = "visitor_visits")
-    private BigInteger visitorVisits;
-    @Column(name = "avg_rate")
-    private BigInteger avgRate;
+
+
+    @Column(name = "user_visits", columnDefinition = "decimal")
+    private long userVisits;
+
+    @Column(name = "visitor_visits", columnDefinition = "decimal")
+    private long visitorVisits;
+
+    @Column(name = "avg_rate", columnDefinition = "decimal", precision = 18)
+    private double avgRate;
 
     public long getProductId() {
         return productId;
@@ -72,27 +75,27 @@ public class StatisticLine {
         this.reviewCount = reviewCount;
     }
 
-    public BigInteger getUserVisits() {
+    public long getUserVisits() {
         return userVisits;
     }
 
-    public void setUserVisits(BigInteger userVisits) {
+    public void setUserVisits(long userVisits) {
         this.userVisits = userVisits;
     }
 
-    public BigInteger getVisitorVisits() {
+    public long getVisitorVisits() {
         return visitorVisits;
     }
 
-    public void setVisitorVisits(BigInteger visitorVisits) {
+    public void setVisitorVisits(long visitorVisits) {
         this.visitorVisits = visitorVisits;
     }
 
-    public BigInteger getAvgRate() {
+    public double getAvgRate() {
         return avgRate;
     }
 
-    public void setAvgRate(BigInteger avgRate) {
+    public void setAvgRate(double avgRate) {
         this.avgRate = avgRate;
     }
 }

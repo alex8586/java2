@@ -1,10 +1,7 @@
 package lv.javaguru.java2.dto.builders;
 
 import lv.javaguru.java2.businesslogic.product.RateService;
-import lv.javaguru.java2.businesslogic.product.StatisticCountService;
-import lv.javaguru.java2.database.RateDAO;
 import lv.javaguru.java2.domain.Product;
-import lv.javaguru.java2.domain.Rate;
 import lv.javaguru.java2.domain.Stock;
 import lv.javaguru.java2.dto.ProductCard;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +16,6 @@ public class ProductCardUtil {
 
     @Autowired
     private RateService rateService;
-    @Autowired
-    private RateDAO rateDAO;
-    @Autowired
-    private StatisticCountService statisticCountService;
 
     public ProductCard build(Product product, List<Stock> allStock) {
         ProductCard productCard = new ProductCard();
@@ -47,7 +40,11 @@ public class ProductCardUtil {
         }
         productCard.setStockQuantity(quantity);
         productCard.setStockExpireDate(expireDate);
-        productCard.setViewCount(statisticCountService.getProductViews(product.getId()));
+        productCard.setViewCount(product.getProductStatisticLine().getUserVisits() +
+                product.getProductStatisticLine().getVisitorVisits());
+        productCard.setAverageRate(product.getProductStatisticLine().getAvgRate());
+        String rateColor = rateService.getRateColor(product.getProductStatisticLine().getAvgRate());
+        productCard.setRateColorCode(rateColor);
         return productCard;
     }
 
@@ -56,14 +53,6 @@ public class ProductCardUtil {
         productCard.setQuantity(quantity);
         return productCard;
     }
-
-    public void build(ProductCard productCard, List<Rate> rates) {
-        double averageRate = rateService.getAverageRate(rates);
-        String rateColor = rateService.getRateColor(averageRate);
-        productCard.setAverageRate(averageRate);
-        productCard.setRateColorCode(rateColor);
-    }
-
 
     public ProductCard build(Product product) {
         List<Stock> allStock = product.getFresh();
@@ -75,14 +64,5 @@ public class ProductCardUtil {
                 .map(product -> build(product))
                 .collect(Collectors.toList());
     }
-
-    public void addRate(List<ProductCard> list){
-        for(ProductCard productCard : list){
-            long productId = productCard.getProductId();
-            List<Rate> rates = rateDAO.getByProductId(productId);
-            build(productCard, rates);
-        }
-    }
-
 
 }
