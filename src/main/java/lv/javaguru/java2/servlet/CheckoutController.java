@@ -66,6 +66,9 @@ public class CheckoutController {
             return "redirect:error";
         } catch (DBException e) {
             return "redirect:error";
+        } catch (IllegalStateException e) {
+            notification.setError(e.getMessage());
+            return "redirect:/checkout";
         } catch (ServiceException e) {
             notification.setError(e.getMessage());
             return "redirect:/checkout";
