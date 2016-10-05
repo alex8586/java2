@@ -99,7 +99,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         orderDAO.create(order);
         cartProvider.empty();
         shippingProfileService.safeSave(shippingDetails);
-
         return order;
     }
 }
