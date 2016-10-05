@@ -42,7 +42,7 @@ public class ProfileOrderController {
         if (!orderAccessValidationService.isValid(orderId, key)) {
             return new ModelAndView("redirect:/index");
         }
-        ModelAndView model = new ModelAndView("/profile_order");
+        ModelAndView model = new ModelAndView("/visitor_order");
         model.addAllObjects(profileOrderService.getById(orderId));
         return model;
     }
