@@ -18,7 +18,7 @@
                  <script>
 
                      var spMap = {};
-                     spMap['empty'] = {'profileId': '', 'address': '', 'person': '', 'phone': '', 'document': ''};
+                     spMap['empty'] = {'profileId': '0', 'address': '', 'person': '', 'phone': '', 'document': ''};
                      <c:forEach items="${requestScope.shippingProfiles}" var="shippingProfile">
                      spMap['${shippingProfile.id}'] = {
                          'profileId': '${shippingProfile.id}',
@@ -48,7 +48,7 @@
                  </script>
              </c:if>
              <div class="row">
-                 <input id="profileId" type="hidden" class="validate" name="id">
+                 <input id="profileId" type="hidden" class="validate" value = "0" name="id">
                  <div class="input-field col s12">
                      <input id="address" type="text" class="validate" name="address">
                      <label id="address_label" for="address">Ship to</label>
