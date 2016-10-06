@@ -99,6 +99,10 @@
                                    value="${requestScope.cart.cartCheckSum}">
                             <input id="profileId" type="hidden" class="validate" name="profileId">
                             <div class="input-field col s12">
+                                <input id="deliveryDate" type="date" class="datepicker" name="deliveryDate">
+                                <label class="active" for="deliveryDate">Delivery Date</label>
+                            </div>
+                            <div class="input-field col s12">
                                 <input id="address" type="text" class="validate" name="address">
                                 <label id="address_label" for="address">Ship to</label>
                             </div>
@@ -113,10 +117,6 @@
                             <div class="input-field col s12">
                                 <input id="document" type="text" class="validate" name="document">
                                 <label id="document_label" for="document">Document</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input id="deliveryDate" type="date" class="datepicker" name="deliveryDate">
-                                <label class="active" for="deliveryDate">Delivery Date</label>
                             </div>
                             <div class="input-field col s12 center-align">
                                 <button class="btn waves-effect waves-light blue" type="submit" name="save" id="save_button">
