@@ -4,7 +4,9 @@
 
 <tags:userPageTemplate>
      <jsp:attribute name="content">
-         profile main page
+         <h4>Profile main page</h4>
+         Here we could put a lot of cool stuff , like widgets for fastforwarding to your faivorite
+         set of items , asking a question , but we didn't ...
     </jsp:attribute>
     <jsp:attribute name="rightBar">
 

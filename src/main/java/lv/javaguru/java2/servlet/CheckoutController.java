@@ -53,8 +53,6 @@ public class CheckoutController {
                       @RequestParam("hashcode") String hashcode,
                       @RequestParam("deliveryDate") String deliveryDateString) {
         try {
-            if (deliveryDateString == null || deliveryDateString == "")
-                throw new IllegalStateException();
             LocalDate deliveryDate = DateUtils.asLocalDate(deliveryDateString, formatter);
             Order order = checkoutService.checkout(hashcode,
                     userProvider.getUser(), cartProvider.getCart(),

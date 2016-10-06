@@ -52,7 +52,7 @@ public class ShippingProfileController {
     }
 
     @RequestMapping(value = "/profile/shippingProfiles/delete", method = RequestMethod.POST)
-    public String delete(@RequestParam("profileId") long profileId) {
+    public String delete(@RequestParam("id") long profileId) {
         try {
             shippingProfileService.delete(profileId);
         } catch (ServiceException e) {

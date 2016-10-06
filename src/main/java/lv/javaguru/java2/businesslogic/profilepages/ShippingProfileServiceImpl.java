@@ -75,6 +75,7 @@ public class ShippingProfileServiceImpl implements ShippingProfileService {
     public ShippingProfile save(ShippingDetails shippingDetails, User user) throws ServiceException {
         shippingDetailsFormatValidationService.validate(shippingDetails);
         shippingDetailsUniquenessValidationService.validate(shippingDetails, user);
+        System.out.println(shippingDetails);
         if (shippingDetails.getId() > 0) {
             ShippingProfile oldProfile = shippingProfileDAO.getById(shippingDetails.getId());
             if (oldProfile == null)

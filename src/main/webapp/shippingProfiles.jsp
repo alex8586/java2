@@ -48,7 +48,7 @@
                  </script>
              </c:if>
              <div class="row">
-                 <input id="profileId" type="hidden" class="validate" name="profileId">
+                 <input id="profileId" type="hidden" class="validate" name="id">
                  <div class="input-field col s12">
                      <input id="address" type="text" class="validate" name="address">
                      <label id="address_label" for="address">Ship to</label>
